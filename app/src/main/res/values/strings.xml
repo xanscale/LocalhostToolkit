@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="prgsTitle">Please wait</string>
+	<string name="prgsMessage">Loading …</string>
+	<string name="noConnection">Network Error</string>
+</resources>
