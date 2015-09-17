@@ -16,7 +16,6 @@ public class ConfirmDialogFragment extends DialogFragment {
 	private static final String KEY_MSG = "message";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_EXTRA = "extra";
-	private OnConfirmedListener listener;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,13 +35,13 @@ public class ConfirmDialogFragment extends DialogFragment {
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				listener.onConfirmation(getArguments().getSerializable(KEY_EXTRA), true);
+				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), true);
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				listener.onConfirmation(getArguments().getSerializable(KEY_EXTRA), false);
+				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), false);
 			}
 		});
 		setCancelable(false);
@@ -50,9 +49,8 @@ public class ConfirmDialogFragment extends DialogFragment {
 		return builder.create();
 	}
 
-	public void show(FragmentManager fragmentManager, OnConfirmedListener listener, Serializable extra, int titleId, int msgId) {
-		this.listener = listener;
-		Bundle arguments = new Bundle(2);
+	public void show(FragmentManager fragmentManager, Serializable extra, int titleId, int msgId) {
+		Bundle arguments = new Bundle(3);
 		arguments.putInt(KEY_TITLEID, titleId);
 		arguments.putInt(KEY_MSGID, msgId);
 		arguments.putSerializable(KEY_EXTRA, extra);
@@ -64,9 +62,8 @@ public class ConfirmDialogFragment extends DialogFragment {
 		}
 	}
 
-	public void show(FragmentManager fragmentManager, OnConfirmedListener listener, Serializable extra, String title, String msg) {
-		this.listener = listener;
-		Bundle arguments = new Bundle(2);
+	public void show(FragmentManager fragmentManager, Serializable extra, String title, String msg) {
+		Bundle arguments = new Bundle(3);
 		arguments.putString(KEY_TITLE, title);
 		arguments.putString(KEY_MSG, msg);
 		arguments.putSerializable(KEY_EXTRA, extra);
@@ -76,6 +73,13 @@ public class ConfirmDialogFragment extends DialogFragment {
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private OnConfirmedListener getOnConfirmedListener() {
+		OnConfirmedListener l = (OnConfirmedListener) getParentFragment();
+		if (l == null)
+			l = (OnConfirmedListener) getActivity();
+		return l;
 	}
 
 	public interface OnConfirmedListener {

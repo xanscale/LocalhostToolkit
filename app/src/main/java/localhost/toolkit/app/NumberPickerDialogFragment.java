@@ -16,7 +16,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
 	private static final String KEY_TITLE = "KEY_TITLE";
 	private static final String KEY_MIN = "KEY_MIN";
 	private static final String KEY_MAX = "KEY_MAX";
-	private OnNumberPickerClickListener onNumberPickerClickListener;
 	private NumberPicker np;
 
 	@Override
@@ -30,20 +29,26 @@ public class NumberPickerDialogFragment extends DialogFragment {
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				onNumberPickerClickListener.onClick(np.getValue());
+				getOnNumberPickerClickListener().onClick(np.getValue());
 			}
 		});
 		return builder.create();
 	}
 
-	public void show(FragmentManager fragmentManager, int title, int min, int max, OnNumberPickerClickListener onNumberPickerClickListener) {
+	public void show(FragmentManager fragmentManager, int title, int min, int max) {
 		Bundle arguments = new Bundle(3);
 		arguments.putInt(KEY_TITLE, title);
 		arguments.putInt(KEY_MIN, min);
 		arguments.putInt(KEY_MAX, max);
-		this.onNumberPickerClickListener = onNumberPickerClickListener;
 		setArguments(arguments);
 		show(fragmentManager, NumberPickerDialogFragment.class.getSimpleName());
+	}
+
+	private OnNumberPickerClickListener getOnNumberPickerClickListener() {
+		OnNumberPickerClickListener l = (OnNumberPickerClickListener) getParentFragment();
+		if (l == null)
+			l = (OnNumberPickerClickListener) getActivity();
+		return l;
 	}
 
 	public interface OnNumberPickerClickListener {
