@@ -21,7 +21,7 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 		this.childItems = childItems;
 		groupTypes = new ArrayList<Integer>();
 		childTypes = new ArrayList<Integer>();
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = LayoutInflater.from(context);
 		for (HeterogeneousItem abstractItem : groupItems)
 			groupTypes.add(abstractItem.getClass().hashCode());
 		for (ArrayList<HeterogeneousItem> childData : childItems)

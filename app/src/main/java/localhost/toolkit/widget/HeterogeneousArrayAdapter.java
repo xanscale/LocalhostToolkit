@@ -18,7 +18,7 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 
 	public HeterogeneousArrayAdapter(Context context, List<HeterogeneousItem> objects) {
 		super(context, 0, objects);
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = LayoutInflater.from(context);
 		types = new ArrayList<Integer>(objects.size());
 		for (HeterogeneousItem item : objects)
 			types.add(item.getClass().hashCode());
