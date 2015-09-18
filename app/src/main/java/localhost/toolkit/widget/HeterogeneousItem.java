@@ -1,6 +1,7 @@
 package localhost.toolkit.widget;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,9 +18,9 @@ public abstract class HeterogeneousItem {
 		this.extra = extra;
 	}
 
-	public abstract View inflate(ViewGroup parent);
+	public abstract View onCreateView(LayoutInflater inflater, ViewGroup container);
 
-	public abstract void fill(View view);
+	public abstract void onResume(View view);
 
 	public boolean onItemClick(View v, int position) {
 		if (onHeterogeneousItemClickListener != null)
