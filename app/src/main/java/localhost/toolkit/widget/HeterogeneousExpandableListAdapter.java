@@ -1,5 +1,7 @@
 package localhost.toolkit.widget;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,12 +14,14 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 	private ArrayList<HeterogeneousItem> groupItems;
 	private ArrayList<ArrayList<HeterogeneousItem>> childItems;
 	private ArrayList<Integer> groupTypes, childTypes;
+	private LayoutInflater inflater;
 
-	public HeterogeneousExpandableListAdapter(ArrayList<HeterogeneousItem> groupItems, ArrayList<ArrayList<HeterogeneousItem>> childItems) {
+	public HeterogeneousExpandableListAdapter(Context context, ArrayList<HeterogeneousItem> groupItems, ArrayList<ArrayList<HeterogeneousItem>> childItems) {
 		this.groupItems = groupItems;
 		this.childItems = childItems;
 		groupTypes = new ArrayList<Integer>();
 		childTypes = new ArrayList<Integer>();
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		for (HeterogeneousItem abstractItem : groupItems)
 			groupTypes.add(abstractItem.getClass().hashCode());
 		for (ArrayList<HeterogeneousItem> childData : childItems)
@@ -93,8 +97,8 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		HeterogeneousItem rowModel = groupItems.get(groupPosition);
 		if (convertView == null)
-			convertView = rowModel.inflate(parent);
-		rowModel.fill(convertView);
+			convertView = rowModel.onCreateView(inflater, parent);
+		rowModel.onResume(convertView);
 		return convertView;
 	}
 
@@ -102,8 +106,8 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		HeterogeneousItem rowModel = childItems.get(groupPosition).get(childPosition);
 		if (convertView == null)
-			convertView = rowModel.inflate(parent);
-		rowModel.fill(convertView);
+			convertView = rowModel.onCreateView(inflater, parent);
+		rowModel.onResume(convertView);
 		return convertView;
 	}
 

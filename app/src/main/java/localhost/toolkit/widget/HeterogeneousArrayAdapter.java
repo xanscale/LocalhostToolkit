@@ -1,6 +1,7 @@
 package localhost.toolkit.widget;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,9 +14,11 @@ import java.util.List;
 
 public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 	private ArrayList<Integer> types;
+	private LayoutInflater inflater;
 
 	public HeterogeneousArrayAdapter(Context context, List<HeterogeneousItem> objects) {
 		super(context, 0, objects);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		types = new ArrayList<Integer>(objects.size());
 		for (HeterogeneousItem item : objects)
 			types.add(item.getClass().hashCode());
@@ -43,8 +46,8 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		HeterogeneousItem item = getItem(position);
 		if (convertView == null)
-			convertView = item.inflate(parent);
-		item.fill(convertView);
+			convertView = item.onCreateView(inflater, parent);
+		item.onResume(convertView);
 		return convertView;
 	}
 
