@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
-public class ListDialogFragment extends DialogFragment {
+import java.io.Serializable;
+
+public class ListDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	private static final String KEY_TITLE = "KEY_TITLE";
+	private static final String KEY_EXTRA = "KEY_EXTRA";
 	private static final String KEY_LIST_RESID = "KEY_LIST_RESID";
 	private static final String KEY_LIST_STRGS = "KEY_LIST_STRGS";
 
@@ -17,32 +20,39 @@ public class ListDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getInt(KEY_TITLE));
 		if (getArguments().getStringArray(KEY_LIST_STRGS) != null)
-			builder.setItems(getArguments().getStringArray(KEY_LIST_STRGS), getOnClickListener());
+			builder.setItems(getArguments().getStringArray(KEY_LIST_STRGS), this);
 		else
-			builder.setItems(getArguments().getInt(KEY_LIST_RESID), getOnClickListener());
+			builder.setItems(getArguments().getInt(KEY_LIST_RESID), this);
 		return builder.create();
 	}
 
-	public void show(FragmentManager fragmentManager, int title, int list) {
-		Bundle arguments = new Bundle(1);
-		arguments.putInt(KEY_TITLE, title);
-		arguments.putInt(KEY_LIST_RESID, list);
-		setArguments(arguments);
+	public void show(FragmentManager fragmentManager,  Serializable extra, int title, int list) {
+		Bundle b = new Bundle(3);
+		b.putSerializable(KEY_EXTRA, extra);
+		b.putInt(KEY_TITLE, title);
+		b.putInt(KEY_LIST_RESID, list);
+		setArguments(b);
 		show(fragmentManager, ListDialogFragment.class.getSimpleName());
 	}
 
-	public void show(FragmentManager fragmentManager, int title, String[] list) {
-		Bundle arguments = new Bundle(1);
-		arguments.putInt(KEY_TITLE, title);
-		arguments.putStringArray(KEY_LIST_STRGS, list);
-		setArguments(arguments);
+	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list) {
+		Bundle b = new Bundle(3);
+		b.putSerializable(KEY_EXTRA, extra);
+		b.putInt(KEY_TITLE, title);
+		b.putStringArray(KEY_LIST_STRGS, list);
+		setArguments(b);
 		show(fragmentManager, ListDialogFragment.class.getSimpleName());
 	}
 
-	private DialogInterface.OnClickListener getOnClickListener() {
-		DialogInterface.OnClickListener l = (DialogInterface.OnClickListener) getParentFragment();
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
 		if (l == null)
-			l = (DialogInterface.OnClickListener) getActivity();
-		return l;
+			l = (OnListDialogClickListener) getActivity();
+		l.onClick(getArguments().getSerializable(KEY_EXTRA), which);
+	}
+
+	public interface OnListDialogClickListener {
+		public void onClick(Serializable extra, int which);
 	}
 }
