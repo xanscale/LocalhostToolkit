@@ -8,6 +8,9 @@ import android.widget.EditText;
 import java.util.regex.Pattern;
 
 public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerInterface {
+	public static final String REGEX_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	public static final String REGEX_NOTEMPTY = ".+";
+	public static final String REGEX_DATE_DDMMYYYY = "^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
 	private EditText editText;
 	private String regex, errorMsg;
 
