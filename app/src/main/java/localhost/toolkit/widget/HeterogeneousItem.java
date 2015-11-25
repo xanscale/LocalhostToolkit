@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 
 import java.io.Serializable;
 
-public abstract class HeterogeneousItem {
+public abstract class HeterogeneousItem<Extra extends Serializable> {
 	protected Context context;
-	protected Serializable extra;
+	protected Extra extra;
 	private OnHeterogeneousItemClickListener onHeterogeneousItemClickListener;
 	private OnHeterogeneousItemLongClickListener onHeterogeneousItemLongClickListener;
 
-	public HeterogeneousItem(Context context, Serializable extra) {
+	public HeterogeneousItem(Context context, Extra extra) {
 		this.context = context;
 		this.extra = extra;
 	}
@@ -23,17 +23,11 @@ public abstract class HeterogeneousItem {
 	public abstract void onResume(View view);
 
 	public boolean onItemClick(View v, int position) {
-		if (onHeterogeneousItemClickListener != null)
-			return onHeterogeneousItemClickListener.onHeterogeneousItemClick(v, position, extra);
-		else
-			return false;
+		return onHeterogeneousItemClickListener != null && onHeterogeneousItemClickListener.onHeterogeneousItemClick(v, position, extra);
 	}
 
 	public boolean onItemLongClick(int position) {
-		if (onHeterogeneousItemLongClickListener != null)
-			return onHeterogeneousItemLongClickListener.onHeterogeneousItemLongClick(position, extra);
-		else
-			return false;
+		return onHeterogeneousItemLongClickListener != null && onHeterogeneousItemLongClickListener.onHeterogeneousItemLongClick(position, extra);
 	}
 
 	public void setOnHeterogeneousItemClickListener(OnHeterogeneousItemClickListener onHeterogeneousItemClickListener) {
@@ -44,7 +38,7 @@ public abstract class HeterogeneousItem {
 		this.onHeterogeneousItemLongClickListener = onHeterogeneousItemLongClickListener;
 	}
 
-	public Serializable getExtra() {
+	public Extra getExtra() {
 		return extra;
 	}
 

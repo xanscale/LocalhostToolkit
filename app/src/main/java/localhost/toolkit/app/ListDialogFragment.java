@@ -2,10 +2,10 @@ package localhost.toolkit.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 
 import java.io.Serializable;
 
@@ -26,7 +26,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
 		return builder.create();
 	}
 
-	public void show(FragmentManager fragmentManager,  Serializable extra, int title, int list) {
+	public void show(FragmentManager fragmentManager, Serializable extra, int title, int list) {
 		Bundle b = new Bundle(3);
 		b.putSerializable(KEY_EXTRA, extra);
 		b.putInt(KEY_TITLE, title);
@@ -53,6 +53,6 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
 	}
 
 	public interface OnListDialogClickListener {
-		public void onClick(Serializable extra, int which);
+		void onClick(Serializable extra, int which);
 	}
 }

@@ -1,12 +1,12 @@
 package localhost.toolkit.os;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -15,10 +15,10 @@ import localhost.toolkit.app.ProgressDialogFragment;
 
 public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params, String, Result> {
 	private ProgressDialogFragment progressFragment;
-	protected FragmentActivity activity;
+	protected Activity activity;
 	private boolean cancellable;
 
-	public ProgressAsyncTask(FragmentActivity activity, boolean progress, boolean cancellable) {
+	public ProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
 		this.activity = activity;
 		this.cancellable = cancellable;
 		if (progress)
@@ -31,7 +31,7 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		if (progressFragment != null) {
-			progressFragment.show(activity.getSupportFragmentManager(), R.string.prgsMessage, cancellable);
+			progressFragment.show(activity.getFragmentManager(), R.string.prgsMessage, cancellable);
 			progressFragment.onCancel(new DialogInterface() {
 				@Override
 				public void dismiss() {
@@ -49,7 +49,7 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 	protected void onProgressUpdate(String... values) {
 		super.onProgressUpdate(values);
 		if (progressFragment != null)
-			((ProgressDialog) progressFragment.getDialog()).setMessage((String) values[0]);
+			((ProgressDialog) progressFragment.getDialog()).setMessage(values[0]);
 	}
 
 	@Override

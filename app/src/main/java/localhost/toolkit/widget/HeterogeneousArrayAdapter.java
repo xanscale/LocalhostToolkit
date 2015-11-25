@@ -9,19 +9,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
-	private ArrayList<Integer> types;
+	private HashMap<Class, Integer> types;
 	private LayoutInflater inflater;
 
 	public HeterogeneousArrayAdapter(Context context, List<HeterogeneousItem> objects) {
 		super(context, 0, objects);
 		inflater = LayoutInflater.from(context);
-		types = new ArrayList<Integer>(objects.size());
+		types = new HashMap<>();
+		int typeCount = 0;
 		for (HeterogeneousItem item : objects)
-			types.add(item.getClass().hashCode());
+			if (!types.containsKey(item.getClass()))
+				types.put(item.getClass(), typeCount++);
 	}
 
 	public static OnItemClickListener getOnItemClickListener() {
@@ -53,7 +55,7 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 
 	@Override
 	public int getItemViewType(int position) {
-		return types.indexOf(getItem(position).getClass().hashCode());
+		return types.get(getItem(position).getClass());
 	}
 
 	@Override

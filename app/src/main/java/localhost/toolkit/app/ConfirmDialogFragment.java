@@ -2,11 +2,12 @@ package localhost.toolkit.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
+
 
 import java.io.Serializable;
 
@@ -83,6 +84,6 @@ public class ConfirmDialogFragment extends DialogFragment {
 	}
 
 	public interface OnConfirmedListener {
-		public boolean onConfirmation(Serializable extra, boolean confirmed);
+		boolean onConfirmation(Serializable extra, boolean confirmed);
 	}
 }
