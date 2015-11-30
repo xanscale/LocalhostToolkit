@@ -55,11 +55,11 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 
 	@Override
 	public int getItemViewType(int position) {
-		return types.get(getItem(position).getClass());
+		return types.isEmpty() ? super.getItemViewType(position) : types.get(getItem(position).getClass());
 	}
 
 	@Override
 	public int getViewTypeCount() {
-		return types.size() == 0 ? 1 : types.size();
+		return types.isEmpty() ? super.getViewTypeCount() : types.size();
 	}
 }

@@ -9,24 +9,28 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapter {
 	private ArrayList<HeterogeneousItem> groupItems;
 	private ArrayList<ArrayList<HeterogeneousItem>> childItems;
-	private ArrayList<Integer> groupTypes, childTypes;
+	private HashMap<Class, Integer> groupTypes, childTypes;
 	private LayoutInflater inflater;
 
 	public HeterogeneousExpandableListAdapter(Context context, ArrayList<HeterogeneousItem> groupItems, ArrayList<ArrayList<HeterogeneousItem>> childItems) {
 		this.groupItems = groupItems;
 		this.childItems = childItems;
-		groupTypes = new ArrayList<>();
-		childTypes = new ArrayList<>();
 		inflater = LayoutInflater.from(context);
-		for (HeterogeneousItem abstractItem : groupItems)
-			groupTypes.add(abstractItem.getClass().hashCode());
-		for (ArrayList<HeterogeneousItem> childData : childItems)
-			for (HeterogeneousItem abstractItem : childData)
-				childTypes.add(abstractItem.getClass().hashCode());
+		groupTypes = new HashMap<>();
+		childTypes = new HashMap<>();
+		int groupTypeCount = 0, childTypeCount = 0;
+		for (HeterogeneousItem item : groupItems)
+			if (!groupTypes.containsKey(item.getClass()))
+				groupTypes.put(item.getClass(), groupTypeCount++);
+		for (ArrayList<HeterogeneousItem> items : childItems)
+			for (HeterogeneousItem item : items)
+				if (!childTypes.containsKey(item.getClass()))
+					childTypes.put(item.getClass(), childTypeCount++);
 	}
 
 	public static OnChildClickListener getOnChildClickListener() {
@@ -75,22 +79,22 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 
 	@Override
 	public int getChildType(int groupPosition, int childPosition) {
-		return childTypes.indexOf(getChild(groupPosition, childPosition).getClass().hashCode());
+		return childTypes.isEmpty() ? super.getChildType(groupPosition, childPosition) : childTypes.get(getChild(groupPosition, childPosition).getClass());
 	}
 
 	@Override
 	public int getChildTypeCount() {
-		return childTypes.size() + 1;
+		return childTypes.isEmpty() ? super.getChildTypeCount() : childTypes.size();
 	}
 
 	@Override
 	public int getGroupType(int groupPosition) {
-		return groupTypes.indexOf(getGroup(groupPosition).getClass().hashCode());
+		return groupTypes.isEmpty() ? super.getGroupType(groupPosition) : groupTypes.get(getGroup(groupPosition).getClass());
 	}
 
 	@Override
 	public int getGroupTypeCount() {
-		return groupTypes.size() + 1;
+		return groupTypes.isEmpty() ? super.getGroupTypeCount() : groupTypes.size();
 	}
 
 	@Override
