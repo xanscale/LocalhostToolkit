@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import localhost.toolkit.R;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-	protected DrawerLayout mDrawerLayout;
-	protected ActionBarDrawerToggle mDrawerToggle;
-	protected MenuItem homeItem;
+	private DrawerLayout mDrawerLayout;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private MenuItem homeItem;
 	private boolean homeSelected;
 
 	@Override
