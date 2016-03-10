@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import localhost.toolkit.R;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-	private DrawerLayout mDrawerLayout;
-	private ActionBarDrawerToggle mDrawerToggle;
+	private DrawerLayout drawerLayout;
+	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private Menu navigationMenu;
 	private boolean homeSelected;
 
@@ -27,12 +27,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		setContentView(R.layout.drawer);
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		NavigationView mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), mDrawerLayout, false);
-		mDrawerLayout.addView(mNavigationView);
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		NavigationView mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), drawerLayout, false);
+		drawerLayout.addView(mNavigationView);
 		mNavigationView.setNavigationItemSelectedListener(this);
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
-		mDrawerLayout.addDrawerListener(mDrawerToggle);
+		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
+		drawerLayout.addDrawerListener(actionBarDrawerToggle);
 		navigationMenu = mNavigationView.getMenu();
 		invalidateNavigationMenu();
 	}
@@ -74,12 +74,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		return null;
 	}
 
+	public ActionBarDrawerToggle getActionBarDrawerToggle() {
+		return actionBarDrawerToggle;
+	}
+
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
 		homeSelected = menuItem.equals(getFirstNavigationMenuItem());
 		menuItem.setChecked(true);
 		setTitle(menuItem.getTitle());
-		mDrawerLayout.closeDrawer(GravityCompat.START);
+		drawerLayout.closeDrawer(GravityCompat.START);
 		getFragmentManager().beginTransaction().replace(R.id.content_frame, getContentFragment(menuItem.getItemId())).commitAllowingStateLoss();
 		return true;
 	}
@@ -87,18 +91,18 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
+		actionBarDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
-		return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+		return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
-			mDrawerLayout.closeDrawer(GravityCompat.START);
+		if (drawerLayout.isDrawerOpen(GravityCompat.START))
+			drawerLayout.closeDrawer(GravityCompat.START);
 		else {
 			if (homeSelected)
 				super.onBackPressed();
@@ -110,6 +114,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
+		actionBarDrawerToggle.syncState();
 	}
 }
