@@ -1,4 +1,4 @@
-package localhost.toolkit.text.errorListener;
+package localhost.toolkit.text;
 
 import java.util.ArrayList;
 

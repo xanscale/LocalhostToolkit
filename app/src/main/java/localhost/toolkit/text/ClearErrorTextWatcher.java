@@ -1,4 +1,4 @@
-package localhost.toolkit.text.errorListener;
+package localhost.toolkit.text;
 
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;

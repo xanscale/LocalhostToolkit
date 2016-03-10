@@ -3,4 +3,6 @@
 	<string name="prgsTitle">Please wait</string>
 	<string name="prgsMessage">Loading …</string>
 	<string name="noConnection">Network Error</string>
+	<string name="openDrawerContentDesc">Open Drawer</string>
+	<string name="closeDrawerContentDesc">Close Drawer</string>
 </resources>
