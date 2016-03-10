@@ -3,6 +3,7 @@ package localhost.toolkit.app;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,9 +34,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		navigationMenu = mNavigationView.getMenu();
-		onPrepareNavigationMenu(navigationMenu);
-		if (savedInstanceState == null)
-			onNavigationItemSelected(getFirstNavigationMenuItem());
+		invalidateNavigationMenu();
 	}
 
 	/**
@@ -59,11 +58,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 *
 	 * @param menu The NavigationView Menu
 	 */
-	public void onPrepareNavigationMenu(Menu menu) {
+	@CallSuper
+	protected void onPrepareNavigationMenu(Menu menu) {
+		onNavigationItemSelected(getFirstNavigationMenuItem());
 	}
 
-	@Override public boolean onPrepareOptionsMenu(Menu menu) {
-		return super.onPrepareOptionsMenu(menu);
+	public void invalidateNavigationMenu() {
+		onPrepareNavigationMenu(navigationMenu);
 	}
 
 	private MenuItem getFirstNavigationMenuItem() {
@@ -74,7 +75,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	@Override
-	public boolean onNavigationItemSelected(final MenuItem menuItem) {
+	public boolean onNavigationItemSelected(MenuItem menuItem) {
 		homeSelected = menuItem.equals(getFirstNavigationMenuItem());
 		menuItem.setChecked(true);
 		setTitle(menuItem.getTitle());
@@ -84,7 +85,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	@Override
-	public void onConfigurationChanged(final Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
