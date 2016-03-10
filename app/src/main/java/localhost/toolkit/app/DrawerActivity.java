@@ -7,9 +7,9 @@ import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import localhost.toolkit.R;
@@ -17,7 +17,7 @@ import localhost.toolkit.R;
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private MenuItem homeItem;
+	private Menu navigationMenu;
 	private boolean homeSelected;
 
 	@Override
@@ -32,9 +32,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		mNavigationView.setNavigationItemSelectedListener(this);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
-		homeItem = mNavigationView.getMenu().getItem(0);
+		navigationMenu = mNavigationView.getMenu();
+		onPrepareNavigationMenu(navigationMenu);
 		if (savedInstanceState == null)
-			onNavigationItemSelected(homeItem);
+			onNavigationItemSelected(getFirstNavigationMenuItem());
 	}
 
 	/**
@@ -51,11 +52,30 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 * @param menuItemId of selected menu item
 	 * @return Selected content fragment
 	 */
-	public abstract Fragment getContentFragment(int menuItemId);
+	protected abstract Fragment getContentFragment(int menuItemId);
+
+	/**
+	 * Prepare menu to be displayed.
+	 *
+	 * @param menu The NavigationView Menu
+	 */
+	public void onPrepareNavigationMenu(Menu menu) {
+	}
+
+	@Override public boolean onPrepareOptionsMenu(Menu menu) {
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	private MenuItem getFirstNavigationMenuItem() {
+		for (int i = 0; i < navigationMenu.size(); i++)
+			if (navigationMenu.getItem(i).isVisible())
+				return navigationMenu.getItem(i);
+		return null;
+	}
 
 	@Override
 	public boolean onNavigationItemSelected(final MenuItem menuItem) {
-		homeSelected = menuItem.equals(homeItem);
+		homeSelected = menuItem.equals(getFirstNavigationMenuItem());
 		menuItem.setChecked(true);
 		setTitle(menuItem.getTitle());
 		mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -82,7 +102,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			if (homeSelected)
 				super.onBackPressed();
 			else
-				onNavigationItemSelected(homeItem);
+				onNavigationItemSelected(getFirstNavigationMenuItem());
 		}
 	}
 
