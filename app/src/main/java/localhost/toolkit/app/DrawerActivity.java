@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -49,8 +50,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 * Delegate must return fragment used as main content
 	 *
 	 * @param menuItemId of selected menu item
-	 * @return Selected content fragment
+	 * @return Selected content fragment or null if you want to do manage locally
 	 */
+	@Nullable
 	protected abstract Fragment getContentFragment(int menuItemId);
 
 	/**
@@ -84,7 +86,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		menuItem.setChecked(true);
 		setTitle(menuItem.getTitle());
 		drawerLayout.closeDrawer(GravityCompat.START);
-		getFragmentManager().beginTransaction().replace(R.id.content_frame, getContentFragment(menuItem.getItemId())).commitAllowingStateLoss();
+		Fragment f = getContentFragment(menuItem.getItemId());
+		if (f != null)
+			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
 		return true;
 	}
 
