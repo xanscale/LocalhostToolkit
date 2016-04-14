@@ -19,7 +19,7 @@ import localhost.toolkit.R;
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
-	private Menu navigationMenu;
+	private NavigationView mNavigationView;
 	private boolean homeSelected;
 
 	@Override
@@ -29,12 +29,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		NavigationView mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), drawerLayout, false);
+		mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), drawerLayout, false);
 		drawerLayout.addView(mNavigationView);
 		mNavigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
-		navigationMenu = mNavigationView.getMenu();
 		invalidateNavigationMenu();
 	}
 
@@ -66,13 +65,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	public void invalidateNavigationMenu() {
-		onPrepareNavigationMenu(navigationMenu);
+		onPrepareNavigationMenu(mNavigationView.getMenu());
 	}
 
 	private MenuItem getFirstNavigationMenuItem() {
-		for (int i = 0; i < navigationMenu.size(); i++)
-			if (navigationMenu.getItem(i).isVisible())
-				return navigationMenu.getItem(i);
+		for (int i = 0; i < mNavigationView.getMenu().size(); i++)
+			if (mNavigationView.getMenu().getItem(i).isVisible())
+				return mNavigationView.getMenu().getItem(i);
 		return null;
 	}
 
@@ -86,7 +85,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		Fragment f = getContentFragment(menuItem.getItemId());
 		if (f != null) {
 			homeSelected = menuItem.equals(getFirstNavigationMenuItem());
-			menuItem.setChecked(true);
+			mNavigationView.setCheckedItem(menuItem.getItemId());
 			setTitle(menuItem.getTitle());
 			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
 		}
