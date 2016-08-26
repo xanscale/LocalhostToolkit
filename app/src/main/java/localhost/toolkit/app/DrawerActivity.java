@@ -82,12 +82,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
 		drawerLayout.closeDrawer(GravityCompat.START);
-		Fragment f = getContentFragment(menuItem.getItemId());
-		if (f != null) {
-			homeSelected = menuItem.equals(getFirstNavigationMenuItem());
-			mNavigationView.setCheckedItem(menuItem.getItemId());
-			setTitle(menuItem.getTitle());
-			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
+		if (menuItem != null) {
+			Fragment f = getContentFragment(menuItem.getItemId());
+			if (f != null) {
+				homeSelected = menuItem.equals(getFirstNavigationMenuItem());
+				mNavigationView.setCheckedItem(menuItem.getItemId());
+				setTitle(menuItem.getTitle());
+				getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
+			}
 		}
 		return true;
 	}
