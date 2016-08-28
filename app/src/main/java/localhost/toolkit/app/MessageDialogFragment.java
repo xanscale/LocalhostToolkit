@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.text.Html;
 
 public class MessageDialogFragment extends DialogFragment {
 	private static final String KEY_TIT = "KEY_TIT";
@@ -17,7 +18,7 @@ public class MessageDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getString(KEY_TIT));
-		builder.setMessage(getArguments().getString(KEY_MSG));
+		builder.setMessage(Html.fromHtml(getArguments().getString(KEY_MSG)));
 		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? new ExitOnClickListener() : null);
 		setCancelable(false);
 		builder.setCancelable(false);
