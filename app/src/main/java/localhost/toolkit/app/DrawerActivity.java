@@ -35,8 +35,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		mNavigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
-		if (savedInstanceState == null)
-			invalidateNavigationMenu();
+		invalidateNavigationMenu();
+		if (savedInstanceState == null) {
+			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+			if (menuItem != null)
+				onNavigationItemSelected(menuItem);
+		}
 	}
 
 	/**
@@ -63,20 +67,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 */
 	@CallSuper
 	protected void onPrepareNavigationMenu(Menu menu) {
-		MenuItem menuItem = getFirstNavigationMenuItem(menu);
-		if (menuItem != null)
-			onNavigationItemSelected(menuItem);
 	}
 
 	public void invalidateNavigationMenu() {
 		onPrepareNavigationMenu(mNavigationView.getMenu());
 	}
 
-	private MenuItem getFirstNavigationMenuItem(Menu menu) {
+	private MenuItem getHomeMenuItem(Menu menu) {
 		for (int i = 0; i < menu.size(); i++) {
 			if (menu.getItem(i).isVisible()) {
 				if (menu.getItem(i).hasSubMenu()) {
-					MenuItem menuItem = getFirstNavigationMenuItem(menu.getItem(i).getSubMenu());
+					MenuItem menuItem = getHomeMenuItem(menu.getItem(i).getSubMenu());
 					if (menuItem != null)
 						return menuItem;
 				} else
@@ -119,7 +120,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
 		else {
-			MenuItem menuItem = getFirstNavigationMenuItem(mNavigationView.getMenu());
+			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
 			if (menuItem == null || currMenuItemId == menuItem.getItemId())
 				super.onBackPressed();
 			else
