@@ -35,7 +35,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		mNavigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
-		invalidateNavigationMenu();
+		if (savedInstanceState == null)
+			invalidateNavigationMenu();
 	}
 
 	/**
