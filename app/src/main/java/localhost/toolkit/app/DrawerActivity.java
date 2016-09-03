@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import localhost.toolkit.R;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+	public static final String CURR_MENU_ITEM_ID = "currMenuItemId";
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private NavigationView mNavigationView;
@@ -40,6 +41,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
 			if (menuItem != null)
 				onNavigationItemSelected(menuItem);
+		} else {
+			currMenuItemId = savedInstanceState.getInt(CURR_MENU_ITEM_ID);
+			mNavigationView.setCheckedItem(currMenuItemId);
+			setTitle(mNavigationView.getMenu().findItem(currMenuItemId).getTitle());
 		}
 	}
 
@@ -113,6 +118,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt(CURR_MENU_ITEM_ID, currMenuItemId);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
