@@ -39,7 +39,7 @@ public class MultiChoiceDialog extends DialogFragment implements DialogInterface
 		b.putInt(KEY_LIST_RESID, list);
 		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
 		setArguments(b);
-		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
+		show(fragmentManager, MultiChoiceDialog.class.getSimpleName());
 	}
 
 	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list, boolean[] checkedItems) {
@@ -49,7 +49,7 @@ public class MultiChoiceDialog extends DialogFragment implements DialogInterface
 		b.putStringArray(KEY_LIST_STRGS, list);
 		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
 		setArguments(b);
-		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
+		show(fragmentManager, MultiChoiceDialog.class.getSimpleName());
 	}
 
 	public void onClick(DialogInterface dialog, int which) {
