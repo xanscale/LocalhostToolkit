@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
-public class ListDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class ItemsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	private static final String KEY_TITLE = "KEY_TITLE";
 	private static final String KEY_EXTRA = "KEY_EXTRA";
 	private static final String KEY_LIST_RESID = "KEY_LIST_RESID";
@@ -32,7 +32,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
 		b.putInt(KEY_TITLE, title);
 		b.putInt(KEY_LIST_RESID, list);
 		setArguments(b);
-		show(fragmentManager, ListDialogFragment.class.getSimpleName());
+		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
 	}
 
 	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list) {
@@ -41,7 +41,7 @@ public class ListDialogFragment extends DialogFragment implements DialogInterfac
 		b.putInt(KEY_TITLE, title);
 		b.putStringArray(KEY_LIST_STRGS, list);
 		setArguments(b);
-		show(fragmentManager, ListDialogFragment.class.getSimpleName());
+		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
 	}
 
 	@Override
