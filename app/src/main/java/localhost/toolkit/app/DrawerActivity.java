@@ -38,9 +38,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
 		invalidateNavigationMenu();
 		if (savedInstanceState == null) {
-			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
-			if (menuItem != null)
-				onNavigationItemSelected(menuItem);
+			navigateToHomeMenuItem();
 		} else {
 			currMenuItemId = savedInstanceState.getInt(CURR_MENU_ITEM_ID);
 			mNavigationView.setCheckedItem(currMenuItemId);
@@ -94,6 +92,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
 	public ActionBarDrawerToggle getActionBarDrawerToggle() {
 		return actionBarDrawerToggle;
+	}
+
+	public void navigateToHomeMenuItem() {
+		MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+		if (menuItem != null)
+			onNavigationItemSelected(menuItem);
 	}
 
 	@Override
