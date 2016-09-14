@@ -42,6 +42,11 @@ public abstract class HeterogeneousItem<Extra extends Serializable> {
 		return extra;
 	}
 
+	@Override
+	public String toString() {
+		return extra.toString();
+	}
+
 	public interface OnHeterogeneousItemClickListener {
 		boolean onHeterogeneousItemClick(View v, int position, Serializable extra);
 	}
