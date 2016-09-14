@@ -32,7 +32,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		b.putInt(KEY_TITLE, title);
 		b.putInt(KEY_LIST_RESID, list);
 		setArguments(b);
-		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list) {
@@ -41,7 +41,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		b.putInt(KEY_TITLE, title);
 		b.putStringArray(KEY_LIST_STRGS, list);
 		setArguments(b);
-		show(fragmentManager, ItemsDialogFragment.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	@Override

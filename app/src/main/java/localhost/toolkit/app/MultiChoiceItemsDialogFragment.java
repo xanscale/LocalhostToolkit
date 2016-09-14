@@ -9,8 +9,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
-
-public class MultiChoiceDialog extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener,DialogInterface.OnClickListener {
+public class MultiChoiceItemsDialogFragment extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener {
 	public static final String KEY_CHECKED_ITEMS = "KEY_CHECKED_ITEMS";
 	private static final String KEY_TITLE = "KEY_TITLE";
 	private static final String KEY_EXTRA = "KEY_EXTRA";
@@ -39,7 +38,7 @@ public class MultiChoiceDialog extends DialogFragment implements DialogInterface
 		b.putInt(KEY_LIST_RESID, list);
 		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
 		setArguments(b);
-		show(fragmentManager, MultiChoiceDialog.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list, boolean[] checkedItems) {
@@ -49,7 +48,7 @@ public class MultiChoiceDialog extends DialogFragment implements DialogInterface
 		b.putStringArray(KEY_LIST_STRGS, list);
 		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
 		setArguments(b);
-		show(fragmentManager, MultiChoiceDialog.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	public void onClick(DialogInterface dialog, int which) {

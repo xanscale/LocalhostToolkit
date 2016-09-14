@@ -37,7 +37,7 @@ public class ImageDialogFragment extends DialogFragment {
 		arguments.putInt(KEY_IMG, image);
 		arguments.putBoolean(KEY_EXIT, exit);
 		setArguments(arguments);
-		show(fragmentManager, ImageDialogFragment.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	private final class ExitOnClick implements OnClickListener {

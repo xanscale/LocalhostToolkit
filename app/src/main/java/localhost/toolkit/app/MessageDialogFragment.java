@@ -32,7 +32,7 @@ public class MessageDialogFragment extends DialogFragment {
 		arguments.putBoolean(KEY_EXIT, exit);
 		setArguments(arguments);
 		try {
-			show(fragmentManager, MessageDialogFragment.class.getSimpleName());
+			show(fragmentManager, getClass().getSimpleName());
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}

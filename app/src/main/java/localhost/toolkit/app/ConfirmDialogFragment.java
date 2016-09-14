@@ -57,7 +57,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 		arguments.putSerializable(KEY_EXTRA, extra);
 		setArguments(arguments);
 		try {
-			show(fragmentManager, ConfirmDialogFragment.class.getSimpleName());
+			show(fragmentManager, getClass().getSimpleName());
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +70,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 		arguments.putSerializable(KEY_EXTRA, extra);
 		setArguments(arguments);
 		try {
-			show(fragmentManager, ConfirmDialogFragment.class.getSimpleName());
+			show(fragmentManager, getClass().getSimpleName());
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}

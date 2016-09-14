@@ -29,6 +29,6 @@ public class ProgressDialogFragment extends DialogFragment {
 		arguments.putInt(KEY_MSG, stringId);
 		arguments.putBoolean(KEY_CANCELABLE, cancellable);
 		setArguments(arguments);
-		show(fragmentManager, ProgressDialogFragment.class.getSimpleName());
+		show(fragmentManager, getClass().getSimpleName());
 	}
 }
