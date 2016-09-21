@@ -17,14 +17,16 @@ public class ErrorEqualsListener implements ErrorListenerInterface {
 	@Override
 	public boolean matches() {
 		if (!editText1.getText().toString().equals(editText2.getText().toString())) {
-			if (editText1.getParent() != null && editText1.getParent() instanceof TextInputLayout)
-				((TextInputLayout) editText1.getParent()).setError(errorMsg);
-			else
+			try {
+				((TextInputLayout) editText1.getParent().getParent()).setError(errorMsg);
+			} catch (Exception e) {
 				editText1.setError(errorMsg);
-			if (editText2.getParent() != null && editText2.getParent() instanceof TextInputLayout)
-				((TextInputLayout) editText2.getParent()).setError(errorMsg);
-			else
+			}
+			try {
+				((TextInputLayout) editText2.getParent().getParent()).setError(errorMsg);
+			} catch (Exception e) {
 				editText2.setError(errorMsg);
+			}
 			return false;
 		} else
 			return true;

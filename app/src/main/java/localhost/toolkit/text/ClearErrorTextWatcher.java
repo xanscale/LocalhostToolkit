@@ -5,7 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-public final class ClearErrorTextWatcher implements TextWatcher {
+public class ClearErrorTextWatcher implements TextWatcher {
 	private EditText[] editTexts;
 
 	public ClearErrorTextWatcher(EditText... editTexts) {
@@ -15,12 +15,12 @@ public final class ClearErrorTextWatcher implements TextWatcher {
 	}
 
 	public void afterTextChanged(Editable s) {
-		for (EditText editText : editTexts) {
-			if (editText.getParent() != null && editText.getParent() instanceof TextInputLayout)
-				((TextInputLayout) editText.getParent()).setError(null);
-			else
+		for (EditText editText : editTexts)
+			try {
+				((TextInputLayout) editText.getParent().getParent()).setError(null);
+			} catch (Exception e) {
 				editText.setError(null);
-		}
+			}
 	}
 
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {

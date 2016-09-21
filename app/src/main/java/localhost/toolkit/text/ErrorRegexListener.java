@@ -31,10 +31,11 @@ public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerI
 	@Override
 	public boolean matches() {
 		if (!Pattern.matches(regex, editText.getText().toString().trim())) {
-			if (editText.getParent() != null && editText.getParent() instanceof TextInputLayout)
-				((TextInputLayout) editText.getParent()).setError(errorMsg);
-			else
+			try {
+				((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
+			} catch (Exception e) {
 				editText.setError(errorMsg);
+			}
 			return false;
 		} else
 			return true;
