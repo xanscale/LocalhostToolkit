@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -90,12 +91,30 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		return null;
 	}
 
+	private MenuItem getMenuItemById(Menu menu, @IdRes int id) {
+		for (int i = 0; i < menu.size(); i++) {
+			if (menu.getItem(i).hasSubMenu()) {
+				MenuItem menuItem = getMenuItemById(menu.getItem(i).getSubMenu(), id);
+				if (menuItem != null)
+					return menuItem;
+			} else if (menu.getItem(i).getItemId() == id)
+				return menu.getItem(i);
+		}
+		return null;
+	}
+
 	public ActionBarDrawerToggle getActionBarDrawerToggle() {
 		return actionBarDrawerToggle;
 	}
 
 	public void navigateToHomeMenuItem() {
 		MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+		if (menuItem != null)
+			onNavigationItemSelected(menuItem);
+	}
+
+	public void navigateToMenuItemById(@IdRes int id) {
+		MenuItem menuItem = getMenuItemById(mNavigationView.getMenu(), id);
 		if (menuItem != null)
 			onNavigationItemSelected(menuItem);
 	}
