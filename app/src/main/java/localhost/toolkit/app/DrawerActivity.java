@@ -107,6 +107,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		return actionBarDrawerToggle;
 	}
 
+	public DrawerLayout getDrawerLayout() {
+		return drawerLayout;
+	}
+
 	public void navigateToHomeMenuItem() {
 		MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
 		if (menuItem != null)
