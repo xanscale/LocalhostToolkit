@@ -62,7 +62,7 @@ public abstract class EndlessListViewScrollListener implements AbsListView.OnScr
 	 * @param totalItemsCount in current list
 	 * @return true if more data is being loaded, false if there is no more data to load.
 	 */
-	abstract boolean onLoadMore(int page, int totalItemsCount);
+	public abstract boolean onLoadMore(int page, int totalItemsCount);
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {

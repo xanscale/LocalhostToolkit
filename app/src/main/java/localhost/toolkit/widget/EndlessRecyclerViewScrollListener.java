@@ -73,5 +73,5 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 	 * @param totalItemsCount in current list
 	 * @return true if more data is being loaded, false if there is no more data to load.
 	 */
-	abstract void onLoadMore(int page, int totalItemsCount);
+	public abstract void onLoadMore(int page, int totalItemsCount);
 }
