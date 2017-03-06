@@ -34,7 +34,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 			((OnDateSetListener) getActivity()).onDateSet(getTag(), year, monthOfYear, dayOfMonth);
 	}
 
-	interface OnDateSetListener {
+	public interface OnDateSetListener {
 		void onDateSet(String tag, int year, int monthOfYear, int dayOfMonth);
 	}
 }

@@ -35,7 +35,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
 			((OnTimeSetListener) getActivity()).onTimeSet(getTag(), hourOfDay, minute);
 	}
 
-	interface OnTimeSetListener {
+	public interface OnTimeSetListener {
 		void onTimeSet(String tag, int hourOfDay, int minute);
 	}
 }
