@@ -13,7 +13,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageManager {
+	private Context context;
 	private Uri uri;
+
+	public ImageManager(Context context) {
+		this.context = context;
+	}
 
 	public Intent getIntent() {
 		uri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg"));
@@ -21,11 +26,16 @@ public class ImageManager {
 			.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)});
 	}
 
-	public Uri getUri(Intent data) {
-		return data.getData() == null ? uri : data.getData();
+	public void onActivityResult(Intent data) {
+		if (data.getData() != null)
+			uri = data.getData();
 	}
 
-	public static Bitmap getThumbnail(Context context, Uri uri){
+	public Uri getUri() {
+		return uri;
+	}
+
+	public Bitmap getThumbnail() {
 		Cursor ca = context.getContentResolver().query(uri, new String[]{MediaStore.MediaColumns._ID}, null, null, null);
 		Bitmap thumbnail = null;
 		if (ca != null) {
@@ -36,7 +46,7 @@ public class ImageManager {
 		return thumbnail;
 	}
 
-	public static Bitmap getBitmap(Context context, Uri uri) {
+	public Bitmap getBitmap() {
 		try {
 			return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 		} catch (IOException e) {
@@ -45,8 +55,8 @@ public class ImageManager {
 		}
 	}
 
-	public static byte[] getByteArray(Context context, Uri uri) {
-		Bitmap bitmap = getBitmap(context, uri);
+	public byte[] getByteArray() {
+		Bitmap bitmap = getBitmap();
 		if (bitmap == null)
 			return null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
