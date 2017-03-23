@@ -12,11 +12,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageManager {
+public class ImagePicker {
 	private Context context;
 	private Uri uri;
 
-	public ImageManager(Context context) {
+	public ImagePicker(Context context) {
 		this.context = context;
 	}
 
@@ -55,12 +55,12 @@ public class ImageManager {
 		}
 	}
 
-	public byte[] getByteArray() {
+	public byte[] getByteArray(Bitmap.CompressFormat format, int quality) {
 		Bitmap bitmap = getBitmap();
 		if (bitmap == null)
 			return null;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+		bitmap.compress(format, quality, stream);
 		byte[] byteArray = stream.toByteArray();
 		try {
 			stream.close();
