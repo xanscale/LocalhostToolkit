@@ -27,7 +27,7 @@ public class ImagePicker {
 	}
 
 	public void onActivityResult(Intent data) {
-		if (data.getData() != null)
+		if (data != null && data.getData() != null)
 			uri = data.getData();
 	}
 
