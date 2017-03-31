@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 public class ImagePicker {
 	private Context context;
@@ -49,7 +48,7 @@ public class ImagePicker {
 	public Bitmap getBitmap() {
 		try {
 			return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -64,7 +63,7 @@ public class ImagePicker {
 		byte[] byteArray = stream.toByteArray();
 		try {
 			stream.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return byteArray;
