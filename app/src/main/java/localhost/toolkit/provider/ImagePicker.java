@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 public class ImagePicker {
 	private Context context;
@@ -49,9 +50,30 @@ public class ImagePicker {
 	public Bitmap getBitmap() {
 		try {
 			return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return getThumbnail();
+			return null;
+		} catch (OutOfMemoryError oom) {
+			oom.printStackTrace();
+			try {
+				BufferedInputStream is = new BufferedInputStream(context.getContentResolver().openInputStream(uri));
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inJustDecodeBounds = true;
+				is.mark(is.available());
+				BitmapFactory.decodeStream(is, null, options);
+				options.inSampleSize = 1;
+				if (options.outHeight > 1920 || options.outWidth > 1920)
+					while ((options.outHeight / 2 / options.inSampleSize) >= 1920 && (options.outWidth / 2 / options.inSampleSize) >= 1920)
+						options.inSampleSize *= 2;
+				options.inJustDecodeBounds = false;
+				is.reset();
+				Bitmap bitmap = BitmapFactory.decodeStream(is, null, null);
+				is.close();
+				return bitmap;
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				return null;
+			}
 		}
 	}
 
@@ -64,7 +86,7 @@ public class ImagePicker {
 		byte[] byteArray = stream.toByteArray();
 		try {
 			stream.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return byteArray;
