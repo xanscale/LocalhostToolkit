@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class ImagePicker {
+	private static final int SIZE = 1920;
 	private Context context;
 	private Uri uri;
 
@@ -62,12 +63,12 @@ public class ImagePicker {
 				is.mark(is.available());
 				BitmapFactory.decodeStream(is, null, options);
 				options.inSampleSize = 1;
-				if (options.outHeight > 1920 || options.outWidth > 1920)
-					while ((options.outHeight / 2 / options.inSampleSize) >= 1920 && (options.outWidth / 2 / options.inSampleSize) >= 1920)
+				if (options.outHeight > SIZE || options.outWidth > SIZE)
+					while ((options.outHeight / 2 / options.inSampleSize) >= SIZE && (options.outWidth / 2 / options.inSampleSize) >= SIZE)
 						options.inSampleSize *= 2;
 				options.inJustDecodeBounds = false;
 				is.reset();
-				Bitmap bitmap = BitmapFactory.decodeStream(is, null, null);
+				Bitmap bitmap = BitmapFactory.decodeStream(is, null, options);
 				is.close();
 				return bitmap;
 			} catch (Exception e1) {
