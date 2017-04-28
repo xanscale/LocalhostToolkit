@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +21,18 @@ public class ImagePicker {
 
 	public ImagePicker(Context context) {
 		this.context = context;
+	}
+
+	public static byte[] getByteArray(@NonNull Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(format, quality, stream);
+		byte[] byteArray = stream.toByteArray();
+		try {
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return byteArray;
 	}
 
 	public Intent getIntent() {
@@ -76,20 +89,5 @@ public class ImagePicker {
 				return null;
 			}
 		}
-	}
-
-	public byte[] getByteArray(Bitmap.CompressFormat format, int quality) {
-		Bitmap bitmap = getBitmap();
-		if (bitmap == null)
-			return null;
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(format, quality, stream);
-		byte[] byteArray = stream.toByteArray();
-		try {
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return byteArray;
 	}
 }
