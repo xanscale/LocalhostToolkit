@@ -5,7 +5,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-
+import android.view.WindowManager;
 
 import localhost.toolkit.R;
 
@@ -21,7 +21,13 @@ public class ProgressDialogFragment extends DialogFragment {
 		setCancelable((getArguments().getBoolean(KEY_CANCELABLE)));
 		pd.setCancelable((getArguments().getBoolean(KEY_CANCELABLE)));
 		pd.setCanceledOnTouchOutside((getArguments().getBoolean(KEY_CANCELABLE)));
+		getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		return pd;
+	}
+
+	@Override public void onStop() {
+		super.onStop();
+		getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	public void show(FragmentManager fragmentManager, int stringId, boolean cancellable) {

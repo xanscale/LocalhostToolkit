@@ -1,21 +1,18 @@
 package localhost.toolkit.os;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import localhost.toolkit.R;
 import localhost.toolkit.app.ProgressDialogFragment;
 
 public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params, String, Result> {
-	private ProgressDialogFragment progressFragment;
 	protected Activity activity;
+	private ProgressDialogFragment progressFragment;
 	private boolean cancellable;
 
 	public ProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
@@ -29,7 +26,6 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 	protected void onPreExecute() {
 		super.onPreExecute();
 		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		if (progressFragment != null) {
 			progressFragment.show(activity.getFragmentManager(), R.string.prgsMessage, cancellable);
 			progressFragment.onCancel(new DialogInterface() {
@@ -58,7 +54,6 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 		onFinish();
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCancelled(Result result) {
 		super.onCancelled(result);
@@ -66,7 +61,6 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 	}
 
 	private void onFinish() {
-		activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		if (progressFragment != null)
 			try {
 				progressFragment.dismissAllowingStateLoss();
