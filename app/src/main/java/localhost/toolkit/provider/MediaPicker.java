@@ -124,5 +124,9 @@ public class MediaPicker {
 		return byteArray;
 	}
 
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+
 	public enum MediaType {PHOTO, VIDEO}
 }
