@@ -103,18 +103,25 @@ public class MediaPicker {
 
 	public byte[] getBitmapByteArray(Bitmap.CompressFormat format, int quality) {
 		if (mediaType == MediaType.PHOTO) {
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			Bitmap bitmap = getBitmap();
-			bitmap.compress(format, quality, stream);
-			byte[] byteArray = stream.toByteArray();
-			try {
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return byteArray;
+			return getByteArray(getBitmap(), format, quality);
 		} else
 			throw new IllegalStateException();
+	}
+
+	public byte[] getThumbnailByteArray(Bitmap.CompressFormat format, int quality) {
+		return getByteArray(getThumbnail(), format, quality);
+	}
+
+	private byte[] getByteArray(Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(format, quality, stream);
+		byte[] byteArray = stream.toByteArray();
+		try {
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return byteArray;
 	}
 
 	public enum MediaType {PHOTO, VIDEO}
