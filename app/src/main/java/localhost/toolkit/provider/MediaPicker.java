@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MediaPicker {
 	private static final int SIZE = 1920;
@@ -45,17 +47,6 @@ public class MediaPicker {
 
 	public Uri getUri() {
 		return uri;
-	}
-
-	public File getFile() {
-		Cursor ca = context.getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DATA}, null, null, null);
-		File file = null;
-		if (ca != null) {
-			if (ca.moveToFirst())
-				file = new File(ca.getString(ca.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)));
-			ca.close();
-		}
-		return file;
 	}
 
 	public Bitmap getThumbnail() {
@@ -105,28 +96,19 @@ public class MediaPicker {
 			throw new IllegalStateException();
 	}
 
-	public byte[] getBitmapByteArray(Bitmap.CompressFormat format, int quality) {
-		if (mediaType == MediaType.PHOTO) {
-			Bitmap bitmap = getBitmap();
-			if (bitmap != null)
-				return getByteArray(bitmap, format, quality);
-			else
-				return null;
-		} else
-			throw new IllegalStateException();
+	public byte[] getByteArray() throws IOException {
+		InputStream inputStream = context.getContentResolver().openInputStream(uri);
+		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while ((len = inputStream.read(buffer)) != -1)
+			byteBuffer.write(buffer, 0, len);
+		return byteBuffer.toByteArray();
 	}
 
-	public byte[] getThumbnailByteArray(Bitmap.CompressFormat format, int quality) {
-		Bitmap thumbnail = getThumbnail();
-		if (thumbnail != null)
-			return getByteArray(thumbnail, format, quality);
-		else
-			return null;
-	}
-
-	private byte[] getByteArray(Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
+	public byte[] getThumbnailByteArray() {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(format, quality, stream);
+		getThumbnail().compress(Bitmap.CompressFormat.PNG, 0, stream);
 		byte[] byteArray = stream.toByteArray();
 		try {
 			stream.close();
