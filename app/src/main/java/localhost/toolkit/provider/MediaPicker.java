@@ -25,13 +25,17 @@ public class MediaPicker {
 
 	public Intent getIntent(MediaType mediaType) {
 		this.mediaType = mediaType;
-		if (mediaType == MediaType.PHOTO) {
-			uri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg"));
-			return Intent.createChooser(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)});
-		} else if (mediaType == MediaType.VIDEO) {
-			return Intent.createChooser(new Intent(MediaStore.ACTION_VIDEO_CAPTURE), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)});
-		} else
-			return null;
+		switch (mediaType) {
+			case PHOTO:
+				uri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg"));
+				return Intent.createChooser(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)});
+			case VIDEO:
+				return Intent.createChooser(new Intent(MediaStore.ACTION_VIDEO_CAPTURE), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)});
+			case GENERIC:
+				return new Intent(Intent.ACTION_GET_CONTENT).setType("*/*");
+			default:
+				throw new IllegalStateException();
+		}
 	}
 
 	public void onActivityResult(Intent data) {
@@ -103,13 +107,21 @@ public class MediaPicker {
 
 	public byte[] getBitmapByteArray(Bitmap.CompressFormat format, int quality) {
 		if (mediaType == MediaType.PHOTO) {
-			return getByteArray(getBitmap(), format, quality);
+			Bitmap bitmap = getBitmap();
+			if (bitmap != null)
+				return getByteArray(bitmap, format, quality);
+			else
+				return null;
 		} else
 			throw new IllegalStateException();
 	}
 
 	public byte[] getThumbnailByteArray(Bitmap.CompressFormat format, int quality) {
-		return getByteArray(getThumbnail(), format, quality);
+		Bitmap thumbnail = getThumbnail();
+		if (thumbnail != null)
+			return getByteArray(thumbnail, format, quality);
+		else
+			return null;
 	}
 
 	private byte[] getByteArray(Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
@@ -128,5 +140,5 @@ public class MediaPicker {
 		return mediaType;
 	}
 
-	public enum MediaType {PHOTO, VIDEO}
+	public enum MediaType {PHOTO, VIDEO, GENERIC}
 }
