@@ -100,22 +100,26 @@ public class MediaPicker {
 		InputStream inputStream = context.getContentResolver().openInputStream(uri);
 		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
-		int len = 0;
+		int len;
 		while ((len = inputStream.read(buffer)) != -1)
 			byteBuffer.write(buffer, 0, len);
 		return byteBuffer.toByteArray();
 	}
 
 	public byte[] getThumbnailByteArray() {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		getThumbnail().compress(Bitmap.CompressFormat.PNG, 0, stream);
-		byte[] byteArray = stream.toByteArray();
-		try {
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return byteArray;
+		Bitmap thumbnail = getThumbnail();
+		if (thumbnail != null) {
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			thumbnail.compress(Bitmap.CompressFormat.PNG, 0, stream);
+			byte[] byteArray = stream.toByteArray();
+			try {
+				stream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return byteArray;
+		} else
+			return null;
 	}
 
 	public MediaType getMediaType() {
