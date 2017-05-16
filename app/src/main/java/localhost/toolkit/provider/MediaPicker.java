@@ -10,10 +10,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MediaPicker {
 	private static final int SIZE = 1920;
@@ -104,6 +107,19 @@ public class MediaPicker {
 		while ((len = inputStream.read(buffer)) != -1)
 			byteBuffer.write(buffer, 0, len);
 		return byteBuffer.toByteArray();
+	}
+
+	public File getTempFile() throws IOException {
+		File file = File.createTempFile("media", null);
+		InputStream inputStream = context.getContentResolver().openInputStream(uri);
+		OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = inputStream.read(buffer)) != -1)
+			outputStream.write(buffer, 0, len);
+		inputStream.close();
+		outputStream.close();
+		return file;
 	}
 
 	public byte[] getThumbnailByteArray() {
