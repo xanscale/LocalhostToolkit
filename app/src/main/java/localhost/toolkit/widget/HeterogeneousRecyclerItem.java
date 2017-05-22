@@ -16,4 +16,8 @@ public abstract class HeterogeneousRecyclerItem<Extra extends Serializable, VH e
 	public abstract VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent);
 
 	public abstract void onBindViewHolder(VH holder, HeterogeneousRecyclerAdapter<HeterogeneousRecyclerItem> adapter);
+
+	public Extra getExtra() {
+		return extra;
+	}
 }
