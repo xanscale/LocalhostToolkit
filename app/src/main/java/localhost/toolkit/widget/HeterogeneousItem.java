@@ -54,4 +54,15 @@ public abstract class HeterogeneousItem<Extra extends Serializable> {
 	public interface OnHeterogeneousItemLongClickListener {
 		boolean onHeterogeneousItemLongClick(int position, Serializable extra);
 	}
+
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof HeterogeneousItem)) return false;
+		HeterogeneousItem<?> that = (HeterogeneousItem<?>) o;
+		return extra.equals(that.extra);
+	}
+
+	@Override public int hashCode() {
+		return extra.hashCode();
+	}
 }
