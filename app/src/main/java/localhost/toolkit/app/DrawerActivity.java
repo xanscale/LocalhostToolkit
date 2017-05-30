@@ -157,6 +157,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	public void onBackPressed() {
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
+		else if (getFragmentManager().getBackStackEntryCount() > 0)
+			getFragmentManager().popBackStack();
 		else {
 			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
 			if (menuItem == null || currMenuItemId == menuItem.getItemId())
