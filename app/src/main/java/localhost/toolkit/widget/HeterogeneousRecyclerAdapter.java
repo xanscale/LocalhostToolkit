@@ -33,7 +33,7 @@ public class HeterogeneousRecyclerAdapter<HI extends HeterogeneousRecyclerItem> 
 	}
 
 	@Override public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-		items.get(position).onBindViewHolder(viewHolder, this);
+		items.get(position).onBindViewHolder(viewHolder);
 	}
 
 	public HI getItem(int position) {
