@@ -25,8 +25,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	private NavigationView mNavigationView;
 	private int currMenuItemId;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer);
 		if (getSupportActionBar() != null)
@@ -52,8 +51,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 *
 	 * @return something like R.layout.navigationView
 	 */
-	@LayoutRes
-	protected abstract int getNavigationViewLayoutRes();
+	@LayoutRes protected abstract int getNavigationViewLayoutRes();
 
 	/**
 	 * Delegate must return fragment used as main content
@@ -61,16 +59,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	 * @param menuItemId of selected menu item
 	 * @return Selected content fragment or null if you want to do manage locally
 	 */
-	@Nullable
-	protected abstract Fragment getContentFragment(int menuItemId);
+	@Nullable protected abstract Fragment getContentFragment(int menuItemId);
 
 	/**
 	 * Prepare menu to be displayed.
 	 *
 	 * @param menu The NavigationView Menu
 	 */
-	@CallSuper
-	protected void onPrepareNavigationMenu(Menu menu) {
+	@CallSuper protected void onPrepareNavigationMenu(Menu menu) {
 	}
 
 	public void invalidateNavigationMenu() {
@@ -123,8 +119,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			onNavigationItemSelected(menuItem);
 	}
 
-	@Override
-	public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+	@Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 		drawerLayout.closeDrawer(GravityCompat.START);
 		Fragment f = getContentFragment(menuItem.getItemId());
 		if (f != null) {
@@ -136,25 +131,21 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		return true;
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	@Override public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		actionBarDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
+	@Override public boolean onOptionsItemSelected(final MenuItem item) {
 		return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	@Override protected void onSaveInstanceState(Bundle outState) {
 		outState.putInt(CURR_MENU_ITEM_ID, currMenuItemId);
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
-	public void onBackPressed() {
+	@Override public void onBackPressed() {
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
 		else if (getFragmentManager().getBackStackEntryCount() > 0)
@@ -168,8 +159,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		}
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
+	@Override protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		actionBarDrawerToggle.syncState();
 	}

@@ -5,9 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
-import localhost.toolkit.R;
-
-public abstract class NetworkProgressAsyncTask<Params, Result> extends ProgressAsyncTask<Params, Result> {
+public abstract class NetworkProgressAsyncTask<P, R> extends ProgressAsyncTask<P, R> {
 	private NetworkInfo info;
 
 	public NetworkProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
@@ -20,7 +18,7 @@ public abstract class NetworkProgressAsyncTask<Params, Result> extends ProgressA
 		if (info != null && info.isConnected())
 			super.onPreExecute();
 		else {
-			Toast.makeText(activity, R.string.noConnection, Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity, localhost.toolkit.R.string.noConnection, Toast.LENGTH_SHORT).show();
 			cancel(true);
 		}
 	}

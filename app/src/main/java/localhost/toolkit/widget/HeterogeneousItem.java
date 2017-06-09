@@ -1,24 +1,25 @@
 package localhost.toolkit.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.Serializable;
 
-public abstract class HeterogeneousItem<Extra extends Serializable> {
+public abstract class HeterogeneousItem<E extends Serializable> {
 	protected Context context;
-	protected Extra extra;
+	protected E extra;
 	private OnHeterogeneousItemClickListener onHeterogeneousItemClickListener;
 	private OnHeterogeneousItemLongClickListener onHeterogeneousItemLongClickListener;
 
-	public HeterogeneousItem(Context context, Extra extra) {
+	public HeterogeneousItem(Context context, E extra) {
 		this.context = context;
 		this.extra = extra;
 	}
 
-	public abstract View onCreateView(LayoutInflater inflater, ViewGroup container);
+	@NonNull public abstract View onCreateView(LayoutInflater inflater, ViewGroup container);
 
 	public abstract void onResume(View view);
 
@@ -38,21 +39,13 @@ public abstract class HeterogeneousItem<Extra extends Serializable> {
 		this.onHeterogeneousItemLongClickListener = onHeterogeneousItemLongClickListener;
 	}
 
-	public Extra getExtra() {
+	public E getExtra() {
 		return extra;
 	}
 
 	@Override
 	public String toString() {
 		return extra.toString();
-	}
-
-	public interface OnHeterogeneousItemClickListener {
-		boolean onHeterogeneousItemClick(View v, int position, Serializable extra);
-	}
-
-	public interface OnHeterogeneousItemLongClickListener {
-		boolean onHeterogeneousItemLongClick(int position, Serializable extra);
 	}
 
 	@Override public boolean equals(Object o) {
@@ -64,5 +57,13 @@ public abstract class HeterogeneousItem<Extra extends Serializable> {
 
 	@Override public int hashCode() {
 		return extra.hashCode();
+	}
+
+	public interface OnHeterogeneousItemClickListener {
+		boolean onHeterogeneousItemClick(View v, int position, Serializable extra);
+	}
+
+	public interface OnHeterogeneousItemLongClickListener {
+		boolean onHeterogeneousItemLongClick(int position, Serializable extra);
 	}
 }

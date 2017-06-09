@@ -23,7 +23,8 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 		inflater = LayoutInflater.from(context);
 		groupTypes = new HashMap<>();
 		childTypes = new HashMap<>();
-		int groupTypeCount = 0, childTypeCount = 0;
+		int groupTypeCount = 0;
+		int childTypeCount = 0;
 		for (HeterogeneousItem item : groupItems)
 			if (!groupTypes.containsKey(item.getClass()))
 				groupTypes.put(item.getClass(), groupTypeCount++);
@@ -100,19 +101,17 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		HeterogeneousItem rowModel = groupItems.get(groupPosition);
-		if (convertView == null)
-			convertView = rowModel.onCreateView(inflater, parent);
-		rowModel.onResume(convertView);
-		return convertView;
+		View v = convertView == null ? rowModel.onCreateView(inflater, parent) : convertView;
+		rowModel.onResume(v);
+		return v;
 	}
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		HeterogeneousItem rowModel = childItems.get(groupPosition).get(childPosition);
-		if (convertView == null)
-			convertView = rowModel.onCreateView(inflater, parent);
-		rowModel.onResume(convertView);
-		return convertView;
+		View v = convertView == null ? rowModel.onCreateView(inflater, parent) : convertView;
+		rowModel.onResume(v);
+		return v;
 	}
 
 	@Override

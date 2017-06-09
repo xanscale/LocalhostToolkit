@@ -7,10 +7,9 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.inputmethod.InputMethodManager;
 
-import localhost.toolkit.R;
 import localhost.toolkit.app.ProgressDialogFragment;
 
-public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params, String, Result> {
+public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 	protected Activity activity;
 	private ProgressDialogFragment progressFragment;
 	private boolean cancellable;
@@ -27,7 +26,7 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 		super.onPreExecute();
 		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		if (progressFragment != null) {
-			progressFragment.show(activity.getFragmentManager(), R.string.prgsMessage, cancellable);
+			progressFragment.show(activity.getFragmentManager(), localhost.toolkit.R.string.prgsMessage, cancellable);
 			progressFragment.onCancel(new DialogInterface() {
 				@Override
 				public void dismiss() {
@@ -49,13 +48,13 @@ public abstract class ProgressAsyncTask<Params, Result> extends AsyncTask<Params
 	}
 
 	@Override
-	protected void onPostExecute(Result result) {
+	protected void onPostExecute(R result) {
 		super.onPostExecute(result);
 		onFinish();
 	}
 
 	@Override
-	protected void onCancelled(Result result) {
+	protected void onCancelled(R result) {
 		super.onCancelled(result);
 		onFinish();
 	}

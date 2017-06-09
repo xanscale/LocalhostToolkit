@@ -6,18 +6,18 @@ import android.view.ViewGroup;
 
 import java.io.Serializable;
 
-public abstract class HeterogeneousRecyclerItem<Extra extends Serializable, VH extends RecyclerView.ViewHolder> {
-	protected Extra extra;
+public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extends RecyclerView.ViewHolder> {
+	protected E extra;
 
-	public HeterogeneousRecyclerItem(Extra extra) {
+	public HeterogeneousRecyclerItem(E extra) {
 		this.extra = extra;
 	}
 
-	public abstract VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent);
+	public abstract H onCreateViewHolder(LayoutInflater inflater, ViewGroup parent);
 
-	public abstract void onBindViewHolder(VH holder);
+	public abstract void onBindViewHolder(H holder);
 
-	public Extra getExtra() {
+	public E getExtra() {
 		return extra;
 	}
 

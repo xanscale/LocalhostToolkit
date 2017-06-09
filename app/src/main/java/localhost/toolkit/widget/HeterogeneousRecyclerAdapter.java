@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.List;
 
-public class HeterogeneousRecyclerAdapter<HI extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private HashMap<Class, Integer> classToType;
 	private SparseIntArray typeToPos;
 	private LayoutInflater inflater;
-	private List<HI> items;
+	private List<I> items;
 
-	public HeterogeneousRecyclerAdapter(Context context, List<HI> items) {
+	public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
 		this.items = items;
 		inflater = LayoutInflater.from(context);
 		classToType = new HashMap<>();
@@ -36,7 +36,7 @@ public class HeterogeneousRecyclerAdapter<HI extends HeterogeneousRecyclerItem> 
 		items.get(position).onBindViewHolder(viewHolder);
 	}
 
-	public HI getItem(int position) {
+	public I getItem(int position) {
 		return items.get(position);
 	}
 

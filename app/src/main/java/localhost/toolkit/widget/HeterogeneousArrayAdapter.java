@@ -1,6 +1,7 @@
 package localhost.toolkit.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,7 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 
 	public static OnItemClickListener getOnItemClickListener() {
 		return new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			@Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				((HeterogeneousArrayAdapter) parent.getAdapter()).getItem(position).onItemClick(view, position);
 			}
 		};
@@ -44,22 +44,22 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 		};
 	}
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	@NonNull @Override public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 		HeterogeneousItem item = getItem(position);
-		if (convertView == null)
-			convertView = item.onCreateView(inflater, parent);
-		item.onResume(convertView);
-		return convertView;
+		if (item == null)
+			throw new IllegalStateException();
+		else {
+			View v = convertView == null ? item.onCreateView(inflater, parent) : convertView;
+			item.onResume(v);
+			return v;
+		}
 	}
 
-	@Override
-	public int getItemViewType(int position) {
+	@Override public int getItemViewType(int position) {
 		return types.isEmpty() ? super.getItemViewType(position) : types.get(getItem(position).getClass());
 	}
 
-	@Override
-	public int getViewTypeCount() {
+	@Override public int getViewTypeCount() {
 		return types.isEmpty() ? super.getViewTypeCount() : types.size();
 	}
 }
