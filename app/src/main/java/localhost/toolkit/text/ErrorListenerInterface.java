@@ -1,5 +1,5 @@
 package localhost.toolkit.text;
 
-interface ErrorListenerInterface {
+public interface ErrorListenerInterface {
 	boolean matches();
 }
