@@ -48,4 +48,8 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 	@Override public int getItemViewType(int position) {
 		return classToType.isEmpty() ? super.getItemViewType(position) : classToType.get(items.get(position).getClass());
 	}
+
+	@Override public long getItemId(int position) {
+		return getItem(position).hashCode();
+	}
 }
