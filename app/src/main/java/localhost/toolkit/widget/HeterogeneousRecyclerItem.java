@@ -24,4 +24,15 @@ public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extend
 	@Override public String toString() {
 		return extra.toString();
 	}
+
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof HeterogeneousRecyclerItem)) return false;
+		HeterogeneousRecyclerItem<?, ?> that = (HeterogeneousRecyclerItem<?, ?>) o;
+		return extra.equals(that.extra);
+	}
+
+	@Override public int hashCode() {
+		return extra.hashCode();
+	}
 }

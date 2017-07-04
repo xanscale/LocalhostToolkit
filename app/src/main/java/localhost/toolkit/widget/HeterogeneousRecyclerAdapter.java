@@ -16,6 +16,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 	private List<I> items;
 
 	public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
+		setHasStableIds(true);
 		this.items = items;
 		inflater = LayoutInflater.from(context);
 		classToType = new HashMap<>();
