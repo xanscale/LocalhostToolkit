@@ -110,19 +110,14 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 				int below = Integer.MAX_VALUE;
 				for (int n = 0; n < rv.getLayoutManager().getChildCount(); n++) {
 					View view = rv.getLayoutManager().getChildAt(n);
-					if (view.getVisibility() != View.VISIBLE)
-						continue;
+					if (view.getVisibility() != View.VISIBLE) continue;
 					int itemPos = rv.getChildAdapterPosition(view);
-					if (itemPos == selectedDragItemPos)
-						continue;
+					if (itemPos == selectedDragItemPos) continue;
 					float viewMiddleY = view.getTop() + view.getHeight() / 2;
-					if (floatMiddleY > viewMiddleY) {
-						if (itemPos > above)
-							above = itemPos;
-					} else if (floatMiddleY <= viewMiddleY) {
-						if (itemPos < below)
-							below = itemPos;
-					}
+					if (floatMiddleY > viewMiddleY && itemPos > above)
+						above = itemPos;
+					else if (floatMiddleY <= viewMiddleY && itemPos < below)
+						below = itemPos;
 				}
 				if (dragDropListener != null)
 					if (below != Integer.MAX_VALUE) {
