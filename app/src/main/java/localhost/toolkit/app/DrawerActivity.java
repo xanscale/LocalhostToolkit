@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import localhost.toolkit.R;
 
@@ -157,6 +158,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			else
 				onNavigationItemSelected(menuItem);
 		}
+	}
+
+	public View getHeaderView() {
+		return mNavigationView.getHeaderView(0);
 	}
 
 	@Override protected void onPostCreate(Bundle savedInstanceState) {
