@@ -75,16 +75,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	private MenuItem getHomeMenuItem(Menu menu) {
-		for (int i = 0; i < menu.size(); i++) {
-			if (menu.getItem(i).isVisible()) {
+		for (int i = 0; i < menu.size(); i++)
+			if (menu.getItem(i).isVisible() && menu.getItem(i).isEnabled())
 				if (menu.getItem(i).hasSubMenu()) {
 					MenuItem menuItem = getHomeMenuItem(menu.getItem(i).getSubMenu());
 					if (menuItem != null)
 						return menuItem;
 				} else
 					return menu.getItem(i);
-			}
-		}
 		return null;
 	}
 
