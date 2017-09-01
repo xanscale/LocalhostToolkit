@@ -2,16 +2,16 @@ package localhost.toolkit.widget;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private HashMap<Class, Integer> classToType;
-	private SparseIntArray typeToPos;
+	private ArrayList<Integer> typeToPos;
 	private LayoutInflater inflater;
 	private List<I> items;
 
@@ -20,13 +20,8 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		this.items = items;
 		inflater = LayoutInflater.from(context);
 		classToType = new HashMap<>();
-		typeToPos = new SparseIntArray();
-		int typeCount = 0;
-		for (int i = 0; i < items.size(); i++)
-			if (!classToType.containsKey(items.get(i).getClass())) {
-				classToType.put(items.get(i).getClass(), typeCount);
-				typeToPos.append(typeCount++, i);
-			}
+		typeToPos = new ArrayList<>();
+		notifyTypesChanged();
 	}
 
 	@Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,5 +46,13 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 
 	@Override public long getItemId(int position) {
 		return getItem(position).hashCode();
+	}
+
+	public void notifyTypesChanged() {
+		for (int i = 0; i < items.size(); i++)
+			if (!classToType.containsKey(items.get(i).getClass())) {
+				classToType.put(items.get(i).getClass(), typeToPos.size());
+				typeToPos.add(i);
+			}
 	}
 }
