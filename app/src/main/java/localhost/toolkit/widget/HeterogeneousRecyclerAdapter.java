@@ -54,5 +54,6 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 				classToType.put(items.get(i).getClass(), typeToPos.size());
 				typeToPos.add(i);
 			}
+		notifyDataSetChanged();
 	}
 }
