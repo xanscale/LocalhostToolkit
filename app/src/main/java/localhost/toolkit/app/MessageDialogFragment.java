@@ -3,7 +3,6 @@ package localhost.toolkit.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -14,6 +13,16 @@ public class MessageDialogFragment extends DialogFragment {
 	private static final String KEY_MSG = "KEY_MSG";
 	private static final String KEY_EXIT = "KEY_EXIT";
 
+	public static MessageDialogFragment newInstance(String title, String result, boolean exit) {
+		Bundle args = new Bundle();
+		args.putString(KEY_TIT, title);
+		args.putString(KEY_MSG, result);
+		args.putBoolean(KEY_EXIT, exit);
+		MessageDialogFragment fragment = new MessageDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -23,19 +32,6 @@ public class MessageDialogFragment extends DialogFragment {
 		setCancelable(false);
 		builder.setCancelable(false);
 		return builder.create();
-	}
-
-	public void show(FragmentManager fragmentManager, String title, String result, boolean exit) {
-		Bundle arguments = new Bundle(3);
-		arguments.putString(KEY_TIT, title);
-		arguments.putString(KEY_MSG, result);
-		arguments.putBoolean(KEY_EXIT, exit);
-		setArguments(arguments);
-		try {
-			show(fragmentManager, getClass().getSimpleName());
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private final class ExitOnClickListener implements OnClickListener {

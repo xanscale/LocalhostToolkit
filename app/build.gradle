@@ -11,5 +11,5 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:design:27.0.0'
+	compile 'com.android.support:design:27.0.1'
 }

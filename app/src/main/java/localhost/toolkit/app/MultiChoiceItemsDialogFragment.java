@@ -3,7 +3,6 @@ package localhost.toolkit.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -17,6 +16,28 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
 	private static final String KEY_LIST_STRGS = "KEY_LIST_STRGS";
 	private boolean[] checkedItems;
 
+	public static MultiChoiceItemsDialogFragment newInstance(Serializable extra, int title, int list, boolean[] checkedItems) {
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_EXTRA, extra);
+		args.putInt(KEY_TITLE, title);
+		args.putInt(KEY_LIST_RESID, list);
+		args.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
+		MultiChoiceItemsDialogFragment fragment = new MultiChoiceItemsDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	public static MultiChoiceItemsDialogFragment newInstance(Serializable extra, int title, String[] list, boolean[] checkedItems) {
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_EXTRA, extra);
+		args.putInt(KEY_TITLE, title);
+		args.putStringArray(KEY_LIST_STRGS, list);
+		args.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
+		MultiChoiceItemsDialogFragment fragment = new MultiChoiceItemsDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -29,26 +50,6 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
 		builder.setNegativeButton(android.R.string.cancel, null);
 		builder.setPositiveButton(android.R.string.ok, this);
 		return builder.create();
-	}
-
-	public void show(FragmentManager fragmentManager, Serializable extra, int title, int list, boolean[] checkedItems) {
-		Bundle b = new Bundle(3);
-		b.putSerializable(KEY_EXTRA, extra);
-		b.putInt(KEY_TITLE, title);
-		b.putInt(KEY_LIST_RESID, list);
-		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
-		setArguments(b);
-		show(fragmentManager, getClass().getSimpleName());
-	}
-
-	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list, boolean[] checkedItems) {
-		Bundle b = new Bundle(3);
-		b.putSerializable(KEY_EXTRA, extra);
-		b.putInt(KEY_TITLE, title);
-		b.putStringArray(KEY_LIST_STRGS, list);
-		b.putBooleanArray(KEY_CHECKED_ITEMS, checkedItems);
-		setArguments(b);
-		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	public void onClick(DialogInterface dialog, int which) {

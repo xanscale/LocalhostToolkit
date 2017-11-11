@@ -3,7 +3,6 @@ package localhost.toolkit.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -16,6 +15,15 @@ public class EditTextDialogFragment extends DialogFragment {
 	public static final String KEY_VALUE = "KEY_VALUE";
 	private static final String KEY_TITLE = "KEY_TITLE";
 	private EditText editText;
+
+	public static EditTextDialogFragment newInstance(int title, String value) {
+		Bundle args = new Bundle();
+		args.putInt(KEY_TITLE, title);
+		args.putString(KEY_VALUE, value);
+		EditTextDialogFragment fragment = new EditTextDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -37,14 +45,6 @@ public class EditTextDialogFragment extends DialogFragment {
 		return builder.create();
 	}
 
-	public void show(FragmentManager fragmentManager, int title, String value) {
-		Bundle arguments = new Bundle(4);
-		arguments.putInt(KEY_TITLE, title);
-		arguments.putString(KEY_VALUE, value);
-		setArguments(arguments);
-		show(fragmentManager, getClass().getSimpleName());
-	}
-
 	private OnEditTextListener getOnEditTextListener() {
 		OnEditTextListener l = (OnEditTextListener) getParentFragment();
 		if (l == null)
@@ -53,6 +53,6 @@ public class EditTextDialogFragment extends DialogFragment {
 	}
 
 	public interface OnEditTextListener {
-		boolean onEditTextDialogResult(String value);
+		void onEditTextDialogResult(String value);
 	}
 }

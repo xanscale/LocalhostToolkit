@@ -3,7 +3,6 @@ package localhost.toolkit.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -15,6 +14,26 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 	private static final String KEY_LIST_RESID = "KEY_LIST_RESID";
 	private static final String KEY_LIST_STRGS = "KEY_LIST_STRGS";
 
+	public static ItemsDialogFragment newInstance(Serializable extra, int title, int list) {
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_EXTRA, extra);
+		args.putInt(KEY_TITLE, title);
+		args.putInt(KEY_LIST_RESID, list);
+		ItemsDialogFragment fragment = new ItemsDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	public static ItemsDialogFragment newInstance(Serializable extra, int title, String[] list) {
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_EXTRA, extra);
+		args.putInt(KEY_TITLE, title);
+		args.putStringArray(KEY_LIST_STRGS, list);
+		ItemsDialogFragment fragment = new ItemsDialogFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -24,24 +43,6 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		else
 			builder.setItems(getArguments().getInt(KEY_LIST_RESID), this);
 		return builder.create();
-	}
-
-	public void show(FragmentManager fragmentManager, Serializable extra, int title, int list) {
-		Bundle b = new Bundle(3);
-		b.putSerializable(KEY_EXTRA, extra);
-		b.putInt(KEY_TITLE, title);
-		b.putInt(KEY_LIST_RESID, list);
-		setArguments(b);
-		show(fragmentManager, getClass().getSimpleName());
-	}
-
-	public void show(FragmentManager fragmentManager, Serializable extra, int title, String[] list) {
-		Bundle b = new Bundle(3);
-		b.putSerializable(KEY_EXTRA, extra);
-		b.putInt(KEY_TITLE, title);
-		b.putStringArray(KEY_LIST_STRGS, list);
-		setArguments(b);
-		show(fragmentManager, getClass().getSimpleName());
 	}
 
 	@Override
