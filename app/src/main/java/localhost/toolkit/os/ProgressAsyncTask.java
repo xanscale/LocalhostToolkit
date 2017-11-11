@@ -12,13 +12,11 @@ import localhost.toolkit.app.ProgressDialogFragment;
 public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 	protected Activity activity;
 	private ProgressDialogFragment progressFragment;
-	private boolean cancellable;
 
 	public ProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
 		this.activity = activity;
-		this.cancellable = cancellable;
 		if (progress)
-			progressFragment = new ProgressDialogFragment();
+			progressFragment = ProgressDialogFragment.newInstance(localhost.toolkit.R.string.prgsMessage, cancellable);
 	}
 
 	@Override
@@ -26,7 +24,7 @@ public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 		super.onPreExecute();
 		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		if (progressFragment != null) {
-			progressFragment.show(activity.getFragmentManager(), localhost.toolkit.R.string.prgsMessage, cancellable);
+			progressFragment.show(activity.getFragmentManager(), null);
 			progressFragment.onCancel(new DialogInterface() {
 				@Override
 				public void dismiss() {
