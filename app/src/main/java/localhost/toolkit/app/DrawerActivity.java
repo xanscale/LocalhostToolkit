@@ -31,7 +31,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		setContentView(R.layout.drawer);
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerLayout = findViewById(R.id.drawer_layout);
 		mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), drawerLayout, false);
 		drawerLayout.addView(mNavigationView);
 		mNavigationView.setNavigationItemSelectedListener(this);

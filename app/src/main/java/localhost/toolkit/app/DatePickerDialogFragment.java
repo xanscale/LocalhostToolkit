@@ -11,7 +11,7 @@ import java.util.Calendar;
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 	private static final String DATE = "DATE";
 
-	public static DatePickerDialogFragment newInstance(String tag, long date) {
+	public static DatePickerDialogFragment newInstance(long date) {
 		Bundle args = new Bundle();
 		args.putLong(DATE, date);
 		DatePickerDialogFragment fragment = new DatePickerDialogFragment();
