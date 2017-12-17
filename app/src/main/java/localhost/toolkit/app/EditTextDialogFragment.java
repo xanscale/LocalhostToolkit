@@ -9,15 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.io.Serializable;
+
 import localhost.toolkit.R;
 
 public class EditTextDialogFragment extends DialogFragment {
 	public static final String KEY_VALUE = "KEY_VALUE";
 	private static final String KEY_TITLE = "KEY_TITLE";
+	private static final String KEY_EXTRA = "KEY_EXTRA";
 	private EditText editText;
 
-	public static EditTextDialogFragment newInstance(int title, String value) {
+	public static EditTextDialogFragment newInstance(Serializable extra, int title, String value) {
 		Bundle args = new Bundle();
+		args.putSerializable(KEY_EXTRA, extra);
 		args.putInt(KEY_TITLE, title);
 		args.putString(KEY_VALUE, value);
 		EditTextDialogFragment fragment = new EditTextDialogFragment();
@@ -31,7 +35,7 @@ public class EditTextDialogFragment extends DialogFragment {
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override public void onClick(DialogInterface dialogInterface, int i) {
 				if (editText.length() != 0)
-					getOnEditTextListener().onEditTextDialogResult(editText.getText().toString());
+					getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(KEY_EXTRA), editText.getText().toString());
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
@@ -53,6 +57,6 @@ public class EditTextDialogFragment extends DialogFragment {
 	}
 
 	public interface OnEditTextListener {
-		void onEditTextDialogResult(String value);
+		void onEditTextDialogResult(Serializable extra, String value);
 	}
 }
