@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,14 +28,16 @@ public class MediaPicker {
 		this.context = context;
 	}
 
-	public Intent getIntent(MediaType mediaType) {
+	public Intent getIntent(MediaType mediaType) throws IOException {
 		this.mediaType = mediaType;
 		switch (mediaType) {
 			case PHOTO:
-				uri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg"));
-				return Intent.createChooser(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)});
+				uri = FileProvider.getUriForFile(context, "localhost.toolkit.fileprovider", File.createTempFile("photo", "jpg"));
+				return Intent.createChooser(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri), null)
+						.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)});
 			case VIDEO:
-				return Intent.createChooser(new Intent(MediaStore.ACTION_VIDEO_CAPTURE), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)});
+				return Intent.createChooser(new Intent(MediaStore.ACTION_VIDEO_CAPTURE), null)
+						.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)});
 			case GENERIC:
 				return new Intent(Intent.ACTION_GET_CONTENT).setType("*/*");
 			default:
