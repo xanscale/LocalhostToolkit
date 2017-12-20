@@ -33,11 +33,9 @@ public class MediaPicker {
 		switch (mediaType) {
 			case PHOTO:
 				uri = FileProvider.getUriForFile(context, "localhost.toolkit.fileprovider", File.createTempFile("photo", "jpg"));
-				return Intent.createChooser(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri), null)
-						.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)});
+				return Intent.createChooser(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri)});
 			case VIDEO:
-				return Intent.createChooser(new Intent(MediaStore.ACTION_VIDEO_CAPTURE), null)
-						.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)});
+				return Intent.createChooser(new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI), null).putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_VIDEO_CAPTURE)});
 			case GENERIC:
 				return new Intent(Intent.ACTION_GET_CONTENT).setType("*/*");
 			default:
