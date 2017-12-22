@@ -109,8 +109,13 @@ public class MediaPicker {
 		return byteBuffer.toByteArray();
 	}
 
+	public String getMimeType() {
+		return context.getContentResolver().getType(uri);
+	}
+
 	public File getTempFile() throws IOException {
-		File file = File.createTempFile("media", null);
+		String[] split = getMimeType().split("/");
+		File file = File.createTempFile(split[0], "." + split[1]);
 		InputStream inputStream = context.getContentResolver().openInputStream(uri);
 		OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
 		byte[] buffer = new byte[1024];
