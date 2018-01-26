@@ -14,7 +14,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 	private static final String KEY_MSG = "message";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_EXTRA = "extra";
-	private static final String KEY_NBT = "extra";
+	private static final String KEY_NBT = "neutralButtonText";
 
 	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg) {
 		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
