@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 
 import java.io.Serializable;
 
@@ -13,15 +14,27 @@ public class ConfirmDialogFragment extends DialogFragment {
 	private static final String KEY_MSG = "message";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_EXTRA = "extra";
+	private static final String KEY_NBT = "extra";
 
 	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg) {
+		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
+		fragment.setArguments(getBundle(extra, title, msg, null));
+		return fragment;
+	}
+
+	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg, String neutralButtonText) {
+		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
+		fragment.setArguments(getBundle(extra, title, msg, neutralButtonText));
+		return fragment;
+	}
+
+	private static Bundle getBundle(Serializable extra, String title, String msg, String neutralButtonText) {
 		Bundle args = new Bundle();
 		args.putString(KEY_TITLE, title);
 		args.putString(KEY_MSG, msg);
+		args.putString(KEY_NBT, neutralButtonText);
 		args.putSerializable(KEY_EXTRA, extra);
-		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
-		fragment.setArguments(args);
-		return fragment;
+		return args;
 	}
 
 	@Override
@@ -29,20 +42,28 @@ public class ConfirmDialogFragment extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		String title = getArguments().getString(KEY_TITLE);
 		String msg = getArguments().getString(KEY_MSG);
+		String neutralButtonText = getArguments().getString(KEY_NBT);
 		builder.setTitle(title);
 		builder.setMessage(msg);
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), true);
+				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_POSITIVE);
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), false);
+				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEGATIVE);
 			}
 		});
+		if (neutralButtonText != null)
+			builder.setNegativeButton(neutralButtonText, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL);
+				}
+			});
 		setCancelable(false);
 		builder.setCancelable(false);
 		return builder.create();
@@ -55,7 +76,10 @@ public class ConfirmDialogFragment extends DialogFragment {
 		return l;
 	}
 
+	@IntDef({DialogInterface.BUTTON_POSITIVE, DialogInterface.BUTTON_NEGATIVE, DialogInterface.BUTTON_NEUTRAL}) @interface ConfirmDialogButton {
+	}
+
 	public interface OnConfirmedListener {
-		void onConfirmation(Serializable extra, boolean confirmed);
+		void onConfirmation(Serializable extra, @ConfirmDialogButton int buttonClicked);
 	}
 }
