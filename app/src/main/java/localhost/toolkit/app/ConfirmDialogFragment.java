@@ -58,7 +58,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 			}
 		});
 		if (neutralButtonText != null)
-			builder.setNegativeButton(neutralButtonText, new OnClickListener() {
+			builder.setNeutralButton(neutralButtonText, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL);
