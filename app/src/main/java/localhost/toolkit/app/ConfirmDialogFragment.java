@@ -5,12 +5,15 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 
 import java.io.Serializable;
 
 public class ConfirmDialogFragment extends DialogFragment {
+	public static final String KEY_ICON = "icon";
 	private static final String KEY_MSG = "message";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_EXTRA = "extra";
@@ -18,22 +21,23 @@ public class ConfirmDialogFragment extends DialogFragment {
 
 	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg) {
 		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
-		fragment.setArguments(getBundle(extra, title, msg, null));
+		fragment.setArguments(getBundle(extra, title, msg, null, null));
 		return fragment;
 	}
 
-	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg, String neutralButtonText) {
+	public static ConfirmDialogFragment newInstance(Serializable extra, String title, String msg, Bitmap icon, String neutralButtonText) {
 		ConfirmDialogFragment fragment = new ConfirmDialogFragment();
-		fragment.setArguments(getBundle(extra, title, msg, neutralButtonText));
+		fragment.setArguments(getBundle(extra, title, msg, icon, neutralButtonText));
 		return fragment;
 	}
 
-	private static Bundle getBundle(Serializable extra, String title, String msg, String neutralButtonText) {
+	private static Bundle getBundle(Serializable extra, String title, String msg, Bitmap icon, String neutralButtonText) {
 		Bundle args = new Bundle();
 		args.putString(KEY_TITLE, title);
 		args.putString(KEY_MSG, msg);
 		args.putString(KEY_NBT, neutralButtonText);
 		args.putSerializable(KEY_EXTRA, extra);
+		args.putParcelable(KEY_ICON, icon);
 		return args;
 	}
 
@@ -43,8 +47,11 @@ public class ConfirmDialogFragment extends DialogFragment {
 		String title = getArguments().getString(KEY_TITLE);
 		String msg = getArguments().getString(KEY_MSG);
 		String neutralButtonText = getArguments().getString(KEY_NBT);
+		Bitmap icon = getArguments().getParcelable(KEY_ICON);
 		builder.setTitle(title);
 		builder.setMessage(msg);
+		if (icon != null)
+			builder.setIcon(new BitmapDrawable(getResources(), icon));
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
