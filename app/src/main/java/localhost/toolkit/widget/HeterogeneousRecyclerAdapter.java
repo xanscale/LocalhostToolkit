@@ -81,10 +81,10 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 				results.count = originalItems.size();
 			} else {
 				StringBuilder sb = new StringBuilder();
-				sb.append("^.+");
+				sb.append("^\\X*");
 				for (String word : constraint.toString().toLowerCase().split("\\W\\D"))
 					sb.append("(?=.*").append(word).append(")");
-				sb.append(".+$");
+				sb.append("\\X*$");
 				ArrayList<I> newValues = new ArrayList<>();
 				Pattern pattern = Pattern.compile(sb.toString());
 				for (I value : originalItems)
