@@ -81,13 +81,13 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 				results.count = originalItems.size();
 			} else {
 				StringBuilder sb = new StringBuilder();
-				for (String word : constraint.toString().split("\\W\\D"))
+				for (String word : constraint.toString().toLowerCase().split("\\W\\D"))
 					sb.append("(?=.*").append(word).append(")");
 				sb.append(".+");
 				ArrayList<I> newValues = new ArrayList<>();
 				Pattern pattern = Pattern.compile(sb.toString());
 				for (I value : originalItems)
-					if (pattern.matcher(value.toString()).matches())
+					if (pattern.matcher(value.toString().toLowerCase()).matches())
 						newValues.add(value);
 				results.values = newValues;
 				results.count = newValues.size();
