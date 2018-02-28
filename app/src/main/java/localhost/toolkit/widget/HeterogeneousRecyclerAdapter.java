@@ -20,6 +20,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 	private LayoutInflater inflater;
 	private List<I> items;
 	private List<I> originalItems;
+	private HeterogeneousFilterCallback heterogeneousFilterCallback;
 
 	public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
 		setHasStableIds(true);
@@ -71,11 +72,15 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		return heterogeneousFilter;
 	}
 
-	public void setFilter(HeterogeneousFilter heterogeneousFilter) {
-		this.heterogeneousFilter = heterogeneousFilter;
+	public void setHeterogeneousFilterCallback(HeterogeneousFilterCallback heterogeneousFilterCallback) {
+		this.heterogeneousFilterCallback = heterogeneousFilterCallback;
 	}
 
-	public class HeterogeneousFilter extends Filter {
+	public interface HeterogeneousFilterCallback {
+		void onResultsPublished();
+	}
+
+	private class HeterogeneousFilter extends Filter {
 		@Override protected FilterResults performFiltering(CharSequence constraint) {
 			FilterResults results = new FilterResults();
 			if (originalItems == null)
@@ -103,6 +108,8 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		@Override protected void publishResults(CharSequence constraint, FilterResults results) {
 			items = (List<I>) results.values;
 			notifyDataSetChanged();
+			if (heterogeneousFilterCallback != null)
+				heterogeneousFilterCallback.onResultsPublished();
 		}
 	}
 }
