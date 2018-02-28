@@ -71,7 +71,11 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		return heterogeneousFilter;
 	}
 
-	private class HeterogeneousFilter extends Filter {
+	public void setFilter(HeterogeneousFilter heterogeneousFilter) {
+		this.heterogeneousFilter = heterogeneousFilter;
+	}
+
+	public class HeterogeneousFilter extends Filter {
 		@Override protected FilterResults performFiltering(CharSequence constraint) {
 			FilterResults results = new FilterResults();
 			if (originalItems == null)
