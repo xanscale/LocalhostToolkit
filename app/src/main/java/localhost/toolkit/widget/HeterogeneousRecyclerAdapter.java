@@ -82,7 +82,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 			} else {
 				StringBuilder sb = new StringBuilder();
 				sb.append("^\\X*");
-				for (String word : constraint.toString().toLowerCase().split("\\W\\D"))
+				for (String word : constraint.toString().toLowerCase().split("\\W"))
 					sb.append("(?=.*").append(word).append(")");
 				sb.append("\\X*$");
 				ArrayList<I> newValues = new ArrayList<>();
