@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.XmlRes;
 import android.support.v14.preference.PreferenceFragment;
 import android.support.v7.preference.PreferenceScreen;
+import android.util.Log;
 
 /**
  * This is v14 PreferenceFragment with PreferenceScreen managed to works correctly with <code>AppCompatActivity</code>. Example of usage:
@@ -21,12 +22,17 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 	}
 
 	@Override public boolean onPreferenceStartScreen(PreferenceFragment preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
-		ExtendedPreferenceFragment fragment = newInstance();
-		Bundle args = new Bundle();
-		args.putString(PreferenceFragment.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
-		fragment.setArguments(args);
-		getFragmentManager().beginTransaction().replace(getPreferenceContainerResId(), fragment).addToBackStack(null).commit();
-		return true;
+		if (preferenceScreen.getKey() == null) {
+			Log.w("ExtendedPreferenceFrag", "ExtendedPreferenceFragment require 'android:key' attribute to be set in PreferenceScreen.");
+			return false;
+		} else {
+			ExtendedPreferenceFragment fragment = newInstance();
+			Bundle args = new Bundle();
+			args.putString(PreferenceFragment.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+			fragment.setArguments(args);
+			getFragmentManager().beginTransaction().replace(getPreferenceContainerResId(), fragment).addToBackStack(null).commit();
+			return true;
+		}
 	}
 
 	@Override public Fragment getCallbackFragment() {
