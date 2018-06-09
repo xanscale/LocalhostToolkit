@@ -3,29 +3,29 @@ package localhost.toolkit.preference;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.support.v14.preference.PreferenceFragment;
 import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
 
 /**
- * This is v14 PreferenceFragment with PreferenceScreen managed to works correctly with <code>AppCompatActivity</code>. Example of usage:
- * <pre>{@code public class MyPreferenceFragment extends ExtendedPreferenceFragment<MyPreferenceFragment> {
- *    @literal @Override protected int getPreferenceResId() { return R.xml.preferences; }
- *    @literal @Override protected int getPreferenceContainerResId() { return R.id.content; }
- *    @literal @Override protected MyPreferenceFragment newInstance() { return new MyPreferenceFragment(); }
- * }}</pre>
+ * <pre>{@code
+ * public static class PrefsFragment extends PreferenceFragment {
+ *
+ * @literal @Override
+ * 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+ * 		setPreferencesFromResource(R.xml.preferences, R.id.container ,rootKey);
+ * 	}
+ * }
+ * }</pre>
  */
 public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFragment> extends PreferenceFragment implements PreferenceFragment.OnPreferenceStartScreenCallback {
-	private String rootKey;
+	private int preferencesContainerResId;
 
-	@Override public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-		this.rootKey = rootKey;
-	}
-
-	@Override public void onResume() {
-		super.onResume();
-		setPreferencesFromResource(getPreferenceResId(), rootKey);
+	public void setPreferencesFromResource(@XmlRes int preferencesResId, @IdRes int preferencesContainerResId, @Nullable String key) {
+		super.setPreferencesFromResource(preferencesResId, key);
+		this.preferencesContainerResId = preferencesContainerResId;
 	}
 
 	@Override public boolean onPreferenceStartScreen(PreferenceFragment preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
@@ -37,7 +37,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 			Bundle args = new Bundle();
 			args.putString(PreferenceFragment.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
 			fragment.setArguments(args);
-			getFragmentManager().beginTransaction().replace(getPreferenceContainerResId(), fragment).addToBackStack(null).commit();
+			getFragmentManager().beginTransaction().replace(preferencesContainerResId, fragment).addToBackStack(null).commit();
 			return true;
 		}
 	}
@@ -45,16 +45,6 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 	@Override public Fragment getCallbackFragment() {
 		return this;
 	}
-
-	/**
-	 * @return preference resource id like R.xml.preferences
-	 */
-	protected abstract @XmlRes int getPreferenceResId();
-
-	/**
-	 * @return preference container resource Id like R.id.content
-	 */
-	protected abstract @IdRes int getPreferenceContainerResId();
 
 	/**
 	 * @return Instance of extended class
