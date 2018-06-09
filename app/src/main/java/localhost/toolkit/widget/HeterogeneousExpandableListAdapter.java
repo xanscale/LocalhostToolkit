@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 import java.util.ArrayList;
@@ -35,12 +34,7 @@ public class HeterogeneousExpandableListAdapter extends BaseExpandableListAdapte
 	}
 
 	public static OnChildClickListener getOnChildClickListener() {
-		return new OnChildClickListener() {
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-				return ((HeterogeneousItem) parent.getExpandableListAdapter().getChild(groupPosition, childPosition)).onItemClick(v, 0);
-			}
-		};
+		return (parent, v, groupPosition, childPosition, id) -> ((HeterogeneousItem) parent.getExpandableListAdapter().getChild(groupPosition, childPosition)).onItemClick(v, 0);
 	}
 
 	@Override

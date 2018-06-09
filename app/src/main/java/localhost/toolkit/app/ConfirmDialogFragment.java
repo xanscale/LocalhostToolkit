@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -52,25 +51,10 @@ public class ConfirmDialogFragment extends DialogFragment {
 		builder.setMessage(msg);
 		if (icon != null)
 			builder.setIcon(new BitmapDrawable(getResources(), icon));
-		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_POSITIVE);
-			}
-		});
-		builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEGATIVE);
-			}
-		});
+		builder.setPositiveButton(android.R.string.ok, (dialog, which) -> getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_POSITIVE));
+		builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEGATIVE));
 		if (neutralButtonText != null)
-			builder.setNeutralButton(neutralButtonText, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL);
-				}
-			});
+			builder.setNeutralButton(neutralButtonText, (dialog, which) -> getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL));
 		setCancelable(false);
 		builder.setCancelable(false);
 		return builder.create();

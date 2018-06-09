@@ -3,8 +3,6 @@ package localhost.toolkit.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -32,11 +30,9 @@ public class EditTextDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-			@Override public void onClick(DialogInterface dialogInterface, int i) {
-				if (editText.length() != 0)
-					getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(KEY_EXTRA), editText.getText().toString());
-			}
+		builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+			if (editText.length() != 0)
+				getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(KEY_EXTRA), editText.getText().toString());
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
 		View v = View.inflate(getActivity(), R.layout.edittext, null);

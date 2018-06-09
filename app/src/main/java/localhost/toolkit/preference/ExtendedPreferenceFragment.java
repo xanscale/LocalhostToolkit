@@ -17,7 +17,14 @@ import android.util.Log;
  * }}</pre>
  */
 public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFragment> extends PreferenceFragment implements PreferenceFragment.OnPreferenceStartScreenCallback {
+	private String rootKey;
+
 	@Override public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+		this.rootKey = rootKey;
+	}
+
+	@Override public void onResume() {
+		super.onResume();
 		setPreferencesFromResource(getPreferenceResId(), rootKey);
 	}
 

@@ -30,11 +30,11 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		notifyTypesChanged();
 	}
 
-	@Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	@NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		return items.get(typeToPos.get(viewType)).onCreateViewHolder(inflater, parent);
 	}
 
-	@Override public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+	@Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 		items.get(position).onBindViewHolder(viewHolder);
 	}
 

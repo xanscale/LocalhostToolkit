@@ -11,12 +11,11 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 	private int currentPage = 0;
 	private int previousTotalItemCount = 0;
 	private boolean loading = true;
-	private int startingPageIndex = 0;
 
 	/**
 	 * RecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(LayoutManager) {})
 	 *
-	 * @param layoutManager
+	 * @param layoutManager used by RecyclerView
 	 */
 	public EndlessRecyclerViewScrollListener(RecyclerView.LayoutManager layoutManager) {
 		this.mLayoutManager = layoutManager;
@@ -49,7 +48,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 		else if (mLayoutManager instanceof GridLayoutManager)
 			lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
 		if (totalItemCount < previousTotalItemCount) {
-			this.currentPage = this.startingPageIndex;
+			this.currentPage = 0;
 			this.previousTotalItemCount = totalItemCount;
 			if (totalItemCount == 0) {
 				this.loading = true;
@@ -71,7 +70,6 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 	 *
 	 * @param page            to be loaded
 	 * @param totalItemsCount in current list
-	 * @return true if more data is being loaded, false if there is no more data to load.
 	 */
 	public abstract void onLoadMore(int page, int totalItemsCount);
 }
