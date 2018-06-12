@@ -8,17 +8,20 @@ import android.widget.EditText;
 import java.util.regex.Pattern;
 
 public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerInterface {
-	public static final String REGEX_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	public static final String REGEX_URL = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$";
-	public static final String REGEX_NOTEMPTY = ".+";
-	public static final String REGEX_DATE_DDMMYYYY = "^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
+	public static final Pattern PATTERN_EMAIL = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	public static final Pattern PATTERN_NOTEMPTY = Pattern.compile(".+");
+	public static final Pattern PATTERN_DATE_DDMMYYYY = Pattern.compile("^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$");
 	private EditText editText;
-	private String regex, errorMsg;
+	private Pattern pattern;
+	private String errorMsg;
 
-	public ErrorRegexListener(EditText editText, String regex, String errorMsg) {
+	/**
+	 * @param pattern Use embedded or android.util.Patterns
+	 */
+	public ErrorRegexListener(EditText editText, Pattern pattern, String errorMsg) {
 		this.editText = editText;
 		this.editText.setOnFocusChangeListener(this);
-		this.regex = regex;
+		this.pattern = pattern;
 		this.errorMsg = errorMsg;
 		new ClearErrorTextWatcher(editText);
 	}
@@ -31,7 +34,7 @@ public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerI
 
 	@Override
 	public boolean matches() {
-		if (!Pattern.matches(regex, editText.getText().toString().trim())) {
+		if (!pattern.matcher(editText.getText().toString().trim()).matches()) {
 			try {
 				((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
 			} catch (Exception e) {
