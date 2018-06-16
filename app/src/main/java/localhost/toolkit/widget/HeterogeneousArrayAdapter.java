@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -27,11 +28,20 @@ public class HeterogeneousArrayAdapter extends ArrayAdapter<HeterogeneousItem> {
 	}
 
 	public static OnItemClickListener getOnItemClickListener() {
-		return (parent, view, position, id) -> ((HeterogeneousArrayAdapter) parent.getAdapter()).getItem(position).onItemClick(view, position);
+		return new OnItemClickListener() {
+			@Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				((HeterogeneousArrayAdapter) parent.getAdapter()).getItem(position).onItemClick(view, position);
+			}
+		};
 	}
 
 	public static OnItemLongClickListener getOnItemLongClickListener() {
-		return (parent, view, position, id) -> ((HeterogeneousArrayAdapter) parent.getAdapter()).getItem(position).onItemLongClick(position);
+		return new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				return ((HeterogeneousArrayAdapter) parent.getAdapter()).getItem(position).onItemLongClick(position);
+			}
+		};
 	}
 
 	@NonNull @Override public View getView(int position, View convertView, @NonNull ViewGroup parent) {
