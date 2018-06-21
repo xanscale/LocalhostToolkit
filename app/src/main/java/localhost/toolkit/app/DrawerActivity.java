@@ -125,7 +125,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			currMenuItemId = menuItem.getItemId();
 			mNavigationView.setCheckedItem(menuItem.getItemId());
 			setTitle(menuItem.getTitle());
-			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
+			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commitAllowingStateLoss();
 		}
 		return true;
 	}
@@ -150,11 +150,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		else if (getFragmentManager().getBackStackEntryCount() > 0)
 			getFragmentManager().popBackStack();
 		else {
-			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
-			if (menuItem == null || currMenuItemId == menuItem.getItemId())
-				super.onBackPressed();
-			else
-				onNavigationItemSelected(menuItem);
+			//		MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+			//		if (menuItem == null || currMenuItemId == menuItem.getItemId())
+			super.onBackPressed();
+//			else
+//				onNavigationItemSelected(menuItem);
 		}
 	}
 
