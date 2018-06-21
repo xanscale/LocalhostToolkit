@@ -125,7 +125,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			currMenuItemId = menuItem.getItemId();
 			mNavigationView.setCheckedItem(menuItem.getItemId());
 			setTitle(menuItem.getTitle());
-			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commitAllowingStateLoss();
+			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
 		}
 		return true;
 	}
