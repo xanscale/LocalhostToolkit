@@ -1,6 +1,19 @@
+Add it in your root build.gradle:
+```
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+Add it in your module build.gradle:
+```
+dependencies {
+	implementation 'com.github.xanscale.LocalhostToolkit:visiontextdetectorview:-SNAPSHOT'
+}
+```
 This library require to Add Firebase to Your Android Project:
 https://firebase.google.com/docs/android/setup
-
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <it.localhostsoftware.visiontextdetectorview.VisionTextDetectorView 
