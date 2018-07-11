@@ -1,19 +1,14 @@
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<it.localhostsoftware.visiontextdetectorview.VisionTextDetectorView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/camera"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-
-	<it.vjtechnology.whereapp.fragment.VisionTextDetectorView
-		android:id="@+id/camera"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:adjustViewBounds="true"
-		app:facing="back"/>
-</FrameLayout>
+	android:layout_height="match_parent"
+	android:adjustViewBounds="true"
+	app:facing="back"/>
 ```
-
 ```java
 public class CameraFragment extends Fragment implements VisionTextDetectorView.Callback {
 	@BindView(R.id.camera) VisionTextDetectorView mCameraView;
