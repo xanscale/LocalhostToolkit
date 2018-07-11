@@ -1,3 +1,6 @@
+This library require to Add Firebase to Your Android Project:
+https://firebase.google.com/docs/android/setup
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <it.localhostsoftware.visiontextdetectorview.VisionTextDetectorView 
@@ -11,24 +14,24 @@
 ```
 ```java
 public class CameraFragment extends Fragment implements VisionTextDetectorView.Callback {
-	@BindView(R.id.camera) VisionTextDetectorView mCameraView;
+	private VisionTextDetectorView view;
 
 	@Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.camera, container, false);
-		ButterKnife.bind(this, v);
-		mCameraView.setPattern(ErrorRegexListener.PATTERN_SSN_IT);
-		mCameraView.setCallback(this);
-		mCameraView.setDelayMillis(3000);
+		view = v.findViewById(R.id.camera);
+		view.setPattern(ErrorRegexListener.PATTERN_SSN_IT);
+		view.setCallback(this);
+		view.setDelayMillis(3000);
 		return v;
 	}
 
 	@Override public void onResume() {
 		super.onResume();
-		mCameraView.start();
+		view.start();
 	}
 
 	@Override public void onPause() {
-		mCameraView.stop();
+		view.stop();
 		super.onPause();
 	}
 
@@ -36,4 +39,5 @@ public class CameraFragment extends Fragment implements VisionTextDetectorView.C
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 	}
 }
+
 ```
