@@ -1,17 +1,18 @@
 package it.localhostsoftware.visiontextdetectorview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.media.ExifInterface;
 import android.util.AttributeSet;
-import android.util.SparseIntArray;
 
 import com.google.android.cameraview.CameraView;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 
 import java.io.ByteArrayInputStream;
@@ -19,15 +20,6 @@ import java.lang.ref.WeakReference;
 import java.util.regex.Pattern;
 
 public class VisionTextDetectorView extends CameraView implements Runnable {
-	private static final SparseIntArray ROTATIONS = new SparseIntArray();
-
-	static {
-		ROTATIONS.append(ExifInterface.ORIENTATION_NORMAL, FirebaseVisionImageMetadata.ROTATION_0);
-		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_90, FirebaseVisionImageMetadata.ROTATION_90);
-		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_180, FirebaseVisionImageMetadata.ROTATION_180);
-		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_270, FirebaseVisionImageMetadata.ROTATION_270);
-	}
-
 	private Handler handler;
 	private Pattern pattern;
 	private Callback callback;
@@ -100,8 +92,41 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 			VisionTextDetectorView view = ref.get();
 			if (view != null)
 				try {
-					int rotation = ROTATIONS.get(new ExifInterface(new ByteArrayInputStream(data[0])).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1));
-					FirebaseVisionImage image = FirebaseVisionImage.fromByteArray(data[0], new FirebaseVisionImageMetadata.Builder().setRotation(rotation).build());
+					Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
+					ByteArrayInputStream bais = new ByteArrayInputStream(data[0]);
+					int orientation = new ExifInterface(bais).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+					bais.close();
+					if (orientation != ExifInterface.ORIENTATION_UNDEFINED && orientation != ExifInterface.ORIENTATION_NORMAL) {
+						Matrix matrix = new Matrix();
+						switch (orientation) {
+							case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+								matrix.setScale(-1, 1);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_180:
+								matrix.setRotate(180);
+								break;
+							case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+								matrix.setRotate(180);
+								matrix.postScale(-1, 1);
+								break;
+							case ExifInterface.ORIENTATION_TRANSPOSE:
+								matrix.setRotate(90);
+								matrix.postScale(-1, 1);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_90:
+								matrix.setRotate(90);
+								break;
+							case ExifInterface.ORIENTATION_TRANSVERSE:
+								matrix.setRotate(-90);
+								matrix.postScale(-1, 1);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_270:
+								matrix.setRotate(-90);
+								break;
+						}
+						bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+					}
+					FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 					FirebaseVisionText firebaseVisionText = Tasks.await(FirebaseVision.getInstance().getVisionTextDetector().detectInImage(image));
 					for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
 						for (FirebaseVisionText.Line line : block.getLines())
