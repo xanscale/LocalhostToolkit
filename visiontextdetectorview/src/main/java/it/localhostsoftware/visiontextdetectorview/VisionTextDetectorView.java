@@ -69,7 +69,11 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	}
 
 	@Override public void run() {
-		takePicture();
+		try {
+			takePicture();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void detectInImage() {
