@@ -1,16 +1,17 @@
 package it.localhostsoftware.visiontextdetectorview;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.media.ExifInterface;
 import android.util.AttributeSet;
+import android.util.SparseIntArray;
 
 import com.google.android.cameraview.CameraView;
-import com.google.android.gms.common.util.IOUtils;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 
 import java.io.ByteArrayInputStream;
@@ -18,6 +19,15 @@ import java.lang.ref.WeakReference;
 import java.util.regex.Pattern;
 
 public class VisionTextDetectorView extends CameraView implements Runnable {
+	private static final SparseIntArray ROTATIONS = new SparseIntArray();
+
+	static {
+		ROTATIONS.append(ExifInterface.ORIENTATION_NORMAL, FirebaseVisionImageMetadata.ROTATION_0);
+		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_90, FirebaseVisionImageMetadata.ROTATION_90);
+		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_180, FirebaseVisionImageMetadata.ROTATION_180);
+		ROTATIONS.append(ExifInterface.ORIENTATION_ROTATE_270, FirebaseVisionImageMetadata.ROTATION_270);
+	}
+
 	private Handler handler;
 	private Pattern pattern;
 	private Callback callback;
@@ -41,7 +51,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 
 			@Override public void onPictureTaken(CameraView cameraView, byte[] data) {
 				super.onPictureTaken(cameraView, data);
-				new VisionTextDetector(VisionTextDetectorView.this).execute(new ByteArrayInputStream(data));
+				new VisionTextDetector(VisionTextDetectorView.this).execute(data);
 			}
 		});
 	}
@@ -75,19 +85,19 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 		void onTextDetected(String text);
 	}
 
-	private static class VisionTextDetector extends AsyncTask<ByteArrayInputStream, Void, String> {
+	private static class VisionTextDetector extends AsyncTask<byte[], Void, String> {
 		private WeakReference<VisionTextDetectorView> ref;
 
 		VisionTextDetector(VisionTextDetectorView view) {
 			this.ref = new WeakReference<>(view);
 		}
 
-		@Override protected String doInBackground(ByteArrayInputStream... byteArrayInputStreams) {
+		@Override protected String doInBackground(byte[]... data) {
 			VisionTextDetectorView view = ref.get();
 			if (view != null)
 				try {
-					IOUtils.copyStream(byteArrayInputStreams[0], view.getContext().openFileOutput("VisionTextDetectorView", Context.MODE_PRIVATE), true);
-					FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(view.getContext(), Uri.fromFile(view.getContext().getFileStreamPath("VisionTextDetectorView")));
+					int rotation = ROTATIONS.get(new ExifInterface(new ByteArrayInputStream(data[0])).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1));
+					FirebaseVisionImage image = FirebaseVisionImage.fromByteArray(data[0], new FirebaseVisionImageMetadata.Builder().setRotation(rotation).build());
 					FirebaseVisionText firebaseVisionText = Tasks.await(FirebaseVision.getInstance().getVisionTextDetector().detectInImage(image));
 					for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
 						for (FirebaseVisionText.Line line : block.getLines())
