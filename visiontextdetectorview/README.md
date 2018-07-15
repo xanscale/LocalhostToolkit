@@ -32,7 +32,7 @@ public class CameraFragment extends Fragment implements VisionTextDetectorView.C
 	@Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.camera, container, false);
 		view = v.findViewById(R.id.camera);
-		view.setPattern(ErrorRegexListener.PATTERN_SSN_IT);
+		view.setPatterns(ErrorRegexListener.PATTERN_SSN_IT, ErrorRegexListener.PATTERN_EMAIL);
 		view.setCallback(this);
 		view.setDelayMillis(3000);
 		return v;
@@ -48,8 +48,9 @@ public class CameraFragment extends Fragment implements VisionTextDetectorView.C
 		super.onPause();
 	}
 
-	@Override public void onTextDetected(String text) {
-		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+	@Override public void onTextDetected(Set<String> values) {
+		for(String value: values)
+			Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
 	}
 }
 
