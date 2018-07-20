@@ -29,6 +29,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	private List<Pattern> patterns;
 	private Callback callback;
 	private long delayMillis;
+	private Rect r;
 
 	public VisionTextDetectorView(Context context) {
 		this(context, null);
@@ -63,6 +64,10 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 
 	public void setDelayMillis(long delayMillis) {
 		this.delayMillis = delayMillis;
+	}
+
+	public void setRect(Rect rect) {
+		r = rect;
 	}
 
 	@Override public void run() {
@@ -115,7 +120,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 					matrix.setRotate(-90);
 					break;
 			}
-			Bitmap temp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+			Bitmap temp = Bitmap.createBitmap(bitmap, r == null ? 0 : r.x, r == null ? 0 : r.y, r == null ? bitmap.getWidth() : r.width, r == null ? bitmap.getHeight() : r.height, matrix, true);
 			bitmap.recycle();
 			bitmap = temp;
 		}
@@ -123,44 +128,80 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	}
 
 	public interface Callback {
-		void onTextDetected(Set<String> values);
+		void onTextDetected(VisionTextResult visionTextResult);
 	}
 
-	private static class VisionTextDetector extends AsyncTask<byte[], Void, Set<String>> {
+	private static class VisionTextDetector extends AsyncTask<byte[], Void, VisionTextResult> {
 		private WeakReference<VisionTextDetectorView> ref;
 
 		VisionTextDetector(VisionTextDetectorView view) {
 			this.ref = new WeakReference<>(view);
 		}
 
-		@Override protected Set<String> doInBackground(byte[]... data) {
-			Set<String> matched = new HashSet<>();
+		@Override protected VisionTextResult doInBackground(byte[]... data) {
 			VisionTextDetectorView view = ref.get();
 			if (view != null)
 				try {
-					FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(view.decodeByteArray(data[0]));
+					VisionTextResult visionTextResult = new VisionTextResult(view.decodeByteArray(data[0]));
+					FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(visionTextResult.bitmap);
 					FirebaseVisionText firebaseVisionText = Tasks.await(FirebaseVision.getInstance().getVisionTextDetector().detectInImage(image));
 					for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
 						for (FirebaseVisionText.Line line : block.getLines())
 							for (FirebaseVisionText.Element element : line.getElements())
 								for (Pattern pattern : view.patterns)
 									if (pattern.matcher(element.getText()).matches()) {
-										matched.add(element.getText());
+										visionTextResult.matched.add(element.getText());
 										break;
 									}
+					return visionTextResult;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			return null;
+		}
+
+		@Override protected void onPostExecute(VisionTextResult visionTextResult) {
+			VisionTextDetectorView view = ref.get();
+			if (view != null) {
+				if (visionTextResult != null && !visionTextResult.matched.isEmpty())
+					view.callback.onTextDetected(visionTextResult);
+				view.detectInImage();
+			}
+		}
+	}
+
+	public static class Rect {
+		private int x, y, width, height;
+
+		/**
+		 * @param x      The x coordinate of the first pixel in source
+		 * @param y      The y coordinate of the first pixel in source
+		 * @param width  The number of pixels in each row
+		 * @param height The number of rows
+		 */
+		public Rect(int x, int y, int width, int height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+	}
+
+	public static class VisionTextResult {
+		private Set<String> matched;
+		private Bitmap bitmap;
+
+		public VisionTextResult(Bitmap bitmap) {
+			this.matched = new HashSet<>();
+			this.bitmap = bitmap;
+		}
+
+		public Set<String> getMatched() {
 			return matched;
 		}
 
-		@Override protected void onPostExecute(Set<String> matched) {
-			VisionTextDetectorView view = ref.get();
-			if (view != null) {
-				if (!matched.isEmpty())
-					view.callback.onTextDetected(matched);
-				view.detectInImage();
-			}
+		public Bitmap getBitmap() {
+			return bitmap;
 		}
 	}
 }
