@@ -120,7 +120,12 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 					matrix.setRotate(-90);
 					break;
 			}
-			Bitmap temp = Bitmap.createBitmap(bitmap, r == null ? 0 : r.x, r == null ? 0 : r.y, r == null ? bitmap.getWidth() : r.width, r == null ? bitmap.getHeight() : r.height, matrix, true);
+			Bitmap temp = Bitmap.createBitmap(bitmap,
+					r == null ? 0 : r.getX(bitmap.getWidth()),
+					r == null ? 0 : r.getY(bitmap.getHeight()),
+					r == null ? bitmap.getWidth() : r.getWidth(bitmap.getWidth()),
+					r == null ? bitmap.getHeight() : r.getHeight(bitmap.getHeight()),
+					matrix, true);
 			bitmap.recycle();
 			bitmap = temp;
 		}
@@ -171,19 +176,39 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	}
 
 	public static class Rect {
-		private int x, y, width, height;
+		private double x, y, width, height;
 
 		/**
-		 * @param x      The x coordinate of the first pixel in source
-		 * @param y      The y coordinate of the first pixel in source
-		 * @param width  The number of pixels in each row
-		 * @param height The number of rows
+		 * @param x      The x coordinate of the first pixel as perc.
+		 * @param y      The y coordinate of the first pixel as perc.
+		 * @param width  The number of pixels in each row as perc.
+		 * @param height The number of rows as perc.
 		 */
-		public Rect(int x, int y, int width, int height) {
+		public Rect(double x, double y, double width, double height) {
+			if (x + width > 1)
+				throw new RuntimeException("x + width > 1 are invalid!");
+			if (y + height > 1)
+				throw new RuntimeException("y + height > 1 are invalid!");
 			this.x = x;
 			this.y = y;
 			this.width = width;
 			this.height = height;
+		}
+
+		public int getX(int sourceWidth) {
+			return (int) (x * sourceWidth);
+		}
+
+		public int getY(int sourceHeight) {
+			return (int) (y * sourceHeight);
+		}
+
+		public int getWidth(int sourceWidth) {
+			return (int) (width * sourceWidth);
+		}
+
+		public int getHeight(int sourceHeight) {
+			return (int) (height * sourceHeight);
 		}
 	}
 

@@ -35,7 +35,7 @@ public class CameraFragment extends Fragment implements VisionTextDetectorView.C
 		view.setPatterns(ErrorRegexListener.PATTERN_SSN_IT, ErrorRegexListener.PATTERN_EMAIL);
 		view.setCallback(this);
 		view.setDelayMillis(3000);
-		// if you want to crop area. Be careful to create the rectangle completely inside the bitmap
+		// only if you want to crop area.
 		view.setRect(new Rect(x, y, width, height));
 		return v;
 	}
