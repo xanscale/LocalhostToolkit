@@ -2,6 +2,7 @@ package it.localhostsoftware.visiontextdetectorview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -84,7 +85,9 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 
 	@Override public void onBitmapReady(Bitmap bitmap) {
 		if (r != null) {
-			Bitmap temp = Bitmap.createBitmap(bitmap, r.getX(bitmap.getWidth()), r.getY(bitmap.getHeight()), r.getWidth(bitmap.getWidth()), r.getHeight(bitmap.getHeight()));
+			Matrix matrix = new Matrix();
+			matrix.postRotate(r.getDegrees());
+			Bitmap temp = Bitmap.createBitmap(bitmap, r.getX(bitmap.getWidth()), r.getY(bitmap.getHeight()), r.getWidth(bitmap.getWidth()), r.getHeight(bitmap.getHeight()), matrix, false);
 			bitmap.recycle();
 			bitmap = temp;
 		}
@@ -115,7 +118,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 	}
 
 	public static class Rect {
-		private double x, y, width, height;
+		private float x, y, width, height, degrees;
 
 		/**
 		 * @param x      The x coordinate of the first pixel as perc.
@@ -123,7 +126,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 		 * @param width  The number of pixels in each row as perc.
 		 * @param height The number of rows as perc.
 		 */
-		public Rect(double x, double y, double width, double height) {
+		public Rect(float x, float y, float width, float height, float degrees) {
 			if (x + width > 1)
 				throw new RuntimeException("x + width > 1 are invalid!");
 			if (y + height > 1)
@@ -132,22 +135,27 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 			this.y = y;
 			this.width = width;
 			this.height = height;
+			this.degrees = degrees;
 		}
 
-		public int getX(int sourceWidth) {
+		int getX(int sourceWidth) {
 			return (int) (x * sourceWidth);
 		}
 
-		public int getY(int sourceHeight) {
+		int getY(int sourceHeight) {
 			return (int) (y * sourceHeight);
 		}
 
-		public int getWidth(int sourceWidth) {
+		int getWidth(int sourceWidth) {
 			return (int) (width * sourceWidth);
 		}
 
-		public int getHeight(int sourceHeight) {
+		int getHeight(int sourceHeight) {
 			return (int) (height * sourceHeight);
+		}
+
+		float getDegrees() {
+			return degrees;
 		}
 	}
 
