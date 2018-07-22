@@ -6,14 +6,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.media.ExifInterface;
 import android.util.AttributeSet;
 
-import com.google.android.cameraview.CameraView;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,25 +34,23 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	private long delayMillis;
 	private Rect r;
 
-	public VisionTextDetectorView(Context context) {
-		this(context, null);
+	public VisionTextDetectorView(@NonNull Context context) {
+		super(context);
+		init();
 	}
 
-	public VisionTextDetectorView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+	public VisionTextDetectorView(@NonNull Context context, @Nullable AttributeSet attrs) {
+		super(context, attrs);
+		init();
 	}
 
-	public VisionTextDetectorView(Context context, AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
+	public void init() {
 		handler = new Handler();
-		addCallback(new CameraView.Callback() {
-			@Override public void onCameraOpened(CameraView cameraView) {
-				detectInImage();
-			}
-
-			@Override public void onPictureTaken(CameraView cameraView, byte[] data) {
-				super.onPictureTaken(cameraView, data);
-				new VisionTextDetector(VisionTextDetectorView.this).execute(data);
+		addCameraListener(new CameraListener() {
+			@Override
+			public void onPictureTaken(byte[] picture) {
+				new VisionTextDetector(VisionTextDetectorView.this).execute(picture);
+				//	CameraUtils.decodeBitmap(picture, );
 			}
 		});
 	}
@@ -71,15 +72,16 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 	}
 
 	@Override public void run() {
-		try {
-			takePicture();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		captureSnapshot();
 	}
 
-	private void detectInImage() {
+	private void detectInCamera() {
 		handler.postDelayed(this, delayMillis);
+	}
+
+	@Override public void start() {
+		super.start();
+		detectInCamera();
 	}
 
 	@Override public void stop() {
@@ -170,7 +172,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 			if (view != null) {
 				if (visionTextResult != null && !visionTextResult.matched.isEmpty())
 					view.callback.onTextDetected(visionTextResult);
-				view.detectInImage();
+				view.detectInCamera();
 			}
 		}
 	}

@@ -14,6 +14,6 @@ dependencies {
 	api project(':app')
 	implementation 'com.android.support:support-v4:27.1.1'
 	implementation 'com.android.support:exifinterface:27.1.1'
-	implementation 'com.github.google:cameraview:3eaeac09a7'
+	implementation 'com.otaliastudios:cameraview:1.5.1'
 	implementation 'com.google.firebase:firebase-ml-vision:16.0.0'
 }
