@@ -65,7 +65,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 	}
 
 	@Override public void run() {
-		captureSnapshot();
+		capturePicture();
 	}
 
 	private void detectInCamera() {
