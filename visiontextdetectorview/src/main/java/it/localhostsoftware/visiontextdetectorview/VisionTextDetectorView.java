@@ -120,12 +120,12 @@ public class VisionTextDetectorView extends CameraView implements Runnable {
 					matrix.setRotate(-90);
 					break;
 			}
-			Bitmap temp = Bitmap.createBitmap(bitmap,
-					r == null ? 0 : r.getX(bitmap.getWidth()),
-					r == null ? 0 : r.getY(bitmap.getHeight()),
-					r == null ? bitmap.getWidth() : r.getWidth(bitmap.getWidth()),
-					r == null ? bitmap.getHeight() : r.getHeight(bitmap.getHeight()),
-					matrix, true);
+			Bitmap temp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+			bitmap.recycle();
+			bitmap = temp;
+		}
+		if (r != null) {
+			Bitmap temp = Bitmap.createBitmap(bitmap, r.getX(bitmap.getWidth()), r.getY(bitmap.getHeight()), r.getWidth(bitmap.getWidth()), r.getHeight(bitmap.getHeight()));
 			bitmap.recycle();
 			bitmap = temp;
 		}
