@@ -11,7 +11,7 @@ public class FirstLastSpacesItemDecoration extends RecyclerView.ItemDecoration {
 	private int marginPx;
 	private int orientation;
 
-	FirstLastSpacesItemDecoration(Context context, int orientation, int marginInDp) {
+	public FirstLastSpacesItemDecoration(Context context, int orientation, int marginInDp) {
 		if (orientation != LinearLayout.HORIZONTAL && orientation != LinearLayout.VERTICAL) {
 			throw new IllegalArgumentException("Invalid orientation. It should be either LinearLayout.HORIZONTAL or LinearLayout.VERTICAL");
 		}
