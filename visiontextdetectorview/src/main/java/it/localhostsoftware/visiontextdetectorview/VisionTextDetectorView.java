@@ -103,8 +103,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 										visionTextResult.matched.add(element.getText());
 										break;
 									}
-					if (!visionTextResult.matched.isEmpty())
-						callback.onTextDetected(visionTextResult);
+					callback.onTextDetected(visionTextResult);
 				}
 			});
 		} catch (Exception e) {
