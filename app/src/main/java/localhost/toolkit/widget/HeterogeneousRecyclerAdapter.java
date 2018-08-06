@@ -55,8 +55,6 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 	}
 
 	public void notifyTypesChanged() {
-		classToType.clear();
-		typeToPos.clear();
 		for (int i = 0; i < items.size(); i++)
 			if (!classToType.containsKey(items.get(i).getClass())) {
 				classToType.put(items.get(i).getClass(), typeToPos.size());
