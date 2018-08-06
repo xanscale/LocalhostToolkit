@@ -58,7 +58,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		typeToPos.clear();
 		for (int i = 0; i < items.size(); i++) {
 			if (!classToType.containsKey(items.get(i).getClass()))
-				classToType.put(items.get(i).getClass(), typeToPos.size());
+				classToType.put(items.get(i).getClass(), classToType.size());
 			if (!typeToPos.contains(classToType.get(items.get(i).getClass())))
 				typeToPos.add(i);
 		}
