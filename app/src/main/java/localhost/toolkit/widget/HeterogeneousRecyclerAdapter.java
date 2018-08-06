@@ -3,6 +3,7 @@ package localhost.toolkit.widget;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
 public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 	private HeterogeneousFilter heterogeneousFilter;
 	private HashMap<Class, Integer> classToType;
-	private ArrayList<Integer> typeToPos;
+	private SparseIntArray typeToPos;
 	private LayoutInflater inflater;
 	private List<I> items;
 	private List<I> originalItems;
@@ -26,7 +27,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		this.items = items;
 		inflater = LayoutInflater.from(context);
 		classToType = new HashMap<>();
-		typeToPos = new ArrayList<>();
+		typeToPos = new SparseIntArray();
 		notifyTypesChanged();
 	}
 
@@ -59,8 +60,9 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 		for (int i = 0; i < items.size(); i++) {
 			if (!classToType.containsKey(items.get(i).getClass()))
 				classToType.put(items.get(i).getClass(), classToType.size());
-			if (!typeToPos.contains(classToType.get(items.get(i).getClass())))
-				typeToPos.add(i);
+			Integer type = classToType.get(items.get(i).getClass());
+			if (typeToPos.indexOfKey(type) < 0)
+				typeToPos.put(type, i);
 		}
 		notifyDataSetChanged();
 	}
