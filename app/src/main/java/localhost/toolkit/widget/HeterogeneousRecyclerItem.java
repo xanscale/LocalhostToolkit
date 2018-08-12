@@ -21,6 +21,10 @@ public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extend
 		return extra;
 	}
 
+	public void setExtra(E extra) {
+		this.extra = extra;
+	}
+
 	@Override public String toString() {
 		return extra.toString();
 	}
