@@ -91,6 +91,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 			bitmap.recycle();
 			bitmap = temp;
 		}
+		bitmap = callback.onBitmapReady(bitmap);
 		try {
 			final VisionTextResult visionTextResult = new VisionTextResult(bitmap);
 			FirebaseVision.getInstance().getVisionTextDetector().detectInImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
@@ -113,6 +114,8 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 	}
 
 	public interface Callback {
+		Bitmap onBitmapReady(Bitmap bitmap);
+
 		void onTextDetected(VisionTextResult visionTextResult);
 	}
 
