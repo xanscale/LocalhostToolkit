@@ -1,6 +1,6 @@
 package localhost.toolkit.text;
 
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import android.widget.EditText;
 
 public class ErrorEqualsListener implements ErrorListenerInterface {

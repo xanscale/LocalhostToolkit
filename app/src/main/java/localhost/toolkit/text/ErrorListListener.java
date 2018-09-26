@@ -1,6 +1,6 @@
 package localhost.toolkit.text;
 
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;

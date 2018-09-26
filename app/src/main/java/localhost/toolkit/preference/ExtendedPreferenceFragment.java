@@ -2,11 +2,11 @@ package localhost.toolkit.preference;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
-import android.support.v14.preference.PreferenceFragment;
-import android.support.v7.preference.PreferenceScreen;
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
+import androidx.preference.PreferenceFragment;
+import androidx.preference.PreferenceScreen;
 import android.util.Log;
 
 /**

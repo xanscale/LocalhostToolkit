@@ -8,7 +8,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
