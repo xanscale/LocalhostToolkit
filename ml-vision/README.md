@@ -9,7 +9,7 @@ allprojects {
 Add it in your module build.gradle:
 ```
 dependencies {
-	implementation 'com.github.xanscale.LocalhostToolkit:visiontextdetectorview:-SNAPSHOT'
+	implementation 'com.github.xanscale.LocalhostToolkit:ml-vision:-SNAPSHOT'
 }
 ```
 This library require to Add Firebase to Your Android Project:
@@ -22,7 +22,7 @@ https://firebase.google.com/docs/android/setup
 	android:layout_height="match_parent"
 	android:keepScreenOn="true">
 
-	<it.localhostsoftware.visiontextdetectorview.VisionTextDetectorView
+	<it.localhostsoftware.ml.vision.text.VisionTextRecognizerView
 		android:id="@+id/camera"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -37,7 +37,7 @@ https://firebase.google.com/docs/android/setup
 </FrameLayout>
 ```
 ```java
-public class CameraFragment extends Fragment implements VisionTextDetectorView.Callback {
+public class CameraFragment extends Fragment implements VisionTextRecognizerView.Callback {
 	VisionTextDetectorView view;
 	ImageView bitmap;
 	

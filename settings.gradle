@@ -1,1 +1,1 @@
-include ':app', ':visiontextdetectorview'
+include ':app', ':ml-vision'
