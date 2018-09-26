@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class ConfirmDialogFragment extends DialogFragment {
 	public static final String KEY_ICON = "icon";
@@ -83,7 +85,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 		return l;
 	}
 
-	@IntDef({DialogInterface.BUTTON_POSITIVE, DialogInterface.BUTTON_NEGATIVE, DialogInterface.BUTTON_NEUTRAL}) @interface ConfirmDialogButton {
+	@Retention(RetentionPolicy.SOURCE) @IntDef({DialogInterface.BUTTON_POSITIVE, DialogInterface.BUTTON_NEGATIVE, DialogInterface.BUTTON_NEUTRAL}) @interface ConfirmDialogButton {
 	}
 
 	public interface OnConfirmedListener {

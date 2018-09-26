@@ -1,4 +1,4 @@
-package it.localhostsoftware.visiontextdetectorview;
+package it.localhostsoftware.ml.vision.text;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,19 +22,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class VisionTextDetectorView extends CameraView implements Runnable, CameraUtils.BitmapCallback {
+public class VisionTextRecognizerView extends CameraView implements Runnable, CameraUtils.BitmapCallback {
 	private Handler handler;
 	private List<Pattern> patterns;
 	private Callback callback;
 	private long delayMillis;
 	private Rect r;
 
-	public VisionTextDetectorView(@NonNull Context context) {
+	public VisionTextRecognizerView(@NonNull Context context) {
 		super(context);
 		init();
 	}
 
-	public VisionTextDetectorView(@NonNull Context context, @Nullable AttributeSet attrs) {
+	public VisionTextRecognizerView(@NonNull Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
@@ -44,7 +44,7 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 		addCameraListener(new CameraListener() {
 			@Override
 			public void onPictureTaken(byte[] picture) {
-				CameraUtils.decodeBitmap(picture, VisionTextDetectorView.this);
+				CameraUtils.decodeBitmap(picture, VisionTextRecognizerView.this);
 			}
 		});
 	}
@@ -91,16 +91,16 @@ public class VisionTextDetectorView extends CameraView implements Runnable, Came
 			bitmap.recycle();
 			bitmap = temp;
 		}
-		detectInImage(bitmap);
+		processImage(bitmap);
 		detectInCamera();
 	}
 
-	public void detectInImage(Bitmap bitmap) {
+	public void processImage(Bitmap bitmap) {
 		try {
 			final VisionTextResult visionTextResult = new VisionTextResult(bitmap);
-			FirebaseVision.getInstance().getVisionTextDetector().detectInImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+			FirebaseVision.getInstance().getOnDeviceTextRecognizer().processImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
 				@Override public void onSuccess(FirebaseVisionText firebaseVisionText) {
-					for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
+					for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
 						for (FirebaseVisionText.Line line : block.getLines())
 							for (FirebaseVisionText.Element element : line.getElements())
 								for (Pattern pattern : patterns)
