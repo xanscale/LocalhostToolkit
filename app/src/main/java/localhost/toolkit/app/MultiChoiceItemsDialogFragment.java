@@ -2,11 +2,12 @@ package localhost.toolkit.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import java.io.Serializable;
+
+import androidx.fragment.app.DialogFragment;
 
 public class MultiChoiceItemsDialogFragment extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener {
 	public static final String KEY_CHECKED_ITEMS = "KEY_CHECKED_ITEMS";

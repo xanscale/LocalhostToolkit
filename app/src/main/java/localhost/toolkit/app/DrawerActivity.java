@@ -1,22 +1,23 @@
 package localhost.toolkit.app;
 
-import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.navigation.NavigationView;
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import localhost.toolkit.R;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -125,7 +126,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			currMenuItemId = menuItem.getItemId();
 			mNavigationView.setCheckedItem(menuItem.getItemId());
 			setTitle(menuItem.getTitle());
-			getFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
+			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
 		}
 		return true;
 	}
@@ -147,8 +148,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	@Override public void onBackPressed() {
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
-		else if (getFragmentManager().getBackStackEntryCount() > 0)
-			getFragmentManager().popBackStack();
+		else if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+			getSupportFragmentManager().popBackStack();
 		else {
 			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
 			if (menuItem == null || currMenuItemId == menuItem.getItemId())

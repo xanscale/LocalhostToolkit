@@ -2,11 +2,12 @@ package localhost.toolkit.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import java.io.Serializable;
+
+import androidx.fragment.app.DialogFragment;
 
 public class ItemsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	private static final String KEY_TITLE = "KEY_TITLE";

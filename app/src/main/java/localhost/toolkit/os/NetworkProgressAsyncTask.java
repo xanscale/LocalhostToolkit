@@ -5,10 +5,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public abstract class NetworkProgressAsyncTask<P, R> extends ProgressAsyncTask<P, R> {
 	private NetworkInfo info;
 
-	public NetworkProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
+	public NetworkProgressAsyncTask(AppCompatActivity activity, boolean progress, boolean cancellable) {
 		super(activity, progress, cancellable);
 		info = ((ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
 	}

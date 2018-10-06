@@ -1,11 +1,11 @@
 package localhost.toolkit.app;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import androidx.fragment.app.DialogFragment;
 import localhost.toolkit.R;
 
 public class ProgressDialogFragment extends DialogFragment {

@@ -1,19 +1,19 @@
 package localhost.toolkit.os;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.appcompat.app.AppCompatActivity;
 import localhost.toolkit.app.ProgressDialogFragment;
 
 public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
-	protected Activity activity;
+	protected AppCompatActivity activity;
 	private ProgressDialogFragment progressFragment;
 
-	public ProgressAsyncTask(Activity activity, boolean progress, boolean cancellable) {
+	public ProgressAsyncTask(AppCompatActivity activity, boolean progress, boolean cancellable) {
 		this.activity = activity;
 		if (progress)
 			progressFragment = ProgressDialogFragment.newInstance(localhost.toolkit.R.string.prgsMessage, cancellable);
@@ -24,7 +24,7 @@ public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 		super.onPreExecute();
 		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		if (progressFragment != null) {
-			progressFragment.show(activity.getFragmentManager(), null);
+			progressFragment.show(activity.getSupportFragmentManager(), null);
 			progressFragment.onCancel(new DialogInterface() {
 				@Override
 				public void dismiss() {

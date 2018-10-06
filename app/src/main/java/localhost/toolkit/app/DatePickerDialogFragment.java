@@ -2,11 +2,12 @@ package localhost.toolkit.app;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+
+import androidx.fragment.app.DialogFragment;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 	private static final String DATE = "DATE";
