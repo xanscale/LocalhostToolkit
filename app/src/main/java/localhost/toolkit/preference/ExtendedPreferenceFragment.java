@@ -22,11 +22,11 @@ import androidx.preference.PreferenceScreen;
  * }</pre>
  */
 public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFragment> extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
-	private int preferencesContainerResId;
+	private int containerViewId;
 
-	public void setPreferencesFromResource(@XmlRes int preferencesResId, @IdRes int preferencesContainerResId, @Nullable String key) {
+	public void setPreferencesFromResource(@XmlRes int preferencesResId, @IdRes int containerViewId, @Nullable String key) {
 		super.setPreferencesFromResource(preferencesResId, key);
-		this.preferencesContainerResId = preferencesContainerResId;
+		this.containerViewId = containerViewId;
 	}
 
 	@Override public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
@@ -34,11 +34,11 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 			Log.w("ExtendedPreferenceFrag", "ExtendedPreferenceFragment require 'android:key' attribute to be set in PreferenceScreen.");
 			return false;
 		} else {
-			ExtendedPreferenceFragment fragment = newInstance();
-			Bundle args = new Bundle();
-			args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
-			fragment.setArguments(args);
-			getFragmentManager().beginTransaction().replace(preferencesContainerResId, fragment).addToBackStack(null).commit();
+			ExtendedPreferenceFragment fragment = newConcreteInstance();
+			if (fragment.getArguments() == null)
+				fragment.setArguments(new Bundle());
+			fragment.getArguments().putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
+			getFragmentManager().beginTransaction().replace(containerViewId, fragment).addToBackStack(null).commit();
 			return true;
 		}
 	}
@@ -48,7 +48,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 	}
 
 	/**
-	 * @return Instance of extended class
+	 * @return Instance of concrete class
 	 */
-	protected abstract PF newInstance();
+	protected abstract PF newConcreteInstance();
 }
