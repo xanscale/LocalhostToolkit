@@ -1,6 +1,5 @@
 package localhost.toolkit.preference;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.IdRes;
@@ -34,11 +33,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 			Log.w("ExtendedPreferenceFrag", "ExtendedPreferenceFragment require 'android:key' attribute to be set in PreferenceScreen.");
 			return false;
 		} else {
-			ExtendedPreferenceFragment fragment = newConcreteInstance();
-			if (fragment.getArguments() == null)
-				fragment.setArguments(new Bundle());
-			fragment.getArguments().putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
-			getFragmentManager().beginTransaction().replace(containerViewId, fragment).addToBackStack(null).commit();
+			getFragmentManager().beginTransaction().replace(containerViewId, newConcreteInstance(preferenceScreen.getKey())).addToBackStack(null).commit();
 			return true;
 		}
 	}
@@ -48,7 +43,8 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 	}
 
 	/**
-	 * @return Instance of concrete class
+	 * @param rootKey put in bundle arguments with ARG_PREFERENCE_ROOT key
+	 * @return
 	 */
-	protected abstract PF newConcreteInstance();
+	protected abstract PF newConcreteInstance(String rootKey);
 }
