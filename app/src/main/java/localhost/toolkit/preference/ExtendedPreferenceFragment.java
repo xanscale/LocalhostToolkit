@@ -44,7 +44,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 
 	/**
 	 * @param rootKey put in bundle arguments with ARG_PREFERENCE_ROOT key
-	 * @return
+	 * @return Instance of concrete class
 	 */
 	protected abstract PF newConcreteInstance(String rootKey);
 }
