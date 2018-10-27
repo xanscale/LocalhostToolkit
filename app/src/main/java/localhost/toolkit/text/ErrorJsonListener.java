@@ -27,7 +27,7 @@ public class ErrorJsonListener implements View.OnFocusChangeListener, ErrorListe
 
 	@Override
 	public boolean matches() {
-		if (!isValid(editText.getText().toString())) {
+		if (!isValid(getValue())) {
 			try {
 				((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
 			} catch (Exception e) {
@@ -36,6 +36,10 @@ public class ErrorJsonListener implements View.OnFocusChangeListener, ErrorListe
 			return false;
 		} else
 			return true;
+	}
+
+	@Override public String getValue() {
+		return editText.getText().toString().trim();
 	}
 
 	private boolean isValid(String json) {

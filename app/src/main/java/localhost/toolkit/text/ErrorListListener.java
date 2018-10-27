@@ -1,9 +1,10 @@
 package localhost.toolkit.text;
 
-import com.google.android.material.textfield.TextInputLayout;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class ErrorListListener implements OnFocusChangeListener, ErrorListenerIn
 
 	@Override
 	public boolean matches() {
-		if (!stringSet.contains(editText.getText().toString().trim())) {
+		if (!stringSet.contains(getValue())) {
 			try {
 				((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
 			} catch (Exception e) {
@@ -37,5 +38,9 @@ public class ErrorListListener implements OnFocusChangeListener, ErrorListenerIn
 			return false;
 		} else
 			return true;
+	}
+
+	@Override public String getValue() {
+		return editText.getText().toString().trim();
 	}
 }

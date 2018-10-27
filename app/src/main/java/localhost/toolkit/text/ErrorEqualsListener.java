@@ -16,7 +16,7 @@ public class ErrorEqualsListener implements ErrorListenerInterface {
 
 	@Override
 	public boolean matches() {
-		if (!editText1.getText().toString().equals(editText2.getText().toString())) {
+		if (!getValue().equals(editText2.getText().toString().trim())) {
 			try {
 				((TextInputLayout) editText1.getParent().getParent()).setError(errorMsg);
 			} catch (Exception e) {
@@ -30,5 +30,9 @@ public class ErrorEqualsListener implements ErrorListenerInterface {
 			return false;
 		} else
 			return true;
+	}
+
+	@Override public String getValue() {
+		return editText1.getText().toString().trim();
 	}
 }

@@ -1,9 +1,10 @@
 package localhost.toolkit.text;
 
-import com.google.android.material.textfield.TextInputLayout;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
 
@@ -35,7 +36,7 @@ public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerI
 
 	@Override
 	public boolean matches() {
-		if (!pattern.matcher(editText.getText().toString().trim()).matches()) {
+		if (!pattern.matcher(getValue()).matches()) {
 			try {
 				((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
 			} catch (Exception e) {
@@ -44,5 +45,9 @@ public class ErrorRegexListener implements OnFocusChangeListener, ErrorListenerI
 			return false;
 		} else
 			return true;
+	}
+
+	@Override public String getValue() {
+		return editText.getText().toString().trim();
 	}
 }
