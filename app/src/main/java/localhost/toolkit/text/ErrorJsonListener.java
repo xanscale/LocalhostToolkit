@@ -13,10 +13,9 @@ public class ErrorJsonListener implements View.OnFocusChangeListener, ErrorListe
 	private EditText editText;
 	private String errorMsg;
 
-	public ErrorJsonListener(EditText editText, String errorMsg, boolean onFocusChangeListener) {
+	public ErrorJsonListener(EditText editText, String errorMsg) {
 		this.editText = editText;
-		if (onFocusChangeListener)
-			this.editText.setOnFocusChangeListener(this);
+		this.editText.setOnFocusChangeListener(this);
 		this.errorMsg = errorMsg;
 		new ClearErrorTextWatcher(editText);
 	}
