@@ -1,8 +1,9 @@
 package localhost.toolkit.text;
 
-import com.google.android.material.textfield.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,9 +13,10 @@ public class ErrorJsonListener implements View.OnFocusChangeListener, ErrorListe
 	private EditText editText;
 	private String errorMsg;
 
-	public ErrorJsonListener(EditText editText, String errorMsg) {
+	public ErrorJsonListener(EditText editText, String errorMsg, boolean onFocusChangeListener) {
 		this.editText = editText;
-		this.editText.setOnFocusChangeListener(this);
+		if (onFocusChangeListener)
+			this.editText.setOnFocusChangeListener(this);
 		this.errorMsg = errorMsg;
 		new ClearErrorTextWatcher(editText);
 	}

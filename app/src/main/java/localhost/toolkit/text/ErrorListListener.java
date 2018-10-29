@@ -13,9 +13,10 @@ public class ErrorListListener implements OnFocusChangeListener, ErrorListenerIn
 	private Set<String> stringSet;
 	private String errorMsg;
 
-	public ErrorListListener(EditText editText, Set<String> stringSet, String errorMsg) {
+	public ErrorListListener(EditText editText, Set<String> stringSet, String errorMsg, boolean onFocusChangeListener) {
 		this.editText = editText;
-		this.editText.setOnFocusChangeListener(this);
+		if (onFocusChangeListener)
+			this.editText.setOnFocusChangeListener(this);
 		this.stringSet = stringSet;
 		this.errorMsg = errorMsg;
 		new ClearErrorTextWatcher(editText);
