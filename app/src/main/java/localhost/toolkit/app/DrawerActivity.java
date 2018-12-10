@@ -46,7 +46,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		try {
 			TextView version = (TextView) navigationView.getMenu().findItem(R.id.version).getActionView();
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			version.setText(getString(R.string.version, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
+			version.setText(getString(R.string.versionValue, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
 		} catch (Exception e) {
 		}
 		invalidateNavigationMenu();
