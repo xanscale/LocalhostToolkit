@@ -5,4 +5,5 @@
 	<string name="noConnection">Network Error</string>
 	<string name="openDrawerContentDesc">Open Drawer</string>
 	<string name="closeDrawerContentDesc">Close Drawer</string>
+	<string name="versionLabel">Version</string>
 </resources>

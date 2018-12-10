@@ -27,7 +27,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private NavigationView navigationView;
-	private TextView version;
 	private int currMenuItemId;
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +36,20 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		drawerLayout = findViewById(R.id.drawer_layout);
 		navigationView = findViewById(R.id.navigation);
-		version = findViewById(R.id.version);
 		navigationView.inflateHeaderView(getHeaderViewResId());
 		navigationView.inflateMenu(getMenu());
+		navigationView.inflateMenu(R.menu.navigation_footer);
 		navigationView.bringToFront();
 		navigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
-		invalidateNavigationMenu();
 		try {
+			TextView version = (TextView) navigationView.getMenu().findItem(R.id.version).getActionView();
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 			version.setText(getString(R.string.version, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
 		} catch (Exception e) {
-			version.setVisibility(View.GONE);
 		}
+		invalidateNavigationMenu();
 		if (savedInstanceState == null) {
 			navigateToHomeMenuItem();
 		} else {
