@@ -35,6 +35,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		navigationView = findViewById(R.id.navigation);
 		navigationView.inflateHeaderView(getHeaderViewResId());
 		navigationView.inflateMenu(getMenu());
+		navigationView.bringToFront();
 		navigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
