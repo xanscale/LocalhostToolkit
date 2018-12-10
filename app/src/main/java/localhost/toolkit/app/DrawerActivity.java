@@ -33,6 +33,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		drawerLayout = findViewById(R.id.drawer_layout);
 		navigationView = findViewById(R.id.navigation);
+		navigationView.inflateHeaderView(getHeaderViewResId());
+		navigationView.inflateMenu(getMenu());
 		navigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -47,7 +49,21 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	/**
-	 * Delegate must return fragment used as main content
+	 * Implementation must return header view layout
+	 *
+	 * @return header view layout resource ID
+	 */
+	protected abstract int getHeaderViewResId();
+
+	/**
+	 * Implementation must return menu of navigationView
+	 *
+	 * @return menu resource ID
+	 */
+	protected abstract int getMenu();
+
+	/**
+	 * Implementation must return fragment used as main content
 	 *
 	 * @param menuItemId of selected menu item
 	 * @return Selected content fragment or null if you want to do manage locally
@@ -110,8 +126,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			onNavigationItemSelected(menuItem);
 	}
 
-	public NavigationView getNavigationView() {
-		return navigationView;
+	public View getHeaderView() {
+		return navigationView.getHeaderView(0);
 	}
 
 	@Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
