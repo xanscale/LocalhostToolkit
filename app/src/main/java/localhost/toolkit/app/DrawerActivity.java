@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.pm.PackageInfoCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -46,7 +47,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		invalidateNavigationMenu();
 		try {
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			version.setText(getString(R.string.version, packageInfo.versionName, packageInfo.getLongVersionCode()));
+			version.setText(getString(R.string.version, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
 		} catch (Exception e) {
 			version.setVisibility(View.GONE);
 		}
