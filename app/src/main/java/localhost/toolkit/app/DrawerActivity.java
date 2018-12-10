@@ -1,10 +1,12 @@
 package localhost.toolkit.app;
 
+import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,6 +26,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private NavigationView navigationView;
+	private TextView version;
 	private int currMenuItemId;
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		drawerLayout = findViewById(R.id.drawer_layout);
 		navigationView = findViewById(R.id.navigation);
+		version = findViewById(R.id.version);
 		navigationView.inflateHeaderView(getHeaderViewResId());
 		navigationView.inflateMenu(getMenu());
 		navigationView.bringToFront();
@@ -40,6 +44,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
 		invalidateNavigationMenu();
+		try {
+			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			version.setText(getString(R.string.version, packageInfo.versionName, packageInfo.getLongVersionCode()));
+		} catch (Exception e) {
+			version.setVisibility(View.GONE);
+		}
 		if (savedInstanceState == null) {
 			navigateToHomeMenuItem();
 		} else {
