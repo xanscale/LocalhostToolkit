@@ -4,6 +4,7 @@
 	<group android:id="@+id/footer">
 		<item
 			android:id="@+id/version"
+			android:enabled="false"
 			android:title="@string/versionLabel"
 			app:actionLayout="@layout/actionlayout_version" />
 	</group>
