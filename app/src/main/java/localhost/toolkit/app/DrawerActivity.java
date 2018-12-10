@@ -154,10 +154,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		}
 	}
 
-	public View getHeaderView() {
-		return navigationView.getHeaderView(0);
-	}
-
 	@Override protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		actionBarDrawerToggle.syncState();
