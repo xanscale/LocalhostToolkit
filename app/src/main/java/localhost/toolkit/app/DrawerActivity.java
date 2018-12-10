@@ -10,7 +10,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,7 +23,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	public static final String CURR_MENU_ITEM_ID = "currMenuItemId";
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
-	private NavigationView mNavigationView;
+	private NavigationView navigationView;
 	private int currMenuItemId;
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +32,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		drawerLayout = findViewById(R.id.drawer_layout);
-		mNavigationView = (NavigationView) getLayoutInflater().inflate(getNavigationViewLayoutRes(), drawerLayout, false);
-		drawerLayout.addView(mNavigationView);
-		mNavigationView.setNavigationItemSelectedListener(this);
+		navigationView = findViewById(R.id.navigation);
+		navigationView.setNavigationItemSelectedListener(this);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
 		drawerLayout.addDrawerListener(actionBarDrawerToggle);
 		invalidateNavigationMenu();
@@ -43,17 +41,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			navigateToHomeMenuItem();
 		} else {
 			currMenuItemId = savedInstanceState.getInt(CURR_MENU_ITEM_ID);
-			mNavigationView.setCheckedItem(currMenuItemId);
-			setTitle(mNavigationView.getMenu().findItem(currMenuItemId).getTitle());
+			navigationView.setCheckedItem(currMenuItemId);
+			setTitle(navigationView.getMenu().findItem(currMenuItemId).getTitle());
 		}
 	}
-
-	/**
-	 * Delegate must return NavigationView Layout Resource
-	 *
-	 * @return something like R.layout.navigationView
-	 */
-	@LayoutRes protected abstract int getNavigationViewLayoutRes();
 
 	/**
 	 * Delegate must return fragment used as main content
@@ -72,7 +63,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	public void invalidateNavigationMenu() {
-		onPrepareNavigationMenu(mNavigationView.getMenu());
+		onPrepareNavigationMenu(navigationView.getMenu());
 	}
 
 	private MenuItem getHomeMenuItem(Menu menu) {
@@ -108,15 +99,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	public void navigateToHomeMenuItem() {
-		MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+		MenuItem menuItem = getHomeMenuItem(navigationView.getMenu());
 		if (menuItem != null)
 			onNavigationItemSelected(menuItem);
 	}
 
 	public void navigateToMenuItemById(@IdRes int id) {
-		MenuItem menuItem = getMenuItemById(mNavigationView.getMenu(), id);
+		MenuItem menuItem = getMenuItemById(navigationView.getMenu(), id);
 		if (menuItem != null)
 			onNavigationItemSelected(menuItem);
+	}
+
+	public NavigationView getNavigationView() {
+		return navigationView;
 	}
 
 	@Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -124,7 +119,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		Fragment f = getContentFragment(menuItem.getItemId());
 		if (f != null) {
 			currMenuItemId = menuItem.getItemId();
-			mNavigationView.setCheckedItem(menuItem.getItemId());
+			navigationView.setCheckedItem(menuItem.getItemId());
 			setTitle(menuItem.getTitle());
 			getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).commitAllowingStateLoss();
 		}
@@ -151,7 +146,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 		else if (getSupportFragmentManager().getBackStackEntryCount() > 0)
 			getSupportFragmentManager().popBackStack();
 		else {
-			MenuItem menuItem = getHomeMenuItem(mNavigationView.getMenu());
+			MenuItem menuItem = getHomeMenuItem(navigationView.getMenu());
 			if (menuItem == null || currMenuItemId == menuItem.getItemId())
 				super.onBackPressed();
 			else
@@ -160,7 +155,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	public View getHeaderView() {
-		return mNavigationView.getHeaderView(0);
+		return navigationView.getHeaderView(0);
 	}
 
 	@Override protected void onPostCreate(Bundle savedInstanceState) {
