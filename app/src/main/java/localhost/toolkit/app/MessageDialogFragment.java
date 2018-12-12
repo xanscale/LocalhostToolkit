@@ -9,7 +9,7 @@ import android.text.Html;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class MessageDialogFragment extends DialogFragment {
+public class MessageDialogFragment extends DialogFragment implements OnClickListener {
 	private static final String KEY_TIT = "KEY_TIT";
 	private static final String KEY_MSG = "KEY_MSG";
 	private static final String KEY_EXIT = "KEY_EXIT";
@@ -24,21 +24,17 @@ public class MessageDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getString(KEY_TIT));
 		builder.setMessage(Html.fromHtml(getArguments().getString(KEY_MSG)));
-		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? new ExitOnClickListener() : null);
+		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? this : null);
 		setCancelable(false);
 		builder.setCancelable(false);
 		return builder.create();
 	}
 
-	private final class ExitOnClickListener implements OnClickListener {
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			getActivity().finish();
-		}
+	@Override public void onClick(DialogInterface dialog, int which) {
+		getActivity().onBackPressed();
 	}
 }

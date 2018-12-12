@@ -34,7 +34,7 @@ public class ProgressDialogFragment extends DialogFragment {
 	}
 
 	@Override public void onStop() {
-		super.onStop();
 		getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		super.onStop();
 	}
 }

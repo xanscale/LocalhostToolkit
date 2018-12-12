@@ -35,8 +35,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getInt(KEY_TITLE));
 		if (getArguments().getStringArray(KEY_LIST_STRGS) != null)
@@ -46,8 +45,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		return builder.create();
 	}
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
+	@Override public void onClick(DialogInterface dialog, int which) {
 		OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
 		if (l == null)
 			l = (OnListDialogClickListener) getActivity();
