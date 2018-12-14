@@ -14,16 +14,18 @@ import androidx.fragment.app.DialogFragment;
 import localhost.toolkit.R;
 
 public class EditTextDialogFragment extends DialogFragment {
-	public static final String KEY_VALUE = "KEY_VALUE";
-	private static final String KEY_TITLE = "KEY_TITLE";
-	private static final String KEY_EXTRA = "KEY_EXTRA";
+	public static final String VALUE = "value";
+	public static final String INPUT_TYPE = "inputType";
+	private static final String TITLE = "title";
+	private static final String EXTRA = "extra";
 	private EditText editText;
 
-	public static EditTextDialogFragment newInstance(Serializable extra, int title, String value) {
+	public static EditTextDialogFragment newInstance(Serializable extra, int title, String value, int inputType) {
 		Bundle args = new Bundle();
-		args.putSerializable(KEY_EXTRA, extra);
-		args.putInt(KEY_TITLE, title);
-		args.putString(KEY_VALUE, value);
+		args.putSerializable(EXTRA, extra);
+		args.putInt(TITLE, title);
+		args.putString(VALUE, value);
+		args.putInt(INPUT_TYPE, inputType);
 		EditTextDialogFragment fragment = new EditTextDialogFragment();
 		fragment.setArguments(args);
 		return fragment;
@@ -35,15 +37,16 @@ public class EditTextDialogFragment extends DialogFragment {
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override public void onClick(DialogInterface dialogInterface, int i) {
 				if (editText.length() != 0)
-					getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(KEY_EXTRA), editText.getText().toString());
+					getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(EXTRA), editText.getText().toString());
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
 		View v = View.inflate(getActivity(), R.layout.edittext, null);
 		editText = v.findViewById(R.id.editText);
-		editText.setText(getArguments().getString(KEY_VALUE));
+		editText.setText(getArguments().getString(VALUE));
+		editText.setInputType(getArguments().getInt(INPUT_TYPE));
 		builder.setView(v);
-		builder.setTitle(getArguments().getInt(KEY_TITLE));
+		builder.setTitle(getArguments().getInt(TITLE));
 		setCancelable(false);
 		builder.setCancelable(false);
 		return builder.create();
