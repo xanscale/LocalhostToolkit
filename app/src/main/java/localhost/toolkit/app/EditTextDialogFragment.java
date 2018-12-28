@@ -20,6 +20,13 @@ public class EditTextDialogFragment extends DialogFragment {
 	private static final String EXTRA = "extra";
 	private EditText editText;
 
+	/**
+	 * @param extra
+	 * @param title
+	 * @param value
+	 * @param inputType like InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL
+	 * @return
+	 */
 	public static EditTextDialogFragment newInstance(Serializable extra, int title, String value, int inputType) {
 		Bundle args = new Bundle();
 		args.putSerializable(EXTRA, extra);
