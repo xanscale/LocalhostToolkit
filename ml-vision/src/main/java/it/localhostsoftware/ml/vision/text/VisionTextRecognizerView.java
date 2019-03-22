@@ -4,17 +4,17 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.otaliastudios.cameraview.BitmapCallback;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraUtils;
 import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.PictureResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class VisionTextRecognizerView extends CameraView implements Runnable, CameraUtils.BitmapCallback {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+public class VisionTextRecognizerView extends CameraView implements Runnable, BitmapCallback {
 	private Handler handler;
 	private List<Pattern> patterns;
 	private Callback callback;
@@ -42,9 +45,8 @@ public class VisionTextRecognizerView extends CameraView implements Runnable, Ca
 	public void init() {
 		handler = new Handler();
 		addCameraListener(new CameraListener() {
-			@Override
-			public void onPictureTaken(byte[] picture) {
-				CameraUtils.decodeBitmap(picture, VisionTextRecognizerView.this);
+			@Override public void onPictureTaken(@NonNull PictureResult result) {
+				CameraUtils.decodeBitmap(result.getData(), VisionTextRecognizerView.this);
 			}
 		});
 	}
@@ -66,21 +68,21 @@ public class VisionTextRecognizerView extends CameraView implements Runnable, Ca
 	}
 
 	@Override public void run() {
-		captureSnapshot();
+		takePictureSnapshot();
 	}
 
 	private void detectInCamera() {
 		handler.postDelayed(this, delayMillis);
 	}
 
-	@Override public void start() {
-		super.start();
+	@Override public void open() {
+		super.open();
 		detectInCamera();
 	}
 
-	@Override public void stop() {
+	@Override public void close() {
 		handler.removeCallbacks(this);
-		super.stop();
+		super.close();
 	}
 
 	@Override public void onBitmapReady(Bitmap bitmap) {

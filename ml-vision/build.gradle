@@ -11,6 +11,6 @@ android {
 
 dependencies {
 	api project(':app')
-	implementation 'com.otaliastudios:cameraview:1.6.0'
-	implementation 'com.google.firebase:firebase-ml-vision:19.0.2'
+	implementation 'com.otaliastudios:cameraview:2.0.0-beta04'
+	implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
 }
