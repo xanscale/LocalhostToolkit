@@ -133,9 +133,9 @@ public class VisionTextRecognizerView extends CameraView implements Runnable, Bi
 		 */
 		public Rect(float x, float y, float width, float height, float degrees) {
 			if (x + width > 1)
-				throw new RuntimeException("x + width > 1 are invalid!");
+				throw new IllegalArgumentException("x + width > 1 are invalid!");
 			if (y + height > 1)
-				throw new RuntimeException("y + height > 1 are invalid!");
+				throw new IllegalArgumentException("y + height > 1 are invalid!");
 			this.x = x;
 			this.y = y;
 			this.width = width;
