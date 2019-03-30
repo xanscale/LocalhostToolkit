@@ -7,12 +7,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class NetworkProgressAsyncTask<P, R> extends ProgressAsyncTask<P, R> {
+public abstract class NetworkProgressAsyncTask<A extends AppCompatActivity, P, R> extends ProgressAsyncTask<A, P, R> {
 	private NetworkInfo info;
 
-	public NetworkProgressAsyncTask(AppCompatActivity activity, boolean progress, boolean cancellable) {
+	public NetworkProgressAsyncTask(A activity, boolean progress, boolean cancellable) {
 		super(activity, progress, cancellable);
-		info = ((ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+		ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
+		if (connectivityManager != null)
+			info = connectivityManager.getActiveNetworkInfo();
 	}
 
 	@Override
@@ -20,7 +22,8 @@ public abstract class NetworkProgressAsyncTask<P, R> extends ProgressAsyncTask<P
 		if (info != null && info.isConnected())
 			super.onPreExecute();
 		else {
-			Toast.makeText(activity, localhost.toolkit.R.string.noConnection, Toast.LENGTH_SHORT).show();
+			if (getActivity() != null)
+				Toast.makeText(getActivity(), localhost.toolkit.R.string.noConnection, Toast.LENGTH_SHORT).show();
 			cancel(true);
 		}
 	}

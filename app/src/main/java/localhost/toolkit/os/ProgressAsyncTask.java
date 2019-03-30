@@ -6,15 +6,18 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.inputmethod.InputMethodManager;
 
+import java.lang.ref.WeakReference;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import localhost.toolkit.app.ProgressDialogFragment;
 
-public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
-	protected AppCompatActivity activity;
+public abstract class ProgressAsyncTask<A extends AppCompatActivity, P, R> extends AsyncTask<P, String, R> {
+	private WeakReference<A> activity;
 	private ProgressDialogFragment progressFragment;
 
-	public ProgressAsyncTask(AppCompatActivity activity, boolean progress, boolean cancellable) {
-		this.activity = activity;
+	public ProgressAsyncTask(A activity, boolean progress, boolean cancellable) {
+		this.activity = new WeakReference<>(activity);
 		if (progress)
 			progressFragment = ProgressDialogFragment.newInstance(localhost.toolkit.R.string.prgsMessage, cancellable);
 	}
@@ -22,19 +25,23 @@ public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		if (progressFragment != null) {
-			progressFragment.show(activity.getSupportFragmentManager(), null);
-			progressFragment.onCancel(new DialogInterface() {
-				@Override
-				public void dismiss() {
-				}
+		if (getActivity() != null) {
+			InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager != null)
+				inputMethodManager.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			if (progressFragment != null) {
+				progressFragment.show(getActivity().getSupportFragmentManager(), null);
+				progressFragment.onCancel(new DialogInterface() {
+					@Override
+					public void dismiss() {
+					}
 
-				@Override
-				public void cancel() {
-					ProgressAsyncTask.this.cancel(false);
-				}
-			});
+					@Override
+					public void cancel() {
+						ProgressAsyncTask.this.cancel(false);
+					}
+				});
+			}
 		}
 	}
 
@@ -64,5 +71,13 @@ public abstract class ProgressAsyncTask<P, R> extends AsyncTask<P, String, R> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+
+	@Nullable protected A getActivity() {
+		A activity = this.activity.get();
+		if (activity == null || activity.isFinishing())
+			return null;
+		else
+			return activity;
 	}
 }
