@@ -4,29 +4,24 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import localhost.toolkit.R;
 
 public class EditTextDialogFragment extends DialogFragment {
-	public static final String VALUE = "value";
-	public static final String INPUT_TYPE = "inputType";
+	private static final String VALUE = "value";
+	private static final String INPUT_TYPE = "inputType";
 	private static final String TITLE = "title";
 	private static final String EXTRA = "extra";
 	private EditText editText;
 
-	/**
-	 * @param extra
-	 * @param title
-	 * @param value
-	 * @param inputType like InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL
-	 * @return
-	 */
 	public static EditTextDialogFragment newInstance(Serializable extra, int title, String value, int inputType) {
 		Bundle args = new Bundle();
 		args.putSerializable(EXTRA, extra);
@@ -38,11 +33,13 @@ public class EditTextDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override public void onClick(DialogInterface dialogInterface, int i) {
+				assert getArguments() != null;
 				if (editText.length() != 0)
 					getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(EXTRA), editText.getText().toString());
 			}
@@ -51,7 +48,7 @@ public class EditTextDialogFragment extends DialogFragment {
 		View v = View.inflate(getActivity(), R.layout.edittext, null);
 		editText = v.findViewById(R.id.editText);
 		editText.setText(getArguments().getString(VALUE));
-		editText.setInputType(getArguments().getInt(INPUT_TYPE));
+		editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE));
 		builder.setView(v);
 		builder.setTitle(getArguments().getInt(TITLE));
 		setCancelable(false);

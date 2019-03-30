@@ -6,6 +6,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.Html;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -24,7 +25,9 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
 		return fragment;
 	}
 
-	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getString(KEY_TIT));
 		builder.setMessage(Html.fromHtml(getArguments().getString(KEY_MSG)));
@@ -35,6 +38,7 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
 	}
 
 	@Override public void onClick(DialogInterface dialog, int which) {
+		assert getActivity() != null;
 		getActivity().onBackPressed();
 	}
 }

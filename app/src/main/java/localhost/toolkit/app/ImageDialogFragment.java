@@ -6,6 +6,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -26,7 +27,9 @@ public class ImageDialogFragment extends DialogFragment implements OnClickListen
 		return fragment;
 	}
 
-	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? this : null);
 		ImageView image = new ImageView(getActivity());
@@ -40,6 +43,7 @@ public class ImageDialogFragment extends DialogFragment implements OnClickListen
 	}
 
 	@Override public void onClick(DialogInterface dialog, int which) {
+		assert getActivity() != null;
 		getActivity().onBackPressed();
 	}
 }

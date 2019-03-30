@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -39,8 +40,9 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getInt(KEY_TITLE));
 		checkedItems = getArguments().getBooleanArray(KEY_CHECKED_ITEMS);
@@ -54,14 +56,15 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
 	}
 
 	public void onClick(DialogInterface dialog, int which) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		OnMultiChoiceDialogClickListener l = (OnMultiChoiceDialogClickListener) getParentFragment();
 		if (l == null)
 			l = (OnMultiChoiceDialogClickListener) getActivity();
 		l.onClick(getArguments().getSerializable(KEY_EXTRA), checkedItems);
 	}
 
-	@Override
-	public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+	@Override public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 		checkedItems[which] = isChecked;
 	}
 

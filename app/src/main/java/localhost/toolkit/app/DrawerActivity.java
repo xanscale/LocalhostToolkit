@@ -48,6 +48,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 			version.setText(getString(R.string.versionValue, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		invalidateNavigationMenu();
 		if (savedInstanceState == null) {

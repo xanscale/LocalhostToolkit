@@ -1,10 +1,12 @@
 package localhost.toolkit.widget;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extends RecyclerView.ViewHolder> {
 	protected E extra;
@@ -25,7 +27,7 @@ public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extend
 		this.extra = extra;
 	}
 
-	@Override public String toString() {
+	@NonNull @Override public String toString() {
 		return extra.toString();
 	}
 

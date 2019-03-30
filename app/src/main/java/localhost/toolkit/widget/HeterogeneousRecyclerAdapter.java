@@ -49,7 +49,8 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 	}
 
 	@Override public int getItemViewType(int position) {
-		return classToType.isEmpty() ? super.getItemViewType(position) : classToType.get(items.get(position).getClass());
+		Integer type = classToType.get(items.get(position).getClass());
+		return type == null ? super.getItemViewType(position) : type;
 	}
 
 	@Override public long getItemId(int position) {
@@ -62,7 +63,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 			if (!classToType.containsKey(items.get(i).getClass()))
 				classToType.put(items.get(i).getClass(), classToType.size());
 			Integer type = classToType.get(items.get(i).getClass());
-			if (typeToPos.indexOfKey(type) < 0)
+			if (type != null && typeToPos.indexOfKey(type) < 0)
 				typeToPos.put(type, i);
 		}
 		notifyDataSetChanged();

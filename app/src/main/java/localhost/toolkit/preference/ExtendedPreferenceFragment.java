@@ -33,6 +33,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 			Log.w("ExtendedPreferenceFrag", "ExtendedPreferenceFragment require 'android:key' attribute to be set in PreferenceScreen.");
 			return false;
 		} else {
+			assert getFragmentManager() != null;
 			getFragmentManager().beginTransaction().replace(containerViewId, newConcreteInstance(preferenceScreen.getKey())).addToBackStack(null).commit();
 			return true;
 		}

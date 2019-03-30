@@ -4,9 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class DragDropItemDecoration extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
 	private DragDropListener dragDropListener;
@@ -30,14 +32,14 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 		recyclerView.addOnItemTouchListener(dec);
 		recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+			public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
 				super.onScrolled(recyclerView, dx, dy);
 				dec.fingerAnchorY -= dy;
 			}
 		});
 	}
 
-	@Override public void getItemOffsets(Rect outRect, View view, RecyclerView rv, RecyclerView.State state) {
+	@Override public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView rv, @NonNull RecyclerView.State state) {
 		super.getItemOffsets(outRect, view, rv, state);
 		if (selectedDragItemPos != -1) {
 			int itemPos = rv.getChildAdapterPosition(view);
@@ -45,7 +47,7 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 				view.setVisibility(View.INVISIBLE);
 			else {
 				view.setVisibility(View.VISIBLE);
-				float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+				float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2f;
 				if ((itemPos > selectedDragItemPos) && (view.getTop() < floatMiddleY)) {
 					float amountUp = (floatMiddleY - view.getTop()) / (float) view.getHeight();
 					if (amountUp > 1)
@@ -68,14 +70,14 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 		}
 	}
 
-	@Override public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+	@Override public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
 		if (floatingItem != null) {
 			floatingItem.setAlpha(127);
 			floatingItem.draw(c);
 		}
 	}
 
-	@Override public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+	@Override public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 		View itemView = rv.findChildViewUnder(e.getX(), e.getY());
 		if (itemView == null)
 			return false;
@@ -102,10 +104,10 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 		} else return false;
 	}
 
-	@Override public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+	@Override public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 		if ((e.getAction() == MotionEvent.ACTION_UP) || (e.getAction() == MotionEvent.ACTION_CANCEL)) {
 			if ((e.getAction() == MotionEvent.ACTION_UP) && selectedDragItemPos != -1) {
-				float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2;
+				float floatMiddleY = floatingItemBounds.top + floatingItemBounds.height() / 2f;
 				int above = 0;
 				int below = Integer.MAX_VALUE;
 				for (int n = 0; n < rv.getLayoutManager().getChildCount(); n++) {
@@ -113,7 +115,7 @@ public class DragDropItemDecoration extends RecyclerView.ItemDecoration implemen
 					if (view.getVisibility() != View.VISIBLE) continue;
 					int itemPos = rv.getChildAdapterPosition(view);
 					if (itemPos == selectedDragItemPos) continue;
-					float viewMiddleY = view.getTop() + view.getHeight() / 2;
+					float viewMiddleY = view.getTop() + view.getHeight() / 2f;
 					if (floatMiddleY > viewMiddleY && itemPos > above)
 						above = itemPos;
 					else if (floatMiddleY <= viewMiddleY && itemPos < below)

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -35,7 +36,9 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 		return fragment;
 	}
 
-	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getArguments().getInt(KEY_TITLE));
 		if (getArguments().getStringArray(KEY_LIST_STRGS) != null)
@@ -46,6 +49,8 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 	}
 
 	@Override public void onClick(DialogInterface dialog, int which) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
 		if (l == null)
 			l = (OnListDialogClickListener) getActivity();

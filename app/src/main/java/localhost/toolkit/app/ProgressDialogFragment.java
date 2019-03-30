@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import localhost.toolkit.R;
 
@@ -21,8 +22,9 @@ public class ProgressDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		ProgressDialog pd = new ProgressDialog(getActivity());
 		pd.setTitle(R.string.prgsTitle);
 		pd.setMessage(getString(getArguments().getInt(KEY_MSG)));
@@ -34,6 +36,7 @@ public class ProgressDialogFragment extends DialogFragment {
 	}
 
 	@Override public void onStop() {
+		assert getActivity() != null;
 		getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		super.onStop();
 	}

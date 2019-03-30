@@ -12,6 +12,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -42,8 +43,9 @@ public class ConfirmDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+		assert getActivity() != null;
+		assert getArguments() != null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		String title = getArguments().getString(KEY_TITLE);
 		String msg = getArguments().getString(KEY_MSG);
@@ -58,12 +60,14 @@ public class ConfirmDialogFragment extends DialogFragment {
 		builder.setPositiveButton(positiveButtonText == null ? getString(android.R.string.ok) : positiveButtonText, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				assert getArguments() != null;
 				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_POSITIVE);
 			}
 		});
 		builder.setNegativeButton(negativeButtonText == null ? getString(android.R.string.cancel) : negativeButtonText, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				assert getArguments() != null;
 				getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEGATIVE);
 			}
 		});
@@ -71,6 +75,7 @@ public class ConfirmDialogFragment extends DialogFragment {
 			builder.setNeutralButton(neutralButtonText, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					assert getArguments() != null;
 					getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL);
 				}
 			});
