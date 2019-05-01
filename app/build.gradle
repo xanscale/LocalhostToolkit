@@ -10,6 +10,6 @@ android {
 }
 
 dependencies {
-	implementation 'com.google.android.material:material:1.0.0'
-	implementation 'androidx.preference:preference:1.0.0'
+	api 'com.google.android.material:material:1.0.0'
+	api 'androidx.preference:preference:1.0.0'
 }
