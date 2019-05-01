@@ -91,20 +91,13 @@ public class ConfirmDialogFragment extends DialogFragment {
         public ConfirmDialogFragment build() {
             ConfirmDialogFragment fragment = new ConfirmDialogFragment();
             Bundle args = new Bundle();
-            if (title != null)
-                args.putString(TITLE, title);
-            if (message != null)
-                args.putString(MESSAGE, message);
-            if (positiveButton != null)
-                args.putString(POSITIVE_BUTTON, positiveButton);
-            if (negativeButton != null)
-                args.putString(NEGATIVE_BUTTON, negativeButton);
-            if (neutralButton != null)
-                args.putString(NEUTRAL_BUTTON, neutralButton);
-            if (extra != null)
-                args.putSerializable(EXTRA, extra);
-            if (icon != null)
-                args.putParcelable(ICON, icon);
+            if (title != null) args.putString(TITLE, title);
+            if (message != null) args.putString(MESSAGE, message);
+            if (positiveButton != null) args.putString(POSITIVE_BUTTON, positiveButton);
+            if (negativeButton != null) args.putString(NEGATIVE_BUTTON, negativeButton);
+            if (neutralButton != null) args.putString(NEUTRAL_BUTTON, neutralButton);
+            if (extra != null) args.putSerializable(EXTRA, extra);
+            if (icon != null) args.putParcelable(ICON, icon);
             fragment.setArguments(args);
             return fragment;
         }

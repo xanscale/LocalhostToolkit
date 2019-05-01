@@ -44,8 +44,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         public DatePickerDialogFragment build() {
             DatePickerDialogFragment fragment = new DatePickerDialogFragment();
             Bundle args = new Bundle();
-            if (date != null)
-                args.putLong(TIME_IN_MILLIS, date.getTime());
+            if (date != null) args.putLong(TIME_IN_MILLIS, date.getTime());
             fragment.setArguments(args);
             return fragment;
         }

@@ -22,39 +22,42 @@ public class ImageDialogFragment extends DialogFragment {
         builder.setPositiveButton(android.R.string.ok, null);
         ImageView image = new ImageView(getActivity());
         builder.setView(image);
-        image.setImageResource(getArguments().getInt(IMAGE_RESOURCE));
-        builder.setTitle(getArguments().getInt(TITLE));
-        builder.setIcon(getArguments().getInt(ICON));
+        if (getArguments().containsKey(IMAGE_RESOURCE))
+            image.setImageResource(getArguments().getInt(IMAGE_RESOURCE));
+        if (getArguments().containsKey(TITLE))
+            builder.setTitle(getArguments().getInt(TITLE));
+        if (getArguments().containsKey(ICON))
+            builder.setIcon(getArguments().getInt(ICON));
         setCancelable(false);
         return builder.create();
     }
 
     public class Builder {
-        private int icon;
-        private int title;
-        private int imageResource;
+        private Integer icon;
+        private Integer title;
+        private Integer imageResource;
 
         public ImageDialogFragment build() {
             ImageDialogFragment fragment = new ImageDialogFragment();
             Bundle args = new Bundle();
-            args.putInt(ICON, icon);
-            args.putInt(TITLE, title);
-            args.putInt(IMAGE_RESOURCE, imageResource);
+            if (icon != null) args.putInt(ICON, icon);
+            if (title != null) args.putInt(TITLE, title);
+            if (imageResource != null) args.putInt(IMAGE_RESOURCE, imageResource);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withIcon(int icon) {
+        public Builder withIcon(Integer icon) {
             this.icon = icon;
             return this;
         }
 
-        public Builder withTitle(int title) {
+        public Builder withTitle(Integer title) {
             this.title = title;
             return this;
         }
 
-        public Builder withImageResource(int imageResource) {
+        public Builder withImageResource(Integer imageResource) {
             this.imageResource = imageResource;
             return this;
         }

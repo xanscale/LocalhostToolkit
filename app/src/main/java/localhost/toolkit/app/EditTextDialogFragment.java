@@ -33,8 +33,7 @@ public class EditTextDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 assert getArguments() != null;
-                if (editText.length() != 0)
-                    getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(EXTRA), editText.getText().toString());
+                getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(EXTRA), editText.getText().toString());
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -42,7 +41,8 @@ public class EditTextDialogFragment extends DialogFragment {
         editText = v.findViewById(R.id.editText);
         if (getArguments().containsKey(TEXT))
             editText.setText(getArguments().getString(TEXT));
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE));
+        if (getArguments().containsKey(INPUT_TYPE))
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE));
         builder.setView(v);
         if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getString(TITLE));
@@ -65,18 +65,15 @@ public class EditTextDialogFragment extends DialogFragment {
         private Serializable extra;
         private String title;
         private String text;
-        private int inputType;
+        private Integer inputType;
 
         public EditTextDialogFragment build() {
             EditTextDialogFragment fragment = new EditTextDialogFragment();
             Bundle args = new Bundle();
-            if (extra != null)
-                args.putSerializable(EXTRA, extra);
-            if (title != null)
-                args.putString(TITLE, title);
-            if (text != null)
-                args.putString(TEXT, text);
-            args.putInt(INPUT_TYPE, inputType);
+            if (extra != null) args.putSerializable(EXTRA, extra);
+            if (title != null) args.putString(TITLE, title);
+            if (text != null) args.putString(TEXT, text);
+            if (inputType != null) args.putInt(INPUT_TYPE, inputType);
             fragment.setArguments(args);
             return fragment;
         }
@@ -96,7 +93,7 @@ public class EditTextDialogFragment extends DialogFragment {
             return this;
         }
 
-        public Builder withInputType(int inputType) {
+        public Builder withInputType(Integer inputType) {
             this.inputType = inputType;
             return this;
         }

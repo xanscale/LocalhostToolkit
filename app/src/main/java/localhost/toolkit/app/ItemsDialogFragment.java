@@ -22,7 +22,8 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getArguments().getInt(TITLE));
+        if (getArguments().containsKey(TITLE))
+            builder.setTitle(getArguments().getInt(TITLE));
         if (getArguments().containsKey(ITEMS))
             builder.setItems(getArguments().getStringArray(ITEMS), this);
         else
@@ -46,19 +47,17 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 
     public class Builder {
         private Serializable extra;
-        private int title;
-        private int itemsId;
+        private Integer title;
+        private Integer itemsId;
         private String[] items;
 
         public ItemsDialogFragment build() {
             ItemsDialogFragment fragment = new ItemsDialogFragment();
             Bundle args = new Bundle();
-            args.putInt(TITLE, title);
-            args.putInt(ITEMS_ID, itemsId);
-            if (items != null)
-                args.putStringArray(ITEMS, items);
-            if (extra != null)
-                args.putSerializable(EXTRA, extra);
+            if (title != null) args.putInt(TITLE, title);
+            if (itemsId != null) args.putInt(ITEMS_ID, itemsId);
+            if (items != null) args.putStringArray(ITEMS, items);
+            if (extra != null) args.putSerializable(EXTRA, extra);
             fragment.setArguments(args);
             return fragment;
         }
@@ -68,12 +67,12 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
             return this;
         }
 
-        public Builder withTitle(int title) {
+        public Builder withTitle(Integer title) {
             this.title = title;
             return this;
         }
 
-        public Builder withItemsId(int itemsId) {
+        public Builder withItemsId(Integer itemsId) {
             this.itemsId = itemsId;
             return this;
         }
