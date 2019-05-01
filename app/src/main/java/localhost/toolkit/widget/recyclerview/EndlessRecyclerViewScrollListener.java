@@ -1,4 +1,4 @@
-package localhost.toolkit.widget;
+package localhost.toolkit.widget.recyclerview;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;

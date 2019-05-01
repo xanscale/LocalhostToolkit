@@ -1,4 +1,4 @@
-package localhost.toolkit.widget;
+package localhost.toolkit.widget.recyclerview;
 
 import android.content.Context;
 import android.util.SparseIntArray;

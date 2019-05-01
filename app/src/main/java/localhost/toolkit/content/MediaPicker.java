@@ -1,4 +1,4 @@
-package localhost.toolkit.provider;
+package localhost.toolkit.content;
 
 import android.content.Context;
 import android.content.Intent;

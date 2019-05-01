@@ -7,7 +7,7 @@
 
 	<application>
 		<provider
-			android:name="localhost.toolkit.provider.FileProvider"
+			android:name="localhost.toolkit.content.FileProvider"
 			android:authorities="${applicationId}.localhost.provider"
 			android:exported="false"
 			android:grantUriPermissions="true">

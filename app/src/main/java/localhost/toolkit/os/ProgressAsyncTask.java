@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
 
-import localhost.toolkit.app.ProgressDialogFragment;
+import localhost.toolkit.app.fragment.ProgressDialogFragment;
 
 public abstract class ProgressAsyncTask<A extends AppCompatActivity, P, R> extends AsyncTask<P, String, R> {
     private WeakReference<A> activity;

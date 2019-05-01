@@ -1,4 +1,4 @@
-package localhost.toolkit.widget;
+package localhost.toolkit.widget.recyclerview;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

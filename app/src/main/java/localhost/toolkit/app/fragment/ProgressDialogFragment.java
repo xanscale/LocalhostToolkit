@@ -1,4 +1,4 @@
-package localhost.toolkit.app;
+package localhost.toolkit.app.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

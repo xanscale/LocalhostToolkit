@@ -1,4 +1,4 @@
-package localhost.toolkit.widget;
+package localhost.toolkit.widget.viewpager;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;

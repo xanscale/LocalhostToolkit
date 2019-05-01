@@ -1,4 +1,4 @@
-package localhost.toolkit.app;
+package localhost.toolkit.app.appcompat;
 
 import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
