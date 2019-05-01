@@ -60,7 +60,6 @@ public class ConfirmDialogFragment extends DialogFragment {
                 }
             });
         setCancelable(false);
-        builder.setCancelable(false);
         return builder.create();
     }
 

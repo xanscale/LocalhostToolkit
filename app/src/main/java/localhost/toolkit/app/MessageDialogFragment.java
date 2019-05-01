@@ -33,7 +33,6 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
 		builder.setMessage(Html.fromHtml(getArguments().getString(KEY_MSG)));
 		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? this : null);
 		setCancelable(false);
-		builder.setCancelable(false);
 		return builder.create();
 	}
 

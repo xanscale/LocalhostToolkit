@@ -47,7 +47,6 @@ public class EditTextDialogFragment extends DialogFragment {
         if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getString(TITLE));
         setCancelable(false);
-        builder.setCancelable(false);
         return builder.create();
     }
 

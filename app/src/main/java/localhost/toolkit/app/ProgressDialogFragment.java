@@ -29,7 +29,6 @@ public class ProgressDialogFragment extends DialogFragment {
 		pd.setTitle(R.string.prgsTitle);
 		pd.setMessage(getString(getArguments().getInt(KEY_MSG)));
 		setCancelable((getArguments().getBoolean(KEY_CANCELABLE)));
-		pd.setCancelable((getArguments().getBoolean(KEY_CANCELABLE)));
 		pd.setCanceledOnTouchOutside((getArguments().getBoolean(KEY_CANCELABLE)));
 		getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		return pd;
