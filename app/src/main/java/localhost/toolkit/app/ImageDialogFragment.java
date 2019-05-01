@@ -9,9 +9,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 public class ImageDialogFragment extends DialogFragment {
-    private static final String KEY_ICON = "KEY_ICON";
-    private static final String KEY_IMG = "KEY_IMG";
-    private static final String KEY_TITLE = "KEY_TITLE";
+    private static final String ICON = "ICON";
+    private static final String IMAGE_RESOURCE = "IMAGE_RESOURCE";
+    private static final String TITLE = "TITLE";
 
     @NonNull
     @Override
@@ -22,9 +22,9 @@ public class ImageDialogFragment extends DialogFragment {
         builder.setPositiveButton(android.R.string.ok, null);
         ImageView image = new ImageView(getActivity());
         builder.setView(image);
-        image.setImageResource(getArguments().getInt(KEY_IMG));
-        builder.setTitle(getArguments().getInt(KEY_TITLE));
-        builder.setIcon(getArguments().getInt(KEY_ICON));
+        image.setImageResource(getArguments().getInt(IMAGE_RESOURCE));
+        builder.setTitle(getArguments().getInt(TITLE));
+        builder.setIcon(getArguments().getInt(ICON));
         setCancelable(false);
         return builder.create();
     }
@@ -32,14 +32,14 @@ public class ImageDialogFragment extends DialogFragment {
     public class Builder {
         private int icon;
         private int title;
-        private int image;
+        private int imageResource;
 
         public ImageDialogFragment build() {
             ImageDialogFragment fragment = new ImageDialogFragment();
             Bundle args = new Bundle();
-            args.putInt(KEY_ICON, icon);
-            args.putInt(KEY_TITLE, title);
-            args.putInt(KEY_IMG, image);
+            args.putInt(ICON, icon);
+            args.putInt(TITLE, title);
+            args.putInt(IMAGE_RESOURCE, imageResource);
             fragment.setArguments(args);
             return fragment;
         }
@@ -54,8 +54,8 @@ public class ImageDialogFragment extends DialogFragment {
             return this;
         }
 
-        public Builder withImage(int image) {
-            this.image = image;
+        public Builder withImageResource(int imageResource) {
+            this.imageResource = imageResource;
             return this;
         }
     }

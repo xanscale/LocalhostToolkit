@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private static final String DATE = "DATE";
+    private static final String TIME_IN_MILLIS = "TIME_IN_MILLIS";
 
     @NonNull
     @Override
@@ -20,8 +20,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         assert getActivity() != null;
         assert getArguments() != null;
         Calendar c = Calendar.getInstance();
-        if (getArguments().containsKey(DATE))
-            c.setTimeInMillis(getArguments().getLong(DATE));
+        if (getArguments().containsKey(TIME_IN_MILLIS))
+            c.setTimeInMillis(getArguments().getLong(TIME_IN_MILLIS));
         return new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -45,7 +45,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
             DatePickerDialogFragment fragment = new DatePickerDialogFragment();
             Bundle args = new Bundle();
             if (date != null)
-                args.putLong(DATE, date.getTime());
+                args.putLong(TIME_IN_MILLIS, date.getTime());
             fragment.setArguments(args);
             return fragment;
         }

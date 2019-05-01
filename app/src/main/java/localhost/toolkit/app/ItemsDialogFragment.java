@@ -11,10 +11,10 @@ import androidx.fragment.app.DialogFragment;
 import java.io.Serializable;
 
 public class ItemsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
-    private static final String KEY_TITLE = "KEY_TITLE";
-    private static final String KEY_EXTRA = "KEY_EXTRA";
-    private static final String KEY_LIST_RESID = "KEY_LIST_RESID";
-    private static final String KEY_LIST_STRGS = "KEY_LIST_STRGS";
+    private static final String TITLE = "TITLE";
+    private static final String EXTRA = "EXTRA";
+    private static final String ITEMS_ID = "ITEMS_ID";
+    private static final String ITEMS = "ITEMS";
 
     @NonNull
     @Override
@@ -22,11 +22,11 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getArguments().getInt(KEY_TITLE));
-        if (getArguments().containsKey(KEY_LIST_STRGS))
-            builder.setItems(getArguments().getStringArray(KEY_LIST_STRGS), this);
+        builder.setTitle(getArguments().getInt(TITLE));
+        if (getArguments().containsKey(ITEMS))
+            builder.setItems(getArguments().getStringArray(ITEMS), this);
         else
-            builder.setItems(getArguments().getInt(KEY_LIST_RESID), this);
+            builder.setItems(getArguments().getInt(ITEMS_ID), this);
         return builder.create();
     }
 
@@ -37,7 +37,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
         OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
         if (l == null)
             l = (OnListDialogClickListener) getActivity();
-        l.onClick(getArguments().getSerializable(KEY_EXTRA), which);
+        l.onClick(getArguments().getSerializable(EXTRA), which);
     }
 
     public interface OnListDialogClickListener {
@@ -47,18 +47,18 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
     public class Builder {
         private Serializable extra;
         private int title;
-        private int listResId;
-        private String[] list;
+        private int itemsId;
+        private String[] items;
 
         public ItemsDialogFragment build() {
             ItemsDialogFragment fragment = new ItemsDialogFragment();
             Bundle args = new Bundle();
-            args.putInt(KEY_TITLE, title);
-            args.putInt(KEY_LIST_RESID, listResId);
-            if (list != null)
-                args.putStringArray(KEY_LIST_STRGS, list);
+            args.putInt(TITLE, title);
+            args.putInt(ITEMS_ID, itemsId);
+            if (items != null)
+                args.putStringArray(ITEMS, items);
             if (extra != null)
-                args.putSerializable(KEY_EXTRA, extra);
+                args.putSerializable(EXTRA, extra);
             fragment.setArguments(args);
             return fragment;
         }
@@ -73,13 +73,13 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
             return this;
         }
 
-        public Builder withListResId(int listResId) {
-            this.listResId = listResId;
+        public Builder withItemsId(int itemsId) {
+            this.itemsId = itemsId;
             return this;
         }
 
-        public Builder withList(String[] list) {
-            this.list = list;
+        public Builder withItems(String[] items) {
+            this.items = items;
             return this;
         }
     }

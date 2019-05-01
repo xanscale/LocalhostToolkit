@@ -17,10 +17,10 @@ import java.io.Serializable;
 import localhost.toolkit.R;
 
 public class EditTextDialogFragment extends DialogFragment {
-    private static final String TEXT = "text";
-    private static final String INPUT_TYPE = "inputType";
-    private static final String TITLE = "title";
-    private static final String EXTRA = "extra";
+    private static final String TEXT = "TEXT";
+    private static final String INPUT_TYPE = "INPUT_TYPE";
+    private static final String TITLE = "TITLE";
+    private static final String EXTRA = "EXTRA";
     private EditText editText;
 
     @NonNull

@@ -11,33 +11,60 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 public class MessageDialogFragment extends DialogFragment implements OnClickListener {
-	private static final String KEY_TIT = "KEY_TIT";
-	private static final String KEY_MSG = "KEY_MSG";
-	private static final String KEY_EXIT = "KEY_EXIT";
+    private static final String TITLE = "TITLE";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String EXIT = "EXIT";
 
-	public static MessageDialogFragment newInstance(String title, String result, boolean exit) {
-		Bundle args = new Bundle();
-		args.putString(KEY_TIT, title);
-		args.putString(KEY_MSG, result);
-		args.putBoolean(KEY_EXIT, exit);
-		MessageDialogFragment fragment = new MessageDialogFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        assert getActivity() != null;
+        assert getArguments() != null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getArguments().getString(TITLE));
+        builder.setMessage(Html.fromHtml(getArguments().getString(MESSAGE)));
+        builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(EXIT) ? this : null);
+        setCancelable(false);
+        return builder.create();
+    }
 
-	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-		assert getActivity() != null;
-		assert getArguments() != null;
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getArguments().getString(KEY_TIT));
-		builder.setMessage(Html.fromHtml(getArguments().getString(KEY_MSG)));
-		builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(KEY_EXIT) ? this : null);
-		setCancelable(false);
-		return builder.create();
-	}
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        assert getActivity() != null;
+        getActivity().onBackPressed();
+    }
 
-	@Override public void onClick(DialogInterface dialog, int which) {
-		assert getActivity() != null;
-		getActivity().onBackPressed();
-	}
+    public class Builder {
+        private String title;
+        private String message;
+        private Boolean exit;
+
+        public MessageDialogFragment build() {
+            MessageDialogFragment fragment = new MessageDialogFragment();
+            Bundle args = new Bundle();
+            if (title != null)
+                args.putString(TITLE, title);
+            if (message != null)
+                args.putString(MESSAGE, message);
+            if (exit != null)
+                args.putBoolean(EXIT, exit);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder withMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder withExit(Boolean exit) {
+            this.exit = exit;
+            return this;
+        }
+    }
 }

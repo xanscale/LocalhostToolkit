@@ -17,13 +17,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class ConfirmDialogFragment extends DialogFragment {
-    private static final String KEY_ICON = "icon";
-    private static final String KEY_MSG = "message";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_EXTRA = "extra";
-    private static final String KEY_BT_POS = "positiveButtonText";
-    private static final String KEY_BT_NEG = "negativeButtonText";
-    private static final String KEY_BT_NEU = "neutralButtonText";
+    private static final String ICON = "ICON";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String TITLE = "TITLE";
+    private static final String EXTRA = "EXTRA";
+    private static final String POSITIVE_BUTTON = "POSITIVE_BUTTON";
+    private static final String NEGATIVE_BUTTON = "NEGATIVE_BUTTON";
+    private static final String NEUTRAL_BUTTON = "NEUTRAL_BUTTON";
 
     @NonNull
     @Override
@@ -31,32 +31,32 @@ public class ConfirmDialogFragment extends DialogFragment {
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(KEY_TITLE))
-            builder.setTitle(getArguments().getString(KEY_TITLE));
-        if (getArguments().containsKey(KEY_MSG))
-            builder.setMessage(getArguments().getString(KEY_MSG));
-        if (getArguments().containsKey(KEY_ICON))
-            builder.setIcon(new BitmapDrawable(getResources(), (Bitmap) getArguments().getParcelable(KEY_ICON)));
-        builder.setPositiveButton(getArguments().containsKey(KEY_BT_POS) ? getString(android.R.string.ok) : getArguments().getString(KEY_BT_POS), new OnClickListener() {
+        if (getArguments().containsKey(TITLE))
+            builder.setTitle(getArguments().getString(TITLE));
+        if (getArguments().containsKey(MESSAGE))
+            builder.setMessage(getArguments().getString(MESSAGE));
+        if (getArguments().containsKey(ICON))
+            builder.setIcon(new BitmapDrawable(getResources(), (Bitmap) getArguments().getParcelable(ICON)));
+        builder.setPositiveButton(getArguments().containsKey(POSITIVE_BUTTON) ? getString(android.R.string.ok) : getArguments().getString(POSITIVE_BUTTON), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
-                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_POSITIVE);
+                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_POSITIVE);
             }
         });
-        builder.setNegativeButton(getArguments().containsKey(KEY_BT_NEG) ? getString(android.R.string.cancel) : getArguments().getString(KEY_BT_NEG), new OnClickListener() {
+        builder.setNegativeButton(getArguments().containsKey(NEGATIVE_BUTTON) ? getString(android.R.string.cancel) : getArguments().getString(NEGATIVE_BUTTON), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
-                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEGATIVE);
+                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_NEGATIVE);
             }
         });
-        if (getArguments().containsKey(KEY_BT_NEU))
-            builder.setNeutralButton(getArguments().getString(KEY_BT_NEU), new OnClickListener() {
+        if (getArguments().containsKey(NEUTRAL_BUTTON))
+            builder.setNeutralButton(getArguments().getString(NEUTRAL_BUTTON), new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     assert getArguments() != null;
-                    getOnConfirmedListener().onConfirmation(getArguments().getSerializable(KEY_EXTRA), DialogInterface.BUTTON_NEUTRAL);
+                    getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_NEUTRAL);
                 }
             });
         setCancelable(false);
@@ -82,29 +82,29 @@ public class ConfirmDialogFragment extends DialogFragment {
     public class Builder {
         private Serializable extra;
         private String title;
-        private String msg;
+        private String message;
         private Bitmap icon;
-        private String positiveButtonText;
-        private String negativeButtonText;
-        private String neutralButtonText;
+        private String positiveButton;
+        private String negativeButton;
+        private String neutralButton;
 
         public ConfirmDialogFragment build() {
             ConfirmDialogFragment fragment = new ConfirmDialogFragment();
             Bundle args = new Bundle();
             if (title != null)
-                args.putString(KEY_TITLE, title);
-            if (msg != null)
-                args.putString(KEY_MSG, msg);
-            if (positiveButtonText != null)
-                args.putString(KEY_BT_POS, positiveButtonText);
-            if (negativeButtonText != null)
-                args.putString(KEY_BT_NEG, negativeButtonText);
-            if (neutralButtonText != null)
-                args.putString(KEY_BT_NEU, neutralButtonText);
+                args.putString(TITLE, title);
+            if (message != null)
+                args.putString(MESSAGE, message);
+            if (positiveButton != null)
+                args.putString(POSITIVE_BUTTON, positiveButton);
+            if (negativeButton != null)
+                args.putString(NEGATIVE_BUTTON, negativeButton);
+            if (neutralButton != null)
+                args.putString(NEUTRAL_BUTTON, neutralButton);
             if (extra != null)
-                args.putSerializable(KEY_EXTRA, extra);
+                args.putSerializable(EXTRA, extra);
             if (icon != null)
-                args.putParcelable(KEY_ICON, icon);
+                args.putParcelable(ICON, icon);
             fragment.setArguments(args);
             return fragment;
         }
@@ -119,8 +119,8 @@ public class ConfirmDialogFragment extends DialogFragment {
             return this;
         }
 
-        public Builder withMsg(String msg) {
-            this.msg = msg;
+        public Builder withMessage(String message) {
+            this.message = message;
             return this;
         }
 
@@ -129,18 +129,18 @@ public class ConfirmDialogFragment extends DialogFragment {
             return this;
         }
 
-        public Builder withPositiveButtonText(String positiveButtonText) {
-            this.positiveButtonText = positiveButtonText;
+        public Builder withPositiveButton(String positiveButton) {
+            this.positiveButton = positiveButton;
             return this;
         }
 
-        public Builder withNegativeButtonText(String negativeButtonText) {
-            this.negativeButtonText = negativeButtonText;
+        public Builder withNegativeButton(String negativeButton) {
+            this.negativeButton = negativeButton;
             return this;
         }
 
-        public Builder withNeutralButtonText(String neutralButtonText) {
-            this.neutralButtonText = neutralButtonText;
+        public Builder withNeutralButton(String neutralButton) {
+            this.neutralButton = neutralButton;
             return this;
         }
     }
