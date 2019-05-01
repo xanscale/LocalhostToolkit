@@ -45,7 +45,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
         void onClick(Serializable extra, int which);
     }
 
-    public class Builder {
+    public static class Builder {
         private Serializable extra;
         private Integer title;
         private Integer itemsId;

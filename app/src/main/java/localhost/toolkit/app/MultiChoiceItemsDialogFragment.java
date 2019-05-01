@@ -63,7 +63,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
         void onClick(Serializable extra, boolean[] checkedItems);
     }
 
-    public class Builder {
+    public static class Builder {
         private Serializable extra;
         private Integer title;
         private Integer itemsId;

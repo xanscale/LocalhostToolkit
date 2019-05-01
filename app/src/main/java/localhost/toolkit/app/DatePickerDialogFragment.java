@@ -38,7 +38,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         void onDateSet(String tag, int year, int monthOfYear, int dayOfMonth);
     }
 
-    public class Builder {
+    public static class Builder {
         private Date date;
 
         public DatePickerDialogFragment build() {

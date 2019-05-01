@@ -7,36 +7,58 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
 import localhost.toolkit.R;
 
 public class ProgressDialogFragment extends DialogFragment {
-	private static final String KEY_MSG = "KEY_MSG";
-	private static final String KEY_CANCELABLE = "KEY_CANCELABLE";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String CANCELABLE = "CANCELABLE";
 
-	public static ProgressDialogFragment newInstance(int stringId, boolean cancellable) {
-		Bundle args = new Bundle();
-		args.putInt(KEY_MSG, stringId);
-		args.putBoolean(KEY_CANCELABLE, cancellable);
-		ProgressDialogFragment fragment = new ProgressDialogFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        assert getActivity() != null;
+        assert getArguments() != null;
+        ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setTitle(R.string.prgsTitle);
+        if (getArguments().containsKey(MESSAGE))
+            pd.setMessage(getString(getArguments().getInt(MESSAGE)));
+        if (getArguments().containsKey(CANCELABLE))
+            setCancelable((getArguments().getBoolean(CANCELABLE)));
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        return pd;
+    }
 
-	@NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-		assert getActivity() != null;
-		assert getArguments() != null;
-		ProgressDialog pd = new ProgressDialog(getActivity());
-		pd.setTitle(R.string.prgsTitle);
-		pd.setMessage(getString(getArguments().getInt(KEY_MSG)));
-		setCancelable((getArguments().getBoolean(KEY_CANCELABLE)));
-		pd.setCanceledOnTouchOutside((getArguments().getBoolean(KEY_CANCELABLE)));
-		getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		return pd;
-	}
+    @Override
+    public void onStop() {
+        assert getActivity() != null;
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.onStop();
+    }
 
-	@Override public void onStop() {
-		assert getActivity() != null;
-		getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		super.onStop();
-	}
+    public static class Builder {
+        private Integer message;
+        private Boolean cancelable;
+
+        public ProgressDialogFragment build() {
+            ProgressDialogFragment fragment = new ProgressDialogFragment();
+            Bundle args = new Bundle();
+            if (message != null)
+                args.putInt(MESSAGE, message);
+            if (cancelable != null)
+                args.putBoolean(CANCELABLE, cancelable);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public Builder withMessage(Integer message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder withCancelable(Boolean cancelable) {
+            this.cancelable = cancelable;
+            return this;
+        }
+    }
 }

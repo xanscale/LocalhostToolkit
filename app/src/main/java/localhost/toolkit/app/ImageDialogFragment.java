@@ -32,7 +32,7 @@ public class ImageDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public class Builder {
+    public static class Builder {
         private Integer icon;
         private Integer title;
         private Integer imageResource;

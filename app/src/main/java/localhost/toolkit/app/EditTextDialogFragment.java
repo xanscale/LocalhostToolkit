@@ -61,7 +61,7 @@ public class EditTextDialogFragment extends DialogFragment {
         void onEditTextDialogResult(Serializable extra, String value);
     }
 
-    public class Builder {
+    public static class Builder {
         private Serializable extra;
         private String title;
         private String text;

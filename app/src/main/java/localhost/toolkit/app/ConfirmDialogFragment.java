@@ -79,7 +79,7 @@ public class ConfirmDialogFragment extends DialogFragment {
         void onConfirmation(Serializable extra, @ConfirmDialogButton int buttonClicked);
     }
 
-    public class Builder {
+    public static class Builder {
         private Serializable extra;
         private String title;
         private String message;

@@ -36,7 +36,7 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
         getActivity().onBackPressed();
     }
 
-    public class Builder {
+    public static class Builder {
         private String title;
         private String message;
         private Boolean exit;
