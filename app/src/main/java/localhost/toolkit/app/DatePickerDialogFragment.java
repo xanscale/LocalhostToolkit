@@ -17,10 +17,11 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar c = Calendar.getInstance();
         assert getActivity() != null;
         assert getArguments() != null;
-        c.setTimeInMillis(getArguments().getLong(DATE));
+        Calendar c = Calendar.getInstance();
+        if (getArguments().containsKey(DATE))
+            c.setTimeInMillis(getArguments().getLong(DATE));
         return new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -43,7 +44,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         public DatePickerDialogFragment build() {
             DatePickerDialogFragment fragment = new DatePickerDialogFragment();
             Bundle args = new Bundle();
-            args.putLong(DATE, date.getTime());
+            if (date != null)
+                args.putLong(DATE, date.getTime());
             fragment.setArguments(args);
             return fragment;
         }
