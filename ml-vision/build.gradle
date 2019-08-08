@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 
 android {
-	compileSdkVersion 28
+	compileSdkVersion 29
 
 	defaultConfig {
 		minSdkVersion 17
-		targetSdkVersion 28
+		targetSdkVersion 29
 	}
 }
 
 dependencies {
 	api project(':app')
-	implementation 'com.otaliastudios:cameraview:2.0.0-beta04'
-	implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
+	implementation 'com.otaliastudios:cameraview:2.1.0'
+	implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
 }
