@@ -7,13 +7,13 @@ import android.os.AsyncTask;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import java.lang.ref.WeakReference;
 
 import localhost.toolkit.app.fragment.ProgressDialogFragment;
 
-public abstract class ProgressAsyncTask<A extends AppCompatActivity, P, R> extends AsyncTask<P, String, R> {
+public abstract class ProgressAsyncTask<A extends FragmentActivity, P, R> extends AsyncTask<P, String, R> {
     private WeakReference<A> activity;
     private ProgressDialogFragment progressFragment;
 
