@@ -73,7 +73,7 @@ public class VisionBarcodeDetectorView extends CameraView implements Runnable, B
 
     @Override
     public void onBitmapReady(Bitmap bitmap) {
-        if (onSuccessListener != null)
+        if (onSuccessListener != null && bitmap != null)
             FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(onSuccessListener);
         handler.postDelayed(this, delayMillis);
     }
