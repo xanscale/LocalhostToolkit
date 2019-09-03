@@ -44,34 +44,18 @@ public class CameraFragment extends Fragment implements VisionTextRecognizerView
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
-		// findViewById ...
-		view.setPatterns(ErrorRegexListener.PATTERN_SSN_IT, ErrorRegexListener.PATTERN_EMAIL);
+		view = findViewById(R.id...)
+		view.setPatterns(...);
 		view.setCallback(this);
 		view.setDelayMillis(3000);
 		// if you want to crop or rotate
 		view.setRect(new VisionTextDetectorView.Rect(0, 0, 1, 1, 0));
 	}
 
-	@Override public void onResume() {
-		super.onResume();
-		view.start();
-	}
-	
-	@Override public void onPause() {
-		view.stop();
-		super.onPause();
-	}
-	
-	@Override public void onDestroy() {
-		super.onDestroy();
-		view.destroy();
-	}
-	
-		@Override public void onTextDetected(VisionTextDetectorView.VisionTextResult visionTextResult) {
-    		for (String value : visionTextResult.getMatched())
-    			Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
-    		bitmap.setImageBitmap(visionTextResult.getBitmap());
-    	}
+	@Override public void onTextDetected(VisionTextDetectorView.VisionTextResult visionTextResult) {
+    	for (String value : visionTextResult.getMatched())
+    		Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
+    	bitmap.setImageBitmap(visionTextResult.getBitmap());
+    }
 }
-
 ```
