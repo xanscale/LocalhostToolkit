@@ -42,7 +42,7 @@ public class VisionBarcodeDetectorView extends CameraView implements Runnable, B
             @Override
             public void onCameraOpened(@NonNull CameraOptions options) {
                 super.onCameraOpened(options);
-                VisionBarcodeDetectorView.super.takePictureSnapshot();
+                takePictureSnapshot();
             }
 
             @Override
@@ -65,10 +65,6 @@ public class VisionBarcodeDetectorView extends CameraView implements Runnable, B
         super.takePictureSnapshot();
     }
 
-    public void takePictureSnapshot() {
-        handler.postDelayed(this, delayMillis);
-    }
-
     @Override
     public void close() {
         handler.removeCallbacks(this);
@@ -77,7 +73,8 @@ public class VisionBarcodeDetectorView extends CameraView implements Runnable, B
 
     @Override
     public void onBitmapReady(Bitmap bitmap) {
-        FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(onSuccessListener);
-        takePictureSnapshot();
+        if (onSuccessListener != null)
+            FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromBitmap(bitmap)).addOnSuccessListener(onSuccessListener);
+        handler.postDelayed(this, delayMillis);
     }
 }
