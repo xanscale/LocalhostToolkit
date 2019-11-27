@@ -8,7 +8,7 @@ import java.io.Serializable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class HeterogeneousRecyclerItem<E extends Serializable, H extends RecyclerView.ViewHolder> {
+public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHolder> {
 	protected E extra;
 
 	public HeterogeneousRecyclerItem(E extra) {
