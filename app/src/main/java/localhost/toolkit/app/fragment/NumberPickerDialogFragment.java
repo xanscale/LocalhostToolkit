@@ -3,6 +3,7 @@ package localhost.toolkit.app.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,8 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private static final String TITLE = "TITLE";
     private static final String MIN = "MIN";
     private static final String MAX = "MAX";
-    private static final String EXTRA = "EXTRA";
+    private static final String SERIALIZABLE = "SERIALIZABLE";
+    private static final String PARCELABLE = "PARCELABLE";
 
     @NonNull
     @Override
@@ -36,7 +38,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
-                getOnNumberSetListener().onNumberSet(getArguments().getSerializable(EXTRA), numberPicker.getValue());
+                getOnNumberSetListener().onNumberSet(getArguments().getSerializable(SERIALIZABLE), getArguments().getParcelable(PARCELABLE), numberPicker.getValue());
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -52,11 +54,12 @@ public class NumberPickerDialogFragment extends DialogFragment {
     }
 
     public interface OnNumberSetListener {
-        void onNumberSet(Serializable extra, int value);
+        void onNumberSet(Serializable serializable, Parcelable parcelable, int value);
     }
 
     public static class Builder {
-        private Serializable extra;
+        private Serializable serializable;
+        private Parcelable parcelable;
         private String title;
         private Integer min;
         private Integer max;
@@ -65,15 +68,21 @@ public class NumberPickerDialogFragment extends DialogFragment {
             NumberPickerDialogFragment fragment = new NumberPickerDialogFragment();
             Bundle args = new Bundle();
             if (title != null) args.putString(TITLE, title);
-            if (extra != null) args.putSerializable(EXTRA, extra);
+            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
+            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
             if (min != null) args.putInt(MIN, min);
             if (max != null) args.putInt(MAX, max);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withExtra(Serializable extra) {
-            this.extra = extra;
+        public Builder withSerializable(Serializable serializable) {
+            this.serializable = serializable;
+            return this;
+        }
+
+        public Builder withParcelable(Parcelable parcelable) {
+            this.parcelable = parcelable;
             return this;
         }
 
