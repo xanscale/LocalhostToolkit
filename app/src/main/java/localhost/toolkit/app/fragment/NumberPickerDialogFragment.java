@@ -17,6 +17,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private static final String TITLE = "TITLE";
     private static final String MIN = "MIN";
     private static final String MAX = "MAX";
+    private static final String VALUE = "VALUE";
     private static final String SERIALIZABLE = "SERIALIZABLE";
     private static final String PARCELABLE = "PARCELABLE";
 
@@ -33,6 +34,8 @@ public class NumberPickerDialogFragment extends DialogFragment {
             numberPicker.setMinValue(getArguments().getInt(MIN));
         if (getArguments().containsKey(MAX))
             numberPicker.setMaxValue(getArguments().getInt(MAX));
+        if (getArguments().containsKey(VALUE))
+            numberPicker.setValue(getArguments().getInt(VALUE));
         builder.setView(numberPicker);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
@@ -63,6 +66,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
         private String title;
         private Integer min;
         private Integer max;
+        private Integer value;
 
         public NumberPickerDialogFragment build() {
             NumberPickerDialogFragment fragment = new NumberPickerDialogFragment();
@@ -72,6 +76,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
             if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
             if (min != null) args.putInt(MIN, min);
             if (max != null) args.putInt(MAX, max);
+            if (value != null) args.putInt(VALUE, value);
             fragment.setArguments(args);
             return fragment;
         }
@@ -98,6 +103,11 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
         public Builder withMax(Integer max) {
             this.max = max;
+            return this;
+        }
+
+        public Builder withValue(Integer value) {
+            this.value = value;
             return this;
         }
     }
