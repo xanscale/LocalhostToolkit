@@ -12,7 +12,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private static final String TIME_IN_MILLIS = "TIME_IN_MILLIS";
+    private static final String DATE = "DATE";
+    private static final String MIN_DATE = "MIN_DATE";
+    private static final String MAX_DATE = "MAX_DATE";
 
     @NonNull
     @Override
@@ -20,9 +22,14 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         assert getActivity() != null;
         assert getArguments() != null;
         Calendar c = Calendar.getInstance();
-        if (getArguments().containsKey(TIME_IN_MILLIS))
-            c.setTimeInMillis(getArguments().getLong(TIME_IN_MILLIS));
-        return new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        if (getArguments().containsKey(DATE))
+            c.setTimeInMillis(getArguments().getLong(DATE));
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        if (getArguments().containsKey(MIN_DATE))
+            datePickerDialog.getDatePicker().setMinDate(getArguments().getLong(MIN_DATE));
+        if (getArguments().containsKey(MAX_DATE))
+            datePickerDialog.getDatePicker().setMaxDate(getArguments().getLong(MAX_DATE));
+        return datePickerDialog;
     }
 
     @Override
@@ -40,17 +47,31 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 
     public static class Builder {
         private Date date;
+        private Date minDate;
+        private Date maxDate;
 
         public DatePickerDialogFragment build() {
             DatePickerDialogFragment fragment = new DatePickerDialogFragment();
             Bundle args = new Bundle();
-            if (date != null) args.putLong(TIME_IN_MILLIS, date.getTime());
+            if (date != null) args.putLong(DATE, date.getTime());
+            if (minDate != null) args.putLong(MIN_DATE, minDate.getTime());
+            if (maxDate != null) args.putLong(MAX_DATE, maxDate.getTime());
             fragment.setArguments(args);
             return fragment;
         }
 
         public Builder withDate(Date date) {
             this.date = date;
+            return this;
+        }
+
+        public Builder withMinDate(Date minDate) {
+            this.minDate = minDate;
+            return this;
+        }
+
+        public Builder withMaxDate(Date maxDate) {
+            this.maxDate = maxDate;
             return this;
         }
     }
