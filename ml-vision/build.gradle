@@ -11,6 +11,6 @@ android {
 }
 
 dependencies {
-	implementation 'com.otaliastudios:cameraview:2.4.0'
+	implementation 'com.otaliastudios:cameraview:2.6.2'
 	implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
 }
