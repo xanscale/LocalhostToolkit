@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="it.localhostsoftware.ml.vision.text">
+    package="it.localhostsoftware.ml.vision">
 
-	<application android:supportsRtl="true">
-		<meta-data
-			android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-			android:value="ocr" />
-	</application>
+    <application>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode,ocr" />
+    </application>
 </manifest>

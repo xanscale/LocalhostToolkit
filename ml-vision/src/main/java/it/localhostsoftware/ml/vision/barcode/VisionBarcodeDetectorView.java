@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import it.localhostsoftware.ml.vision.text.R;
+import it.localhostsoftware.ml.vision.R;
 
 public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
     private CameraView cameraView;
@@ -60,7 +60,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
         init();
     }
 
-    public void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.vision_barcode_detector_view, this);
         cameraView = findViewById(R.id.cameraView);
         delayMillis = 1000;
@@ -102,7 +102,9 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                 Image image = imageProxy.getImage();
                 if (onSuccessListener != null && image != null) {
                     image.getPlanes()[0].getBuffer().rewind();
-                    FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees() / 90)).addOnSuccessListener(onSuccessListener);
+                    FirebaseVision.getInstance().getVisionBarcodeDetector()
+                            .detectInImage(FirebaseVisionImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees() / 90))
+                            .addOnSuccessListener(onSuccessListener);
                 }
                 handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                 super.onCaptureSuccess(imageProxy);
