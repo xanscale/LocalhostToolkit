@@ -17,7 +17,6 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.view.CameraView;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -27,9 +26,9 @@ import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import it.localhostsoftware.ml.vision.text.R;
 
@@ -38,6 +37,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
     private Handler handler;
     private OnSuccessListener<List<FirebaseVisionBarcode>> onSuccessListener;
     private long delayMillis;
+    private ExecutorService cameraExecutor;
 
     public VisionBarcodeDetectorView(@NonNull Context context) {
         super(context);
@@ -65,6 +65,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
         cameraView = findViewById(R.id.cameraView);
         delayMillis = 1000;
         handler = new Handler();
+        cameraExecutor = Executors.newSingleThreadExecutor();
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)
@@ -77,6 +78,8 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                     handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                 } else if (event == Lifecycle.Event.ON_PAUSE) {
                     handler.removeCallbacks(VisionBarcodeDetectorView.this);
+                } else if (event == Lifecycle.Event.ON_DESTROY) {
+                    cameraExecutor.shutdown();
                 }
             }
         });
@@ -92,21 +95,20 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
 
     @Override
     public void run() {
-        cameraView.takePicture(new File(getContext().getCacheDir(), "picture"), ContextCompat.getMainExecutor(getContext()), new ImageCapture.OnImageSavedCallback(){
+        cameraView.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
             @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                if (onSuccessListener != null && outputFileResults.getSavedUri() != null) {
-                    try {
-                        FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromFilePath(getContext(), outputFileResults.getSavedUri())).addOnSuccessListener(onSuccessListener);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            @ExperimentalGetImage
+            public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
+                Image image = imageProxy.getImage();
+                if (onSuccessListener != null && image != null)
+                    FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees() / 90)).addOnSuccessListener(onSuccessListener);
                 handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
+                super.onCaptureSuccess(imageProxy);
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
+                super.onError(exception);
                 exception.printStackTrace();
             }
         });
