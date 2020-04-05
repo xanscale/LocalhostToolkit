@@ -1,4 +1,4 @@
-package it.localhostsoftware.ml.vision.text;
+/*package it.localhostsoftware.ml.vision.text;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -131,7 +131,7 @@ public class VisionTextRecognizerView extends CameraView implements Runnable, Bi
 		 * @param width  The number of pixels in each row as perc.
 		 * @param height The number of rows as perc.
 		 */
-		public Rect(float x, float y, float width, float height, float degrees) {
+	/*	public Rect(float x, float y, float width, float height, float degrees) {
 			if (x + width > 1)
 				throw new IllegalArgumentException("x + width > 1 are invalid!");
 			if (y + height > 1)
@@ -181,4 +181,4 @@ public class VisionTextRecognizerView extends CameraView implements Runnable, Bi
 			return bitmap;
 		}
 	}
-}
+}*/

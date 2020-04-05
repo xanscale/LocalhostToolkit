@@ -11,6 +11,7 @@ android {
 }
 
 dependencies {
-	api 'com.otaliastudios:cameraview:2.6.2'
+	api 'androidx.camera:camera-view:1.0.0-alpha09'
+	api 'androidx.camera:camera-camera2:1.0.0-beta02'
 	api 'com.google.firebase:firebase-ml-vision:24.0.1'
 }
