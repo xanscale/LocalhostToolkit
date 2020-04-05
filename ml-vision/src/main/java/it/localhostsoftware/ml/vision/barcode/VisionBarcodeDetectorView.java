@@ -27,6 +27,8 @@ import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import it.localhostsoftware.ml.vision.text.R;
@@ -80,7 +82,6 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
         });
     }
 
-
     public void setOnSuccessListener(OnSuccessListener<List<FirebaseVisionBarcode>> onSuccessListener) {
         this.onSuccessListener = onSuccessListener;
     }
@@ -91,20 +92,21 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
 
     @Override
     public void run() {
-        cameraView.takePicture(ContextCompat.getMainExecutor(getContext()), new ImageCapture.OnImageCapturedCallback() {
+        cameraView.takePicture(new File(getContext().getCacheDir(), "picture"), ContextCompat.getMainExecutor(getContext()), new ImageCapture.OnImageSavedCallback(){
             @Override
-            @ExperimentalGetImage
-            public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
-                Image image = imageProxy.getImage();
-                if (onSuccessListener != null && image != null)
-                    FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees() / 90)).addOnSuccessListener(onSuccessListener);
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                if (onSuccessListener != null && outputFileResults.getSavedUri() != null) {
+                    try {
+                        FirebaseVision.getInstance().getVisionBarcodeDetector().detectInImage(FirebaseVisionImage.fromFilePath(getContext(), outputFileResults.getSavedUri())).addOnSuccessListener(onSuccessListener);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
-                super.onCaptureSuccess(imageProxy);
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                super.onError(exception);
                 exception.printStackTrace();
             }
         });
