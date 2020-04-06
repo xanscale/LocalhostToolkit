@@ -30,6 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.localhostsoftware.ml.vision.R;
+import it.localhostsoftware.ml.vision.common.Utils;
 
 public class VisionTextRecognizerView extends FrameLayout implements Runnable {
     private CameraView cameraView;
@@ -102,7 +103,7 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
                 if (onSuccessListener != null && image != null) {
                     image.getPlanes()[0].getBuffer().rewind();
                     FirebaseVision.getInstance().getOnDeviceTextRecognizer()
-                            .processImage(FirebaseVisionImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees() / 90))
+                            .processImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
                             .addOnSuccessListener(onSuccessListener);
                 }
                 handler.postDelayed(VisionTextRecognizerView.this, delayMillis);
