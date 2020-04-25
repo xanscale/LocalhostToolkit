@@ -3,10 +3,7 @@
     <cache-path
         name="cache"
         path="." />
-    <files-path
-        name="files"
-        path="." />
     <external-files-path
-        name="externalFiles"
-        path="." />
+        name="externalFilesDownload"
+        path="Download/" />
 </paths>
