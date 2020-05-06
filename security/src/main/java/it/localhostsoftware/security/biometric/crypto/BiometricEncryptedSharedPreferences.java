@@ -45,11 +45,10 @@ public class BiometricEncryptedSharedPreferences {
     }
 
     /**
-     *
-     * @param fragment A reference to the client's fragment
-     * @param fileName The name of the file to open; can not contain path separators
+     * @param fragment                                  A reference to the client's fragment
+     * @param fileName                                  The name of the file to open; can not contain path separators
      * @param userAuthenticationValidityDurationSeconds duration in seconds, must be greater than 0
-     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
@@ -60,16 +59,21 @@ public class BiometricEncryptedSharedPreferences {
                 super.onAuthenticationSucceeded(result);
                 out.postValue(create(fragment.requireContext(), fileName, userAuthenticationValidityDurationSeconds));
             }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                out.postValue(null);
+            }
         }).authenticate(promptInfo);
         return out;
     }
 
     /**
-     *
-     * @param activity A reference to the client's activity
-     * @param fileName The name of the file to open; can not contain path separators
+     * @param activity                                  A reference to the client's activity
+     * @param fileName                                  The name of the file to open; can not contain path separators
      * @param userAuthenticationValidityDurationSeconds duration in seconds, must be greater than 0
-     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
