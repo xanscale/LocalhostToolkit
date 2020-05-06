@@ -1,3 +1,5 @@
+This library use livedata to merge androidx.security with androidx.biometric
+
 Add it in your root build.gradle:
 ```
 allprojects {
@@ -12,7 +14,7 @@ dependencies {
 	implementation 'com.github.xanscale.LocalhostToolkit:security:-SNAPSHOT'
 }
 ```
-
+You can just use this inside fragment or activity
 ```java
 BiometricEncryptedSharedPreferences.create(
         this,
