@@ -1,1 +1,3 @@
-include ':app', ':ml-vision'
+include ':app'
+include ':ml-vision'
+include ':security'

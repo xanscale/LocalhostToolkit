@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/LocalhostToolkit.iml" filepath="$PROJECT_DIR$/LocalhostToolkit.iml" group="LocalhostToolkit" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="LocalhostToolkit/app" />
       <module fileurl="file://$PROJECT_DIR$/ml-vision/ml-vision.iml" filepath="$PROJECT_DIR$/ml-vision/ml-vision.iml" group="LocalhostToolkit/ml-vision" />
+      <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" group="LocalhostToolkit/security" />
     </modules>
   </component>
 </project>
