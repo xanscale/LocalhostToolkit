@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Documenti-LocalhostToolkit.iml" filepath="$PROJECT_DIR$/Documenti-LocalhostToolkit.iml" group="LocalhostToolkit" />
-      <module fileurl="file://$PROJECT_DIR$/LocalhostToolkit.iml" filepath="$PROJECT_DIR$/LocalhostToolkit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/LocalhostToolkit-app.iml" filepath="$PROJECT_DIR$/app/LocalhostToolkit-app.iml" group="LocalhostToolkit/app" />
-      <module fileurl="file://$PROJECT_DIR$/ml-vision/LocalhostToolkit-ml-vision.iml" filepath="$PROJECT_DIR$/ml-vision/LocalhostToolkit-ml-vision.iml" group="LocalhostToolkit/ml-vision" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ml-vision/ml-vision.iml" filepath="$PROJECT_DIR$/ml-vision/ml-vision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LocalhostToolkit.iml" filepath="$PROJECT_DIR$/LocalhostToolkit.iml" group="LocalhostToolkit" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="LocalhostToolkit/app" />
+      <module fileurl="file://$PROJECT_DIR$/ml-vision/ml-vision.iml" filepath="$PROJECT_DIR$/ml-vision/ml-vision.iml" group="LocalhostToolkit/ml-vision" />
     </modules>
   </component>
 </project>
