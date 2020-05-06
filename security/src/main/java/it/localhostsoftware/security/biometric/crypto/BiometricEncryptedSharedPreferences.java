@@ -51,7 +51,7 @@ public class BiometricEncryptedSharedPreferences {
      * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
-    public LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
+    public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(fragment, ContextCompat.getMainExecutor(fragment.requireContext()), new BiometricPrompt.AuthenticationCallback() {
             @Override
@@ -76,7 +76,7 @@ public class BiometricEncryptedSharedPreferences {
      * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
-    public LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
+    public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int userAuthenticationValidityDurationSeconds, BiometricPrompt.PromptInfo promptInfo) {
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity), new BiometricPrompt.AuthenticationCallback() {
             @Override
