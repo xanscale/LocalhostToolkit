@@ -84,6 +84,12 @@ public class BiometricEncryptedSharedPreferences {
                 super.onAuthenticationSucceeded(result);
                 out.postValue(create(activity, fileName, userAuthenticationValidityDurationSeconds));
             }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                out.postValue(null);
+            }
         }).authenticate(promptInfo);
         return out;
     }
