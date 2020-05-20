@@ -2,11 +2,11 @@ package localhost.toolkit.text;
 
 import java.util.ArrayList;
 
-public class ErrorListenerList extends ArrayList<ErrorListenerInterface> {
-	public boolean matches() {
+public class ErrorListenerList extends ArrayList<AbstractErrorListener> {
+	public boolean matches(boolean hidden) {
 		boolean matches = true;
-		for (ErrorListenerInterface editTextErrorListener : this)
-			matches = editTextErrorListener.matches() && matches;
+		for (AbstractErrorListener editTextErrorListener : this)
+			matches = editTextErrorListener.matches(hidden) && matches;
 		return matches;
 	}
 }
