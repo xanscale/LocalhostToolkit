@@ -14,6 +14,8 @@ public class ErrorEqualsListener extends AbstractErrorListener {
         this.errorMsg = errorMsg;
         editText1.addTextChangedListener(this);
         editText2.addTextChangedListener(this);
+        editText1.setOnFocusChangeListener(this);
+        editText2.setOnFocusChangeListener(this);
     }
 
     @Override

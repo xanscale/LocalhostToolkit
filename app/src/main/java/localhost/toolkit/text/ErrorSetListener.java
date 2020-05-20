@@ -16,6 +16,7 @@ public class ErrorSetListener extends AbstractErrorListener {
         this.stringSet = stringSet;
         this.errorMsg = errorMsg;
         editText.addTextChangedListener(this);
+        editText.setOnFocusChangeListener(this);
     }
 
     @Override

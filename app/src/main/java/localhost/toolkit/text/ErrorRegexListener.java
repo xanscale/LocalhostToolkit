@@ -24,6 +24,7 @@ public class ErrorRegexListener extends AbstractErrorListener {
         this.pattern = pattern;
         this.errorMsg = errorMsg;
         editText.addTextChangedListener(this);
+        editText.setOnFocusChangeListener(this);
     }
 
     @Override

@@ -16,6 +16,7 @@ public class ErrorJsonListener extends AbstractErrorListener {
         this.editText = editText;
         this.errorMsg = errorMsg;
         editText.addTextChangedListener(this);
+        editText.setOnFocusChangeListener(this);
     }
 
     @Override
