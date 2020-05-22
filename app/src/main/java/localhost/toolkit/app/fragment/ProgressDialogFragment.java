@@ -8,10 +8,9 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import localhost.toolkit.R;
-
 public class ProgressDialogFragment extends DialogFragment {
     private static final String MESSAGE = "MESSAGE";
+    private static final String TITLE = "TITLE";
     private static final String CANCELABLE = "CANCELABLE";
 
     @NonNull
@@ -20,9 +19,10 @@ public class ProgressDialogFragment extends DialogFragment {
         assert getActivity() != null;
         assert getArguments() != null;
         ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.setTitle(R.string.prgsTitle);
+        if (getArguments().containsKey(TITLE))
+            pd.setTitle(getArguments().getString(TITLE));
         if (getArguments().containsKey(MESSAGE))
-            pd.setMessage(getString(getArguments().getInt(MESSAGE)));
+            pd.setMessage(getArguments().getString(MESSAGE));
         if (getArguments().containsKey(CANCELABLE))
             setCancelable((getArguments().getBoolean(CANCELABLE)));
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -37,21 +37,29 @@ public class ProgressDialogFragment extends DialogFragment {
     }
 
     public static class Builder {
-        private Integer message;
+        private String title;
+        private String message;
         private Boolean cancelable;
 
         public ProgressDialogFragment build() {
             ProgressDialogFragment fragment = new ProgressDialogFragment();
             Bundle args = new Bundle();
+            if (title != null)
+                args.putString(TITLE, title);
             if (message != null)
-                args.putInt(MESSAGE, message);
+                args.putString(MESSAGE, message);
             if (cancelable != null)
                 args.putBoolean(CANCELABLE, cancelable);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withMessage(Integer message) {
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder withMessage(String message) {
             this.message = message;
             return this;
         }

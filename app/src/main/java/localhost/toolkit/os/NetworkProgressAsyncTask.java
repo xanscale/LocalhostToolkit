@@ -7,11 +7,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
+import localhost.toolkit.app.fragment.ProgressDialogFragment;
+
 public abstract class NetworkProgressAsyncTask<A extends FragmentActivity, P, R> extends ProgressAsyncTask<A, P, R> {
     private NetworkInfo info;
 
-    public NetworkProgressAsyncTask(A activity, boolean progress, boolean cancellable) {
-        super(activity, progress, cancellable);
+    public NetworkProgressAsyncTask(A activity, ProgressDialogFragment progressFragment) {
+        super(activity, progressFragment);
         ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Activity.CONNECTIVITY_SERVICE);
         if (connectivityManager != null)
             info = connectivityManager.getActiveNetworkInfo();
