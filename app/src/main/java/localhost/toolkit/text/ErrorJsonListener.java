@@ -2,32 +2,18 @@ package localhost.toolkit.text;
 
 import android.widget.EditText;
 
-import com.google.android.material.textfield.TextInputLayout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ErrorJsonListener extends AbstractErrorListener {
-    private EditText editText;
-    private String errorMsg;
-
-    public ErrorJsonListener(EditText editText, String errorMsg) {
-        this.editText = editText;
-        this.errorMsg = errorMsg;
-        editText.addTextChangedListener(this);
-        editText.setOnFocusChangeListener(this);
+    public ErrorJsonListener(String errorMsg, EditText... editTexts) {
+        super(errorMsg, editTexts);
     }
 
     @Override
-    public boolean matches(boolean hidden) {
-        boolean matches = matches(editText.getText().toString());
-        try {
-            ((TextInputLayout) editText.getParent().getParent()).setError(matches || hidden ? null : errorMsg);
-        } catch (Exception e) {
-            editText.setError(matches ? null : errorMsg);
-        }
-        return matches;
+    public boolean matches() {
+        return matches(editTexts[0].getText().toString());
     }
 
     private boolean matches(String json) {
