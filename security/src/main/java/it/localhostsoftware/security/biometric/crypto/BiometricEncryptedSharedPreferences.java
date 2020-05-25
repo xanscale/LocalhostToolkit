@@ -94,13 +94,6 @@ public class BiometricEncryptedSharedPreferences {
         }
 
         @Override
-        public void onAuthenticationFailed() {
-            super.onAuthenticationFailed();
-            out.postValue(null);
-        }
-
-
-        @Override
         public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
             super.onAuthenticationError(errorCode, errString);
             out.postValue(null);
