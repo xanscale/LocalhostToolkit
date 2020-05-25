@@ -46,12 +46,12 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
     }
 
     public I getItem(int position) {
-        return items.get(loopScroll ? position % items.size() : position);
+        return items.get(loopScroll && !items.isEmpty() ? position % items.size() : position);
     }
 
     @Override
     public int getItemCount() {
-        return loopScroll ? Integer.MAX_VALUE : items.size();
+        return loopScroll && !items.isEmpty() ? Integer.MAX_VALUE : items.size();
     }
 
     @Override
