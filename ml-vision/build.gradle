@@ -11,8 +11,8 @@ android {
 }
 
 dependencies {
-	api 'androidx.camera:camera-view:1.0.0-alpha10'
-	api 'androidx.camera:camera-camera2:1.0.0-beta03'
+	api 'androidx.camera:camera-view:1.0.0-alpha11'
+	api 'androidx.camera:camera-camera2:1.0.0-beta04'
 	api 'com.google.firebase:firebase-ml-vision:24.0.3'
 	api 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
 }
