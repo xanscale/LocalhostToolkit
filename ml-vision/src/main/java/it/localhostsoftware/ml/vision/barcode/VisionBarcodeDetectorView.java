@@ -102,12 +102,10 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
             public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
                 cameraView.performClick();
                 Image image = imageProxy.getImage();
-                if (onSuccessListener != null && image != null) {
-                    image.getPlanes()[0].getBuffer().rewind();
+                if (onSuccessListener != null && image != null)
                     FirebaseVision.getInstance().getVisionBarcodeDetector()
                             .detectInImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
                             .addOnSuccessListener(onSuccessListener);
-                }
                 handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                 super.onCaptureSuccess(imageProxy);
             }

@@ -100,12 +100,10 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
             @ExperimentalGetImage
             public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
                 Image image = imageProxy.getImage();
-                if (onSuccessListener != null && image != null) {
-                    image.getPlanes()[0].getBuffer().rewind();
+                if (onSuccessListener != null && image != null)
                     FirebaseVision.getInstance().getOnDeviceTextRecognizer()
                             .processImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
                             .addOnSuccessListener(onSuccessListener);
-                }
                 handler.postDelayed(VisionTextRecognizerView.this, delayMillis);
                 super.onCaptureSuccess(imageProxy);
             }
