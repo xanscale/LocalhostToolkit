@@ -24,24 +24,21 @@ public class NumberPickerDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getString(TITLE));
-        final NumberPicker numberPicker = new NumberPicker(getActivity());
-        if (getArguments().containsKey(MIN))
-            numberPicker.setMinValue(getArguments().getInt(MIN));
-        if (getArguments().containsKey(MAX))
-            numberPicker.setMaxValue(getArguments().getInt(MAX));
-        if (getArguments().containsKey(VALUE))
-            numberPicker.setValue(getArguments().getInt(VALUE));
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        if (requireArguments().containsKey(TITLE))
+            builder.setTitle(requireArguments().getString(TITLE));
+        final NumberPicker numberPicker = new NumberPicker(requireActivity());
+        if (requireArguments().containsKey(MIN))
+            numberPicker.setMinValue(requireArguments().getInt(MIN));
+        if (requireArguments().containsKey(MAX))
+            numberPicker.setMaxValue(requireArguments().getInt(MAX));
+        if (requireArguments().containsKey(VALUE))
+            numberPicker.setValue(requireArguments().getInt(VALUE));
         builder.setView(numberPicker);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                assert getArguments() != null;
-                getOnNumberSetListener().onNumberSet(getArguments().getSerializable(SERIALIZABLE), getArguments().getParcelable(PARCELABLE), numberPicker.getValue());
+                getOnNumberSetListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -52,7 +49,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private OnNumberSetListener getOnNumberSetListener() {
         OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
         if (l == null)
-            l = (OnNumberSetListener) getActivity();
+            l = (OnNumberSetListener) requireActivity();
         return l;
     }
 

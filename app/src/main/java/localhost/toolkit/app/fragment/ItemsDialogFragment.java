@@ -3,6 +3,7 @@ package localhost.toolkit.app.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -12,41 +13,43 @@ import java.io.Serializable;
 
 public class ItemsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String TITLE = "TITLE";
-    private static final String EXTRA = "EXTRA";
     private static final String ITEMS_ID = "ITEMS_ID";
     private static final String ITEMS = "ITEMS";
+    private static final String SERIALIZABLE = "SERIALIZABLE";
+    private static final String PARCELABLE = "PARCELABLE";
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getInt(TITLE));
-        if (getArguments().containsKey(ITEMS))
-            builder.setItems(getArguments().getStringArray(ITEMS), this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        if (requireArguments().containsKey(TITLE))
+            builder.setTitle(requireArguments().getInt(TITLE));
+        if (requireArguments().containsKey(ITEMS))
+            builder.setItems(requireArguments().getStringArray(ITEMS), this);
         else
-            builder.setItems(getArguments().getInt(ITEMS_ID), this);
+            builder.setItems(requireArguments().getInt(ITEMS_ID), this);
         return builder.create();
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        assert getActivity() != null;
-        assert getArguments() != null;
+        getOnListDialogClickListener().onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
+    }
+
+    private OnListDialogClickListener getOnListDialogClickListener() {
         OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
         if (l == null)
-            l = (OnListDialogClickListener) getActivity();
-        l.onClick(getArguments().getSerializable(EXTRA), which);
+            l = (OnListDialogClickListener) requireActivity();
+        return l;
     }
 
     public interface OnListDialogClickListener {
-        void onClick(Serializable extra, int which);
+        void onClick(Serializable serializable, Parcelable parcelable, int which);
     }
 
     public static class Builder {
-        private Serializable extra;
+        private Serializable serializable;
+        private Parcelable parcelable;
         private Integer title;
         private Integer itemsId;
         private String[] items;
@@ -57,13 +60,19 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
             if (title != null) args.putInt(TITLE, title);
             if (itemsId != null) args.putInt(ITEMS_ID, itemsId);
             if (items != null) args.putStringArray(ITEMS, items);
-            if (extra != null) args.putSerializable(EXTRA, extra);
+            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
+            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withExtra(Serializable extra) {
-            this.extra = extra;
+        public Builder withSerializable(Serializable serializable) {
+            this.serializable = serializable;
+            return this;
+        }
+
+        public Builder withParcelable(Parcelable parcelable) {
+            this.parcelable = parcelable;
             return this;
         }
 
