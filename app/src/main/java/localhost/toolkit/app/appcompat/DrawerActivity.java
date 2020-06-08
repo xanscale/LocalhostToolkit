@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -20,6 +18,9 @@ import androidx.core.content.pm.PackageInfoCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.navigation.NavigationView;
+
 import localhost.toolkit.R;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,7 +92,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 	}
 
 	public void invalidateNavigationMenu() {
-		onPrepareNavigationMenu(navigationView.getMenu());
+		navigationView.post(new Runnable() {
+			@Override
+			public void run() {
+				onPrepareNavigationMenu(navigationView.getMenu());
+			}
+		});
 	}
 
 	private MenuItem getHomeMenuItem(Menu menu) {
