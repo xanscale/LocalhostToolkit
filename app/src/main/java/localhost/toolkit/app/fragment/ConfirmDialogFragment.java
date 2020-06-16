@@ -6,6 +6,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
@@ -20,10 +21,11 @@ public class ConfirmDialogFragment extends DialogFragment {
     private static final String ICON = "ICON";
     private static final String MESSAGE = "MESSAGE";
     private static final String TITLE = "TITLE";
-    private static final String EXTRA = "EXTRA";
     private static final String POSITIVE_BUTTON = "POSITIVE_BUTTON";
     private static final String NEGATIVE_BUTTON = "NEGATIVE_BUTTON";
     private static final String NEUTRAL_BUTTON = "NEUTRAL_BUTTON";
+    private static final String SERIALIZABLE = "SERIALIZABLE";
+    private static final String PARCELABLE = "PARCELABLE";
 
     @NonNull
     @Override
@@ -41,14 +43,14 @@ public class ConfirmDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
-                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_POSITIVE);
+                getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), DialogInterface.BUTTON_POSITIVE);
             }
         });
         builder.setNegativeButton(getArguments().containsKey(NEGATIVE_BUTTON) ? getArguments().getString(NEGATIVE_BUTTON) : getString(android.R.string.cancel), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
-                getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_NEGATIVE);
+                getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), DialogInterface.BUTTON_NEGATIVE);
             }
         });
         if (getArguments().containsKey(NEUTRAL_BUTTON))
@@ -56,7 +58,7 @@ public class ConfirmDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     assert getArguments() != null;
-                    getOnConfirmedListener().onConfirmation(getArguments().getSerializable(EXTRA), DialogInterface.BUTTON_NEUTRAL);
+                    getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), DialogInterface.BUTTON_NEUTRAL);
                 }
             });
         setCancelable(false);
@@ -76,11 +78,12 @@ public class ConfirmDialogFragment extends DialogFragment {
     }
 
     public interface OnConfirmedListener {
-        void onConfirmation(Serializable extra, @ConfirmDialogButton int buttonClicked);
+        void onConfirmation(Serializable serializable, Parcelable parcelable, @ConfirmDialogButton int buttonClicked);
     }
 
     public static class Builder {
-        private Serializable extra;
+        private Serializable serializable;
+        private Parcelable parcelable;
         private String title;
         private String message;
         private Bitmap icon;
@@ -96,14 +99,20 @@ public class ConfirmDialogFragment extends DialogFragment {
             if (positiveButton != null) args.putString(POSITIVE_BUTTON, positiveButton);
             if (negativeButton != null) args.putString(NEGATIVE_BUTTON, negativeButton);
             if (neutralButton != null) args.putString(NEUTRAL_BUTTON, neutralButton);
-            if (extra != null) args.putSerializable(EXTRA, extra);
+            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
+            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
             if (icon != null) args.putParcelable(ICON, icon);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withExtra(Serializable extra) {
-            this.extra = extra;
+        public Builder withSerializable(Serializable serializable) {
+            this.serializable = serializable;
+            return this;
+        }
+
+        public Builder withParcelable(Parcelable parcelable) {
+            this.parcelable = parcelable;
             return this;
         }
 
