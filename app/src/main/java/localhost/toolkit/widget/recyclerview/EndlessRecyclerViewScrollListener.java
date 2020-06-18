@@ -45,8 +45,6 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 			lastVisibleItemPosition = getLastVisibleItem(((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(null));
 		else if (mLayoutManager instanceof LinearLayoutManager)
 			lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-		else if (mLayoutManager instanceof GridLayoutManager)
-			lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
 		if (totalItemCount < previousTotalItemCount) {
 			this.currentPage = 0;
 			this.previousTotalItemCount = totalItemCount;

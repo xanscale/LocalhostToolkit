@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private HeterogeneousFilter heterogeneousFilter;
-    private HashMap<Class, Integer> classToType;
+    private HashMap<Class<?>, Integer> classToType;
     private SparseIntArray typeToPos;
     private LayoutInflater inflater;
     private List<I> items;
@@ -40,7 +40,6 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         getItem(position).onBindViewHolder(viewHolder);
     }

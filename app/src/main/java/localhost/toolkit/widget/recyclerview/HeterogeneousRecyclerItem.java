@@ -25,6 +25,10 @@ public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHo
         this.extra = extra;
     }
 
+    public int getSpanSize() {
+        return 1;
+    }
+
     @NonNull
     @Override
     public String toString() {
