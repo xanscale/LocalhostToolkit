@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private HeterogeneousFilter heterogeneousFilter;
     private HashMap<Class<?>, Integer> classToType;
     private SparseIntArray typeToPos;
