@@ -79,7 +79,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                     handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                 } else if (event == Lifecycle.Event.ON_PAUSE) {
                     handler.removeCallbacks(VisionBarcodeDetectorView.this);
-                } else if (event == Lifecycle.Event.ON_DESTROY) {
+                } else if (event == Lifecycle.Event.ON_STOP) {
                     cameraExecutor.shutdown();
                 }
             }
