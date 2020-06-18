@@ -79,7 +79,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                     handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                 } else if (event == Lifecycle.Event.ON_PAUSE) {
                     handler.removeCallbacks(VisionBarcodeDetectorView.this);
-                } else if (event == Lifecycle.Event.ON_STOP) {
+                } else if (event == Lifecycle.Event.ON_DESTROY) {
                     cameraExecutor.shutdown();
                 }
             }
@@ -96,25 +96,26 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
 
     @Override
     public void run() {
-        cameraView.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
-            @Override
-            @ExperimentalGetImage
-            public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
-                cameraView.performClick();
-                Image image = imageProxy.getImage();
-                if (onSuccessListener != null && image != null)
-                    FirebaseVision.getInstance().getVisionBarcodeDetector()
-                            .detectInImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
-                            .addOnSuccessListener(onSuccessListener);
-                handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
-                super.onCaptureSuccess(imageProxy);
-            }
+        if (!cameraExecutor.isShutdown())
+            cameraView.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
+                @Override
+                @ExperimentalGetImage
+                public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
+                    cameraView.performClick();
+                    Image image = imageProxy.getImage();
+                    if (onSuccessListener != null && image != null)
+                        FirebaseVision.getInstance().getVisionBarcodeDetector()
+                                .detectInImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
+                                .addOnSuccessListener(onSuccessListener);
+                    handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
+                    super.onCaptureSuccess(imageProxy);
+                }
 
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                super.onError(exception);
-                exception.printStackTrace();
-            }
-        });
+                @Override
+                public void onError(@NonNull ImageCaptureException exception) {
+                    super.onError(exception);
+                    exception.printStackTrace();
+                }
+            });
     }
 }
