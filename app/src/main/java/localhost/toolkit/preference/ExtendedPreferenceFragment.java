@@ -20,7 +20,7 @@ import androidx.preference.PreferenceScreen;
  * }
  * }</pre>
  */
-public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFragment> extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFragment<?>> extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 	private int containerViewId;
 
 	public void setPreferencesFromResource(@XmlRes int preferencesResId, @IdRes int containerViewId, @Nullable String key) {
@@ -33,8 +33,7 @@ public abstract class ExtendedPreferenceFragment<PF extends ExtendedPreferenceFr
 			Log.w("ExtendedPreferenceFrag", "ExtendedPreferenceFragment require 'android:key' attribute to be set in PreferenceScreen.");
 			return false;
 		} else {
-			assert getFragmentManager() != null;
-			getFragmentManager().beginTransaction().replace(containerViewId, newConcreteInstance(preferenceScreen.getKey())).addToBackStack(null).commit();
+			getParentFragmentManager().beginTransaction().replace(containerViewId, newConcreteInstance(preferenceScreen.getKey())).addToBackStack(null).commit();
 			return true;
 		}
 	}

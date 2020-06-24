@@ -23,7 +23,7 @@ public class FixedAppBarLayoutBehavior extends AppBarLayout.Behavior {
     }
 
     private void setDragCallback() {
-        setDragCallback(new BaseDragCallback() {
+        setDragCallback(new BaseDragCallback<AppBarLayout>() {
             @Override
             public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
                 return false;

@@ -48,7 +48,7 @@ public abstract class ProgressAsyncTask<A extends FragmentActivity, P, R> extend
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        if (progressFragment != null)
+        if (progressFragment != null && progressFragment.getDialog() != null)
             ((ProgressDialog) progressFragment.getDialog()).setMessage(values[0]);
     }
 
