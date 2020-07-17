@@ -65,7 +65,7 @@ public class MediaPicker {
         }
     }
 
-    private String getDisplayName() {
+    public String getDisplayName() {
         Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
         try {
             return cursor != null && cursor.moveToFirst() ? cursor.getString(0) : null;
@@ -74,7 +74,8 @@ public class MediaPicker {
                 cursor.close();
         }
     }
-    private long getSize() {
+
+    public long getSize() {
         Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null);
         try {
             return cursor != null && cursor.moveToFirst() ? cursor.getLong(0) : -1;
