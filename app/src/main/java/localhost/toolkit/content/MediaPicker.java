@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,16 +53,35 @@ public class MediaPicker {
 
     public Uri getThumbnailUri() {
         Cursor cursor = null;
-        if (mediaType == MediaType.IMAGE)
-            cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Thumbnails.DATA}, "kind = " + MediaStore.Images.Thumbnails.MINI_KIND, null, MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER);
-        else if (mediaType == MediaType.VIDEO)
-            cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
-        if (cursor != null) {
-            if (cursor.moveToFirst())
-                return Uri.parse(cursor.getString(0));
-            cursor.close();
+        try {
+            if (mediaType == MediaType.IMAGE)
+                cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Thumbnails.DATA}, "kind = " + MediaStore.Images.Thumbnails.MINI_KIND, null, MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER);
+            else if (mediaType == MediaType.VIDEO)
+                cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
+            return cursor != null && cursor.moveToFirst() ? Uri.parse(cursor.getString(0)) : null;
+        } finally {
+            if (cursor != null)
+                cursor.close();
         }
-        return null;
+    }
+
+    private String getDisplayName() {
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
+        try {
+            return cursor != null && cursor.moveToFirst() ? cursor.getString(0) : null;
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+    }
+    private long getSize() {
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null);
+        try {
+            return cursor != null && cursor.moveToFirst() ? cursor.getLong(0) : -1;
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
     }
 
     public enum MediaType {IMAGE, VIDEO, CONTENT}
