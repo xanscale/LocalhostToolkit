@@ -24,9 +24,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getInt(TITLE));
-        if (getArguments().containsKey(CHECKED_ITEMS))
             checkedItems = getArguments().getBooleanArray(CHECKED_ITEMS);
         if (getArguments().containsKey(ITEMS)) {
             String[] items = getArguments().getStringArray(ITEMS);

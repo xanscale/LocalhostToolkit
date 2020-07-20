@@ -29,6 +29,7 @@ public class EditTextDialogFragment extends DialogFragment {
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getArguments().getString(TITLE));
         builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -39,13 +40,9 @@ public class EditTextDialogFragment extends DialogFragment {
         builder.setNegativeButton(android.R.string.cancel, null);
         View v = View.inflate(getActivity(), R.layout.edittext, null);
         editText = v.findViewById(R.id.editText);
-        if (getArguments().containsKey(TEXT))
-            editText.setText(getArguments().getString(TEXT));
-        if (getArguments().containsKey(INPUT_TYPE))
-            editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE));
+        editText.setText(getArguments().getString(TEXT));
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE, 0));
         builder.setView(v);
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getString(TITLE));
         setCancelable(false);
         return builder.create();
     }

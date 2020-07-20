@@ -20,14 +20,12 @@ public class ImageDialogFragment extends DialogFragment {
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setPositiveButton(android.R.string.ok, null);
+        builder.setTitle(getArguments().getInt(TITLE));
+        builder.setIcon(getArguments().getInt(ICON));
         ImageView image = new ImageView(getActivity());
         builder.setView(image);
         if (getArguments().containsKey(IMAGE_RESOURCE))
             image.setImageResource(getArguments().getInt(IMAGE_RESOURCE));
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getInt(TITLE));
-        if (getArguments().containsKey(ICON))
-            builder.setIcon(getArguments().getInt(ICON));
         setCancelable(false);
         return builder.create();
     }

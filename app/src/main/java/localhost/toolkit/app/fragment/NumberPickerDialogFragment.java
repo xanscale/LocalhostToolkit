@@ -25,7 +25,6 @@ public class NumberPickerDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        if (requireArguments().containsKey(TITLE))
             builder.setTitle(requireArguments().getString(TITLE));
         final NumberPicker numberPicker = new NumberPicker(requireActivity());
         if (requireArguments().containsKey(MIN))

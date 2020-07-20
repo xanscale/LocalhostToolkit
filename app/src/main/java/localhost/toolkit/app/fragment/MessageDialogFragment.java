@@ -21,11 +21,10 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getString(TITLE));
         if (getArguments().containsKey(MESSAGE))
             builder.setMessage(Html.fromHtml(getArguments().getString(MESSAGE)));
-        builder.setPositiveButton(android.R.string.ok, getArguments().containsKey(EXIT) && getArguments().getBoolean(EXIT) ? this : null);
+        builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(EXIT) ? this : null);
         setCancelable(false);
         return builder.create();
     }

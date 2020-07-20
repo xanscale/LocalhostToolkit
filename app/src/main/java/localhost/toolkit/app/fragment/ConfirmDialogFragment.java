@@ -33,20 +33,18 @@ public class ConfirmDialogFragment extends DialogFragment {
         assert getActivity() != null;
         assert getArguments() != null;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getString(TITLE));
-        if (getArguments().containsKey(MESSAGE))
-            builder.setMessage(getArguments().getString(MESSAGE));
+        builder.setTitle(getArguments().getString(TITLE));
+        builder.setMessage(getArguments().getString(MESSAGE));
         if (getArguments().containsKey(ICON))
             builder.setIcon(new BitmapDrawable(getResources(), (Bitmap) getArguments().getParcelable(ICON)));
-        builder.setPositiveButton(getArguments().containsKey(POSITIVE_BUTTON) ? getArguments().getString(POSITIVE_BUTTON) : getString(android.R.string.ok), new OnClickListener() {
+        builder.setPositiveButton(getArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;
                 getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), DialogInterface.BUTTON_POSITIVE);
             }
         });
-        builder.setNegativeButton(getArguments().containsKey(NEGATIVE_BUTTON) ? getArguments().getString(NEGATIVE_BUTTON) : getString(android.R.string.cancel), new OnClickListener() {
+        builder.setNegativeButton(getArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 assert getArguments() != null;

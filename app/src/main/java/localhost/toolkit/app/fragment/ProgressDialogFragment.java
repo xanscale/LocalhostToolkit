@@ -19,12 +19,9 @@ public class ProgressDialogFragment extends DialogFragment {
         assert getActivity() != null;
         assert getArguments() != null;
         ProgressDialog pd = new ProgressDialog(getActivity());
-        if (getArguments().containsKey(TITLE))
-            pd.setTitle(getArguments().getString(TITLE));
-        if (getArguments().containsKey(MESSAGE))
-            pd.setMessage(getArguments().getString(MESSAGE));
-        if (getArguments().containsKey(CANCELABLE))
-            setCancelable((getArguments().getBoolean(CANCELABLE)));
+        pd.setTitle(getArguments().getString(TITLE));
+        pd.setMessage(getArguments().getString(MESSAGE));
+        setCancelable((getArguments().getBoolean(CANCELABLE, true)));
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return pd;
     }
