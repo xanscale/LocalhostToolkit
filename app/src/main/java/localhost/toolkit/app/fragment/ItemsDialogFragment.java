@@ -22,7 +22,8 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle(requireArguments().getInt(TITLE));
+        if (requireArguments().containsKey(TITLE))
+            builder.setTitle(requireArguments().getInt(TITLE));
         if (requireArguments().containsKey(ITEMS))
             builder.setItems(requireArguments().getStringArray(ITEMS), this);
         else
