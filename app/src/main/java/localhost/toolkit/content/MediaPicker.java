@@ -59,6 +59,9 @@ public class MediaPicker {
             else if (mediaType == MediaType.VIDEO)
                 cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
             return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -69,6 +72,9 @@ public class MediaPicker {
         Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
         try {
             return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getString(0) : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -79,6 +85,9 @@ public class MediaPicker {
         Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null);
         try {
             return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getLong(0) : -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         } finally {
             if (cursor != null)
                 cursor.close();
