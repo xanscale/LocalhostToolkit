@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.Serializable;
 
 import localhost.toolkit.R;
@@ -41,9 +43,10 @@ public class EditTextDialogFragment extends DialogFragment {
         builder.setNegativeButton(android.R.string.cancel, null);
         View v = View.inflate(getActivity(), R.layout.dialog_edittext, null);
         editText = v.findViewById(R.id.textInputEditText);
+        TextInputLayout til = v.findViewById(R.id.textInputLayout);
         editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE, 0));
         editText.setText(getArguments().getString(TEXT));
-        editText.setHint(getArguments().getString(HINT));
+        til.setHint(getArguments().getString(HINT));
         builder.setView(v);
         setCancelable(false);
         return builder.create();
@@ -93,6 +96,7 @@ public class EditTextDialogFragment extends DialogFragment {
             this.text = text;
             return this;
         }
+
         public Builder withHint(String hint) {
             this.hint = hint;
             return this;
