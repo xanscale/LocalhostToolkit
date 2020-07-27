@@ -18,6 +18,7 @@ import localhost.toolkit.R;
 
 public class EditTextDialogFragment extends DialogFragment {
     private static final String TEXT = "TEXT";
+    private static final String HINT = "HINT";
     private static final String INPUT_TYPE = "INPUT_TYPE";
     private static final String TITLE = "TITLE";
     private static final String EXTRA = "EXTRA";
@@ -38,10 +39,11 @@ public class EditTextDialogFragment extends DialogFragment {
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
-        View v = View.inflate(getActivity(), R.layout.edittext, null);
-        editText = v.findViewById(R.id.editText);
-        editText.setText(getArguments().getString(TEXT));
+        View v = View.inflate(getActivity(), R.layout.dialog_edittext, null);
+        editText = v.findViewById(R.id.textInputEditText);
         editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE, 0));
+        editText.setText(getArguments().getString(TEXT));
+        editText.setHint(getArguments().getString(HINT));
         builder.setView(v);
         setCancelable(false);
         return builder.create();
@@ -62,6 +64,7 @@ public class EditTextDialogFragment extends DialogFragment {
         private Serializable extra;
         private String title;
         private String text;
+        private String hint;
         private Integer inputType;
 
         public EditTextDialogFragment build() {
@@ -70,6 +73,7 @@ public class EditTextDialogFragment extends DialogFragment {
             if (extra != null) args.putSerializable(EXTRA, extra);
             if (title != null) args.putString(TITLE, title);
             if (text != null) args.putString(TEXT, text);
+            if (hint != null) args.putString(HINT, hint);
             if (inputType != null) args.putInt(INPUT_TYPE, inputType);
             fragment.setArguments(args);
             return fragment;
@@ -87,6 +91,10 @@ public class EditTextDialogFragment extends DialogFragment {
 
         public Builder withText(String text) {
             this.text = text;
+            return this;
+        }
+        public Builder withHint(String hint) {
+            this.hint = hint;
             return this;
         }
 
