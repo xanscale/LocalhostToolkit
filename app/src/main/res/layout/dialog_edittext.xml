@@ -7,7 +7,7 @@
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditText"
