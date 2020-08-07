@@ -7,7 +7,7 @@ import java.util.Set;
 public class ErrorSetListener extends AbstractErrorListener {
     private Set<String> stringSet;
 
-    public ErrorSetListener(String errorMsg, Set<String> stringSet, EditText... editTexts) {
+    public ErrorSetListener(Set<String> stringSet, String errorMsg, EditText... editTexts) {
         super(errorMsg, editTexts);
         this.stringSet = stringSet;
     }

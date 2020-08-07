@@ -15,7 +15,7 @@ public class ErrorRegexListener extends AbstractErrorListener {
     /**
      * @param pattern Use embedded or android.util.Patterns
      */
-    public ErrorRegexListener(String errorMsg, EditText editText, Pattern pattern) {
+    public ErrorRegexListener(Pattern pattern, String errorMsg, EditText editText) {
         super(errorMsg, editText);
         this.pattern = pattern;
     }

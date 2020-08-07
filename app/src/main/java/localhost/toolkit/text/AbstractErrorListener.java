@@ -7,11 +7,15 @@ import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashSet;
+
 public abstract class AbstractErrorListener implements TextWatcher, View.OnFocusChangeListener {
     protected EditText[] editTexts;
+    private HashSet<Integer> focusedIds;
     private String errorMsg;
 
     public AbstractErrorListener(String errorMsg, EditText... editTexts) {
+        focusedIds = new HashSet<>();
         this.editTexts = editTexts;
         this.errorMsg = errorMsg;
         for (EditText editText : editTexts) {
@@ -24,8 +28,10 @@ public abstract class AbstractErrorListener implements TextWatcher, View.OnFocus
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus)
-            matches(true);
+        if (!hasFocus) {
+            focusedIds.add(v.getId());
+            matches(focusedIds.size() == editTexts.length);
+        }
     }
 
     public boolean matches(boolean showError) {
