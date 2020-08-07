@@ -7,13 +7,13 @@ import java.util.Set;
 public class ErrorSetListener extends AbstractErrorListener {
     private Set<String> stringSet;
 
-    public ErrorSetListener(Set<String> stringSet, String errorMsg, EditText... editTexts) {
-        super(errorMsg, editTexts);
+    public ErrorSetListener(String errorMsg, EditText editText, Set<String> stringSet) {
+        super(errorMsg, editText);
         this.stringSet = stringSet;
     }
 
     @Override
     public boolean matches() {
-        return stringSet.contains(editTexts[0].getText().toString());
+        return stringSet.contains(editText.getText().toString());
     }
 }

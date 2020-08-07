@@ -7,13 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ErrorJsonListener extends AbstractErrorListener {
-    public ErrorJsonListener(String errorMsg, EditText... editTexts) {
-        super(errorMsg, editTexts);
+    public ErrorJsonListener(String errorMsg, EditText editText) {
+        super(errorMsg, editText);
     }
 
     @Override
     public boolean matches() {
-        return matches(editTexts[0].getText().toString());
+        return matches(editText.getText().toString());
     }
 
     private boolean matches(String json) {

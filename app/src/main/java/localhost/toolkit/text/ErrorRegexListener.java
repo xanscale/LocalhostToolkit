@@ -15,13 +15,13 @@ public class ErrorRegexListener extends AbstractErrorListener {
     /**
      * @param pattern Use embedded or android.util.Patterns
      */
-    public ErrorRegexListener(Pattern pattern, String errorMsg, EditText editText) {
+    public ErrorRegexListener(String errorMsg, EditText editText, Pattern pattern) {
         super(errorMsg, editText);
         this.pattern = pattern;
     }
 
     @Override
     public boolean matches() {
-        return pattern.matcher(editTexts[0].getText().toString()).matches();
+        return pattern.matcher(editText.getText().toString()).matches();
     }
 }

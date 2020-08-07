@@ -10,18 +10,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.HashSet;
 
 public abstract class AbstractErrorListener implements TextWatcher, View.OnFocusChangeListener {
-    protected EditText[] editTexts;
-    private HashSet<Integer> focusedIds;
+    protected EditText editText;
     private String errorMsg;
 
-    public AbstractErrorListener(String errorMsg, EditText... editTexts) {
-        focusedIds = new HashSet<>();
-        this.editTexts = editTexts;
+    public AbstractErrorListener(String errorMsg, EditText editText) {
+        this.editText = editText;
         this.errorMsg = errorMsg;
-        for (EditText editText : editTexts) {
-            editText.addTextChangedListener(this);
-            editText.setOnFocusChangeListener(this);
-        }
+        editText.addTextChangedListener(this);
+        editText.setOnFocusChangeListener(this);
     }
 
     abstract public boolean matches();
@@ -29,31 +25,28 @@ public abstract class AbstractErrorListener implements TextWatcher, View.OnFocus
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            focusedIds.add(v.getId());
-            matches(focusedIds.size() == editTexts.length);
+            matches(true);
         }
     }
 
     public boolean matches(boolean showError) {
         boolean matches = matches();
         if (showError && !matches)
-            for (EditText editText : editTexts)
-                try {
-                    ((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
-                } catch (Exception e) {
-                    editText.setError(errorMsg);
-                }
+            try {
+                ((TextInputLayout) editText.getParent().getParent()).setError(errorMsg);
+            } catch (Exception e) {
+                editText.setError(errorMsg);
+            }
         return matches;
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        for (EditText editText : editTexts)
-            try {
-                ((TextInputLayout) editText.getParent().getParent()).setError(null);
-            } catch (Exception e) {
-                editText.setError(null);
-            }
+        try {
+            ((TextInputLayout) editText.getParent().getParent()).setError(null);
+        } catch (Exception e) {
+            editText.setError(null);
+        }
     }
 
     @Override
