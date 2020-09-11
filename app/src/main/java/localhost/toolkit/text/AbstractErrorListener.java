@@ -45,4 +45,8 @@ public abstract class AbstractErrorListener implements View.OnFocusChangeListene
             editText.setError(null);
         }
     }
+
+    public EditText getEditText() {
+        return editText;
+    }
 }
