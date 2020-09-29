@@ -22,20 +22,19 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.localhostsoftware.ml.vision.R;
-import it.localhostsoftware.ml.vision.common.Utils;
 
 public class VisionTextRecognizerView extends FrameLayout implements Runnable {
     private CameraView cameraView;
     private Handler handler;
-    private OnSuccessListener<FirebaseVisionText> onSuccessListener;
+    private OnSuccessListener<Text> onSuccessListener;
     private long delayMillis;
     private ExecutorService cameraExecutor;
 
@@ -85,7 +84,7 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
         });
     }
 
-    public void setOnSuccessListener(OnSuccessListener<FirebaseVisionText> onSuccessListener) {
+    public void setOnSuccessListener(OnSuccessListener<Text> onSuccessListener) {
         this.onSuccessListener = onSuccessListener;
     }
 
@@ -101,8 +100,7 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
             public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
                 Image image = imageProxy.getImage();
                 if (onSuccessListener != null && image != null)
-                    FirebaseVision.getInstance().getOnDeviceTextRecognizer()
-                            .processImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
+                    TextRecognition.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees()))
                             .addOnSuccessListener(onSuccessListener);
                 handler.postDelayed(VisionTextRecognizerView.this, delayMillis);
                 super.onCaptureSuccess(imageProxy);

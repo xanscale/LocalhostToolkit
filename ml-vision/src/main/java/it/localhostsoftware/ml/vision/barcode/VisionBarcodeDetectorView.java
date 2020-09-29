@@ -22,21 +22,20 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.mlkit.vision.barcode.Barcode;
+import com.google.mlkit.vision.barcode.BarcodeScanning;
+import com.google.mlkit.vision.common.InputImage;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.localhostsoftware.ml.vision.R;
-import it.localhostsoftware.ml.vision.common.Utils;
 
 public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
     private CameraView cameraView;
     private Handler handler;
-    private OnSuccessListener<List<FirebaseVisionBarcode>> onSuccessListener;
+    private OnSuccessListener<List<Barcode>> onSuccessListener;
     private long delayMillis;
     private ExecutorService cameraExecutor;
 
@@ -86,7 +85,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
         });
     }
 
-    public void setOnSuccessListener(OnSuccessListener<List<FirebaseVisionBarcode>> onSuccessListener) {
+    public void setOnSuccessListener(OnSuccessListener<List<Barcode>> onSuccessListener) {
         this.onSuccessListener = onSuccessListener;
     }
 
@@ -104,9 +103,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                     cameraView.performClick();
                     Image image = imageProxy.getImage();
                     if (onSuccessListener != null && image != null)
-                        FirebaseVision.getInstance().getVisionBarcodeDetector()
-                                .detectInImage(FirebaseVisionImage.fromMediaImage(image, Utils.degreesToFirebaseRotation(imageProxy.getImageInfo().getRotationDegrees())))
-                                .addOnSuccessListener(onSuccessListener);
+                        BarcodeScanning.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees())).addOnSuccessListener(onSuccessListener);
                     handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
                     super.onCaptureSuccess(imageProxy);
                 }
