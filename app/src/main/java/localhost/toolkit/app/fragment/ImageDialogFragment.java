@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ImageDialogFragment extends DialogFragment {
     private static final String ICON = "ICON";
@@ -18,7 +19,7 @@ public class ImageDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         assert getActivity() != null;
         assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         builder.setPositiveButton(android.R.string.ok, null);
         if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getInt(TITLE));

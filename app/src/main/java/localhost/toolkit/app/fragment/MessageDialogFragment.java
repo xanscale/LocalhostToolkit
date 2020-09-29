@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.text.Html;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MessageDialogFragment extends DialogFragment implements OnClickListener {
     private static final String TITLE = "TITLE";
@@ -20,8 +21,8 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         assert getActivity() != null;
         assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getArguments().getString(TITLE));
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        builder.setTitle(getArguments().getString(TITLE));
         if (getArguments().containsKey(MESSAGE))
             builder.setMessage(Html.fromHtml(getArguments().getString(MESSAGE)));
         builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(EXIT) ? this : null);

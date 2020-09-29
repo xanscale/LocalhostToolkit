@@ -5,8 +5,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
 
@@ -23,7 +24,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         assert getActivity() != null;
         assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         if (getArguments().containsKey(TITLE))
             builder.setTitle(getArguments().getInt(TITLE));
         checkedItems = getArguments().getBooleanArray(CHECKED_ITEMS);

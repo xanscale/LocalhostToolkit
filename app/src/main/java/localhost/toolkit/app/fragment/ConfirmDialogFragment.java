@@ -10,8 +10,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -32,7 +33,7 @@ public class ConfirmDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         assert getActivity() != null;
         assert getArguments() != null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         builder.setTitle(getArguments().getString(TITLE));
         builder.setMessage(getArguments().getString(MESSAGE));
         if (getArguments().containsKey(ICON))

@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
 
@@ -21,7 +22,7 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
         if (requireArguments().containsKey(TITLE))
             builder.setTitle(requireArguments().getInt(TITLE));
         if (requireArguments().containsKey(ITEMS))

@@ -8,8 +8,9 @@ import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
 
@@ -24,8 +25,8 @@ public class NumberPickerDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            builder.setTitle(requireArguments().getString(TITLE));
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        builder.setTitle(requireArguments().getString(TITLE));
         final NumberPicker numberPicker = new NumberPicker(requireActivity());
         if (requireArguments().containsKey(MIN))
             numberPicker.setMinValue(requireArguments().getInt(MIN));
