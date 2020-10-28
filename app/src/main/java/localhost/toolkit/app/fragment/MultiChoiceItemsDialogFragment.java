@@ -21,7 +21,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     private static final String ITEMS = "ITEMS";
     private static final String FIRST_ITEM_AS_CLICK_ALL = "firstItemAsClickAll";
     private boolean[] checkedItems;
-    private boolean performAllItemsClick = true;
+    private boolean performItemClick = true;
 
     @NonNull
     @Override
@@ -60,14 +60,14 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
             assert getDialog() != null;
             ListView listView = ((AlertDialog) getDialog()).getListView();
             if (which == 0) {
-                if (performAllItemsClick)
+                if (performItemClick)
                     for (int i = 1; i < checkedItems.length; i++)
-                        if (isChecked && !checkedItems[i] || !isChecked && checkedItems[i])
+                        if (isChecked != checkedItems[i])
                             listView.performItemClick(listView, i, 0);
             } else if (!isChecked && checkedItems[0]) {
-                performAllItemsClick = false;
+                performItemClick = false;
                 listView.performItemClick(listView, 0, 0);
-                performAllItemsClick = true;
+                performItemClick = true;
             }
         }
     }
