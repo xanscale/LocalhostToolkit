@@ -3,8 +3,10 @@ package localhost.toolkit.app.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -17,7 +19,9 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     private static final String EXTRA = "EXTRA";
     private static final String ITEMS_ID = "ITEMS_ID";
     private static final String ITEMS = "ITEMS";
+    private static final String FIRST_ITEM_AS_CLICK_ALL = "firstItemAsClickAll";
     private boolean[] checkedItems;
+    private boolean performAllItemsClick = true;
 
     @NonNull
     @Override
@@ -52,6 +56,20 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
         checkedItems[which] = isChecked;
+        if (requireArguments().getBoolean(FIRST_ITEM_AS_CLICK_ALL)) {
+            assert getDialog() != null;
+            ListView listView = ((AlertDialog) getDialog()).getListView();
+            if (which == 0) {
+                if (performAllItemsClick)
+                    for (int i = 1; i < checkedItems.length; i++)
+                        if (isChecked && !checkedItems[i] || !isChecked && checkedItems[i])
+                            listView.performItemClick(listView, i, 0);
+            } else if (!isChecked && checkedItems[0]) {
+                performAllItemsClick = false;
+                listView.performItemClick(listView, 0, 0);
+                performAllItemsClick = true;
+            }
+        }
     }
 
     public interface OnMultiChoiceDialogClickListener {
@@ -64,6 +82,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
         private Integer itemsId;
         private boolean[] checkedItems;
         private String[] items;
+        private boolean firstItemAsClickAll;
 
         public MultiChoiceItemsDialogFragment build() {
             MultiChoiceItemsDialogFragment fragment = new MultiChoiceItemsDialogFragment();
@@ -73,6 +92,7 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
             if (itemsId != null) args.putInt(ITEMS_ID, itemsId);
             if (items != null) args.putStringArray(ITEMS, items);
             if (checkedItems != null) args.putBooleanArray(CHECKED_ITEMS, checkedItems);
+            args.putBoolean(FIRST_ITEM_AS_CLICK_ALL, firstItemAsClickAll);
             fragment.setArguments(args);
             return fragment;
         }
@@ -94,6 +114,11 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
 
         public Builder withCheckedItems(boolean[] checkedItems) {
             this.checkedItems = checkedItems;
+            return this;
+        }
+
+        public Builder withFirstItemAsClickAll(boolean firstItemAsClickAll) {
+            this.firstItemAsClickAll = firstItemAsClickAll;
             return this;
         }
 
