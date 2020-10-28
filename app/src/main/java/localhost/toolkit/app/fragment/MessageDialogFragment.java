@@ -19,21 +19,18 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-        builder.setTitle(getArguments().getString(TITLE));
-        if (getArguments().containsKey(MESSAGE))
-            builder.setMessage(Html.fromHtml(getArguments().getString(MESSAGE)));
-        builder.setPositiveButton(android.R.string.ok, getArguments().getBoolean(EXIT) ? this : null);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        builder.setTitle(requireArguments().getString(TITLE));
+        if (requireArguments().containsKey(MESSAGE))
+            builder.setMessage(Html.fromHtml(requireArguments().getString(MESSAGE)));
+        builder.setPositiveButton(android.R.string.ok, requireArguments().getBoolean(EXIT) ? this : null);
         setCancelable(false);
         return builder.create();
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        assert getActivity() != null;
-        getActivity().onBackPressed();
+        requireActivity().onBackPressed();
     }
 
     public static class Builder {

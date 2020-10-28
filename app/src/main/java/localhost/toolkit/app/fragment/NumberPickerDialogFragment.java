@@ -38,19 +38,15 @@ public class NumberPickerDialogFragment extends DialogFragment {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                getOnNumberSetListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
+                OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
+                if (l == null)
+                    l = (OnNumberSetListener) requireActivity();
+                l.onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
         setCancelable(false);
         return builder.create();
-    }
-
-    private OnNumberSetListener getOnNumberSetListener() {
-        OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
-        if (l == null)
-            l = (OnNumberSetListener) requireActivity();
-        return l;
     }
 
     public interface OnNumberSetListener {

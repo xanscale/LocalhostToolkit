@@ -29,34 +29,27 @@ public class EditTextDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-        builder.setTitle(getArguments().getString(TITLE));
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        builder.setTitle(requireArguments().getString(TITLE));
         builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                assert getArguments() != null;
-                getOnEditTextListener().onEditTextDialogResult(getArguments().getSerializable(EXTRA), editText.getText().toString());
+                OnEditTextListener l = (OnEditTextListener) getParentFragment();
+                if (l == null)
+                    l = (OnEditTextListener) requireActivity();
+                l.onEditTextDialogResult(requireArguments().getSerializable(EXTRA), editText.getText().toString());
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
-        View v = View.inflate(getActivity(), R.layout.dialog_edittext, null);
+        View v = View.inflate(requireContext(), R.layout.dialog_edittext, null);
         editText = v.findViewById(R.id.textInputEditText);
         TextInputLayout til = v.findViewById(R.id.textInputLayout);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | getArguments().getInt(INPUT_TYPE, 0));
-        editText.setText(getArguments().getString(TEXT));
-        til.setHint(getArguments().getString(HINT));
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | requireArguments().getInt(INPUT_TYPE, 0));
+        editText.setText(requireArguments().getString(TEXT));
+        til.setHint(requireArguments().getString(HINT));
         builder.setView(v);
         setCancelable(false);
         return builder.create();
-    }
-
-    private OnEditTextListener getOnEditTextListener() {
-        OnEditTextListener l = (OnEditTextListener) getParentFragment();
-        if (l == null)
-            l = (OnEditTextListener) getActivity();
-        return l;
     }
 
     public interface OnEditTextListener {

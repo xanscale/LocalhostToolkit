@@ -22,20 +22,17 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getInt(TITLE));
-        checkedItems = getArguments().getBooleanArray(CHECKED_ITEMS);
-        if (getArguments().containsKey(ITEMS)) {
-            String[] items = getArguments().getStringArray(ITEMS);
-            assert items != null;
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        if (requireArguments().containsKey(TITLE))
+            builder.setTitle(requireArguments().getInt(TITLE));
+        checkedItems = requireArguments().getBooleanArray(CHECKED_ITEMS);
+        if (requireArguments().containsKey(ITEMS)) {
+            String[] items = requireArguments().getStringArray(ITEMS);
             if (checkedItems == null)
                 checkedItems = new boolean[items.length];
             builder.setMultiChoiceItems(items, checkedItems, this);
         } else {
-            int itemsId = getArguments().getInt(ITEMS_ID);
+            int itemsId = requireArguments().getInt(ITEMS_ID);
             if (checkedItems == null)
                 checkedItems = new boolean[getResources().getTextArray(itemsId).length];
             builder.setMultiChoiceItems(itemsId, checkedItems, this);
@@ -46,12 +43,10 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     }
 
     public void onClick(DialogInterface dialog, int which) {
-        assert getActivity() != null;
-        assert getArguments() != null;
         OnMultiChoiceDialogClickListener l = (OnMultiChoiceDialogClickListener) getParentFragment();
         if (l == null)
-            l = (OnMultiChoiceDialogClickListener) getActivity();
-        l.onClick(getArguments().getSerializable(EXTRA), checkedItems);
+            l = (OnMultiChoiceDialogClickListener) requireActivity();
+        l.onClick(requireArguments().getSerializable(EXTRA), checkedItems);
     }
 
     @Override

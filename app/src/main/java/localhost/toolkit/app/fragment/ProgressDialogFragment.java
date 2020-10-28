@@ -16,20 +16,17 @@ public class ProgressDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.setTitle(getArguments().getString(TITLE));
-        pd.setMessage(getArguments().getString(MESSAGE));
-        setCancelable((getArguments().getBoolean(CANCELABLE, true)));
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        ProgressDialog pd = new ProgressDialog(requireContext());
+        pd.setTitle(requireArguments().getString(TITLE));
+        pd.setMessage(requireArguments().getString(MESSAGE));
+        setCancelable((requireArguments().getBoolean(CANCELABLE, true)));
+        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return pd;
     }
 
     @Override
     public void onStop() {
-        assert getActivity() != null;
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onStop();
     }
 

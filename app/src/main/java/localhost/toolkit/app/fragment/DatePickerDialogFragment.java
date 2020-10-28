@@ -11,6 +11,10 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * @deprecated use {@link com.google.android.material.datepicker.MaterialDatePicker} instead
+ */
+@Deprecated
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private static final String DATE = "DATE";
     private static final String MIN_DATE = "MIN_DATE";

@@ -17,18 +17,16 @@ public class ImageDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        assert getActivity() != null;
-        assert getArguments() != null;
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setPositiveButton(android.R.string.ok, null);
-        if (getArguments().containsKey(TITLE))
-            builder.setTitle(getArguments().getInt(TITLE));
-        if (getArguments().containsKey(ICON))
-            builder.setIcon(getArguments().getInt(ICON));
+        if (requireArguments().containsKey(TITLE))
+            builder.setTitle(requireArguments().getInt(TITLE));
+        if (requireArguments().containsKey(ICON))
+            builder.setIcon(requireArguments().getInt(ICON));
         ImageView image = new ImageView(getActivity());
         builder.setView(image);
-        if (getArguments().containsKey(IMAGE_RESOURCE))
-            image.setImageResource(getArguments().getInt(IMAGE_RESOURCE));
+        if (requireArguments().containsKey(IMAGE_RESOURCE))
+            image.setImageResource(requireArguments().getInt(IMAGE_RESOURCE));
         setCancelable(false);
         return builder.create();
     }

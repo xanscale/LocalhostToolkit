@@ -11,7 +11,10 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * @deprecated use {@link com.google.android.material.datepicker.MaterialTimePicker} instead
+ */
+@Deprecated
 public class TimePickerDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     private static final String TIME_IN_MILLIS = "TIME_IN_MILLIS";
 
