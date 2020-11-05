@@ -45,6 +45,6 @@ public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHo
 
     @Override
     public int hashCode() {
-        return System.identityHashCode(extra);
+        return extra.hashCode();
     }
 }

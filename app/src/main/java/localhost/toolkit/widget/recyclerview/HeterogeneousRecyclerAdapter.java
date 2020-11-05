@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 
 public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private HeterogeneousFilter heterogeneousFilter;
-    private HashMap<Class<?>, Integer> classToType;
-    private SparseIntArray typeToPos;
-    private LayoutInflater inflater;
+    private final HashMap<Class<?>, Integer> classToType;
+    private final SparseIntArray typeToPos;
+    private final LayoutInflater inflater;
     private List<I> items;
     private List<I> originalItems;
     private boolean loopScroll;
@@ -61,7 +61,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 
     @Override
     public long getItemId(int position) {
-        return getItem(position).hashCode();
+        return System.identityHashCode(getItem(position));
     }
 
     public void notifyTypesChanged() {
