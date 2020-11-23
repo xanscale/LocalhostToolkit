@@ -105,7 +105,7 @@ public class VisionBarcodeDetectorView extends FrameLayout implements Runnable {
                     if (onSuccessListener != null && image != null)
                         BarcodeScanning.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees())).addOnSuccessListener(onSuccessListener);
                     handler.postDelayed(VisionBarcodeDetectorView.this, delayMillis);
-                    super.onCaptureSuccess(imageProxy);
+                    imageProxy.close();
                 }
 
                 @Override

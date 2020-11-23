@@ -94,23 +94,24 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
 
     @Override
     public void run() {
-        cameraView.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
-            @Override
-            @ExperimentalGetImage
-            public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
-                Image image = imageProxy.getImage();
-                if (onSuccessListener != null && image != null)
-                    TextRecognition.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees()))
-                            .addOnSuccessListener(onSuccessListener);
-                handler.postDelayed(VisionTextRecognizerView.this, delayMillis);
-                super.onCaptureSuccess(imageProxy);
-            }
+        if (!cameraExecutor.isShutdown())
+            cameraView.takePicture(cameraExecutor, new ImageCapture.OnImageCapturedCallback() {
+                @Override
+                @ExperimentalGetImage
+                public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
+                    cameraView.performClick();
+                    Image image = imageProxy.getImage();
+                    if (onSuccessListener != null && image != null)
+                        TextRecognition.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees())).addOnSuccessListener(onSuccessListener);
+                    handler.postDelayed(VisionTextRecognizerView.this, delayMillis);
+                    imageProxy.close();
+                }
 
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                super.onError(exception);
-                exception.printStackTrace();
-            }
-        });
+                @Override
+                public void onError(@NonNull ImageCaptureException exception) {
+                    super.onError(exception);
+                    exception.printStackTrace();
+                }
+            });
     }
 }
