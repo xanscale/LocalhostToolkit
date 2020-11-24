@@ -1,5 +1,6 @@
 package localhost.toolkit.content;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ public class MediaPicker {
     private Context context;
     private Uri uri;
     private MediaType mediaType;
+    private int resultCode = Activity.RESULT_CANCELED;
 
     public MediaPicker(Context context) {
         this.context = context;
@@ -35,8 +37,14 @@ public class MediaPicker {
     }
 
     public void onActivityResult(Intent data) {
-        if (data != null && data.getData() != null)
+        if (data != null && data.getData() != null) {
             uri = data.getData();
+            resultCode = Activity.RESULT_OK;
+        }
+    }
+
+    public int getResultCode() {
+        return resultCode;
     }
 
     public Uri getUri() {
