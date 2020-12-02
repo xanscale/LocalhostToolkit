@@ -99,7 +99,6 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
                 @Override
                 @ExperimentalGetImage
                 public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
-                    cameraView.performClick();
                     Image image = imageProxy.getImage();
                     if (onSuccessListener != null && image != null)
                         TextRecognition.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees())).addOnSuccessListener(onSuccessListener);
