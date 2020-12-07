@@ -8,8 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.uiSettings.UiSettings;
 
-public interface AbstractMap {
+public interface Map {
     int MAP_TYPE_NONE = 0;
     int MAP_TYPE_NORMAL = 1;
     int MAP_TYPE_SATELLITE = 2;
@@ -48,7 +49,7 @@ public interface AbstractMap {
 
     // IndoorBuilding getFocusedBuilding();
 
-  //  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
+    //  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
 
     int getMapType();
 
@@ -73,7 +74,7 @@ public interface AbstractMap {
 
     // void setLocationSource(LocationSource var1);
 
-    //  UiSettings getUiSettings();
+    UiSettings getUiSettings();
 
     // Projection getProjection();
 
@@ -84,37 +85,38 @@ public interface AbstractMap {
     void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1);
 
     void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
-/*
-    void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
-    void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
+    /*
+        void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
-    void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
+        void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
 
-    void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
+        void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
 
-    void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
+        void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
 
-    void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
+        void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
 
-    void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
+        void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
 
-    void setInfoWindowAdapter(InfoWindowAdapter var1);
-*/
+        void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
+
+        void setInfoWindowAdapter(InfoWindowAdapter var1);
+    */
     void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
 
     void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
 
     void setOnMapLoadedCallback(OnMapLoadedCallback var1);
 
-  /*  void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
+    /*  void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 
-    void setOnCircleClickListener(OnCircleClickListener var1);
+      void setOnCircleClickListener(OnCircleClickListener var1);
 
-    void setOnPolygonClickListener(OnPolygonClickListener var1);
+      void setOnPolygonClickListener(OnPolygonClickListener var1);
 
-    void setOnPolylineClickListener(OnPolylineClickListener var1);
-*/
+      void setOnPolylineClickListener(OnPolylineClickListener var1);
+  */
     void snapshot(SnapshotReadyCallback var1);
 
     void snapshot(SnapshotReadyCallback var1, Bitmap var2);

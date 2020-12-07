@@ -8,8 +8,10 @@ import androidx.annotation.RequiresPermission;
 import com.google.android.gms.maps.model.CameraPosition;
 
 import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.uiSettings.GoogleUiSettings;
+import it.localhostsoftware.maps.uiSettings.UiSettings;
 
-public class GoogleMap implements AbstractMap {
+public class GoogleMap implements Map {
     private com.google.android.gms.maps.GoogleMap map;
 
     public GoogleMap(com.google.android.gms.maps.GoogleMap map) {
@@ -129,6 +131,11 @@ public class GoogleMap implements AbstractMap {
     @Override
     public void setMyLocationEnabled(boolean b) {
         map.setMyLocationEnabled(b);
+    }
+
+    @Override
+    public UiSettings getUiSettings() {
+        return new GoogleUiSettings(map.getUiSettings());
     }
 
     @Override

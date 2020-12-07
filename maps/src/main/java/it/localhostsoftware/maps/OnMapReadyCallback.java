@@ -1,7 +1,7 @@
 package it.localhostsoftware.maps;
 
-import it.localhostsoftware.maps.map.AbstractMap;
+import it.localhostsoftware.maps.map.Map;
 
 public interface OnMapReadyCallback {
-    void onMapReady(AbstractMap map);
+    void onMapReady(Map map);
 }
