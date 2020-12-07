@@ -5,7 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.LatLng;
+
+import it.localhostsoftware.maps.LatLng;
 
 public class GoogleMarker implements Marker {
     private final com.google.android.gms.maps.model.Marker marker;
@@ -26,12 +27,12 @@ public class GoogleMarker implements Marker {
 
     @Override
     public void setPosition(@NonNull LatLng latLng) {
-        marker.setPosition(latLng);
+        marker.setPosition(latLng.toGoogleLatLng());
     }
 
     @Override
     public LatLng getPosition() {
-        return marker.getPosition();
+        return LatLng.fromGoogleLatLng(marker.getPosition());
     }
 
     @Override
