@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LocalhostToolkit.iml" filepath="$PROJECT_DIR$/.idea/modules/LocalhostToolkit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LocalhostToolkit.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LocalhostToolkit.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/maps/LocalhostToolkit.maps.iml" filepath="$PROJECT_DIR$/.idea/modules/maps/LocalhostToolkit.maps.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ml-vision/LocalhostToolkit.ml-vision.iml" filepath="$PROJECT_DIR$/.idea/modules/ml-vision/LocalhostToolkit.ml-vision.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/security/LocalhostToolkit.security.iml" filepath="$PROJECT_DIR$/.idea/modules/security/LocalhostToolkit.security.iml" />
     </modules>
