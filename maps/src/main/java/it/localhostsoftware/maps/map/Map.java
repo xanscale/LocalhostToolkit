@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.marker.Marker;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 
 public interface Map {
@@ -90,19 +91,20 @@ public interface Map {
         void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
         void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
+*/
+    void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
 
-        void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
+    /*
+            void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
 
-        void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
+            void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
 
-        void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
+            void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
 
-        void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
+            void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
 
-        void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
-
-        void setInfoWindowAdapter(InfoWindowAdapter var1);
-    */
+            void setInfoWindowAdapter(InfoWindowAdapter var1);
+        */
     void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
 
     void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
@@ -173,31 +175,31 @@ public interface Map {
         void onCancel();
     }
 
-   /* interface OnInfoWindowCloseListener {
-        void onInfoWindowClose(Marker var1);
-    }
+    /* interface OnInfoWindowCloseListener {
+         void onInfoWindowClose(Marker var1);
+     }
 
-    interface OnInfoWindowLongClickListener {
-        void onInfoWindowLongClick(Marker var1);
-    }
+     interface OnInfoWindowLongClickListener {
+         void onInfoWindowLongClick(Marker var1);
+     }
 
-    interface OnInfoWindowClickListener {
-        void onInfoWindowClick(Marker var1);
-    }
+     interface OnInfoWindowClickListener {
+         void onInfoWindowClick(Marker var1);
+     }
 
-    interface OnMarkerDragListener {
-        void onMarkerDragStart(Marker var1);
+     interface OnMarkerDragListener {
+         void onMarkerDragStart(Marker var1);
 
-        void onMarkerDrag(Marker var1);
+         void onMarkerDrag(Marker var1);
 
-        void onMarkerDragEnd(Marker var1);
-    }
-
+         void onMarkerDragEnd(Marker var1);
+     }
+ */
     interface OnMarkerClickListener {
         boolean onMarkerClick(Marker var1);
     }
 
-    interface OnPolylineClickListener {
+ /*   interface OnPolylineClickListener {
         void onPolylineClick(Polyline var1);
     }
 

@@ -8,6 +8,7 @@ import androidx.annotation.RequiresPermission;
 import com.google.android.gms.maps.model.CameraPosition;
 
 import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.marker.GoogleMarker;
 import it.localhostsoftware.maps.uiSettings.GoogleUiSettings;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 
@@ -156,6 +157,11 @@ public class GoogleMap implements Map {
     @Override
     public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1) {
         map.setOnCameraIdleListener(var1::onCameraIdle);
+    }
+
+    @Override
+    public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1) {
+        map.setOnMarkerClickListener(marker -> var1.onMarkerClick(new GoogleMarker(marker)));
     }
 
     @Override
