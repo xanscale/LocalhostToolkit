@@ -1,11 +1,13 @@
 package it.localhostsoftware.maps.map;
 
 import android.graphics.Bitmap;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Marker;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.marker.GoogleMarker;
@@ -162,6 +164,57 @@ public class GoogleMap implements Map {
     @Override
     public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1) {
         map.setOnMarkerClickListener(marker -> var1.onMarkerClick(new GoogleMarker(marker)));
+    }
+
+    @Override
+    public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1) {
+        map.setOnMarkerDragListener(new com.google.android.gms.maps.GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                var1.onMarkerDragStart(new GoogleMarker(marker));
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+                var1.onMarkerDrag(new GoogleMarker(marker));
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                var1.onMarkerDragEnd(new GoogleMarker(marker));
+            }
+        });
+    }
+
+    @Override
+    public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1) {
+        map.setOnInfoWindowClickListener(marker -> var1.onInfoWindowClick(new GoogleMarker(marker)));
+    }
+
+    @Override
+    public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1) {
+        map.setOnInfoWindowLongClickListener(marker -> var1.onInfoWindowLongClick(new GoogleMarker(marker)));
+
+    }
+
+    @Override
+    public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1) {
+        map.setOnInfoWindowCloseListener(marker -> var1.onInfoWindowClose(new GoogleMarker(marker)));
+    }
+
+    @Override
+    public void setInfoWindowAdapter(InfoWindowAdapter var1) {
+        map.setInfoWindowAdapter(new com.google.android.gms.maps.GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return var1.getInfoWindow(new GoogleMarker(marker));
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                return var1.getInfoContents(new GoogleMarker(marker));
+            }
+        });
     }
 
     @Override
