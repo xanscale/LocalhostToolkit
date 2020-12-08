@@ -21,7 +21,7 @@ public class HeterogeneousMapFragment extends Fragment {
     }
 
     public void getMapAsync(OnMapReadyCallback callback) {
-        ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView))
+        ((SupportMapFragment) getParentFragmentManager().findFragmentById(R.id.fragmentContainerView))
                 .getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
     }
 }
