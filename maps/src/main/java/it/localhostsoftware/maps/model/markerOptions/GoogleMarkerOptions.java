@@ -3,6 +3,8 @@ package it.localhostsoftware.maps.model.markerOptions;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
+import it.localhostsoftware.maps.model.bitmapDescriptor.GoogleBitmapDescriptor;
 import it.localhostsoftware.maps.model.latLng.GoogleLatLng;
 import it.localhostsoftware.maps.model.latLng.LatLng;
 
@@ -26,6 +28,12 @@ public class GoogleMarkerOptions implements MarkerOptions {
     @Override
     public MarkerOptions zIndex(float v) {
         markerOptions.zIndex(v);
+        return this;
+    }
+
+    @Override
+    public MarkerOptions icon(@Nullable BitmapDescriptor var1) {
+        markerOptions.icon(((GoogleBitmapDescriptor) var1).getBitmapDescriptor());
         return this;
     }
 
@@ -96,6 +104,11 @@ public class GoogleMarkerOptions implements MarkerOptions {
     @Override
     public String getSnippet() {
         return markerOptions.getSnippet();
+    }
+
+    @Override
+    public BitmapDescriptor getIcon() {
+        return new GoogleBitmapDescriptor(markerOptions.getIcon());
     }
 
     @Override

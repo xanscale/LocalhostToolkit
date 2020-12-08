@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
 import it.localhostsoftware.maps.model.latLng.LatLng;
 
 public interface MarkerOptions {
@@ -21,7 +22,7 @@ public interface MarkerOptions {
 
     MarkerOptions zIndex(float var1);
 
-    //  MarkerOptions icon(@Nullable BitmapDescriptor var1);
+    MarkerOptions icon(@Nullable BitmapDescriptor var1);
 
     MarkerOptions anchor(float var1, float var2);
 
@@ -47,7 +48,7 @@ public interface MarkerOptions {
 
     String getSnippet();
 
-    //  BitmapDescriptor getIcon();
+    BitmapDescriptor getIcon();
 
     float getAnchorU();
 
