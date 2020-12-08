@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.model.CameraPosition;
+import it.localhostsoftware.maps.model.Circle;
+import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
@@ -50,7 +52,7 @@ public abstract class Map<M> {
 
     // Polygon addPolygon(PolygonOptions var1);
 
-    //  Circle addCircle(CircleOptions var1);
+    abstract public Circle<?> addCircle(CircleOptions<?> var1);
 
     abstract public Marker<?> addMarker(MarkerOptions<?> var1);
 

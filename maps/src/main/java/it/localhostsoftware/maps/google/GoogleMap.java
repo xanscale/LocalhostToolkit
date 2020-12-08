@@ -10,10 +10,13 @@ import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.Map;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
+import it.localhostsoftware.maps.google.model.GoogleCircle;
 import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 import it.localhostsoftware.maps.model.CameraPosition;
+import it.localhostsoftware.maps.model.Circle;
+import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 
@@ -80,6 +83,11 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void stopAnimation() {
         getMap().stopAnimation();
+    }
+
+    @Override
+    public Circle<?> addCircle(CircleOptions<?> var1) {
+        return new GoogleCircle(getMap().addCircle((com.google.android.gms.maps.model.CircleOptions) var1.getCircleOptions()));
     }
 
     @Override
