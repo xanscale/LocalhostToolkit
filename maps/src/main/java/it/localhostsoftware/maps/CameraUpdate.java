@@ -1,6 +1,6 @@
 package it.localhostsoftware.maps;
 
-public abstract class CameraUpdate<CU> {
+public class CameraUpdate<CU> {
     private final CU cu;
 
     public CameraUpdate(CU cu) {

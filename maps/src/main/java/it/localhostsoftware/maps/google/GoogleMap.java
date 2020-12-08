@@ -10,11 +10,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.Map;
-import it.localhostsoftware.maps.google.model.GoogleMarker;
-import it.localhostsoftware.maps.model.Marker;
-import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
-import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.UiSettings;
+import it.localhostsoftware.maps.google.model.GoogleMarker;
+import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
+import it.localhostsoftware.maps.model.Marker;
+import it.localhostsoftware.maps.model.MarkerOptions;
 
 public class GoogleMap implements Map {
     private final com.google.android.gms.maps.GoogleMap map;
@@ -39,17 +39,17 @@ public class GoogleMap implements Map {
 
     @Override
     public void moveCamera(CameraUpdate<?> var1) {
-        map.moveCamera(((GoogleCameraUpdate) var1).getCameraUpdate());
+        map.moveCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate());
     }
 
     @Override
     public void animateCamera(CameraUpdate<?> var1) {
-        map.animateCamera(((GoogleCameraUpdate) var1).getCameraUpdate());
+        map.animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate());
     }
 
     @Override
     public void animateCamera(CameraUpdate<?> var1, CancelableCallback var2) {
-        map.animateCamera(((GoogleCameraUpdate) var1).getCameraUpdate(), new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
+        map.animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate(), new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
                 var2.onFinish();
@@ -64,7 +64,7 @@ public class GoogleMap implements Map {
 
     @Override
     public void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3) {
-        map.animateCamera(((GoogleCameraUpdate) var1).getCameraUpdate(), var2, new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
+        map.animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate(), var2, new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
                 var3.onFinish();
