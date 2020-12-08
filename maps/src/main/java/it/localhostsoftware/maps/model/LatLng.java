@@ -6,7 +6,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 public class LatLng<LL> {
-    static LatLng<?> getInstance(Context context, double var1, double var3) {
+    public static LatLng<?> getInstance(Context context, double var1, double var3) {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
             return new LatLng<>(new com.google.android.gms.maps.model.LatLng(var1, var3));
         else return null;
