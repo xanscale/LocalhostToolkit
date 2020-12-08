@@ -14,14 +14,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import it.localhostsoftware.maps.map.GoogleMap;
 
 public class HeterogeneousMapFragment extends Fragment {
+    private SupportMapFragment fragment;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragment = SupportMapFragment.newInstance();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        getChildFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commitAllowingStateLoss();
+        return v;
     }
 
     public void getMapAsync(OnMapReadyCallback callback) {
-        ((SupportMapFragment) getParentFragmentManager().findFragmentById(R.id.fragment))
-                .getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
+        fragment.getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
     }
 }
