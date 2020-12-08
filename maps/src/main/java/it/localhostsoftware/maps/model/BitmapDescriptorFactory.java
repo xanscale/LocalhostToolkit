@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.model.bitmapDescriptorFactory;
+package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
+import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory;
 
 public interface BitmapDescriptorFactory {
     float HUE_RED = 0.0F;

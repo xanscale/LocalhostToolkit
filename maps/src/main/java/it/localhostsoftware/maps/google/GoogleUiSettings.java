@@ -1,4 +1,6 @@
-package it.localhostsoftware.maps.uiSettings;
+package it.localhostsoftware.maps.google;
+
+import it.localhostsoftware.maps.UiSettings;
 
 public class GoogleUiSettings implements UiSettings {
     private final com.google.android.gms.maps.UiSettings uiSettings;

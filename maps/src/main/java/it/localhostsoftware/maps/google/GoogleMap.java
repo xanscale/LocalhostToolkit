@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.map;
+package it.localhostsoftware.maps.google;
 
 import android.graphics.Bitmap;
 import android.view.View;
@@ -8,14 +8,13 @@ import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.maps.model.CameraPosition;
 
-import it.localhostsoftware.maps.cameraUpdate.CameraUpdate;
-import it.localhostsoftware.maps.cameraUpdate.GoogleCameraUpdate;
-import it.localhostsoftware.maps.model.marker.GoogleMarker;
-import it.localhostsoftware.maps.model.marker.Marker;
-import it.localhostsoftware.maps.model.markerOptions.GoogleMarkerOptions;
-import it.localhostsoftware.maps.model.markerOptions.MarkerOptions;
-import it.localhostsoftware.maps.uiSettings.GoogleUiSettings;
-import it.localhostsoftware.maps.uiSettings.UiSettings;
+import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.Map;
+import it.localhostsoftware.maps.google.model.GoogleMarker;
+import it.localhostsoftware.maps.model.Marker;
+import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
+import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.UiSettings;
 
 public class GoogleMap implements Map {
     private final com.google.android.gms.maps.GoogleMap map;

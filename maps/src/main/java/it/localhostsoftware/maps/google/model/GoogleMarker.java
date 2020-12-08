@@ -1,13 +1,12 @@
-package it.localhostsoftware.maps.model.marker;
+package it.localhostsoftware.maps.google.model;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
-import it.localhostsoftware.maps.model.bitmapDescriptor.GoogleBitmapDescriptor;
-import it.localhostsoftware.maps.model.latLng.GoogleLatLng;
-import it.localhostsoftware.maps.model.latLng.LatLng;
+import it.localhostsoftware.maps.model.BitmapDescriptor;
+import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.Marker;
 
 
 public class GoogleMarker implements Marker {

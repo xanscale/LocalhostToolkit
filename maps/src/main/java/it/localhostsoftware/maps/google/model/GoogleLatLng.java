@@ -1,4 +1,6 @@
-package it.localhostsoftware.maps.model.latLng;
+package it.localhostsoftware.maps.google.model;
+
+import it.localhostsoftware.maps.model.LatLng;
 
 public class GoogleLatLng implements LatLng {
     private final com.google.android.gms.maps.model.LatLng googleLatLng;

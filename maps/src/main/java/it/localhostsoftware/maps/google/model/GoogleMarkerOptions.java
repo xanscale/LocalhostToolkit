@@ -1,12 +1,11 @@
-package it.localhostsoftware.maps.model.markerOptions;
+package it.localhostsoftware.maps.google.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
-import it.localhostsoftware.maps.model.bitmapDescriptor.GoogleBitmapDescriptor;
-import it.localhostsoftware.maps.model.latLng.GoogleLatLng;
-import it.localhostsoftware.maps.model.latLng.LatLng;
+import it.localhostsoftware.maps.model.BitmapDescriptor;
+import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.MarkerOptions;
 
 public class GoogleMarkerOptions implements MarkerOptions {
     private final com.google.android.gms.maps.model.MarkerOptions markerOptions;

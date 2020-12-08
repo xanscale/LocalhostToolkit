@@ -14,9 +14,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import it.localhostsoftware.maps.map.GoogleMap;
+import it.localhostsoftware.maps.google.GoogleMap;
 
-public class HeterogeneousMapFragment extends Fragment {
+public class MapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

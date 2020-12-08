@@ -1,9 +1,9 @@
-package it.localhostsoftware.maps.model.bitmapDescriptorFactory;
+package it.localhostsoftware.maps.google.model;
 
 import android.graphics.Bitmap;
 
-import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
-import it.localhostsoftware.maps.model.bitmapDescriptor.GoogleBitmapDescriptor;
+import it.localhostsoftware.maps.model.BitmapDescriptor;
+import it.localhostsoftware.maps.model.BitmapDescriptorFactory;
 
 public class GoogleBitmapDescriptorFactory implements BitmapDescriptorFactory {
     @Override

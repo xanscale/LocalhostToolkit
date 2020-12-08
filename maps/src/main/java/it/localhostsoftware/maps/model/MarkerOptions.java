@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.model.markerOptions;
+package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 
@@ -8,8 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
-import it.localhostsoftware.maps.model.latLng.LatLng;
+import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 
 public interface MarkerOptions {
     static MarkerOptions getInstance(Context context) {

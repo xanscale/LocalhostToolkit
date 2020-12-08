@@ -1,4 +1,6 @@
-package it.localhostsoftware.maps.model.bitmapDescriptor;
+package it.localhostsoftware.maps.google.model;
+
+import it.localhostsoftware.maps.model.BitmapDescriptor;
 
 public class GoogleBitmapDescriptor implements BitmapDescriptor {
     private final com.google.android.gms.maps.model.BitmapDescriptor bitmapDescriptor;

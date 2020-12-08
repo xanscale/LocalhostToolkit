@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.cameraUpdateFactory;
+package it.localhostsoftware.maps.google;
 
 import android.graphics.Point;
 
@@ -6,8 +6,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import it.localhostsoftware.maps.cameraUpdate.CameraUpdate;
-import it.localhostsoftware.maps.cameraUpdate.GoogleCameraUpdate;
+import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.CameraUpdateFactory;
 
 
 public class GoogleCameraUpdateFactory implements CameraUpdateFactory {

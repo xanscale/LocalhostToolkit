@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.map;
+package it.localhostsoftware.maps;
 
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -8,10 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
-import it.localhostsoftware.maps.cameraUpdate.CameraUpdate;
-import it.localhostsoftware.maps.model.marker.Marker;
-import it.localhostsoftware.maps.model.markerOptions.MarkerOptions;
-import it.localhostsoftware.maps.uiSettings.UiSettings;
+import it.localhostsoftware.maps.model.Marker;
+import it.localhostsoftware.maps.model.MarkerOptions;
 
 public interface Map {
     int MAP_TYPE_NONE = 0;
@@ -89,11 +87,10 @@ public interface Map {
 
     void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
 
-    /*
-        void setOnMapClickListener(@Nullable OnMapClickListener var1);
+    // void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
-        void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
-*/
+    // void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
+
     void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
 
     void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
@@ -112,14 +109,14 @@ public interface Map {
 
     void setOnMapLoadedCallback(OnMapLoadedCallback var1);
 
-    /*  void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
+    // void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 
-      void setOnCircleClickListener(OnCircleClickListener var1);
+    // void setOnCircleClickListener(OnCircleClickListener var1);
 
-      void setOnPolygonClickListener(OnPolygonClickListener var1);
+    // void setOnPolygonClickListener(OnPolygonClickListener var1);
 
-      void setOnPolylineClickListener(OnPolylineClickListener var1);
-  */
+    // void setOnPolylineClickListener(OnPolylineClickListener var1);
+
     void snapshot(SnapshotReadyCallback var1);
 
     void snapshot(SnapshotReadyCallback var1, Bitmap var2);
@@ -128,7 +125,7 @@ public interface Map {
 
     void setContentDescription(String var1);
 
-    //  void setOnPoiClickListener(OnPoiClickListener var1);
+    // void setOnPoiClickListener(OnPoiClickListener var1);
 
     // boolean setMapStyle(@Nullable MapStyleOptions var1);
 
@@ -140,11 +137,11 @@ public interface Map {
 
     // void setLatLngBoundsForCameraTarget(LatLngBounds var1);
 
-  /*  interface OnPoiClickListener {
+    /* interface OnPoiClickListener {
         void onPoiClick(PointOfInterest var1);
     }*/
 
- /*   interface OnGroundOverlayClickListener {
+    /* interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);
     }*/
 
@@ -200,17 +197,17 @@ public interface Map {
         boolean onMarkerClick(Marker var1);
     }
 
- /*   interface OnPolylineClickListener {
+    /* interface OnPolylineClickListener {
         void onPolylineClick(Polyline var1);
-    }
+    } */
 
-    interface OnPolygonClickListener {
+    /* interface OnPolygonClickListener {
         void onPolygonClick(Polygon var1);
-    }
+    } */
 
-    interface OnCircleClickListener {
+    /* interface OnCircleClickListener {
         void onCircleClick(Circle var1);
-    }*/
+    } */
 
     interface OnCameraIdleListener {
         void onCameraIdle();
@@ -232,15 +229,15 @@ public interface Map {
         void onCameraMoveStarted(int var1);
     }
 
-   /* interface OnMapLongClickListener {
+    /* interface OnMapLongClickListener {
         void onMapLongClick(LatLng var1);
-    }
+    } */
 
-    interface OnMapClickListener {
+    /* interface OnMapClickListener {
         void onMapClick(LatLng var1);
-    }
+    } */
 
-    interface OnIndoorStateChangeListener {
+    /* interface OnIndoorStateChangeListener {
         void onIndoorBuildingFocused();
 
         void onIndoorLevelActivated(IndoorBuilding var1);

@@ -1,9 +1,11 @@
-package it.localhostsoftware.maps.model.latLng;
+package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+
+import it.localhostsoftware.maps.google.model.GoogleLatLng;
 
 public interface LatLng {
     static LatLng getInstance(Context context, double var1, double var3) {

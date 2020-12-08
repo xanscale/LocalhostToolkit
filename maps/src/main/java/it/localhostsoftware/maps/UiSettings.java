@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.uiSettings;
+package it.localhostsoftware.maps;
 
 public interface UiSettings {
     void setZoomControlsEnabled(boolean var1);
