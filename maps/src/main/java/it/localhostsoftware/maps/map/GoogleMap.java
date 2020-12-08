@@ -9,10 +9,10 @@ import androidx.annotation.RequiresPermission;
 import com.google.android.gms.maps.model.CameraPosition;
 
 import it.localhostsoftware.maps.CameraUpdate;
-import it.localhostsoftware.maps.marker.GoogleMarker;
-import it.localhostsoftware.maps.marker.Marker;
-import it.localhostsoftware.maps.markerOptions.GoogleMarkerOptions;
-import it.localhostsoftware.maps.markerOptions.MarkerOptions;
+import it.localhostsoftware.maps.model.marker.GoogleMarker;
+import it.localhostsoftware.maps.model.marker.Marker;
+import it.localhostsoftware.maps.model.markerOptions.GoogleMarkerOptions;
+import it.localhostsoftware.maps.model.markerOptions.MarkerOptions;
 import it.localhostsoftware.maps.uiSettings.GoogleUiSettings;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 

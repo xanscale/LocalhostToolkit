@@ -1,4 +1,4 @@
-package it.localhostsoftware.maps.latLng;
+package it.localhostsoftware.maps.model.latLng;
 
 import android.content.Context;
 

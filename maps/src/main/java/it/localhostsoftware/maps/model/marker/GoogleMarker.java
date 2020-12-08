@@ -1,13 +1,13 @@
-package it.localhostsoftware.maps.marker;
+package it.localhostsoftware.maps.model.marker;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-
-import it.localhostsoftware.maps.latLng.GoogleLatLng;
-import it.localhostsoftware.maps.latLng.LatLng;
+import it.localhostsoftware.maps.model.bitmapDescriptor.BitmapDescriptor;
+import it.localhostsoftware.maps.model.bitmapDescriptor.GoogleBitmapDescriptor;
+import it.localhostsoftware.maps.model.latLng.GoogleLatLng;
+import it.localhostsoftware.maps.model.latLng.LatLng;
 
 
 public class GoogleMarker implements Marker {
@@ -49,7 +49,7 @@ public class GoogleMarker implements Marker {
 
     @Override
     public void setIcon(@Nullable BitmapDescriptor bitmapDescriptor) {
-        marker.setIcon(bitmapDescriptor);
+        marker.setIcon(((GoogleBitmapDescriptor) bitmapDescriptor).getBitmapDescriptor());
     }
 
     @Override

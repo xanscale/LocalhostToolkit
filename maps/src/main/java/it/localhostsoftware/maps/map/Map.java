@@ -9,8 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
-import it.localhostsoftware.maps.marker.Marker;
-import it.localhostsoftware.maps.markerOptions.MarkerOptions;
+import it.localhostsoftware.maps.model.marker.Marker;
+import it.localhostsoftware.maps.model.markerOptions.MarkerOptions;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 
 public interface Map {

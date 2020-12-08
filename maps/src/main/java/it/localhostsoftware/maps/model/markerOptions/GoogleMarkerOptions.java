@@ -1,10 +1,10 @@
-package it.localhostsoftware.maps.markerOptions;
+package it.localhostsoftware.maps.model.markerOptions;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.localhostsoftware.maps.latLng.GoogleLatLng;
-import it.localhostsoftware.maps.latLng.LatLng;
+import it.localhostsoftware.maps.model.latLng.GoogleLatLng;
+import it.localhostsoftware.maps.model.latLng.LatLng;
 
 public class GoogleMarkerOptions implements MarkerOptions {
     private final com.google.android.gms.maps.model.MarkerOptions markerOptions;
