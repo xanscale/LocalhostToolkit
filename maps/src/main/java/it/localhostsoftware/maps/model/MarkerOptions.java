@@ -10,62 +10,72 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 
-public interface MarkerOptions {
-    static MarkerOptions getInstance(Context context) {
+public abstract class MarkerOptions<MO> {
+    static MarkerOptions<?> getInstance(Context context) {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
             return new GoogleMarkerOptions();
         else return null;
     }
 
-    MarkerOptions position(@NonNull LatLng<?> var1);
+    private final MO mo;
 
-    MarkerOptions zIndex(float var1);
+    public MarkerOptions(MO mo) {
+        this.mo = mo;
+    }
 
-    MarkerOptions icon(@Nullable BitmapDescriptor<?> var1);
+    public MO getMarkerOptions() {
+        return mo;
+    }
 
-    MarkerOptions anchor(float var1, float var2);
+    abstract public MarkerOptions<?> position(@NonNull LatLng<?> var1);
 
-    MarkerOptions infoWindowAnchor(float var1, float var2);
+    abstract public MarkerOptions<?> zIndex(float var1);
 
-    MarkerOptions title(@Nullable String var1);
+    abstract public MarkerOptions<?> icon(@Nullable BitmapDescriptor<?> var1);
 
-    MarkerOptions snippet(@Nullable String var1);
+    abstract public MarkerOptions<?> anchor(float var1, float var2);
 
-    MarkerOptions draggable(boolean var1);
+    abstract public MarkerOptions<?> infoWindowAnchor(float var1, float var2);
 
-    MarkerOptions visible(boolean var1);
+    abstract public MarkerOptions<?> title(@Nullable String var1);
 
-    MarkerOptions flat(boolean var1);
+    abstract public MarkerOptions<?> snippet(@Nullable String var1);
 
-    MarkerOptions rotation(float var1);
+    abstract public MarkerOptions<?> draggable(boolean var1);
 
-    MarkerOptions alpha(float var1);
+    abstract public MarkerOptions<?> visible(boolean var1);
 
-    LatLng<?> getPosition();
+    abstract public MarkerOptions<?> flat(boolean var1);
 
-    String getTitle();
+    abstract public MarkerOptions<?> rotation(float var1);
 
-    String getSnippet();
+    abstract public MarkerOptions<?> alpha(float var1);
 
-    BitmapDescriptor<?> getIcon();
+    abstract public LatLng<?> getPosition();
 
-    float getAnchorU();
+    abstract public String getTitle();
 
-    float getAnchorV();
+    abstract public String getSnippet();
 
-    boolean isDraggable();
+    abstract public BitmapDescriptor<?> getIcon();
 
-    boolean isVisible();
+    abstract public float getAnchorU();
 
-    boolean isFlat();
+    abstract public float getAnchorV();
 
-    float getRotation();
+    abstract public boolean isDraggable();
 
-    float getInfoWindowAnchorU();
+    abstract public boolean isVisible();
 
-    float getInfoWindowAnchorV();
+    abstract public boolean isFlat();
 
-    float getAlpha();
+    abstract public float getRotation();
 
-    float getZIndex();
+    abstract public float getInfoWindowAnchorU();
+
+    abstract public float getInfoWindowAnchorV();
+
+    abstract public float getAlpha();
+
+    abstract public float getZIndex();
 }

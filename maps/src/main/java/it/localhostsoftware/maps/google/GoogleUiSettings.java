@@ -2,115 +2,113 @@ package it.localhostsoftware.maps.google;
 
 import it.localhostsoftware.maps.UiSettings;
 
-public class GoogleUiSettings implements UiSettings {
-    private final com.google.android.gms.maps.UiSettings uiSettings;
-
+public class GoogleUiSettings extends UiSettings<com.google.android.gms.maps.UiSettings> {
     public GoogleUiSettings(com.google.android.gms.maps.UiSettings uiSettings) {
-        this.uiSettings = uiSettings;
+        super(uiSettings);
     }
 
     @Override
     public void setZoomControlsEnabled(boolean b) {
-        uiSettings.setZoomControlsEnabled(b);
+        getUiSettings().setZoomControlsEnabled(b);
     }
 
     @Override
     public void setCompassEnabled(boolean b) {
-        uiSettings.setCompassEnabled(b);
+        getUiSettings().setCompassEnabled(b);
     }
 
     @Override
     public void setMyLocationButtonEnabled(boolean b) {
-        uiSettings.setMyLocationButtonEnabled(b);
+        getUiSettings().setMyLocationButtonEnabled(b);
     }
 
     @Override
     public void setIndoorLevelPickerEnabled(boolean b) {
-        uiSettings.setIndoorLevelPickerEnabled(b);
+        getUiSettings().setIndoorLevelPickerEnabled(b);
     }
 
     @Override
     public void setScrollGesturesEnabled(boolean b) {
-        uiSettings.setScrollGesturesEnabled(b);
+        getUiSettings().setScrollGesturesEnabled(b);
     }
 
     @Override
     public void setZoomGesturesEnabled(boolean b) {
-        uiSettings.setZoomGesturesEnabled(b);
+        getUiSettings().setZoomGesturesEnabled(b);
     }
 
     @Override
     public void setTiltGesturesEnabled(boolean b) {
-        uiSettings.setTiltGesturesEnabled(b);
+        getUiSettings().setTiltGesturesEnabled(b);
     }
 
     @Override
     public void setRotateGesturesEnabled(boolean b) {
-        uiSettings.setRotateGesturesEnabled(b);
+        getUiSettings().setRotateGesturesEnabled(b);
     }
 
     @Override
     public void setScrollGesturesEnabledDuringRotateOrZoom(boolean b) {
-        uiSettings.setScrollGesturesEnabledDuringRotateOrZoom(b);
+        getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(b);
     }
 
     @Override
     public void setAllGesturesEnabled(boolean b) {
-        uiSettings.setAllGesturesEnabled(b);
+        getUiSettings().setAllGesturesEnabled(b);
     }
 
     @Override
     public void setMapToolbarEnabled(boolean b) {
-        uiSettings.setMapToolbarEnabled(b);
+        getUiSettings().setMapToolbarEnabled(b);
     }
 
     @Override
     public boolean isZoomControlsEnabled() {
-        return uiSettings.isZoomControlsEnabled();
+        return getUiSettings().isZoomControlsEnabled();
     }
 
     @Override
     public boolean isCompassEnabled() {
-        return uiSettings.isCompassEnabled();
+        return getUiSettings().isCompassEnabled();
     }
 
     @Override
     public boolean isMyLocationButtonEnabled() {
-        return uiSettings.isMyLocationButtonEnabled();
+        return getUiSettings().isMyLocationButtonEnabled();
     }
 
     @Override
     public boolean isIndoorLevelPickerEnabled() {
-        return uiSettings.isIndoorLevelPickerEnabled();
+        return getUiSettings().isIndoorLevelPickerEnabled();
     }
 
     @Override
     public boolean isScrollGesturesEnabled() {
-        return uiSettings.isScrollGesturesEnabled();
+        return getUiSettings().isScrollGesturesEnabled();
     }
 
     @Override
     public boolean isScrollGesturesEnabledDuringRotateOrZoom() {
-        return uiSettings.isScrollGesturesEnabledDuringRotateOrZoom();
+        return getUiSettings().isScrollGesturesEnabledDuringRotateOrZoom();
     }
 
     @Override
     public boolean isZoomGesturesEnabled() {
-        return uiSettings.isZoomGesturesEnabled();
+        return getUiSettings().isZoomGesturesEnabled();
     }
 
     @Override
     public boolean isTiltGesturesEnabled() {
-        return uiSettings.isTiltGesturesEnabled();
+        return getUiSettings().isTiltGesturesEnabled();
     }
 
     @Override
     public boolean isRotateGesturesEnabled() {
-        return uiSettings.isRotateGesturesEnabled();
+        return getUiSettings().isRotateGesturesEnabled();
     }
 
     @Override
     public boolean isMapToolbarEnabled() {
-        return uiSettings.isMapToolbarEnabled();
+        return getUiSettings().isMapToolbarEnabled();
     }
 }

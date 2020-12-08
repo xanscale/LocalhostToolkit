@@ -1,45 +1,55 @@
 package it.localhostsoftware.maps;
 
-public interface UiSettings {
-    void setZoomControlsEnabled(boolean var1);
+public abstract class UiSettings<US> {
+    private final US us;
 
-    void setCompassEnabled(boolean var1);
+    public UiSettings(US us) {
+        this.us = us;
+    }
 
-    void setMyLocationButtonEnabled(boolean var1);
+    public US getUiSettings() {
+        return us;
+    }
 
-    void setIndoorLevelPickerEnabled(boolean var1);
+    abstract public void setZoomControlsEnabled(boolean var1);
 
-    void setScrollGesturesEnabled(boolean var1);
+    abstract public void setCompassEnabled(boolean var1);
 
-    void setZoomGesturesEnabled(boolean var1);
+    abstract public void setMyLocationButtonEnabled(boolean var1);
 
-    void setTiltGesturesEnabled(boolean var1);
+    abstract public void setIndoorLevelPickerEnabled(boolean var1);
 
-    void setRotateGesturesEnabled(boolean var1);
+    abstract public void setScrollGesturesEnabled(boolean var1);
 
-    void setScrollGesturesEnabledDuringRotateOrZoom(boolean var1);
+    abstract public void setZoomGesturesEnabled(boolean var1);
 
-    void setAllGesturesEnabled(boolean var1);
+    abstract public void setTiltGesturesEnabled(boolean var1);
 
-    void setMapToolbarEnabled(boolean var1);
+    abstract public void setRotateGesturesEnabled(boolean var1);
 
-    boolean isZoomControlsEnabled();
+    abstract public void setScrollGesturesEnabledDuringRotateOrZoom(boolean var1);
 
-    boolean isCompassEnabled();
+    abstract public void setAllGesturesEnabled(boolean var1);
 
-    boolean isMyLocationButtonEnabled();
+    abstract public void setMapToolbarEnabled(boolean var1);
 
-    boolean isIndoorLevelPickerEnabled();
+    abstract public boolean isZoomControlsEnabled();
 
-    boolean isScrollGesturesEnabled();
+    abstract public boolean isCompassEnabled();
 
-    boolean isScrollGesturesEnabledDuringRotateOrZoom();
+    abstract public boolean isMyLocationButtonEnabled();
 
-    boolean isZoomGesturesEnabled();
+    abstract public boolean isIndoorLevelPickerEnabled();
 
-    boolean isTiltGesturesEnabled();
+    abstract public boolean isScrollGesturesEnabled();
 
-    boolean isRotateGesturesEnabled();
+    abstract public boolean isScrollGesturesEnabledDuringRotateOrZoom();
 
-    boolean isMapToolbarEnabled();
+    abstract public boolean isZoomGesturesEnabled();
+
+    abstract public boolean isTiltGesturesEnabled();
+
+    abstract public boolean isRotateGesturesEnabled();
+
+    abstract public boolean isMapToolbarEnabled();
 }

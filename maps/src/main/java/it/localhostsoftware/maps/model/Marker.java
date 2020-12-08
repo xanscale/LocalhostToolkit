@@ -3,65 +3,71 @@ package it.localhostsoftware.maps.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public interface Marker {
-    void remove();
+public abstract class Marker<M> {
+    private final M m;
 
-    String getId();
+    public Marker(M m) {
+        this.m = m;
+    }
 
-    void setPosition(@NonNull LatLng<?> var1);
+    public M getMarker() {
+        return m;
+    }
 
-    LatLng<?> getPosition();
+    abstract public void remove();
 
-    void setZIndex(float var1);
+    abstract public String getId();
 
-    float getZIndex();
+    abstract public void setPosition(@NonNull LatLng<?> var1);
 
-    void setIcon(@Nullable BitmapDescriptor<?> var1);
+    abstract public LatLng<?> getPosition();
 
-    void setAnchor(float var1, float var2);
+    abstract public void setZIndex(float var1);
 
-    void setInfoWindowAnchor(float var1, float var2);
+    abstract public float getZIndex();
 
-    void setTitle(@Nullable String var1);
+    abstract public void setIcon(@Nullable BitmapDescriptor<?> var1);
 
-    String getTitle();
+    abstract public void setAnchor(float var1, float var2);
 
-    void setSnippet(@Nullable String var1);
+    abstract public void setInfoWindowAnchor(float var1, float var2);
 
-    String getSnippet();
+    abstract public void setTitle(@Nullable String var1);
 
-    void setDraggable(boolean var1);
+    abstract public String getTitle();
 
-    boolean isDraggable();
+    abstract public void setSnippet(@Nullable String var1);
 
-    void showInfoWindow();
+    abstract public String getSnippet();
 
-    void hideInfoWindow();
+    abstract public void setDraggable(boolean var1);
 
-    boolean isInfoWindowShown();
+    abstract public boolean isDraggable();
 
-    void setVisible(boolean var1);
+    abstract public void showInfoWindow();
 
-    boolean isVisible();
+    abstract public void hideInfoWindow();
 
-    void setFlat(boolean var1);
+    abstract public boolean isInfoWindowShown();
 
-    boolean isFlat();
+    abstract public void setVisible(boolean var1);
 
-    void setRotation(float var1);
+    abstract public boolean isVisible();
 
-    float getRotation();
+    abstract public void setFlat(boolean var1);
 
-    void setAlpha(float var1);
+    abstract public boolean isFlat();
 
-    float getAlpha();
+    abstract public void setRotation(float var1);
 
-    void setTag(@Nullable Object var1);
+    abstract public float getRotation();
+
+    abstract public void setAlpha(float var1);
+
+    abstract public float getAlpha();
+
+    abstract public void setTag(@Nullable Object var1);
 
     @Nullable
-    Object getTag();
-
-    boolean equals(Object var1);
-
-    int hashCode();
+    abstract public Object getTag();
 }

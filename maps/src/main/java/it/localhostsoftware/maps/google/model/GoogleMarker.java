@@ -7,151 +7,149 @@ import it.localhostsoftware.maps.model.BitmapDescriptor;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 
-public class GoogleMarker implements Marker {
-    private final com.google.android.gms.maps.model.Marker marker;
-
+public class GoogleMarker extends Marker<com.google.android.gms.maps.model.Marker> {
     public GoogleMarker(com.google.android.gms.maps.model.Marker marker) {
-        this.marker = marker;
+        super(marker);
     }
 
     @Override
     public void remove() {
-        marker.remove();
+        getMarker().remove();
     }
 
     @Override
     public String getId() {
-        return marker.getId();
+        return getMarker().getId();
     }
 
     @Override
     public void setPosition(@NonNull LatLng<?> latLng) {
-        marker.setPosition((com.google.android.gms.maps.model.LatLng) latLng.getLatLng());
+        getMarker().setPosition((com.google.android.gms.maps.model.LatLng) latLng.getLatLng());
     }
 
     @Override
     public LatLng<?> getPosition() {
-        return new GoogleLatLng(marker.getPosition());
+        return new GoogleLatLng(getMarker().getPosition());
     }
 
     @Override
     public void setZIndex(float v) {
-        marker.setZIndex(v);
+        getMarker().setZIndex(v);
     }
 
     @Override
     public float getZIndex() {
-        return marker.getZIndex();
+        return getMarker().getZIndex();
     }
 
     @Override
     public void setIcon(@Nullable BitmapDescriptor<?> bitmapDescriptor) {
-        marker.setIcon((com.google.android.gms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
+        getMarker().setIcon((com.google.android.gms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
     }
 
     @Override
     public void setAnchor(float v, float v1) {
-        marker.setAnchor(v, v1);
+        getMarker().setAnchor(v, v1);
     }
 
     @Override
     public void setInfoWindowAnchor(float v, float v1) {
-        marker.setInfoWindowAnchor(v, v1);
+        getMarker().setInfoWindowAnchor(v, v1);
     }
 
     @Override
     public void setTitle(@Nullable String s) {
-        marker.setTitle(s);
+        getMarker().setTitle(s);
     }
 
     @Override
     public String getTitle() {
-        return marker.getTitle();
+        return getMarker().getTitle();
     }
 
     @Override
     public void setSnippet(@Nullable String s) {
-        marker.setSnippet(s);
+        getMarker().setSnippet(s);
     }
 
     @Override
     public String getSnippet() {
-        return marker.getSnippet();
+        return getMarker().getSnippet();
     }
 
     @Override
     public void setDraggable(boolean b) {
-        marker.setDraggable(b);
+        getMarker().setDraggable(b);
     }
 
     @Override
     public boolean isDraggable() {
-        return marker.isDraggable();
+        return getMarker().isDraggable();
     }
 
     @Override
     public void showInfoWindow() {
-        marker.showInfoWindow();
+        getMarker().showInfoWindow();
     }
 
     @Override
     public void hideInfoWindow() {
-        marker.hideInfoWindow();
+        getMarker().hideInfoWindow();
     }
 
     @Override
     public boolean isInfoWindowShown() {
-        return marker.isInfoWindowShown();
+        return getMarker().isInfoWindowShown();
     }
 
     @Override
     public void setVisible(boolean b) {
-        marker.setVisible(b);
+        getMarker().setVisible(b);
     }
 
     @Override
     public boolean isVisible() {
-        return marker.isVisible();
+        return getMarker().isVisible();
     }
 
     @Override
     public void setFlat(boolean b) {
-        marker.setFlat(b);
+        getMarker().setFlat(b);
     }
 
     @Override
     public boolean isFlat() {
-        return marker.isFlat();
+        return getMarker().isFlat();
     }
 
     @Override
     public void setRotation(float v) {
-        marker.setRotation(v);
+        getMarker().setRotation(v);
     }
 
     @Override
     public float getRotation() {
-        return marker.getRotation();
+        return getMarker().getRotation();
     }
 
     @Override
     public void setAlpha(float v) {
-        marker.setAlpha(v);
+        getMarker().setAlpha(v);
     }
 
     @Override
     public float getAlpha() {
-        return marker.getAlpha();
+        return getMarker().getAlpha();
     }
 
     @Override
     public void setTag(@Nullable Object o) {
-        marker.setTag(o);
+        getMarker().setTag(o);
     }
 
     @Nullable
     @Override
     public Object getTag() {
-        return marker.getTag();
+        return getMarker().getTag();
     }
 }
