@@ -1,6 +1,6 @@
 package it.localhostsoftware.maps.model;
 
-public abstract class BitmapDescriptor<BR> {
+public class BitmapDescriptor<BR> {
     private final BR br;
 
     public BitmapDescriptor(BR br) {
