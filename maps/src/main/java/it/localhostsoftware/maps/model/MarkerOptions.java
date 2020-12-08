@@ -13,7 +13,7 @@ import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 public abstract class MarkerOptions<MO> {
     static MarkerOptions<?> getInstance(Context context) {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
-            return new GoogleMarkerOptions();
+            return new GoogleMarkerOptions(new com.google.android.gms.maps.model.MarkerOptions());
         else return null;
     }
 
