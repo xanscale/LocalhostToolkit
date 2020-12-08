@@ -17,7 +17,7 @@ public interface MarkerOptions {
         else return null;
     }
 
-    MarkerOptions position(@NonNull LatLng var1);
+    MarkerOptions position(@NonNull LatLng<?> var1);
 
     MarkerOptions zIndex(float var1);
 
@@ -41,7 +41,7 @@ public interface MarkerOptions {
 
     MarkerOptions alpha(float var1);
 
-    LatLng getPosition();
+    LatLng<?> getPosition();
 
     String getTitle();
 

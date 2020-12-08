@@ -19,8 +19,8 @@ public class GoogleMarkerOptions implements MarkerOptions {
     }
 
     @Override
-    public MarkerOptions position(@NonNull LatLng latLng) {
-        markerOptions.position(((GoogleLatLng) latLng).getGoogleLatLng());
+    public MarkerOptions position(@NonNull LatLng<?> latLng) {
+        markerOptions.position((com.google.android.gms.maps.model.LatLng) latLng.getLatLng());
         return this;
     }
 
@@ -91,8 +91,8 @@ public class GoogleMarkerOptions implements MarkerOptions {
     }
 
     @Override
-    public LatLng getPosition() {
-        return new GoogleLatLng(markerOptions.getPosition());
+    public LatLng<?> getPosition() {
+        return new LatLng<>(markerOptions.getPosition());
     }
 
     @Override

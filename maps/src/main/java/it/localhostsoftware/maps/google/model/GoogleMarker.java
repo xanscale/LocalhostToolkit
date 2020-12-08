@@ -1,13 +1,11 @@
 package it.localhostsoftware.maps.google.model;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.localhostsoftware.maps.model.BitmapDescriptor;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
-
 
 public class GoogleMarker implements Marker {
     private final com.google.android.gms.maps.model.Marker marker;
@@ -27,13 +25,13 @@ public class GoogleMarker implements Marker {
     }
 
     @Override
-    public void setPosition(@NonNull LatLng latLng) {
-        marker.setPosition(((GoogleLatLng) latLng).getGoogleLatLng());
+    public void setPosition(@NonNull LatLng<?> latLng) {
+        marker.setPosition((com.google.android.gms.maps.model.LatLng) latLng.getLatLng());
     }
 
     @Override
-    public LatLng getPosition() {
-        return new GoogleLatLng(marker.getPosition());
+    public LatLng<?> getPosition() {
+        return new LatLng<>(marker.getPosition());
     }
 
     @Override

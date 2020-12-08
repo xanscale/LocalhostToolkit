@@ -12,9 +12,9 @@ public interface Marker {
 
     String getId();
 
-    void setPosition(@NonNull LatLng var1);
+    void setPosition(@NonNull LatLng<?> var1);
 
-    LatLng getPosition();
+    LatLng<?> getPosition();
 
     void setZIndex(float var1);
 
