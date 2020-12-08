@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.model.CameraPosition;
+import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 
@@ -51,7 +52,7 @@ public abstract class Map<M> {
 
     //  Circle addCircle(CircleOptions var1);
 
-    abstract public Marker addMarker(MarkerOptions var1);
+    abstract public Marker<?> addMarker(MarkerOptions<?> var1);
 
     //  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
 
@@ -86,7 +87,7 @@ public abstract class Map<M> {
 
     // void setLocationSource(LocationSource var1);
 
-    abstract public UiSettings getUiSettings();
+    abstract public UiSettings<?> getUiSettings();
 
     // Projection getProjection();
 
@@ -98,9 +99,9 @@ public abstract class Map<M> {
 
     abstract public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
 
-    // void setOnMapClickListener(@Nullable OnMapClickListener var1);
+    abstract public void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
-    // void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
+    abstract public void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
 
     abstract public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
 
@@ -169,9 +170,9 @@ public abstract class Map<M> {
     }
 
     public interface InfoWindowAdapter {
-        View getInfoWindow(Marker var1);
+        View getInfoWindow(Marker<?> var1);
 
-        View getInfoContents(Marker var1);
+        View getInfoContents(Marker<?> var1);
     }
 
     public interface SnapshotReadyCallback {
@@ -185,27 +186,27 @@ public abstract class Map<M> {
     }
 
     public interface OnInfoWindowCloseListener {
-        void onInfoWindowClose(Marker var1);
+        void onInfoWindowClose(Marker<?> var1);
     }
 
     public interface OnInfoWindowLongClickListener {
-        void onInfoWindowLongClick(Marker var1);
+        void onInfoWindowLongClick(Marker<?> var1);
     }
 
     public interface OnInfoWindowClickListener {
-        void onInfoWindowClick(Marker var1);
+        void onInfoWindowClick(Marker<?> var1);
     }
 
     public interface OnMarkerDragListener {
-        void onMarkerDragStart(Marker var1);
+        void onMarkerDragStart(Marker<?> var1);
 
-        void onMarkerDrag(Marker var1);
+        void onMarkerDrag(Marker<?> var1);
 
-        void onMarkerDragEnd(Marker var1);
+        void onMarkerDragEnd(Marker<?> var1);
     }
 
     public interface OnMarkerClickListener {
-        boolean onMarkerClick(Marker var1);
+        boolean onMarkerClick(Marker<?> var1);
     }
 
     /* interface OnPolylineClickListener {
@@ -240,13 +241,13 @@ public abstract class Map<M> {
         void onCameraMoveStarted(int var1);
     }
 
-    /* interface OnMapLongClickListener {
-        void onMapLongClick(LatLng var1);
-    } */
+    public interface OnMapLongClickListener {
+        void onMapLongClick(LatLng<?> var1);
+    }
 
-    /* interface OnMapClickListener {
-        void onMapClick(LatLng var1);
-    } */
+    public interface OnMapClickListener {
+        void onMapClick(LatLng<?> var1);
+    }
 
     /* interface OnIndoorStateChangeListener {
         void onIndoorBuildingFocused();

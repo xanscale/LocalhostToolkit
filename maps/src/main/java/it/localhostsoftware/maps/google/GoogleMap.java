@@ -10,6 +10,7 @@ import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.Map;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
+import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 import it.localhostsoftware.maps.model.CameraPosition;
@@ -82,7 +83,7 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     }
 
     @Override
-    public Marker addMarker(MarkerOptions var1) {
+    public Marker<?> addMarker(MarkerOptions<?> var1) {
         return new GoogleMarker(getMap().addMarker(((GoogleMarkerOptions) var1).getMarkerOptions()));
     }
 
@@ -143,7 +144,7 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     }
 
     @Override
-    public UiSettings getUiSettings() {
+    public UiSettings<?> getUiSettings() {
         return new GoogleUiSettings(getMap().getUiSettings());
     }
 
@@ -165,6 +166,16 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1) {
         getMap().setOnCameraIdleListener(var1::onCameraIdle);
+    }
+
+    @Override
+    public void setOnMapClickListener(@Nullable OnMapClickListener var1) {
+        getMap().setOnMapClickListener(latLng -> var1.onMapClick(new GoogleLatLng(latLng)));
+    }
+
+    @Override
+    public void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1) {
+        getMap().setOnMapLongClickListener(latLng -> var1.onMapLongClick(new GoogleLatLng(latLng)));
     }
 
     @Override
