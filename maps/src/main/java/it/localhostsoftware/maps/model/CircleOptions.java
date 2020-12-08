@@ -1,6 +1,19 @@
 package it.localhostsoftware.maps.model;
 
+import android.content.Context;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import it.localhostsoftware.maps.google.model.GoogleCircleOptions;
+
 public abstract class CircleOptions<CO> {
+    public static CircleOptions<?> getInstance(Context context) {
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
+            return new GoogleCircleOptions(new com.google.android.gms.maps.model.CircleOptions());
+        else return null;
+    }
+
     private final CO co;
 
     public CircleOptions(CO co) {
