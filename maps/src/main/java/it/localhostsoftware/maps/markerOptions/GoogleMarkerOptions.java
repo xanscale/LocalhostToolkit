@@ -3,7 +3,8 @@ package it.localhostsoftware.maps.markerOptions;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.localhostsoftware.maps.LatLng;
+import it.localhostsoftware.maps.latLng.GoogleLatLng;
+import it.localhostsoftware.maps.latLng.LatLng;
 
 public class GoogleMarkerOptions implements MarkerOptions {
     private final com.google.android.gms.maps.model.MarkerOptions markerOptions;
@@ -18,7 +19,7 @@ public class GoogleMarkerOptions implements MarkerOptions {
 
     @Override
     public MarkerOptions position(@NonNull LatLng latLng) {
-        markerOptions.position(latLng.getGoogleLatLng());
+        markerOptions.position(((GoogleLatLng) latLng).getGoogleLatLng());
         return this;
     }
 
@@ -84,7 +85,7 @@ public class GoogleMarkerOptions implements MarkerOptions {
 
     @Override
     public LatLng getPosition() {
-        return new LatLng(markerOptions.getPosition());
+        return new GoogleLatLng(markerOptions.getPosition());
     }
 
     @Override

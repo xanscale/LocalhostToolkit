@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 
-import it.localhostsoftware.maps.LatLng;
+import it.localhostsoftware.maps.latLng.LatLng;
 
 public interface Marker {
     void remove();
