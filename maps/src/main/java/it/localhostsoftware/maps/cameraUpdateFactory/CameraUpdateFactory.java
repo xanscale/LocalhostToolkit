@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import it.localhostsoftware.maps.CameraUpdate;
 
 public interface CameraUpdateFactory {
-    public static CameraUpdateFactory getInstance(Context context) {
+    static CameraUpdateFactory getInstance(Context context) {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
             return new GoogleCameraUpdateFactory();
         else return null;

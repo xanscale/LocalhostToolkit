@@ -1,11 +1,22 @@
 package it.localhostsoftware.maps.markerOptions;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import it.localhostsoftware.maps.latLng.LatLng;
 
 public interface MarkerOptions {
+    static MarkerOptions getInstance(Context context) {
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
+            return new GoogleMarkerOptions();
+        else return null;
+    }
+
     MarkerOptions position(@NonNull LatLng var1);
 
     MarkerOptions zIndex(float var1);
