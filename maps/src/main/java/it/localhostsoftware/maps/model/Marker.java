@@ -20,7 +20,7 @@ public interface Marker {
 
     float getZIndex();
 
-    void setIcon(@Nullable BitmapDescriptor var1);
+    void setIcon(@Nullable BitmapDescriptor<?> var1);
 
     void setAnchor(float var1, float var2);
 

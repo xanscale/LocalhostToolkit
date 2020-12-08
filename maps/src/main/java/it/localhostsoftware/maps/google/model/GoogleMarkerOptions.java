@@ -31,7 +31,7 @@ public class GoogleMarkerOptions implements MarkerOptions {
     }
 
     @Override
-    public MarkerOptions icon(@Nullable BitmapDescriptor var1) {
+    public MarkerOptions icon(@Nullable BitmapDescriptor<?> var1) {
         markerOptions.icon(((GoogleBitmapDescriptor) var1).getBitmapDescriptor());
         return this;
     }
@@ -106,7 +106,7 @@ public class GoogleMarkerOptions implements MarkerOptions {
     }
 
     @Override
-    public BitmapDescriptor getIcon() {
+    public BitmapDescriptor<?> getIcon() {
         return new GoogleBitmapDescriptor(markerOptions.getIcon());
     }
 

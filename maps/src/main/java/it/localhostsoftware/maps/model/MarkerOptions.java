@@ -21,7 +21,7 @@ public interface MarkerOptions {
 
     MarkerOptions zIndex(float var1);
 
-    MarkerOptions icon(@Nullable BitmapDescriptor var1);
+    MarkerOptions icon(@Nullable BitmapDescriptor<?> var1);
 
     MarkerOptions anchor(float var1, float var2);
 
@@ -47,7 +47,7 @@ public interface MarkerOptions {
 
     String getSnippet();
 
-    BitmapDescriptor getIcon();
+    BitmapDescriptor<?> getIcon();
 
     float getAnchorU();
 

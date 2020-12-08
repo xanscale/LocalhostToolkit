@@ -47,7 +47,7 @@ public class GoogleMarker implements Marker {
     }
 
     @Override
-    public void setIcon(@Nullable BitmapDescriptor bitmapDescriptor) {
+    public void setIcon(@Nullable BitmapDescriptor<?> bitmapDescriptor) {
         marker.setIcon(((GoogleBitmapDescriptor) bitmapDescriptor).getBitmapDescriptor());
     }
 

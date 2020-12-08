@@ -26,17 +26,17 @@ public interface BitmapDescriptorFactory {
         else return null;
     }
 
-    BitmapDescriptor fromResource(int var0);
+    BitmapDescriptor<?> fromResource(int var0);
 
-    BitmapDescriptor fromAsset(String var0);
+    BitmapDescriptor<?> fromAsset(String var0);
 
-    BitmapDescriptor fromFile(String var0);
+    BitmapDescriptor<?> fromFile(String var0);
 
-    BitmapDescriptor fromPath(String var0);
+    BitmapDescriptor<?> fromPath(String var0);
 
-    BitmapDescriptor defaultMarker();
+    BitmapDescriptor<?> defaultMarker();
 
-    BitmapDescriptor defaultMarker(float var0);
+    BitmapDescriptor<?> defaultMarker(float var0);
 
-    BitmapDescriptor fromBitmap(Bitmap var0);
+    BitmapDescriptor<?> fromBitmap(Bitmap var0);
 }
