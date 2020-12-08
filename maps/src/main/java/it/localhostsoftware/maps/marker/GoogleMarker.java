@@ -27,12 +27,12 @@ public class GoogleMarker implements Marker {
 
     @Override
     public void setPosition(@NonNull LatLng latLng) {
-        marker.setPosition(latLng.toGoogleLatLng());
+        marker.setPosition(latLng.getGoogleLatLng());
     }
 
     @Override
     public LatLng getPosition() {
-        return LatLng.fromGoogleLatLng(marker.getPosition());
+        return new LatLng(marker.getPosition());
     }
 
     @Override

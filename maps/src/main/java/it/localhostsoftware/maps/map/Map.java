@@ -10,6 +10,7 @@ import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.marker.Marker;
+import it.localhostsoftware.maps.markerOptions.MarkerOptions;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 
 public interface Map {
@@ -41,7 +42,7 @@ public interface Map {
 
     //  Circle addCircle(CircleOptions var1);
 
-    //  Marker addMarker(MarkerOptions var1);
+    Marker addMarker(MarkerOptions var1);
 
     //  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
 

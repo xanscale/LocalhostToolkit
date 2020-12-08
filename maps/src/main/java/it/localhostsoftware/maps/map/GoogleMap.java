@@ -7,15 +7,17 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Marker;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.marker.GoogleMarker;
+import it.localhostsoftware.maps.marker.Marker;
+import it.localhostsoftware.maps.markerOptions.GoogleMarkerOptions;
+import it.localhostsoftware.maps.markerOptions.MarkerOptions;
 import it.localhostsoftware.maps.uiSettings.GoogleUiSettings;
 import it.localhostsoftware.maps.uiSettings.UiSettings;
 
 public class GoogleMap implements Map {
-    private com.google.android.gms.maps.GoogleMap map;
+    private final com.google.android.gms.maps.GoogleMap map;
 
     public GoogleMap(com.google.android.gms.maps.GoogleMap map) {
         this.map = map;
@@ -78,6 +80,11 @@ public class GoogleMap implements Map {
     @Override
     public void stopAnimation() {
         map.stopAnimation();
+    }
+
+    @Override
+    public Marker addMarker(MarkerOptions var1) {
+        return new GoogleMarker(map.addMarker(((GoogleMarkerOptions) var1).getMarkerOptions()));
     }
 
     @Override
@@ -170,17 +177,17 @@ public class GoogleMap implements Map {
     public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1) {
         map.setOnMarkerDragListener(new com.google.android.gms.maps.GoogleMap.OnMarkerDragListener() {
             @Override
-            public void onMarkerDragStart(Marker marker) {
+            public void onMarkerDragStart(com.google.android.gms.maps.model.Marker marker) {
                 var1.onMarkerDragStart(new GoogleMarker(marker));
             }
 
             @Override
-            public void onMarkerDrag(Marker marker) {
+            public void onMarkerDrag(com.google.android.gms.maps.model.Marker marker) {
                 var1.onMarkerDrag(new GoogleMarker(marker));
             }
 
             @Override
-            public void onMarkerDragEnd(Marker marker) {
+            public void onMarkerDragEnd(com.google.android.gms.maps.model.Marker marker) {
                 var1.onMarkerDragEnd(new GoogleMarker(marker));
             }
         });
@@ -206,12 +213,12 @@ public class GoogleMap implements Map {
     public void setInfoWindowAdapter(InfoWindowAdapter var1) {
         map.setInfoWindowAdapter(new com.google.android.gms.maps.GoogleMap.InfoWindowAdapter() {
             @Override
-            public View getInfoWindow(Marker marker) {
+            public View getInfoWindow(com.google.android.gms.maps.model.Marker marker) {
                 return var1.getInfoWindow(new GoogleMarker(marker));
             }
 
             @Override
-            public View getInfoContents(Marker marker) {
+            public View getInfoContents(com.google.android.gms.maps.model.Marker marker) {
                 return var1.getInfoContents(new GoogleMarker(marker));
             }
         });
