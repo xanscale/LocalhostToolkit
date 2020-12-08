@@ -3,11 +3,11 @@ package it.localhostsoftware.maps.google;
 import android.graphics.Point;
 
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.CameraUpdateFactory;
+import it.localhostsoftware.maps.model.LatLng;
 
 
 public class GoogleCameraUpdateFactory implements CameraUpdateFactory {
@@ -47,13 +47,13 @@ public class GoogleCameraUpdateFactory implements CameraUpdateFactory {
     }
 
     @Override
-    public CameraUpdate<?> newLatLng(LatLng var0) {
-        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(var0));
+    public CameraUpdate<?> newLatLng(LatLng<?> var0) {
+        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLng((com.google.android.gms.maps.model.LatLng) var0.getLatLng()));
     }
 
     @Override
-    public CameraUpdate<?> newLatLngZoom(LatLng var0, float var1) {
-        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(var0, var1));
+    public CameraUpdate<?> newLatLngZoom(LatLng<?> var0, float var1) {
+        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom((com.google.android.gms.maps.model.LatLng) var0.getLatLng(), var1));
     }
 
     @Override

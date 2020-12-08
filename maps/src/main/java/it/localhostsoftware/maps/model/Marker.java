@@ -3,10 +3,6 @@ package it.localhostsoftware.maps.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
-import it.localhostsoftware.maps.model.BitmapDescriptor;
-import it.localhostsoftware.maps.model.LatLng;
-
 public interface Marker {
     void remove();
 
