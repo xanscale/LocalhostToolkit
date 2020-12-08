@@ -8,7 +8,8 @@ import androidx.annotation.RequiresPermission;
 
 import com.google.android.gms.maps.model.CameraPosition;
 
-import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.cameraUpdate.CameraUpdate;
+import it.localhostsoftware.maps.cameraUpdate.GoogleCameraUpdate;
 import it.localhostsoftware.maps.model.marker.GoogleMarker;
 import it.localhostsoftware.maps.model.marker.Marker;
 import it.localhostsoftware.maps.model.markerOptions.GoogleMarkerOptions;
@@ -39,17 +40,17 @@ public class GoogleMap implements Map {
 
     @Override
     public void moveCamera(CameraUpdate var1) {
-        map.moveCamera(var1.getGoogleCameraUpdate());
+        map.moveCamera(((GoogleCameraUpdate) var1).getGoogleCameraUpdate());
     }
 
     @Override
     public void animateCamera(CameraUpdate var1) {
-        map.animateCamera(var1.getGoogleCameraUpdate());
+        map.animateCamera(((GoogleCameraUpdate) var1).getGoogleCameraUpdate());
     }
 
     @Override
     public void animateCamera(CameraUpdate var1, CancelableCallback var2) {
-        map.animateCamera(var1.getGoogleCameraUpdate(), new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
+        map.animateCamera(((GoogleCameraUpdate) var1).getGoogleCameraUpdate(), new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
                 var2.onFinish();
@@ -64,7 +65,7 @@ public class GoogleMap implements Map {
 
     @Override
     public void animateCamera(CameraUpdate var1, int var2, CancelableCallback var3) {
-        map.animateCamera(var1.getGoogleCameraUpdate(), var2, new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
+        map.animateCamera(((GoogleCameraUpdate) var1).getGoogleCameraUpdate(), var2, new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
                 var3.onFinish();

@@ -1,9 +1,9 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps.cameraUpdate;
 
-public class CameraUpdate {
+public class GoogleCameraUpdate implements CameraUpdate {
     private final com.google.android.gms.maps.CameraUpdate googleCameraUpdate;
 
-    public CameraUpdate(com.google.android.gms.maps.CameraUpdate googleCameraUpdate) {
+    public GoogleCameraUpdate(com.google.android.gms.maps.CameraUpdate googleCameraUpdate) {
         this.googleCameraUpdate = googleCameraUpdate;
     }
 

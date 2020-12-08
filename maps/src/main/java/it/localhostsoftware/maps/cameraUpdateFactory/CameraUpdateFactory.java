@@ -9,7 +9,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.cameraUpdate.CameraUpdate;
+
 
 public interface CameraUpdateFactory {
     static CameraUpdateFactory getInstance(Context context) {
