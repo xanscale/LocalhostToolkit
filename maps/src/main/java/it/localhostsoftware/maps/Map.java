@@ -8,31 +8,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
+import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 
-public interface Map {
+public abstract class Map<M> {
     int MAP_TYPE_NONE = 0;
     int MAP_TYPE_NORMAL = 1;
     int MAP_TYPE_SATELLITE = 2;
     int MAP_TYPE_TERRAIN = 3;
     int MAP_TYPE_HYBRID = 4;
 
-    // CameraPosition getCameraPosition();
+    private final M m;
 
-    float getMaxZoomLevel();
+    public Map(M m) {
+        this.m = m;
+    }
 
-    float getMinZoomLevel();
+    public M getMap() {
+        return m;
+    }
 
-    void moveCamera(CameraUpdate<?> var1);
+    abstract public CameraPosition<?> getCameraPosition();
 
-    void animateCamera(CameraUpdate<?> var1);
+    abstract public float getMaxZoomLevel();
 
-    void animateCamera(CameraUpdate<?> var1, CancelableCallback var2);
+    abstract public float getMinZoomLevel();
 
-    void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3);
+    abstract public void moveCamera(CameraUpdate<?> var1);
 
-    void stopAnimation();
+    abstract public void animateCamera(CameraUpdate<?> var1);
+
+    abstract public void animateCamera(CameraUpdate<?> var1, CancelableCallback var2);
+
+    abstract public void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3);
+
+    abstract public void stopAnimation();
 
     //  Polyline addPolyline(PolylineOptions var1);
 
@@ -40,74 +51,74 @@ public interface Map {
 
     //  Circle addCircle(CircleOptions var1);
 
-    Marker addMarker(MarkerOptions var1);
+    abstract public Marker addMarker(MarkerOptions var1);
 
     //  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
 
     //  TileOverlay addTileOverlay(TileOverlayOptions var1);
 
-    void clear();
+    abstract public void clear();
 
     // IndoorBuilding getFocusedBuilding();
 
     //  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
 
-    int getMapType();
+    abstract public int getMapType();
 
-    void setMapType(int var1);
+    abstract public void setMapType(int var1);
 
-    boolean isTrafficEnabled();
+    abstract public boolean isTrafficEnabled();
 
-    void setTrafficEnabled(boolean var1);
+    abstract public void setTrafficEnabled(boolean var1);
 
-    boolean isIndoorEnabled();
+    abstract public boolean isIndoorEnabled();
 
-    boolean setIndoorEnabled(boolean var1);
+    abstract public boolean setIndoorEnabled(boolean var1);
 
-    boolean isBuildingsEnabled();
+    abstract public boolean isBuildingsEnabled();
 
-    void setBuildingsEnabled(boolean var1);
+    abstract public void setBuildingsEnabled(boolean var1);
 
-    boolean isMyLocationEnabled();
+    abstract public boolean isMyLocationEnabled();
 
     @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
-    void setMyLocationEnabled(boolean var1);
+    abstract public void setMyLocationEnabled(boolean var1);
 
     // void setLocationSource(LocationSource var1);
 
-    UiSettings getUiSettings();
+    abstract public UiSettings getUiSettings();
 
     // Projection getProjection();
 
-    void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1);
+    abstract public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1);
 
-    void setOnCameraMoveListener(@Nullable OnCameraMoveListener var1);
+    abstract public void setOnCameraMoveListener(@Nullable OnCameraMoveListener var1);
 
-    void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1);
+    abstract public void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1);
 
-    void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
+    abstract public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
 
     // void setOnMapClickListener(@Nullable OnMapClickListener var1);
 
     // void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
 
-    void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
+    abstract public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
 
-    void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
+    abstract public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
 
-    void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
+    abstract public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
 
-    void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
+    abstract public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
 
-    void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
+    abstract public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
 
-    void setInfoWindowAdapter(InfoWindowAdapter var1);
+    abstract public void setInfoWindowAdapter(InfoWindowAdapter var1);
 
-    void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
+    abstract public void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
 
-    void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
+    abstract public void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
 
-    void setOnMapLoadedCallback(OnMapLoadedCallback var1);
+    abstract public void setOnMapLoadedCallback(OnMapLoadedCallback var1);
 
     // void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 
@@ -117,23 +128,23 @@ public interface Map {
 
     // void setOnPolylineClickListener(OnPolylineClickListener var1);
 
-    void snapshot(SnapshotReadyCallback var1);
+    abstract public void snapshot(SnapshotReadyCallback var1);
 
-    void snapshot(SnapshotReadyCallback var1, Bitmap var2);
+    abstract public void snapshot(SnapshotReadyCallback var1, Bitmap var2);
 
-    void setPadding(int var1, int var2, int var3, int var4);
+    abstract public void setPadding(int var1, int var2, int var3, int var4);
 
-    void setContentDescription(String var1);
+    abstract public void setContentDescription(String var1);
 
     // void setOnPoiClickListener(OnPoiClickListener var1);
 
     // boolean setMapStyle(@Nullable MapStyleOptions var1);
 
-    void setMinZoomPreference(float var1);
+    abstract public void setMinZoomPreference(float var1);
 
-    void setMaxZoomPreference(float var1);
+    abstract public void setMaxZoomPreference(float var1);
 
-    void resetMinMaxZoomPreference();
+    abstract public void resetMinMaxZoomPreference();
 
     // void setLatLngBoundsForCameraTarget(LatLngBounds var1);
 
@@ -145,47 +156,47 @@ public interface Map {
         void onGroundOverlayClick(GroundOverlay var1);
     }*/
 
-    interface OnMapLoadedCallback {
+    public interface OnMapLoadedCallback {
         void onMapLoaded();
     }
 
-    interface OnMyLocationClickListener {
+    public interface OnMyLocationClickListener {
         void onMyLocationClick(@NonNull Location var1);
     }
 
-    interface OnMyLocationButtonClickListener {
+    public interface OnMyLocationButtonClickListener {
         boolean onMyLocationButtonClick();
     }
 
-    interface InfoWindowAdapter {
+    public interface InfoWindowAdapter {
         View getInfoWindow(Marker var1);
 
         View getInfoContents(Marker var1);
     }
 
-    interface SnapshotReadyCallback {
+    public interface SnapshotReadyCallback {
         void onSnapshotReady(Bitmap var1);
     }
 
-    interface CancelableCallback {
+    public interface CancelableCallback {
         void onFinish();
 
         void onCancel();
     }
 
-    interface OnInfoWindowCloseListener {
+    public interface OnInfoWindowCloseListener {
         void onInfoWindowClose(Marker var1);
     }
 
-    interface OnInfoWindowLongClickListener {
+    public interface OnInfoWindowLongClickListener {
         void onInfoWindowLongClick(Marker var1);
     }
 
-    interface OnInfoWindowClickListener {
+    public interface OnInfoWindowClickListener {
         void onInfoWindowClick(Marker var1);
     }
 
-    interface OnMarkerDragListener {
+    public interface OnMarkerDragListener {
         void onMarkerDragStart(Marker var1);
 
         void onMarkerDrag(Marker var1);
@@ -193,7 +204,7 @@ public interface Map {
         void onMarkerDragEnd(Marker var1);
     }
 
-    interface OnMarkerClickListener {
+    public interface OnMarkerClickListener {
         boolean onMarkerClick(Marker var1);
     }
 
@@ -209,19 +220,19 @@ public interface Map {
         void onCircleClick(Circle var1);
     } */
 
-    interface OnCameraIdleListener {
+    public interface OnCameraIdleListener {
         void onCameraIdle();
     }
 
-    interface OnCameraMoveCanceledListener {
+    public interface OnCameraMoveCanceledListener {
         void onCameraMoveCanceled();
     }
 
-    interface OnCameraMoveListener {
+    public interface OnCameraMoveListener {
         void onCameraMove();
     }
 
-    interface OnCameraMoveStartedListener {
+    public interface OnCameraMoveStartedListener {
         int REASON_GESTURE = 1;
         int REASON_API_ANIMATION = 2;
         int REASON_DEVELOPER_ANIMATION = 3;

@@ -5,10 +5,10 @@ import android.graphics.Point;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory;
+import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.LatLng;
 
 public interface CameraUpdateFactory {
@@ -30,7 +30,7 @@ public interface CameraUpdateFactory {
 
     CameraUpdate<?> zoomBy(float var0, Point var1);
 
-    CameraUpdate<?> newCameraPosition(CameraPosition var0);
+    CameraUpdate<?> newCameraPosition(CameraPosition<?> var0);
 
     CameraUpdate<?> newLatLng(LatLng<?> var0);
 

@@ -92,7 +92,7 @@ public class GoogleMarkerOptions implements MarkerOptions {
 
     @Override
     public LatLng<?> getPosition() {
-        return new LatLng<>(markerOptions.getPosition());
+        return new GoogleLatLng(markerOptions.getPosition());
     }
 
     @Override

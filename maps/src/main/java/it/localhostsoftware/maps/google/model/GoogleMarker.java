@@ -31,7 +31,7 @@ public class GoogleMarker implements Marker {
 
     @Override
     public LatLng<?> getPosition() {
-        return new LatLng<>(marker.getPosition());
+        return new GoogleLatLng(marker.getPosition());
     }
 
     @Override
