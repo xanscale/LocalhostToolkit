@@ -24,13 +24,13 @@ public interface Map {
 
     float getMinZoomLevel();
 
-    void moveCamera(CameraUpdate var1);
+    void moveCamera(CameraUpdate<?> var1);
 
-    void animateCamera(CameraUpdate var1);
+    void animateCamera(CameraUpdate<?> var1);
 
-    void animateCamera(CameraUpdate var1, CancelableCallback var2);
+    void animateCamera(CameraUpdate<?> var1, CancelableCallback var2);
 
-    void animateCamera(CameraUpdate var1, int var2, CancelableCallback var3);
+    void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3);
 
     void stopAnimation();
 

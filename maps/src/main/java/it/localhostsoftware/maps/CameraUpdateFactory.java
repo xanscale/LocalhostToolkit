@@ -19,25 +19,25 @@ public interface CameraUpdateFactory {
         else return null;
     }
 
-    CameraUpdate zoomIn();
+    CameraUpdate<?> zoomIn();
 
-    CameraUpdate zoomOut();
+    CameraUpdate<?> zoomOut();
 
-    CameraUpdate scrollBy(float var0, float var1);
+    CameraUpdate<?> scrollBy(float var0, float var1);
 
-    CameraUpdate zoomTo(float var0);
+    CameraUpdate<?> zoomTo(float var0);
 
-    CameraUpdate zoomBy(float var0);
+    CameraUpdate<?> zoomBy(float var0);
 
-    CameraUpdate zoomBy(float var0, Point var1);
+    CameraUpdate<?> zoomBy(float var0, Point var1);
 
-    CameraUpdate newCameraPosition(CameraPosition var0);
+    CameraUpdate<?> newCameraPosition(CameraPosition var0);
 
-    CameraUpdate newLatLng(LatLng var0);
+    CameraUpdate<?> newLatLng(LatLng var0);
 
-    CameraUpdate newLatLngZoom(LatLng var0, float var1);
+    CameraUpdate<?> newLatLngZoom(LatLng var0, float var1);
 
-    CameraUpdate newLatLngBounds(LatLngBounds var0, int var1);
+    CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1);
 
-    CameraUpdate newLatLngBounds(LatLngBounds var0, int var1, int var2, int var3);
+    CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1, int var2, int var3);
 }
