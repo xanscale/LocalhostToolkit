@@ -28,7 +28,8 @@ public class HeterogeneousMapFragment extends Fragment {
     public void getMapAsync(OnMapReadyCallback callback) {
         getParentFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
             @Override
-            public void onFragmentViewCreated(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, @NonNull View view, @Nullable Bundle savedInstanceState) {
+            public void onFragmentViewCreated(@NonNull FragmentManager fragmentManager, @NonNull Fragment f, @NonNull View view, @Nullable Bundle savedInstanceState) {
+                Fragment fragment = getChildFragmentManager().findFragmentById(R.id.mapFragmentContainerView);
                 if (fragment instanceof SupportMapFragment) {
                     fragmentManager.unregisterFragmentLifecycleCallbacks(this);
                     ((SupportMapFragment) fragment).getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
