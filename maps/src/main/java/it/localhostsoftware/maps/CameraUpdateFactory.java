@@ -3,19 +3,22 @@ package it.localhostsoftware.maps;
 import android.content.Context;
 import android.graphics.Point;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.huawei.hms.api.HuaweiApiAvailability;
 
 import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory;
+import it.localhostsoftware.maps.huawei.HuaweiCameraUpdateFactory;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.LatLngBounds;
 
 public interface CameraUpdateFactory {
     static CameraUpdateFactory getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
             return new GoogleCameraUpdateFactory();
-        else return null;
+        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
+            return new HuaweiCameraUpdateFactory();
+        else throw new IllegalStateException();
     }
 
     CameraUpdate<?> zoomIn();

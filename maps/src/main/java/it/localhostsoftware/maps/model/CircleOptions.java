@@ -2,16 +2,19 @@ package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.huawei.hms.api.HuaweiApiAvailability;
 
 import it.localhostsoftware.maps.google.model.GoogleCircleOptions;
+import it.localhostsoftware.maps.huawei.model.HuaweiCircleOptions;
 
 public abstract class CircleOptions<CO> {
     public static CircleOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
             return new GoogleCircleOptions(new com.google.android.gms.maps.model.CircleOptions());
-        else return null;
+        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
+            return new HuaweiCircleOptions(new com.huawei.hms.maps.model.CircleOptions());
+        else throw new IllegalStateException();
     }
 
     private final CO co;

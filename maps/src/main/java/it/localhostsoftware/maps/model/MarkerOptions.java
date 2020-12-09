@@ -5,16 +5,19 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.huawei.hms.api.HuaweiApiAvailability;
 
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
+import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
 
 public abstract class MarkerOptions<MO> {
     public static MarkerOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
             return new GoogleMarkerOptions(new com.google.android.gms.maps.model.MarkerOptions());
-        else return null;
+        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
+            return new HuaweiMarkerOptions(new com.huawei.hms.maps.model.MarkerOptions());
+        else throw new IllegalStateException();
     }
 
     private final MO mo;
