@@ -5,11 +5,11 @@ import android.graphics.Point;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.model.LatLngBounds;
 
 import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.LatLngBounds;
 
 public interface CameraUpdateFactory {
     static CameraUpdateFactory getInstance(Context context) {
@@ -36,7 +36,7 @@ public interface CameraUpdateFactory {
 
     CameraUpdate<?> newLatLngZoom(LatLng<?> var0, float var1);
 
-    CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1);
+    CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1);
 
-    CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1, int var2, int var3);
+    CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1, int var2, int var3);
 }

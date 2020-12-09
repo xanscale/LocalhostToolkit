@@ -2,12 +2,11 @@ package it.localhostsoftware.maps.google;
 
 import android.graphics.Point;
 
-import com.google.android.gms.maps.model.LatLngBounds;
-
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.CameraUpdateFactory;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.LatLngBounds;
 
 public class GoogleCameraUpdateFactory implements CameraUpdateFactory {
     @Override
@@ -56,12 +55,12 @@ public class GoogleCameraUpdateFactory implements CameraUpdateFactory {
     }
 
     @Override
-    public CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1) {
-        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds(var0, var1));
+    public CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1) {
+        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds((com.google.android.gms.maps.model.LatLngBounds) var0.getLatLngBounds(), var1));
     }
 
     @Override
-    public CameraUpdate<?> newLatLngBounds(LatLngBounds var0, int var1, int var2, int var3) {
-        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds(var0, var1, var2, var3));
+    public CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1, int var2, int var3) {
+        return new CameraUpdate<>(com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds((com.google.android.gms.maps.model.LatLngBounds) var0.getLatLngBounds(), var1, var2, var3));
     }
 }
