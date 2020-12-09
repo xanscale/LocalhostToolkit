@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.huawei.hms.api.HuaweiApiAvailability;
 
 import it.localhostsoftware.maps.google.model.GoogleLatLngBounds;
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds;
 
 public abstract class LatLngBounds<LB> {
     private final LB lb;
@@ -32,7 +34,9 @@ public abstract class LatLngBounds<LB> {
         public static Builder<?> getInstance(Context context) {
             if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
                 return new GoogleLatLngBounds.GoogleBuilder(new com.google.android.gms.maps.model.LatLngBounds.Builder());
-            else return null;
+            else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
+                return new HuaweiLatLngBounds.HuaweiBuilder(new com.huawei.hms.maps.model.LatLngBounds.Builder());
+            else throw new IllegalStateException();
         }
 
         private final B b;

@@ -28,6 +28,6 @@ android {
 
 dependencies {
     implementation 'androidx.fragment:fragment:1.2.5'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.huawei.hms:maps:5.0.5.301'
+    api 'com.google.android.gms:play-services-maps:17.0.0'
+    api 'com.huawei.hms:maps:5.0.5.301'
 }
