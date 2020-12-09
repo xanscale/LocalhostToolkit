@@ -7,6 +7,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.huawei.hms.api.HuaweiApiAvailability;
 
 import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory;
+import it.localhostsoftware.maps.huawei.model.HuaweiBitmapDescriptorFactory;
 
 public interface BitmapDescriptorFactory {
     float HUE_RED = 0.0F;
@@ -24,7 +25,7 @@ public interface BitmapDescriptorFactory {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
             return new GoogleBitmapDescriptorFactory();
         else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new GoogleBitmapDescriptorFactory();
+            return new HuaweiBitmapDescriptorFactory();
         else throw new IllegalStateException();
     }
 
