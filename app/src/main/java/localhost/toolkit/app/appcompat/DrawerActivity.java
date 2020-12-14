@@ -42,18 +42,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         navigationView = findViewById(R.id.navigation);
         navigationView.inflateHeaderView(getHeaderViewResId());
         navigationView.inflateMenu(getMenu());
-        navigationView.inflateMenu(R.menu.navigation_footer);
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawerContentDesc, R.string.closeDrawerContentDesc);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        try {
-            TextView version = (TextView) navigationView.getMenu().findItem(R.id.version).getActionView();
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version.setText(getString(R.string.versionValue, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (isVersionShowed())
+            try {
+                navigationView.inflateMenu(R.menu.navigation_footer);
+                TextView version = (TextView) navigationView.getMenu().findItem(R.id.version).getActionView();
+                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                version.setText(getString(R.string.versionValue, packageInfo.versionName, PackageInfoCompat.getLongVersionCode(packageInfo)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         invalidateNavigationMenu();
         if (savedInstanceState == null) {
             navigateToHomeMenuItem();
@@ -77,6 +78,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
      * @return menu resource ID
      */
     protected abstract int getMenu();
+
+    /**
+     * Choose if want to show app version info or not
+     *
+     * @return true if want to show version info
+     */
+    protected abstract boolean isVersionShowed();
 
     /**
      * Implementation must return fragment used as main content
