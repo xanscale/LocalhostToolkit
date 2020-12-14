@@ -20,18 +20,22 @@ public class MapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        Fragment fragment;
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext()) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return inflater.inflate(R.layout.fragment_map_google, container, false);
+            fragment = com.google.android.gms.maps.SupportMapFragment.newInstance();
         else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(requireContext()) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return inflater.inflate(R.layout.fragment_map_huawei, container, false);
+            fragment = com.huawei.hms.maps.SupportMapFragment.newInstance();
         else throw new IllegalStateException();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commitAllowingStateLoss();
+        return v;
     }
 
     public void getMapAsync(OnMapReadyCallback callback) {
-        getParentFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+        getChildFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
             @Override
             public void onFragmentViewCreated(@NonNull FragmentManager fragmentManager, @NonNull Fragment f, @NonNull View view, @Nullable Bundle savedInstanceState) {
-                Fragment fragment = getChildFragmentManager().findFragmentById(R.id.mapFragmentContainerView);
+                Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
                 if (fragment instanceof com.google.android.gms.maps.SupportMapFragment) {
                     fragmentManager.unregisterFragmentLifecycleCallbacks(this);
                     ((com.google.android.gms.maps.SupportMapFragment) fragment).getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
