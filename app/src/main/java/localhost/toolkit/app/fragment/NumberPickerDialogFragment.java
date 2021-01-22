@@ -23,8 +23,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private static final String PARCELABLE = "PARCELABLE";
     private static final String DISPLAYED_VALUES = "DISPLAYED_VALUES";
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
         builder.setTitle(requireArguments().getString(TITLE));
