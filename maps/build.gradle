@@ -4,7 +4,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
@@ -29,5 +29,5 @@ android {
 dependencies {
     implementation 'androidx.fragment:fragment:1.2.5'
     api 'com.google.android.gms:play-services-maps:17.0.0'
-    api 'com.huawei.hms:maps:5.0.5.301'
+    api 'com.huawei.hms:maps:5.1.0.300'
 }

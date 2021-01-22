@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         minSdkVersion 23
@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    api 'androidx.security:security-crypto:1.0.0-rc03'
+    api 'androidx.security:security-crypto:1.0.0-rc04'
     api 'androidx.biometric:biometric:1.0.1'
     api 'androidx.lifecycle:lifecycle-livedata-core:2.2.0'
 }
