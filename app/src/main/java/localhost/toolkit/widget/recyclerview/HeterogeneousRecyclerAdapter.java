@@ -15,16 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeterogeneousRecyclerAdapter<H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements Filterable {
+public class HeterogeneousRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private HeterogeneousFilter heterogeneousFilter;
     private final HashMap<Class<?>, Integer> classToType;
     private final SparseIntArray typeToPos;
     private final LayoutInflater inflater;
-    private List<HeterogeneousRecyclerItem<?, H>> items;
-    private List<HeterogeneousRecyclerItem<?, H>> originalItems;
+    private List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> items;
+    private List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> originalItems;
     private boolean loopScroll;
 
-    public HeterogeneousRecyclerAdapter(Context context, List<HeterogeneousRecyclerItem<?, H>> items) {
+    public HeterogeneousRecyclerAdapter(Context context, List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> items) {
         setHasStableIds(true);
         this.items = items;
         inflater = LayoutInflater.from(context);
@@ -35,16 +35,16 @@ public class HeterogeneousRecyclerAdapter<H extends RecyclerView.ViewHolder> ext
 
     @NonNull
     @Override
-    public H onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return getItem(typeToPos.get(viewType)).onCreateViewHolder(inflater, parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull H viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         getItem(position).onBindViewHolder(viewHolder);
     }
 
-    public HeterogeneousRecyclerItem<?, H> getItem(int position) {
+    public HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder> getItem(int position) {
         return items.get(loopScroll && !items.isEmpty() ? position % items.size() : position);
     }
 
@@ -103,9 +103,9 @@ public class HeterogeneousRecyclerAdapter<H extends RecyclerView.ViewHolder> ext
                 for (String word : constraint.toString().toLowerCase().split("\\W"))
                     sb.append("(?=.*").append(word).append(")");
                 sb.append("\\X*$");
-                ArrayList<HeterogeneousRecyclerItem<?, H>> newValues = new ArrayList<>();
+                ArrayList<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> newValues = new ArrayList<>();
                 Pattern pattern = Pattern.compile(sb.toString());
-                for (HeterogeneousRecyclerItem<?, H> value : originalItems)
+                for (HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder> value : originalItems)
                     if (pattern.matcher(value.toString().toLowerCase()).matches())
                         newValues.add(value);
                 results.values = newValues;
@@ -117,7 +117,7 @@ public class HeterogeneousRecyclerAdapter<H extends RecyclerView.ViewHolder> ext
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            items = (List<HeterogeneousRecyclerItem<?, H>>) results.values;
+            items = (List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>>) results.values;
             notifyDataSetChanged();
         }
     }
