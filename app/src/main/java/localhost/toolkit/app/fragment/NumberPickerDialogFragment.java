@@ -21,6 +21,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private static final String VALUE = "VALUE";
     private static final String SERIALIZABLE = "SERIALIZABLE";
     private static final String PARCELABLE = "PARCELABLE";
+    private static final String DISPLAYED_VALUES = "DISPLAYED_VALUES";
 
     @NonNull
     @Override
@@ -34,6 +35,8 @@ public class NumberPickerDialogFragment extends DialogFragment {
             numberPicker.setMaxValue(requireArguments().getInt(MAX));
         if (requireArguments().containsKey(VALUE))
             numberPicker.setValue(requireArguments().getInt(VALUE));
+        if (requireArguments().containsKey(DISPLAYED_VALUES))
+            numberPicker.setDisplayedValues(requireArguments().getStringArray(DISPLAYED_VALUES));
         builder.setView(numberPicker);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
@@ -60,6 +63,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
         private Integer min;
         private Integer max;
         private Integer value;
+        private String[] displayedValues;
 
         public NumberPickerDialogFragment build() {
             NumberPickerDialogFragment fragment = new NumberPickerDialogFragment();
@@ -70,6 +74,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
             if (min != null) args.putInt(MIN, min);
             if (max != null) args.putInt(MAX, max);
             if (value != null) args.putInt(VALUE, value);
+            if (displayedValues != null) args.putStringArray(DISPLAYED_VALUES, displayedValues);
             fragment.setArguments(args);
             return fragment;
         }
@@ -101,6 +106,11 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
         public Builder withValue(Integer value) {
             this.value = value;
+            return this;
+        }
+
+        public Builder withDisplayedValues(String[] displayedValues) {
+            this.displayedValues = displayedValues;
             return this;
         }
     }
