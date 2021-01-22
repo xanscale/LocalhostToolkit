@@ -15,16 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeterogeneousRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private HeterogeneousFilter heterogeneousFilter;
     private final HashMap<Class<?>, Integer> classToType;
     private final SparseIntArray typeToPos;
     private final LayoutInflater inflater;
-    private List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> items;
-    private List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> originalItems;
+    private List<I> items;
+    private List<I> originalItems;
     private boolean loopScroll;
 
-    public HeterogeneousRecyclerAdapter(Context context, List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> items) {
+    public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
         setHasStableIds(true);
         this.items = items;
         inflater = LayoutInflater.from(context);
@@ -44,7 +44,7 @@ public class HeterogeneousRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         getItem(position).onBindViewHolder(viewHolder);
     }
 
-    public HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder> getItem(int position) {
+    public I getItem(int position) {
         return items.get(loopScroll && !items.isEmpty() ? position % items.size() : position);
     }
 
@@ -103,9 +103,9 @@ public class HeterogeneousRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
                 for (String word : constraint.toString().toLowerCase().split("\\W"))
                     sb.append("(?=.*").append(word).append(")");
                 sb.append("\\X*$");
-                ArrayList<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>> newValues = new ArrayList<>();
+                ArrayList<I> newValues = new ArrayList<>();
                 Pattern pattern = Pattern.compile(sb.toString());
-                for (HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder> value : originalItems)
+                for (I value : originalItems)
                     if (pattern.matcher(value.toString().toLowerCase()).matches())
                         newValues.add(value);
                 results.values = newValues;
@@ -117,7 +117,7 @@ public class HeterogeneousRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            items = (List<HeterogeneousRecyclerItem<?, RecyclerView.ViewHolder>>) results.values;
+            items = (List<I>) results.values;
             notifyDataSetChanged();
         }
     }
