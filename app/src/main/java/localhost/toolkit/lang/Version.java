@@ -1,11 +1,13 @@
 package localhost.toolkit.lang;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
 public class Version implements Comparable<Version> {
-    private ArrayList<Integer> values;
+    private final ArrayList<Integer> values;
 
     public Version(String value) {
         String[] parts = value.split("\\.");
@@ -30,5 +32,11 @@ public class Version implements Comparable<Version> {
                 return compare;
         }
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return TextUtils.join(".", values);
     }
 }
