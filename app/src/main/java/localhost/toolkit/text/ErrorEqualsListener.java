@@ -3,7 +3,7 @@ package localhost.toolkit.text;
 import android.widget.EditText;
 
 public class ErrorEqualsListener extends AbstractErrorListener {
-    private EditText reference;
+    private final EditText reference;
 
     public ErrorEqualsListener(String errorMsg, EditText subject, EditText reference) {
         super(errorMsg, subject);

@@ -49,7 +49,7 @@ public class HuaweiMarker extends Marker<com.huawei.hms.maps.model.Marker> {
 
     @Override
     public void setAnchor(float v, float v1) {
-        getMarker().setAnchor(v, v1);
+        getMarker().setMarkerAnchor(v, v1);
     }
 
     @Override

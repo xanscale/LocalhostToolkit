@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 
 public class AutoFocusRightTextWatcher implements TextWatcher {
-	private EditText editText;
-	private int maxLength;
+	private final EditText editText;
+	private final int maxLength;
 
 	public AutoFocusRightTextWatcher(EditText editText, int maxLength) {
 		this.editText = editText;

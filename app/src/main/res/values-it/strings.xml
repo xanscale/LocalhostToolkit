@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="prgsTitle">Attendere</string>
-	<string name="prgsMessage">Operazione in corso …</string>
 	<string name="noConnection">Nessuna connessione internet attiva. Attiva la rete dati o accedi a una rete WiFi.</string>
 	<string name="openDrawerContentDesc">Apri Drawer</string>
 	<string name="closeDrawerContentDesc">Chiudi Drawer</string>

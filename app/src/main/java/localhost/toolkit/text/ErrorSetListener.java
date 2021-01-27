@@ -5,7 +5,7 @@ import android.widget.EditText;
 import java.util.Set;
 
 public class ErrorSetListener extends AbstractErrorListener {
-    private Set<String> stringSet;
+    private final Set<String> stringSet;
 
     public ErrorSetListener(String errorMsg, EditText editText, Set<String> stringSet) {
         super(errorMsg, editText);

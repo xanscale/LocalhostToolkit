@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
     private final RecyclerView.Adapter<?> adapter;
-    private int dragFlags;
-    private int swipeFlags;
+    private final int dragFlags;
+    private final int swipeFlags;
 
     private SimpleItemTouchHelper(RecyclerView.Adapter<?> adapter, int dragFlags, int swipeFlags) {
         this.adapter = adapter;

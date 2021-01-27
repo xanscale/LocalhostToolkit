@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
-	private RecyclerView.LayoutManager mLayoutManager;
+	private final RecyclerView.LayoutManager mLayoutManager;
 	private int visibleThreshold = 5;
 	private int currentPage = 0;
 	private int previousTotalItemCount = 0;

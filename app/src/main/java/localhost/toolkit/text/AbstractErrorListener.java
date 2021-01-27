@@ -6,8 +6,8 @@ import android.widget.EditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public abstract class AbstractErrorListener implements View.OnFocusChangeListener {
-    protected EditText editText;
-    private String errorMsg;
+    protected final EditText editText;
+    private final String errorMsg;
 
     public AbstractErrorListener(String errorMsg, EditText editText) {
         this.editText = editText;

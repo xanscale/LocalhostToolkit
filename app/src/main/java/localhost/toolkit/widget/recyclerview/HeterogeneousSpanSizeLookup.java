@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import java.util.List;
 
 public class HeterogeneousSpanSizeLookup<I extends HeterogeneousRecyclerItem<?, ?>> extends GridLayoutManager.SpanSizeLookup {
-    private List<I> items;
+    private final List<I> items;
 
     public HeterogeneousSpanSizeLookup(List<I> items) {
         this.items = items;

@@ -63,7 +63,7 @@ public class VisionTextRecognizerView extends FrameLayout implements Runnable {
         LayoutInflater.from(getContext()).inflate(R.layout.vision_barcode_detector_view, this);
         cameraView = findViewById(R.id.cameraView);
         delayMillis = 1000;
-        handler = new Handler();
+        handler = getHandler();
         cameraExecutor = Executors.newSingleThreadExecutor();
     }
 

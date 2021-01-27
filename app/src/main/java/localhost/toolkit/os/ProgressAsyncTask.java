@@ -14,8 +14,8 @@ import java.lang.ref.WeakReference;
 import localhost.toolkit.app.fragment.ProgressDialogFragment;
 
 public abstract class ProgressAsyncTask<A extends FragmentActivity, P, R> extends AsyncTask<P, String, R> {
-    private WeakReference<A> activity;
-    private ProgressDialogFragment progressFragment;
+    private final WeakReference<A> activity;
+    private final ProgressDialogFragment progressFragment;
 
     public ProgressAsyncTask(A activity, ProgressDialogFragment progressFragment) {
         this.activity = new WeakReference<>(activity);

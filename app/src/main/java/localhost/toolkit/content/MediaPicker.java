@@ -9,10 +9,11 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MediaPicker {
-    private Context context;
+    private final Context context;
     private Uri uri;
     private MediaType mediaType;
     private int resultCode = Activity.RESULT_CANCELED;
@@ -59,46 +60,31 @@ public class MediaPicker {
         return mediaType;
     }
 
+    public void openInputStream() throws FileNotFoundException {
+        context.getContentResolver().openInputStream(uri);
+    }
+
     public Uri getThumbnailUri() {
-        Cursor cursor = null;
-        try {
-            if (mediaType == MediaType.IMAGE)
-                cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Thumbnails.DATA}, "kind = " + MediaStore.Images.Thumbnails.MINI_KIND, null, MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER);
-            else if (mediaType == MediaType.VIDEO)
-                cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
-            return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
+        if (mediaType == MediaType.IMAGE)
+            try (Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Thumbnails.DATA}, "kind = " + MediaStore.Images.Thumbnails.MINI_KIND, null, MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER)) {
+                return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
+            }
+        else if (mediaType == MediaType.VIDEO)
+            try (Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER)) {
+                return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
+            }
+        else return null;
     }
 
     public String getDisplayName() {
-        Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
-        try {
+        try (Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
             return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getString(0) : null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (cursor != null)
-                cursor.close();
         }
     }
 
     public long getSize() {
-        Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null);
-        try {
+        try (Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null)) {
             return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getLong(0) : -1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            if (cursor != null)
-                cursor.close();
         }
     }
 
