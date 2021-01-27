@@ -11,6 +11,7 @@ import android.provider.OpenableColumns;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MediaPicker {
     private final Context context;
@@ -60,8 +61,8 @@ public class MediaPicker {
         return mediaType;
     }
 
-    public void openInputStream() throws FileNotFoundException {
-        context.getContentResolver().openInputStream(uri);
+    public InputStream openInputStream() throws FileNotFoundException {
+        return context.getContentResolver().openInputStream(uri);
     }
 
     public Uri getThumbnailUri() {
