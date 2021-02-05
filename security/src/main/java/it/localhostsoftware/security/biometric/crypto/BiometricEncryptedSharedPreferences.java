@@ -2,6 +2,7 @@ package it.localhostsoftware.security.biometric.crypto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
@@ -23,10 +24,10 @@ public class BiometricEncryptedSharedPreferences {
     private static final String MASTER_KEY_ALIAS = "_androidx_security_master_key_biometric";
 
     /**
-     * @param fragment                                  A reference to the client's fragment
-     * @param fileName                                  The name of the file to open; can not contain path separators
-     * @param timeout duration in seconds, must be greater than 0
-     * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param fragment   A reference to the client's fragment
+     * @param fileName   The name of the file to open; can not contain path separators
+     * @param timeout    duration in seconds, must be greater than 0
+     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int timeout, BiometricPrompt.PromptInfo promptInfo) {
@@ -38,10 +39,10 @@ public class BiometricEncryptedSharedPreferences {
     }
 
     /**
-     * @param activity                                  A reference to the client's activity
-     * @param fileName                                  The name of the file to open; can not contain path separators
-     * @param timeout duration in seconds, must be greater than 0
-     * @param promptInfo                                The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param activity   A reference to the client's activity
+     * @param fileName   The name of the file to open; can not contain path separators
+     * @param timeout    duration in seconds, must be greater than 0
+     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int timeout, BiometricPrompt.PromptInfo promptInfo) {
@@ -54,22 +55,17 @@ public class BiometricEncryptedSharedPreferences {
 
     private static SharedPreferences create(Context c, String fileName, int timeout) {
         try {
-            return EncryptedSharedPreferences.create(
-                    fileName,
-                    MasterKeys.getOrCreate(new KeyGenParameterSpec.Builder(
-                            MASTER_KEY_ALIAS,
-                            KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                            .setKeySize(KEY_SIZE)
-                            .setUserAuthenticationRequired(true)
-                            .setUserAuthenticationValidityDurationSeconds(timeout)
-                            //.setUserAuthenticationParameters(timeout, KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG)
-                            .build()),
-                    c,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
+            KeyGenParameterSpec.Builder b = new KeyGenParameterSpec.Builder(MASTER_KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                    .setKeySize(KEY_SIZE)
+                    .setUserAuthenticationRequired(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                b.setUserAuthenticationParameters(timeout, KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG);
+            else
+                //noinspection deprecation
+                b.setUserAuthenticationValidityDurationSeconds(timeout);
+            return EncryptedSharedPreferences.create(fileName, MasterKeys.getOrCreate(b.build()), c, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
             return null;
