@@ -63,7 +63,8 @@ public class BiometricEncryptedSharedPreferences {
                             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                             .setKeySize(KEY_SIZE)
                             .setUserAuthenticationRequired(true)
-                            .setUserAuthenticationParameters(timeout, KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG)
+                            .setUserAuthenticationValidityDurationSeconds(timeout)
+                            //.setUserAuthenticationParameters(timeout, KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG)
                             .build()),
                     c,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
