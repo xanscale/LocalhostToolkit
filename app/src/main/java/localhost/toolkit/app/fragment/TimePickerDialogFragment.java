@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 /**
- * @deprecated use {@link com.google.android.material.datepicker.MaterialTimePicker} instead
+ * @deprecated use {@link com.google.android.material.timepicker.MaterialTimePicker} instead
  */
 @Deprecated
 public class TimePickerDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
