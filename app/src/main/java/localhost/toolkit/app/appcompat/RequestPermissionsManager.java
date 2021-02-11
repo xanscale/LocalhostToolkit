@@ -68,7 +68,7 @@ public class RequestPermissionsManager implements ActivityResultCallback<Map<Str
         return false;
     }
 
-    public MutableLiveData<PermissionResult> checkSelfPermission(String title, String rational, final String... permissions) {
+    public MutableLiveData<PermissionResult> requestPermissions(String title, String rational, final String... permissions) {
         liveData = new MutableLiveData<>();
         if (checkAllPermissionGranted(permissions))
             liveData.setValue(PermissionResult.GRANTED);
