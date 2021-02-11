@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class RequestPermissionsManager implements ActivityResultCallback<Map<String, Boolean>> {
     private final ActivityResultLauncher<String[]> launcher;
-    private MutableLiveData<Boolean> liveData;
+    private MutableLiveData<PermissionResult> liveData;
     private FragmentActivity activity;
     private Fragment fragment;
 
@@ -41,15 +41,20 @@ public class RequestPermissionsManager implements ActivityResultCallback<Map<Str
 
     @Override
     public void onActivityResult(Map<String, Boolean> results) {
-        if (liveData != null) {
-            boolean success = true;
-            for (boolean result : results.values())
-                success = success && result;
-            liveData.setValue(success);
-        }
+        boolean success = true;
+        for (boolean result : results.values())
+            success = success && result;
+        if (liveData != null)
+            if (success)
+                liveData.setValue(PermissionResult.GRANTED);
+            else if (shouldShowRequestPermissionRationale(results.keySet().toArray(new String[0])))
+                liveData.setValue(PermissionResult.DENIED);
+            else
+                liveData.setValue(PermissionResult.PERMANENTLY_DENIED);
+
     }
 
-    private boolean checkSelfPermission(String... permissions) {
+    private boolean checkAllPermissionGranted(String... permissions) {
         for (String perm : permissions)
             if (ContextCompat.checkSelfPermission(getActivity(), perm) == PackageManager.PERMISSION_DENIED)
                 return false;
@@ -63,10 +68,10 @@ public class RequestPermissionsManager implements ActivityResultCallback<Map<Str
         return false;
     }
 
-    public MutableLiveData<Boolean> checkSelfPermission(String title, String rational, final String... permissions) {
+    public MutableLiveData<PermissionResult> checkSelfPermission(String title, String rational, final String... permissions) {
         liveData = new MutableLiveData<>();
-        if (checkSelfPermission(permissions))
-            liveData.setValue(true);
+        if (checkAllPermissionGranted(permissions))
+            liveData.setValue(PermissionResult.GRANTED);
         else if (shouldShowRequestPermissionRationale(permissions)) {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
             if (title != null)
@@ -82,7 +87,7 @@ public class RequestPermissionsManager implements ActivityResultCallback<Map<Str
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    liveData.setValue(false);
+                    liveData.setValue(PermissionResult.DENIED);
                 }
             });
             builder.show();
@@ -90,4 +95,6 @@ public class RequestPermissionsManager implements ActivityResultCallback<Map<Str
             launcher.launch(permissions);
         return liveData;
     }
+
+    public enum PermissionResult {GRANTED, DENIED, PERMANENTLY_DENIED}
 }
