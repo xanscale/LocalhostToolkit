@@ -13,6 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @deprecated use {@link localhost.toolkit.app.appcompat.MediaPickLauncher} instead
+ */
+@Deprecated
 public class MediaPicker {
     private final Context context;
     private Uri uri;
