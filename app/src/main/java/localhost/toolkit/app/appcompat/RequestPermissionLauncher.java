@@ -16,18 +16,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Map;
 
-public class PermissionLauncher implements ActivityResultCallback<Map<String, Boolean>> {
+public class RequestPermissionLauncher implements ActivityResultCallback<Map<String, Boolean>> {
     private final ActivityResultLauncher<String[]> launcher;
     private MutableLiveData<PermissionResult> liveData;
     private FragmentActivity activity;
     private Fragment fragment;
 
-    public PermissionLauncher(Fragment fragment) {
+    public RequestPermissionLauncher(Fragment fragment) {
         this.fragment = fragment;
         launcher = fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
     }
 
-    public PermissionLauncher(FragmentActivity activity) {
+    public RequestPermissionLauncher(FragmentActivity activity) {
         this.activity = activity;
         launcher = activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
     }
@@ -54,7 +54,7 @@ public class PermissionLauncher implements ActivityResultCallback<Map<String, Bo
 
     }
 
-    private boolean checkAllPermissionGranted(String... permissions) {
+    private boolean checkSelfPermission(String... permissions) {
         for (String perm : permissions)
             if (ContextCompat.checkSelfPermission(getActivity(), perm) == PackageManager.PERMISSION_DENIED)
                 return false;
@@ -68,9 +68,9 @@ public class PermissionLauncher implements ActivityResultCallback<Map<String, Bo
         return false;
     }
 
-    public MutableLiveData<PermissionResult> requestPermissions(String title, String rational, final String... permissions) {
+    public MutableLiveData<PermissionResult> launch(String title, String rational, final String... permissions) {
         liveData = new MutableLiveData<>();
-        if (checkAllPermissionGranted(permissions))
+        if (checkSelfPermission(permissions))
             liveData.setValue(PermissionResult.GRANTED);
         else if (shouldShowRequestPermissionRationale(permissions)) {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
