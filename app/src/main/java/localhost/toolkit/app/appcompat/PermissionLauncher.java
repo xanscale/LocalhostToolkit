@@ -16,18 +16,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Map;
 
-public class RequestPermissionsManager implements ActivityResultCallback<Map<String, Boolean>> {
+public class PermissionLauncher implements ActivityResultCallback<Map<String, Boolean>> {
     private final ActivityResultLauncher<String[]> launcher;
     private MutableLiveData<PermissionResult> liveData;
     private FragmentActivity activity;
     private Fragment fragment;
 
-    public RequestPermissionsManager(Fragment fragment) {
+    public PermissionLauncher(Fragment fragment) {
         this.fragment = fragment;
         launcher = fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
     }
 
-    public RequestPermissionsManager(FragmentActivity activity) {
+    public PermissionLauncher(FragmentActivity activity) {
         this.activity = activity;
         launcher = activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
     }
