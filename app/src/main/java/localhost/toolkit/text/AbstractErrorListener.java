@@ -8,6 +8,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public abstract class AbstractErrorListener implements View.OnFocusChangeListener {
     protected final EditText editText;
     private final String errorMsg;
+    private View.OnFocusChangeListener onFocusChangeListener;
 
     public AbstractErrorListener(String errorMsg, EditText editText) {
         this.editText = editText;
@@ -17,12 +18,18 @@ public abstract class AbstractErrorListener implements View.OnFocusChangeListene
 
     abstract public boolean matches();
 
+    public void setOnFocusChangeListener(View.OnFocusChangeListener onFocusChangeListener) {
+        this.onFocusChangeListener = onFocusChangeListener;
+    }
+
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus)
             clearError();
         else
             matches(true);
+        if (onFocusChangeListener != null)
+            onFocusChangeListener.onFocusChange(v, hasFocus);
     }
 
     public boolean matches(boolean showError) {
