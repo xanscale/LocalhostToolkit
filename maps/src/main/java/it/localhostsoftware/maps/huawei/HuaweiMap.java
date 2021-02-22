@@ -11,6 +11,7 @@ import it.localhostsoftware.maps.Map;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition;
 import it.localhostsoftware.maps.huawei.model.HuaweiCircle;
+import it.localhostsoftware.maps.huawei.model.HuaweiIndoorBuilding;
 import it.localhostsoftware.maps.huawei.model.HuaweiLatLng;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarker;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
@@ -18,6 +19,7 @@ import it.localhostsoftware.maps.huawei.model.HuaweiPolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
+import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
@@ -106,6 +108,30 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void clear() {
         getMap().clear();
+    }
+
+    @Override
+    public IndoorBuilding<?> getFocusedBuilding() {
+        return new HuaweiIndoorBuilding(getMap().getFocusedBuilding());
+    }
+
+    @Override
+    public void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1) {
+        if (var1 == null)
+            getMap().setOnIndoorStateChangeListener(null);
+        else {
+            getMap().setOnIndoorStateChangeListener(new com.huawei.hms.maps.HuaweiMap.OnIndoorStateChangeListener() {
+                @Override
+                public void onIndoorBuildingFocused() {
+                    var1.onIndoorBuildingFocused();
+                }
+
+                @Override
+                public void onIndoorLevelActivated(com.huawei.hms.maps.model.IndoorBuilding indoorBuilding) {
+                    var1.onIndoorLevelActivated(new HuaweiIndoorBuilding(indoorBuilding));
+                }
+            });
+        }
     }
 
     @Override

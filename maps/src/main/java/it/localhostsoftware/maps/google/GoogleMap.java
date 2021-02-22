@@ -11,6 +11,7 @@ import it.localhostsoftware.maps.Map;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
 import it.localhostsoftware.maps.google.model.GoogleCircle;
+import it.localhostsoftware.maps.google.model.GoogleIndoorBuilding;
 import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
@@ -18,6 +19,7 @@ import it.localhostsoftware.maps.google.model.GooglePolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
+import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
@@ -106,6 +108,30 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void clear() {
         getMap().clear();
+    }
+
+    @Override
+    public IndoorBuilding<?> getFocusedBuilding() {
+        return new GoogleIndoorBuilding(getMap().getFocusedBuilding());
+    }
+
+    @Override
+    public void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1) {
+        if (var1 == null)
+            getMap().setOnIndoorStateChangeListener(null);
+        else {
+            getMap().setOnIndoorStateChangeListener(new com.google.android.gms.maps.GoogleMap.OnIndoorStateChangeListener() {
+                @Override
+                public void onIndoorBuildingFocused() {
+                    var1.onIndoorBuildingFocused();
+                }
+
+                @Override
+                public void onIndoorLevelActivated(com.google.android.gms.maps.model.IndoorBuilding indoorBuilding) {
+                    var1.onIndoorLevelActivated(new GoogleIndoorBuilding(indoorBuilding));
+                }
+            });
+        }
     }
 
     @Override

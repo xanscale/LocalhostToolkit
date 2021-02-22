@@ -11,6 +11,7 @@ import androidx.annotation.RequiresPermission;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
+import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
@@ -64,9 +65,9 @@ public abstract class Map<M> {
 
     abstract public void clear();
 
-    //TODO IndoorBuilding getFocusedBuilding();
+    abstract public IndoorBuilding<?> getFocusedBuilding();
 
-    //TODO  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
+    abstract public void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
 
     abstract public int getMapType();
 
@@ -253,9 +254,9 @@ public abstract class Map<M> {
         void onMapClick(LatLng<?> var1);
     }
 
-    /* TODO interface OnIndoorStateChangeListener {
+    public interface OnIndoorStateChangeListener {
         void onIndoorBuildingFocused();
 
-        void onIndoorLevelActivated(IndoorBuilding var1);
-    }*/
+        void onIndoorLevelActivated(IndoorBuilding<?> var1);
+    }
 }
