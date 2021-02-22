@@ -2,6 +2,7 @@ package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -41,9 +42,9 @@ public abstract class PolylineOptions<PO> {
 
     public abstract PolylineOptions<?> color(int var1);
 
-    // TODO public abstract PolylineOptions<?> startCap(@NonNull Cap var1);
+    public abstract PolylineOptions<?> startCap(@NonNull Cap<?> var1);
 
-    // public abstract PolylineOptions<?> endCap(@NonNull Cap var1);
+    public abstract PolylineOptions<?> endCap(@NonNull Cap<?> var1);
 
     public abstract PolylineOptions<?> jointType(int var1);
 
@@ -63,11 +64,11 @@ public abstract class PolylineOptions<PO> {
 
     public abstract int getColor();
 
-    /* TODO @NonNull
-        public abstract Cap getStartCap();
-    
-        @NonNull
-        public abstract Cap getEndCap();*/
+    @NonNull
+    public abstract Cap<?> getStartCap();
+
+    @NonNull
+    public abstract Cap<?> getEndCap();
 
     public abstract int getJointType();
 

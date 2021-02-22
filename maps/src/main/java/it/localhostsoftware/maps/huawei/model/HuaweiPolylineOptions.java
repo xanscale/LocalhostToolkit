@@ -1,10 +1,12 @@
 package it.localhostsoftware.maps.huawei.model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.localhostsoftware.maps.model.Cap;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.PatternItem;
 import it.localhostsoftware.maps.model.PolylineOptions;
@@ -43,6 +45,18 @@ public class HuaweiPolylineOptions extends PolylineOptions<com.huawei.hms.maps.m
     @Override
     public PolylineOptions<?> color(int var1) {
         getPolylineOptions().color(var1);
+        return this;
+    }
+
+    @Override
+    public PolylineOptions<?> startCap(@NonNull Cap<?> var1) {
+        getPolylineOptions().startCap((com.huawei.hms.maps.model.Cap) var1.getCap());
+        return this;
+    }
+
+    @Override
+    public PolylineOptions<?> endCap(@NonNull Cap<?> var1) {
+        getPolylineOptions().endCap((com.huawei.hms.maps.model.Cap) var1.getCap());
         return this;
     }
 
@@ -105,6 +119,18 @@ public class HuaweiPolylineOptions extends PolylineOptions<com.huawei.hms.maps.m
     @Override
     public int getColor() {
         return getPolylineOptions().getColor();
+    }
+
+    @NonNull
+    @Override
+    public Cap<?> getStartCap() {
+        return new Cap<>(getPolylineOptions().getStartCap());
+    }
+
+    @NonNull
+    @Override
+    public Cap<?> getEndCap() {
+        return new Cap<>(getPolylineOptions().getEndCap());
     }
 
     @Override

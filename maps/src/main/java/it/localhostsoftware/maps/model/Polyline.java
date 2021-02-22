@@ -1,5 +1,6 @@
 package it.localhostsoftware.maps.model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -31,15 +32,15 @@ public abstract class Polyline<P> {
 
     public abstract int getColor();
 
-    /* TODO public abstract void setStartCap(@NonNull Cap var1) ;
+    public abstract void setStartCap(@NonNull Cap<?> var1);
 
-       @NonNull
-       public abstract Cap getStartCap() ;
+    @NonNull
+    public abstract Cap<?> getStartCap();
 
-       public abstract void setEndCap(@NonNull Cap var1) ;
+    public abstract void setEndCap(@NonNull Cap<?> var1);
 
-       @NonNull
-       public abstract Cap getEndCap() ; */
+    @NonNull
+    public abstract Cap<?> getEndCap();
 
     public abstract void setJointType(int var1);
 
