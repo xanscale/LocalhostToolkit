@@ -21,6 +21,7 @@ import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.IndoorBuilding;
+import it.localhostsoftware.maps.model.LatLngBounds;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
@@ -341,5 +342,10 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void resetMinMaxZoomPreference() {
         getMap().resetMinMaxZoomPreference();
+    }
+
+    @Override
+    public void setLatLngBoundsForCameraTarget(LatLngBounds<?> var1) {
+        getMap().setLatLngBoundsForCameraTarget(var1 == null ? null : (com.google.android.gms.maps.model.LatLngBounds) var1.getLatLngBounds());
     }
 }

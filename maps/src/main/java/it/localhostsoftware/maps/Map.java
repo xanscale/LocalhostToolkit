@@ -13,6 +13,7 @@ import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.LatLngBounds;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.PointOfInterest;
@@ -153,7 +154,7 @@ public abstract class Map<M> {
 
     abstract public void resetMinMaxZoomPreference();
 
-    //TODO void setLatLngBoundsForCameraTarget(LatLngBounds var1);
+    abstract public void setLatLngBoundsForCameraTarget(LatLngBounds<?> var1);
 
     public interface OnPoiClickListener {
         void onPoiClick(PointOfInterest<?> var1);
