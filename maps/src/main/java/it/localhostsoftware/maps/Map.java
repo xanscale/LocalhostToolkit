@@ -14,6 +14,8 @@ import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.Polyline;
+import it.localhostsoftware.maps.model.PolylineOptions;
 
 public abstract class Map<M> {
     int MAP_TYPE_NONE = 0;
@@ -48,7 +50,7 @@ public abstract class Map<M> {
 
     abstract public void stopAnimation();
 
-    //  Polyline addPolyline(PolylineOptions var1);
+    abstract public Polyline<?> addPolyline(PolylineOptions<?> var1);
 
     // Polygon addPolygon(PolygonOptions var1);
 
@@ -129,7 +131,7 @@ public abstract class Map<M> {
 
     // void setOnPolygonClickListener(OnPolygonClickListener var1);
 
-    // void setOnPolylineClickListener(OnPolylineClickListener var1);
+    abstract public void setOnPolylineClickListener(OnPolylineClickListener var1);
 
     abstract public void snapshot(SnapshotReadyCallback var1);
 
@@ -211,9 +213,9 @@ public abstract class Map<M> {
         boolean onMarkerClick(Marker<?> var1);
     }
 
-    /* interface OnPolylineClickListener {
+    interface OnPolylineClickListener {
         void onPolylineClick(Polyline var1);
-    } */
+    }
 
     /* interface OnPolygonClickListener {
         void onPolygonClick(Polygon var1);
