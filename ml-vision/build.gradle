@@ -8,11 +8,18 @@ android {
 		minSdkVersion 21
 		targetSdkVersion 30
 	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
 }
 
 dependencies {
-	api 'androidx.camera:camera-view:1.0.0-alpha21'
-	api 'androidx.camera:camera-camera2:1.0.0-rc02'
+	api "androidx.camera:camera-camera2:1.1.0-alpha01"
+	api "androidx.camera:camera-lifecycle:1.1.0-alpha01"
+	api "androidx.camera:camera-view:1.0.0-alpha21"
+
 	api 'com.google.mlkit:barcode-scanning:16.1.1'
 	api 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
 }
