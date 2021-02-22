@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
+import it.localhostsoftware.maps.LocationSource;
 import it.localhostsoftware.maps.Map;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
@@ -185,6 +186,21 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void setMyLocationEnabled(boolean b) {
         getMap().setMyLocationEnabled(b);
+    }
+
+    @Override
+    public void setLocationSource(LocationSource var1) {
+        getMap().setLocationSource(var1 == null ? null : new com.google.android.gms.maps.LocationSource() {
+            @Override
+            public void activate(OnLocationChangedListener onLocationChangedListener) {
+                var1.activate(onLocationChangedListener::onLocationChanged);
+            }
+
+            @Override
+            public void deactivate() {
+                var1.deactivate();
+            }
+        });
     }
 
     @Override

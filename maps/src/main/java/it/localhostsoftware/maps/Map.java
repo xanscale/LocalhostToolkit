@@ -92,7 +92,7 @@ public abstract class Map<M> {
     @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
     abstract public void setMyLocationEnabled(boolean var1);
 
-    //TODO void setLocationSource(LocationSource var1);
+    abstract public void setLocationSource(LocationSource var1);
 
     abstract public UiSettings<?> getUiSettings();
 
