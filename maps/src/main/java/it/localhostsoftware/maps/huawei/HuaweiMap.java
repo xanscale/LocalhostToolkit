@@ -292,6 +292,11 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     }
 
     @Override
+    public void setOnCircleClickListener(OnCircleClickListener var1) {
+        getMap().setOnCircleClickListener(var1 == null ? null : circle -> var1.onCircleClick(new HuaweiCircle(circle)));
+    }
+
+    @Override
     public void setOnPolylineClickListener(OnPolylineClickListener var1) {
         getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new HuaweiPolyline(polyline)));
     }

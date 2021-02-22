@@ -292,6 +292,12 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     }
 
     @Override
+    public void setOnCircleClickListener(OnCircleClickListener var1) {
+        getMap().setOnCircleClickListener(var1 == null ? null : circle -> var1.onCircleClick(new GoogleCircle(circle)));
+
+    }
+
+    @Override
     public void setOnPolylineClickListener(Map.OnPolylineClickListener var1) {
         getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new GooglePolyline(polyline)));
     }

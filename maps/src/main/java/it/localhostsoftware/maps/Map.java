@@ -128,7 +128,7 @@ public abstract class Map<M> {
 
     //TODO void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 
-    //TODO void setOnCircleClickListener(OnCircleClickListener var1);
+    abstract public void setOnCircleClickListener(OnCircleClickListener var1);
 
     //TODO void setOnPolygonClickListener(OnPolygonClickListener var1);
 
@@ -222,9 +222,9 @@ public abstract class Map<M> {
         void onPolygonClick(Polygon var1);
     } */
 
-    /* TODO interface OnCircleClickListener {
-        void onCircleClick(Circle var1);
-    } */
+    public interface OnCircleClickListener {
+        void onCircleClick(Circle<?> var1);
+    }
 
     public interface OnCameraIdleListener {
         void onCameraIdle();
