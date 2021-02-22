@@ -96,7 +96,7 @@ public abstract class Map<M> {
 
     abstract public UiSettings<?> getUiSettings();
 
-    //TODO Projection getProjection();
+    abstract public Projection<?> getProjection();
 
     abstract public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1);
 

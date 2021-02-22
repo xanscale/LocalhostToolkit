@@ -9,6 +9,7 @@ import androidx.annotation.RequiresPermission;
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.LocationSource;
 import it.localhostsoftware.maps.Map;
+import it.localhostsoftware.maps.Projection;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
 import it.localhostsoftware.maps.google.model.GoogleCircle;
@@ -206,6 +207,11 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public UiSettings<?> getUiSettings() {
         return new GoogleUiSettings(getMap().getUiSettings());
+    }
+
+    @Override
+    public Projection<?> getProjection() {
+        return new GoogleProjection(getMap().getProjection());
     }
 
     @Override

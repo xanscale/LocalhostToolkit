@@ -9,6 +9,7 @@ import androidx.annotation.RequiresPermission;
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.LocationSource;
 import it.localhostsoftware.maps.Map;
+import it.localhostsoftware.maps.Projection;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition;
 import it.localhostsoftware.maps.huawei.model.HuaweiCircle;
@@ -206,6 +207,11 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public UiSettings<?> getUiSettings() {
         return new HuaweiUiSettings(getMap().getUiSettings());
+    }
+
+    @Override
+    public Projection<?> getProjection() {
+        return new HuaweiProjection(getMap().getProjection());
     }
 
     @Override
