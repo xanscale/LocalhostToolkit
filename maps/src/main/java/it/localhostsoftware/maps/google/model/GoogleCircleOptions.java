@@ -1,8 +1,13 @@
 package it.localhostsoftware.maps.google.model;
 
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.PatternItem;
 
 public class GoogleCircleOptions extends CircleOptions<com.google.android.gms.maps.model.CircleOptions> {
     public GoogleCircleOptions(com.google.android.gms.maps.model.CircleOptions circleOptions) {
@@ -30,6 +35,19 @@ public class GoogleCircleOptions extends CircleOptions<com.google.android.gms.ma
     @Override
     public CircleOptions<?> strokeColor(int var1) {
         getCircleOptions().strokeColor(var1);
+        return this;
+    }
+
+    @Override
+    public CircleOptions<?> strokePattern(@Nullable List<PatternItem<?>> var1) {
+        if (var1 == null)
+            getCircleOptions().strokePattern(null);
+        else {
+            ArrayList<com.google.android.gms.maps.model.PatternItem> values = new ArrayList<>(var1.size());
+            for (PatternItem<?> value : var1)
+                values.add((com.google.android.gms.maps.model.PatternItem) value.getPatternItem());
+            getCircleOptions().strokePattern(values);
+        }
         return this;
     }
 
@@ -75,6 +93,19 @@ public class GoogleCircleOptions extends CircleOptions<com.google.android.gms.ma
     @Override
     public int getStrokeColor() {
         return getCircleOptions().getStrokeColor();
+    }
+
+    @Nullable
+    @Override
+    public List<PatternItem<?>> getStrokePattern() {
+        if (getCircleOptions().getStrokePattern() == null)
+            return null;
+        else {
+            ArrayList<PatternItem<?>> out = new ArrayList<>(getCircleOptions().getStrokePattern().size());
+            for (com.google.android.gms.maps.model.PatternItem value : getCircleOptions().getStrokePattern())
+                out.add(new PatternItem<>(value));
+            return out;
+        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package it.localhostsoftware.maps.model;
 
 import androidx.annotation.Nullable;
 
+import java.util.List;
+
 public abstract class Circle<C> {
     private final C c;
 
@@ -33,9 +35,10 @@ public abstract class Circle<C> {
 
     public abstract int getStrokeColor();
 
-    // public abstract void setStrokePattern(@Nullable List<PatternItem> var1);
+    public abstract void setStrokePattern(@Nullable List<PatternItem<?>> var1);
 
-    // @Nullable public abstract List<PatternItem> getStrokePattern();
+    @Nullable
+    public abstract List<PatternItem<?>> getStrokePattern();
 
     public abstract void setFillColor(int var1);
 

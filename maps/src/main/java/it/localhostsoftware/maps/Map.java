@@ -52,21 +52,21 @@ public abstract class Map<M> {
 
     abstract public Polyline<?> addPolyline(PolylineOptions<?> var1);
 
-    // Polygon addPolygon(PolygonOptions var1);
+    //TODO Polygon addPolygon(PolygonOptions var1);
 
     abstract public Circle<?> addCircle(CircleOptions<?> var1);
 
     abstract public Marker<?> addMarker(MarkerOptions<?> var1);
 
-    //  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
+    //TODO  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
 
-    //  TileOverlay addTileOverlay(TileOverlayOptions var1);
+    //TODO  TileOverlay addTileOverlay(TileOverlayOptions var1);
 
     abstract public void clear();
 
-    // IndoorBuilding getFocusedBuilding();
+    //TODO IndoorBuilding getFocusedBuilding();
 
-    //  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
+    //TODO  void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
 
     abstract public int getMapType();
 
@@ -89,11 +89,11 @@ public abstract class Map<M> {
     @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
     abstract public void setMyLocationEnabled(boolean var1);
 
-    // void setLocationSource(LocationSource var1);
+    //TODO void setLocationSource(LocationSource var1);
 
     abstract public UiSettings<?> getUiSettings();
 
-    // Projection getProjection();
+    //TODO Projection getProjection();
 
     abstract public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1);
 
@@ -125,11 +125,11 @@ public abstract class Map<M> {
 
     abstract public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1);
 
-    // void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
+    //TODO void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 
-    // void setOnCircleClickListener(OnCircleClickListener var1);
+    //TODO void setOnCircleClickListener(OnCircleClickListener var1);
 
-    // void setOnPolygonClickListener(OnPolygonClickListener var1);
+    //TODO void setOnPolygonClickListener(OnPolygonClickListener var1);
 
     abstract public void setOnPolylineClickListener(OnPolylineClickListener var1);
 
@@ -141,9 +141,9 @@ public abstract class Map<M> {
 
     abstract public void setContentDescription(String var1);
 
-    // void setOnPoiClickListener(OnPoiClickListener var1);
+    //TODO void setOnPoiClickListener(OnPoiClickListener var1);
 
-    // boolean setMapStyle(@Nullable MapStyleOptions var1);
+    //TODO boolean setMapStyle(@Nullable MapStyleOptions var1);
 
     abstract public void setMinZoomPreference(float var1);
 
@@ -151,13 +151,13 @@ public abstract class Map<M> {
 
     abstract public void resetMinMaxZoomPreference();
 
-    // void setLatLngBoundsForCameraTarget(LatLngBounds var1);
+    //TODO void setLatLngBoundsForCameraTarget(LatLngBounds var1);
 
-    /* interface OnPoiClickListener {
+    /* TODO interface OnPoiClickListener {
         void onPoiClick(PointOfInterest var1);
     }*/
 
-    /* interface OnGroundOverlayClickListener {
+    /* TODO interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);
     }*/
 
@@ -217,11 +217,11 @@ public abstract class Map<M> {
         void onPolylineClick(Polyline<?> var1);
     }
 
-    /* interface OnPolygonClickListener {
+    /* TODO interface OnPolygonClickListener {
         void onPolygonClick(Polygon var1);
     } */
 
-    /* interface OnCircleClickListener {
+    /* TODO interface OnCircleClickListener {
         void onCircleClick(Circle var1);
     } */
 
@@ -253,7 +253,7 @@ public abstract class Map<M> {
         void onMapClick(LatLng<?> var1);
     }
 
-    /* interface OnIndoorStateChangeListener {
+    /* TODO interface OnIndoorStateChangeListener {
         void onIndoorBuildingFocused();
 
         void onIndoorLevelActivated(IndoorBuilding var1);

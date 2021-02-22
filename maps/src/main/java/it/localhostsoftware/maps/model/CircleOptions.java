@@ -2,8 +2,12 @@ package it.localhostsoftware.maps.model;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.huawei.hms.api.HuaweiApiAvailability;
+
+import java.util.List;
 
 import it.localhostsoftware.maps.google.model.GoogleCircleOptions;
 import it.localhostsoftware.maps.huawei.model.HuaweiCircleOptions;
@@ -35,7 +39,7 @@ public abstract class CircleOptions<CO> {
 
     public abstract CircleOptions<?> strokeColor(int var1);
 
-    //  public abstract CircleOptions<?> strokePattern(@Nullable List<PatternItem> var1);
+    public abstract CircleOptions<?> strokePattern(@Nullable List<PatternItem<?>> var1);
 
     public abstract CircleOptions<?> fillColor(int var1);
 
@@ -53,7 +57,8 @@ public abstract class CircleOptions<CO> {
 
     public abstract int getStrokeColor();
 
-    // @Nullable public abstract List<PatternItem> getStrokePattern();
+    @Nullable
+    public abstract List<PatternItem<?>> getStrokePattern();
 
     public abstract int getFillColor();
 

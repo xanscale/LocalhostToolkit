@@ -146,7 +146,7 @@ public class HuaweiPolylineOptions extends PolylineOptions<com.huawei.hms.maps.m
         else {
             ArrayList<PatternItem<?>> out = new ArrayList<>(getPolylineOptions().getPattern().size());
             for (com.huawei.hms.maps.model.PatternItem value : getPolylineOptions().getPattern())
-                out.add(new HuaweiPatternItem(value));
+                out.add(new PatternItem<>(value));
             return out;
         }
     }

@@ -114,7 +114,7 @@ public class GooglePolyline extends Polyline<com.google.android.gms.maps.model.P
         else {
             ArrayList<PatternItem<?>> out = new ArrayList<>(getPolyline().getPattern().size());
             for (com.google.android.gms.maps.model.PatternItem value : getPolyline().getPattern())
-                out.add(new GooglePatternItem(value));
+                out.add(new PatternItem<>(value));
             return out;
         }
     }

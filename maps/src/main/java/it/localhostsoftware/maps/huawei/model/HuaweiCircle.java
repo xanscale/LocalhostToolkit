@@ -2,8 +2,12 @@ package it.localhostsoftware.maps.huawei.model;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.LatLng;
+import it.localhostsoftware.maps.model.PatternItem;
 
 public class HuaweiCircle extends Circle<com.huawei.hms.maps.model.Circle> {
     public HuaweiCircle(com.huawei.hms.maps.model.Circle circle) {
@@ -58,6 +62,31 @@ public class HuaweiCircle extends Circle<com.huawei.hms.maps.model.Circle> {
     @Override
     public int getStrokeColor() {
         return getCircle().getStrokeColor();
+    }
+
+    @Override
+    public void setStrokePattern(@Nullable List<PatternItem<?>> var1) {
+        if (var1 == null)
+            getCircle().setStrokePattern(null);
+        else {
+            ArrayList<com.huawei.hms.maps.model.PatternItem> values = new ArrayList<>(var1.size());
+            for (PatternItem<?> value : var1)
+                values.add((com.huawei.hms.maps.model.PatternItem) value.getPatternItem());
+            getCircle().setStrokePattern(values);
+        }
+    }
+
+    @Nullable
+    @Override
+    public List<PatternItem<?>> getStrokePattern() {
+        if (getCircle().getStrokePattern() == null)
+            return null;
+        else {
+            ArrayList<PatternItem<?>> out = new ArrayList<>(getCircle().getStrokePattern().size());
+            for (com.huawei.hms.maps.model.PatternItem value : getCircle().getStrokePattern())
+                out.add(new PatternItem<>(value));
+            return out;
+        }
     }
 
     @Override
