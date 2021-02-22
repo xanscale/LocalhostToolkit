@@ -15,6 +15,7 @@ import it.localhostsoftware.maps.huawei.model.HuaweiIndoorBuilding;
 import it.localhostsoftware.maps.huawei.model.HuaweiLatLng;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarker;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
+import it.localhostsoftware.maps.huawei.model.HuaweiPointOfInterest;
 import it.localhostsoftware.maps.huawei.model.HuaweiPolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
@@ -319,6 +320,11 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void setContentDescription(String s) {
         getMap().setContentDescription(s);
+    }
+
+    @Override
+    public void setOnPoiClickListener(OnPoiClickListener var1) {
+        getMap().setOnPoiClickListener(var1 == null ? null : pointOfInterest -> var1.onPoiClick(new HuaweiPointOfInterest(pointOfInterest)));
     }
 
     @Override

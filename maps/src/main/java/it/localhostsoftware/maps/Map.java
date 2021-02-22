@@ -15,6 +15,7 @@ import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.PointOfInterest;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
@@ -142,7 +143,7 @@ public abstract class Map<M> {
 
     abstract public void setContentDescription(String var1);
 
-    //TODO void setOnPoiClickListener(OnPoiClickListener var1);
+    abstract public void setOnPoiClickListener(OnPoiClickListener var1);
 
     //TODO boolean setMapStyle(@Nullable MapStyleOptions var1);
 
@@ -154,9 +155,9 @@ public abstract class Map<M> {
 
     //TODO void setLatLngBoundsForCameraTarget(LatLngBounds var1);
 
-    /* TODO interface OnPoiClickListener {
-        void onPoiClick(PointOfInterest var1);
-    }*/
+    public interface OnPoiClickListener {
+        void onPoiClick(PointOfInterest<?> var1);
+    }
 
     /* TODO interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);

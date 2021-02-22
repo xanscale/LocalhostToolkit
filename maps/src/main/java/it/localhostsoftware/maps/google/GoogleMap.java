@@ -15,6 +15,7 @@ import it.localhostsoftware.maps.google.model.GoogleIndoorBuilding;
 import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
+import it.localhostsoftware.maps.google.model.GooglePointOfInterest;
 import it.localhostsoftware.maps.google.model.GooglePolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
@@ -320,6 +321,11 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void setContentDescription(String s) {
         getMap().setContentDescription(s);
+    }
+
+    @Override
+    public void setOnPoiClickListener(OnPoiClickListener var1) {
+        getMap().setOnPoiClickListener(var1 == null ? null : pointOfInterest -> var1.onPoiClick(new GooglePointOfInterest(pointOfInterest)));
     }
 
     @Override
