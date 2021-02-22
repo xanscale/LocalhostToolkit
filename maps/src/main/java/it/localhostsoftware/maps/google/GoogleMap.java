@@ -14,11 +14,14 @@ import it.localhostsoftware.maps.google.model.GoogleCircle;
 import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
+import it.localhostsoftware.maps.google.model.GooglePolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.Polyline;
+import it.localhostsoftware.maps.model.PolylineOptions;
 
 public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     public GoogleMap(com.google.android.gms.maps.GoogleMap googleMap) {
@@ -83,6 +86,11 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void stopAnimation() {
         getMap().stopAnimation();
+    }
+
+    @Override
+    public Polyline<?> addPolyline(PolylineOptions<?> var1) {
+        return new GooglePolyline(getMap().addPolyline((com.google.android.gms.maps.model.PolylineOptions) var1.getPolylineOptions()));
     }
 
     @Override
@@ -255,6 +263,11 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1) {
         getMap().setOnMapLoadedCallback(var1 == null ? null : var1::onMapLoaded);
+    }
+
+    @Override
+    public void setOnPolylineClickListener(Map.OnPolylineClickListener var1) {
+        getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new GooglePolyline(polyline)));
     }
 
     @Override

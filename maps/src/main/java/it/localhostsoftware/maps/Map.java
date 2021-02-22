@@ -213,8 +213,8 @@ public abstract class Map<M> {
         boolean onMarkerClick(Marker<?> var1);
     }
 
-    interface OnPolylineClickListener {
-        void onPolylineClick(Polyline var1);
+    public interface OnPolylineClickListener {
+        void onPolylineClick(Polyline<?> var1);
     }
 
     /* interface OnPolygonClickListener {

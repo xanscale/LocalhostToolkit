@@ -14,11 +14,14 @@ import it.localhostsoftware.maps.huawei.model.HuaweiCircle;
 import it.localhostsoftware.maps.huawei.model.HuaweiLatLng;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarker;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
+import it.localhostsoftware.maps.huawei.model.HuaweiPolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.Polyline;
+import it.localhostsoftware.maps.model.PolylineOptions;
 
 public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     public HuaweiMap(com.huawei.hms.maps.HuaweiMap huaweiMap) {
@@ -83,6 +86,11 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void stopAnimation() {
         getMap().stopAnimation();
+    }
+
+    @Override
+    public Polyline<?> addPolyline(PolylineOptions<?> var1) {
+        return new HuaweiPolyline(getMap().addPolyline((com.huawei.hms.maps.model.PolylineOptions) var1.getPolylineOptions()));
     }
 
     @Override
@@ -255,6 +263,11 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1) {
         getMap().setOnMapLoadedCallback(var1 == null ? null : var1::onMapLoaded);
+    }
+
+    @Override
+    public void setOnPolylineClickListener(OnPolylineClickListener var1) {
+        getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new HuaweiPolyline(polyline)));
     }
 
     @Override
