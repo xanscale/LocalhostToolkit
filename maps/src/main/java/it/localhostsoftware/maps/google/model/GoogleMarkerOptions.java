@@ -26,7 +26,7 @@ public class GoogleMarkerOptions extends MarkerOptions<com.google.android.gms.ma
 
     @Override
     public MarkerOptions<?> icon(@Nullable BitmapDescriptor<?> var1) {
-        getMarkerOptions().icon((com.google.android.gms.maps.model.BitmapDescriptor) var1.getBitmapDescriptor());
+        getMarkerOptions().icon(var1 == null ? null : (com.google.android.gms.maps.model.BitmapDescriptor) var1.getBitmapDescriptor());
         return this;
     }
 

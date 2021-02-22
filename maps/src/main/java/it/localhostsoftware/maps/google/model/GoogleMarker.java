@@ -44,7 +44,7 @@ public class GoogleMarker extends Marker<com.google.android.gms.maps.model.Marke
 
     @Override
     public void setIcon(@Nullable BitmapDescriptor<?> bitmapDescriptor) {
-        getMarker().setIcon((com.google.android.gms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
+        getMarker().setIcon(bitmapDescriptor == null ? null : (com.google.android.gms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
     }
 
     @Override

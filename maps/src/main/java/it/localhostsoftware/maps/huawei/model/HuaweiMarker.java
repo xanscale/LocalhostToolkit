@@ -44,7 +44,7 @@ public class HuaweiMarker extends Marker<com.huawei.hms.maps.model.Marker> {
 
     @Override
     public void setIcon(@Nullable BitmapDescriptor<?> bitmapDescriptor) {
-        getMarker().setIcon((com.huawei.hms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
+        getMarker().setIcon(bitmapDescriptor == null ? null : (com.huawei.hms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
     }
 
     @Override

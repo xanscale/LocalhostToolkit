@@ -158,42 +158,42 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
 
     @Override
     public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1) {
-        getMap().setOnCameraMoveStartedListener(var1::onCameraMoveStarted);
+        getMap().setOnCameraMoveStartedListener(var1 == null ? null : var1::onCameraMoveStarted);
     }
 
     @Override
     public void setOnCameraMoveListener(@Nullable OnCameraMoveListener var1) {
-        getMap().setOnCameraMoveListener(var1::onCameraMove);
+        getMap().setOnCameraMoveListener(var1 == null ? null : var1::onCameraMove);
     }
 
     @Override
     public void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1) {
-        getMap().setOnCameraMoveCanceledListener(var1::onCameraMoveCanceled);
+        getMap().setOnCameraMoveCanceledListener(var1 == null ? null : var1::onCameraMoveCanceled);
     }
 
     @Override
     public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1) {
-        getMap().setOnCameraIdleListener(var1::onCameraIdle);
+        getMap().setOnCameraIdleListener(var1 == null ? null : var1::onCameraIdle);
     }
 
     @Override
     public void setOnMapClickListener(@Nullable OnMapClickListener var1) {
-        getMap().setOnMapClickListener(latLng -> var1.onMapClick(new HuaweiLatLng(latLng)));
+        getMap().setOnMapClickListener(var1 == null ? null : latLng -> var1.onMapClick(new HuaweiLatLng(latLng)));
     }
 
     @Override
     public void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1) {
-        getMap().setOnMapLongClickListener(latLng -> var1.onMapLongClick(new HuaweiLatLng(latLng)));
+        getMap().setOnMapLongClickListener(var1 == null ? null : latLng -> var1.onMapLongClick(new HuaweiLatLng(latLng)));
     }
 
     @Override
     public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1) {
-        getMap().setOnMarkerClickListener(marker -> var1.onMarkerClick(new HuaweiMarker(marker)));
+        getMap().setOnMarkerClickListener(var1 == null ? null : marker -> var1.onMarkerClick(new HuaweiMarker(marker)));
     }
 
     @Override
     public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1) {
-        getMap().setOnMarkerDragListener(new com.huawei.hms.maps.HuaweiMap.OnMarkerDragListener() {
+        getMap().setOnMarkerDragListener(var1 == null ? null : new com.huawei.hms.maps.HuaweiMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(com.huawei.hms.maps.model.Marker marker) {
                 var1.onMarkerDragStart(new HuaweiMarker(marker));
@@ -213,23 +213,23 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
 
     @Override
     public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1) {
-        getMap().setOnInfoWindowClickListener(marker -> var1.onInfoWindowClick(new HuaweiMarker(marker)));
+        getMap().setOnInfoWindowClickListener(var1 == null ? null : marker -> var1.onInfoWindowClick(new HuaweiMarker(marker)));
     }
 
     @Override
     public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1) {
-        getMap().setOnInfoWindowLongClickListener(marker -> var1.onInfoWindowLongClick(new HuaweiMarker(marker)));
+        getMap().setOnInfoWindowLongClickListener(var1 == null ? null : marker -> var1.onInfoWindowLongClick(new HuaweiMarker(marker)));
 
     }
 
     @Override
     public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1) {
-        getMap().setOnInfoWindowCloseListener(marker -> var1.onInfoWindowClose(new HuaweiMarker(marker)));
+        getMap().setOnInfoWindowCloseListener(var1 == null ? null : marker -> var1.onInfoWindowClose(new HuaweiMarker(marker)));
     }
 
     @Override
-    public void setInfoWindowAdapter(InfoWindowAdapter var1) {
-        getMap().setInfoWindowAdapter(new com.huawei.hms.maps.HuaweiMap.InfoWindowAdapter() {
+    public void setInfoWindowAdapter(@Nullable InfoWindowAdapter var1) {
+        getMap().setInfoWindowAdapter(var1 == null ? null : new com.huawei.hms.maps.HuaweiMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(com.huawei.hms.maps.model.Marker marker) {
                 return var1.getInfoWindow(new HuaweiMarker(marker));
@@ -244,17 +244,17 @@ public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
 
     @Override
     public void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1) {
-        getMap().setOnMyLocationButtonClickListener(var1::onMyLocationButtonClick);
+        getMap().setOnMyLocationButtonClickListener(var1 == null ? null : var1::onMyLocationButtonClick);
     }
 
     @Override
     public void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1) {
-        getMap().setOnMyLocationClickListener(var1::onMyLocationClick);
+        getMap().setOnMyLocationClickListener(var1 == null ? null : var1::onMyLocationClick);
     }
 
     @Override
-    public void setOnMapLoadedCallback(OnMapLoadedCallback var1) {
-        getMap().setOnMapLoadedCallback(var1::onMapLoaded);
+    public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1) {
+        getMap().setOnMapLoadedCallback(var1 == null ? null : var1::onMapLoaded);
     }
 
     @Override

@@ -115,13 +115,13 @@ public abstract class Map<M> {
 
     abstract public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
 
-    abstract public void setInfoWindowAdapter(InfoWindowAdapter var1);
+    abstract public void setInfoWindowAdapter(@Nullable InfoWindowAdapter var1);
 
     abstract public void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
 
     abstract public void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
 
-    abstract public void setOnMapLoadedCallback(OnMapLoadedCallback var1);
+    abstract public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1);
 
     // void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
 

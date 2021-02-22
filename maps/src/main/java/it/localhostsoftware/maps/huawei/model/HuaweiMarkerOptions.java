@@ -26,7 +26,7 @@ public class HuaweiMarkerOptions extends MarkerOptions<com.huawei.hms.maps.model
 
     @Override
     public MarkerOptions<?> icon(@Nullable BitmapDescriptor<?> var1) {
-        getMarkerOptions().icon((com.huawei.hms.maps.model.BitmapDescriptor) var1.getBitmapDescriptor());
+        getMarkerOptions().icon(var1 == null ? null : (com.huawei.hms.maps.model.BitmapDescriptor) var1.getBitmapDescriptor());
         return this;
     }
 
