@@ -1,4 +1,4 @@
 include ':maps'
 include ':app'
-include ':ml-vision'
+include ':mlkit'
 include ':security'
