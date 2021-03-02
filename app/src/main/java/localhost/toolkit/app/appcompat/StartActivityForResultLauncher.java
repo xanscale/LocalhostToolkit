@@ -24,7 +24,8 @@ public class StartActivityForResultLauncher implements ActivityResultCallback<Ac
 
     @Override
     public void onActivityResult(ActivityResult result) {
-        liveData.setValue(result);
+        if (liveData != null)
+            liveData.setValue(result);
     }
 
     public MutableLiveData<ActivityResult> launch(Intent intent) {

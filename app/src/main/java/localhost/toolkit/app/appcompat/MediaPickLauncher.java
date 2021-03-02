@@ -39,7 +39,8 @@ public class MediaPickLauncher implements ActivityResultCallback<MediaPickLaunch
 
     @Override
     public void onActivityResult(Media result) {
-        liveData.setValue(result);
+        if (liveData != null)
+            liveData.setValue(result);
     }
 
     public MutableLiveData<Media> launch(ContractType contractType) {
