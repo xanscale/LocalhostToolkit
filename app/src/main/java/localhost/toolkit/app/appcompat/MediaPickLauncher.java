@@ -77,7 +77,7 @@ public class MediaPickLauncher implements ActivityResultCallback<MediaPickLaunch
 
         @Override
         public final Media parseResult(int resultCode, @Nullable Intent intent) {
-            return resultCode != Activity.RESULT_OK ? null : new Media(contractType, intent.getData() != null ? intent.getData() : uri);
+            return resultCode != Activity.RESULT_OK ? null : new Media(contractType, intent != null && intent.getData() != null ? intent.getData() : uri);
         }
     }
 
