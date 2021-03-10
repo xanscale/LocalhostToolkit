@@ -86,7 +86,7 @@ public class MediaPickLauncher implements ActivityResultCallback<MediaPickLaunch
         }
     }
 
-    public class MediaViewModel extends ViewModel {
+    public static class MediaViewModel extends ViewModel {
         public MutableLiveData<Media> liveData;
     }
 
