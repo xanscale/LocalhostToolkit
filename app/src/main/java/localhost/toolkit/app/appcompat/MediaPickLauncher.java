@@ -16,9 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.LiveData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,30 +25,24 @@ import java.io.InputStream;
 
 import localhost.toolkit.content.FileProvider;
 
-public class MediaPickLauncher implements ActivityResultCallback<MediaPickLauncher.Media> {
+public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> implements ActivityResultCallback<MediaPickLauncher.Media> {
     private final ActivityResultLauncher<ContractType> launcher;
-    private final MediaViewModel model;
 
     public MediaPickLauncher(Fragment fragment) {
         launcher = fragment.registerForActivityResult(new MediaPickContract(), this);
-        model = new ViewModelProvider(fragment).get(MediaViewModel.class);
     }
 
     public MediaPickLauncher(FragmentActivity activity) {
         launcher = activity.registerForActivityResult(new MediaPickContract(), this);
-        model = new ViewModelProvider(activity).get(MediaViewModel.class);
     }
 
     @Override
     public void onActivityResult(Media result) {
-        if (model.liveData != null)
-            model.liveData.setValue(result);
+        setValue(result);
     }
 
-    public MutableLiveData<Media> launch(ContractType contractType) {
-        model.liveData = new MutableLiveData<>();
+    public void launch(ContractType contractType) {
         launcher.launch(contractType);
-        return model.liveData;
     }
 
     private static class MediaPickContract extends ActivityResultContract<ContractType, Media> {
@@ -84,10 +76,6 @@ public class MediaPickLauncher implements ActivityResultCallback<MediaPickLaunch
         public final Media parseResult(int resultCode, @Nullable Intent intent) {
             return resultCode != Activity.RESULT_OK ? null : new Media(contractType, intent != null && intent.getData() != null ? intent.getData() : uri);
         }
-    }
-
-    public static class MediaViewModel extends ViewModel {
-        public MutableLiveData<Media> liveData;
     }
 
     public static class Media {
