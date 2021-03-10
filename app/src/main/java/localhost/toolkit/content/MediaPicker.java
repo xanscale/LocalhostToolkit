@@ -43,10 +43,9 @@ public class MediaPicker {
     }
 
     public void onActivityResult(Intent data) {
-        if (data != null && data.getData() != null) {
+        resultCode = Activity.RESULT_OK;
+        if (data != null && data.getData() != null)
             uri = data.getData();
-            resultCode = Activity.RESULT_OK;
-        }
     }
 
     public int getResultCode() {

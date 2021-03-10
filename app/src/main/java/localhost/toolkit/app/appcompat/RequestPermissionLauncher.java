@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -44,12 +43,12 @@ public class RequestPermissionLauncher extends LiveData<RequestPermissionLaunche
         boolean success = true;
         for (boolean result : results.values())
             success = success && result;
-            if (success)
-                setValue(PermissionResult.GRANTED);
-            else if (shouldShowRequestPermissionRationale(results.keySet().toArray(new String[0])))
-                setValue(PermissionResult.DENIED);
-            else
-                setValue(PermissionResult.PERMANENTLY_DENIED);
+        if (success)
+            setValue(PermissionResult.GRANTED);
+        else if (shouldShowRequestPermissionRationale(results.keySet().toArray(new String[0])))
+            setValue(PermissionResult.DENIED);
+        else
+            setValue(PermissionResult.PERMANENTLY_DENIED);
 
     }
 
