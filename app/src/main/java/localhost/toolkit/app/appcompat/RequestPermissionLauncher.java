@@ -10,15 +10,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Map;
 
-public class RequestPermissionLauncher implements ActivityResultCallback<Map<String, Boolean>> {
+public class RequestPermissionLauncher extends LiveData<RequestPermissionLauncher.PermissionResult> implements ActivityResultCallback<Map<String, Boolean>> {
     private final ActivityResultLauncher<String[]> launcher;
-    private MutableLiveData<PermissionResult> liveData;
     private FragmentActivity activity;
     private Fragment fragment;
 
@@ -44,13 +44,12 @@ public class RequestPermissionLauncher implements ActivityResultCallback<Map<Str
         boolean success = true;
         for (boolean result : results.values())
             success = success && result;
-        if (liveData != null)
             if (success)
-                liveData.setValue(PermissionResult.GRANTED);
+                setValue(PermissionResult.GRANTED);
             else if (shouldShowRequestPermissionRationale(results.keySet().toArray(new String[0])))
-                liveData.setValue(PermissionResult.DENIED);
+                setValue(PermissionResult.DENIED);
             else
-                liveData.setValue(PermissionResult.PERMANENTLY_DENIED);
+                setValue(PermissionResult.PERMANENTLY_DENIED);
 
     }
 
@@ -68,10 +67,9 @@ public class RequestPermissionLauncher implements ActivityResultCallback<Map<Str
         return false;
     }
 
-    public MutableLiveData<PermissionResult> launch(String title, String rational, final String... permissions) {
-        liveData = new MutableLiveData<>();
+    public void launch(String title, String rational, final String... permissions) {
         if (checkSelfPermission(permissions))
-            liveData.setValue(PermissionResult.GRANTED);
+            setValue(PermissionResult.GRANTED);
         else if (shouldShowRequestPermissionRationale(permissions)) {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
             if (title != null)
@@ -87,13 +85,12 @@ public class RequestPermissionLauncher implements ActivityResultCallback<Map<Str
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    liveData.setValue(PermissionResult.DENIED);
+                    setValue(PermissionResult.DENIED);
                 }
             });
             builder.show();
         } else
             launcher.launch(permissions);
-        return liveData;
     }
 
     public enum PermissionResult {GRANTED, DENIED, PERMANENTLY_DENIED}

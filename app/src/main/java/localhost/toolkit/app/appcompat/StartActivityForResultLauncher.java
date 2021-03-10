@@ -8,11 +8,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 
-public class StartActivityForResultLauncher implements ActivityResultCallback<ActivityResult> {
+public class StartActivityForResultLauncher extends LiveData<ActivityResult> implements ActivityResultCallback<ActivityResult> {
     private final ActivityResultLauncher<Intent> launcher;
-    private MutableLiveData<ActivityResult> liveData;
 
     public StartActivityForResultLauncher(Fragment fragment) {
         launcher = fragment.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
@@ -24,13 +23,10 @@ public class StartActivityForResultLauncher implements ActivityResultCallback<Ac
 
     @Override
     public void onActivityResult(ActivityResult result) {
-        if (liveData != null)
-            liveData.setValue(result);
+        setValue(result);
     }
 
-    public MutableLiveData<ActivityResult> launch(Intent intent) {
-        liveData = new MutableLiveData<>();
+    public void launch(Intent intent) {
         launcher.launch(intent);
-        return liveData;
     }
 }
