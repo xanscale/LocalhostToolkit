@@ -17,6 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,11 +32,11 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
     private final ActivityResultLauncher<ContractType> launcher;
 
     public MediaPickLauncher(Fragment fragment) {
-        launcher = fragment.registerForActivityResult(new MediaPickContract(), this);
+        launcher = fragment.registerForActivityResult(new MediaPickContract(fragment), this);
     }
 
     public MediaPickLauncher(FragmentActivity activity) {
-        launcher = activity.registerForActivityResult(new MediaPickContract(), this);
+        launcher = activity.registerForActivityResult(new MediaPickContract(activity), this);
     }
 
     @Override
@@ -46,20 +49,24 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
     }
 
     private static class MediaPickContract extends ActivityResultContract<ContractType, Media> {
-        private Uri uri;
-        private ContractType contractType;
+        private final ViewModelStoreOwner owner;
+        private MediaViewModel mediaViewModel;
+
+        public MediaPickContract(ViewModelStoreOwner owner) {
+            this.owner = owner;
+        }
 
         @CallSuper
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, @NonNull ContractType input) {
-            contractType = input;
+            getViewModel().contractType = input;
             switch (input) {
                 case IMAGE:
                     Intent intent = Intent.createChooser(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), null);
                     try {
-                        uri = FileProvider.getUriForFile(context, context.getPackageName() + ".localhost.provider", File.createTempFile("image", ".jpg"));
-                        return intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri)});
+                        getViewModel().uri = FileProvider.getUriForFile(context, context.getPackageName() + ".localhost.provider", File.createTempFile("image", ".jpg"));
+                        return intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, getViewModel().uri)});
                     } catch (IOException e) {
                         e.printStackTrace();
                         return intent;
@@ -74,8 +81,19 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
 
         @Override
         public final Media parseResult(int resultCode, @Nullable Intent intent) {
-            return resultCode != Activity.RESULT_OK ? null : new Media(contractType, intent != null && intent.getData() != null ? intent.getData() : uri);
+            return resultCode != Activity.RESULT_OK ? null : new Media(getViewModel().contractType, intent != null && intent.getData() != null ? intent.getData() : getViewModel().uri);
         }
+
+        private MediaViewModel getViewModel() {
+            if (mediaViewModel == null)
+                mediaViewModel = new ViewModelProvider(owner).get(MediaViewModel.class);
+            return mediaViewModel;
+        }
+    }
+
+    public static class MediaViewModel extends ViewModel {
+        public ContractType contractType;
+        public Uri uri;
     }
 
     public static class Media {
