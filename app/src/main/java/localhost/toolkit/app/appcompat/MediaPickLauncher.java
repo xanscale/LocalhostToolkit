@@ -121,11 +121,12 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
         }
 
         public Bitmap getBitmap(Context context) throws IOException {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
-            else
-                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-
+            if (contractType == ContractType.IMAGE)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                    return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
+                else
+                    return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            else return null;
         }
 
         public Uri getThumbnailUri(Context context) {
