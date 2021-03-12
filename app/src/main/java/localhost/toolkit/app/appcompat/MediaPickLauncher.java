@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 
@@ -115,6 +118,14 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
 
         public InputStream openInputStream(Context context) throws FileNotFoundException {
             return context.getContentResolver().openInputStream(uri);
+        }
+
+        public Bitmap getBitmap(Context context) throws IOException {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
+            else
+                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+
         }
 
         public Uri getThumbnailUri(Context context) {
