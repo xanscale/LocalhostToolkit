@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -124,9 +126,40 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
             if (contractType == ContractType.IMAGE)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                     return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
-                else
-                    return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-            else return null;
+                else {
+                    Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+                    int rotation = getRotation(context);
+                    if (rotation != 0) {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(rotation);
+                        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                    }
+                    return bmp;
+                }
+            else throw new IllegalStateException("ContractType: " + contractType);
+        }
+
+        public int getOrientation(Context context) throws IOException {
+            if (contractType == ContractType.IMAGE)
+                try (InputStream input = openInputStream(context)) {
+                    return new ExifInterface(input).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                }
+            else throw new IllegalStateException("ContractType: " + contractType);
+        }
+
+        public int getRotation(Context context) throws IOException {
+            if (contractType == ContractType.IMAGE)
+                switch (getOrientation(context)) {
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        return 270;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        return 180;
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        return 90;
+                    default:
+                        return 0;
+                }
+            else throw new IllegalStateException("ContractType: " + contractType);
         }
 
         public Uri getThumbnailUri(Context context) {
@@ -138,7 +171,7 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
                 try (Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER)) {
                     return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
                 }
-            else return null;
+            else throw new IllegalStateException("ContractType: " + contractType);
         }
 
         public String getDisplayName(Context context) {
