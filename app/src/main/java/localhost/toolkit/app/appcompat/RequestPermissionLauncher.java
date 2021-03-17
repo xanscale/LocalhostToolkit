@@ -54,7 +54,7 @@ public class RequestPermissionLauncher extends LiveData<RequestPermissionLaunche
 
     private boolean checkSelfPermission(String... permissions) {
         for (String perm : permissions)
-            if (ContextCompat.checkSelfPermission(getActivity(), perm) == PackageManager.PERMISSION_DENIED)
+            if (ContextCompat.checkSelfPermission(getActivity(), perm) != PackageManager.PERMISSION_GRANTED)
                 return false;
         return true;
     }
