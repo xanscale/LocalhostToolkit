@@ -41,7 +41,9 @@ public class RequestPermissionLauncher extends LiveData<RequestPermissionLaunche
     @Override
     public void onActivityResult(Map<String, Boolean> results) {
         String[] permissions = results.keySet().toArray(new String[0]);
-        if (checkSelfPermission(permissions))
+        if (results.isEmpty())
+            setValue(PermissionResult.DENIED);
+        else if (checkSelfPermission(permissions))
             setValue(PermissionResult.GRANTED);
         else if (shouldShowRequestPermissionRationale(permissions))
             setValue(PermissionResult.DENIED);
