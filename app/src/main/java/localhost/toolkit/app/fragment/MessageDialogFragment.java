@@ -4,9 +4,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.text.Html;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -22,7 +22,7 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(requireArguments().getString(TITLE));
         if (requireArguments().containsKey(MESSAGE))
-            builder.setMessage(Html.fromHtml(requireArguments().getString(MESSAGE)));
+            builder.setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE), HtmlCompat.FROM_HTML_MODE_COMPACT));
         builder.setPositiveButton(android.R.string.ok, requireArguments().getBoolean(EXIT) ? this : null);
         setCancelable(false);
         return builder.create();

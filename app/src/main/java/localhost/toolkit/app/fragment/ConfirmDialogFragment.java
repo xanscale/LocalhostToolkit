@@ -8,6 +8,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -39,7 +40,7 @@ public class ConfirmDialogFragment extends DialogFragment {
         };
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(requireArguments().getString(TITLE));
-        builder.setMessage(requireArguments().getString(MESSAGE));
+        builder.setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE), HtmlCompat.FROM_HTML_MODE_COMPACT));
         builder.setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), onClickListener);
         builder.setNegativeButton(requireArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), onClickListener);
         if (requireArguments().containsKey(NEUTRAL_BUTTON))
