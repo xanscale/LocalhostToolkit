@@ -4,26 +4,37 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
-public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
-    private static final float MIN_SCALE = 0.85f;
-    private static final float MIN_ALPHA = 0.5f;
+public class ZoomOutPageTransformer implements ViewPager.PageTransformer, ViewPager2.PageTransformer {
+    private final float minScale;
+    private final float minAlpha;
+
+    public ZoomOutPageTransformer() {
+        minScale = 0.85f;
+        minAlpha = 0.5f;
+    }
+
+    public ZoomOutPageTransformer(float minScale, float minAlpha) {
+        this.minScale = minScale;
+        this.minAlpha = minAlpha;
+    }
 
     @Override
     public void transformPage(@NonNull View view, float position) {
         if (position < -1)
             view.setAlpha(0);
         else if (position <= 1) {
-            float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
-            float vertMargin = view.getHeight() * (1 - scaleFactor) / 2;
-            float horzMargin = view.getWidth() * (1 - scaleFactor) / 2;
+            float scaleFactor = Math.max(minScale, 1 - Math.abs(position));
+            float vMargin = view.getHeight() * (1 - scaleFactor) / 2;
+            float hMargin = view.getWidth() * (1 - scaleFactor) / 2;
             if (position < 0)
-                view.setTranslationX(horzMargin - vertMargin / 2);
+                view.setTranslationX(hMargin - vMargin / 2);
             else
-                view.setTranslationX(-horzMargin + vertMargin / 2);
+                view.setTranslationX(-hMargin + vMargin / 2);
             view.setScaleX(scaleFactor);
             view.setScaleY(scaleFactor);
-            view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+            view.setAlpha(minAlpha + (scaleFactor - minScale) / (1 - minScale) * (1 - minAlpha));
         } else
             view.setAlpha(0);
     }
