@@ -8,7 +8,7 @@ import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.LocationSource;
-import it.localhostsoftware.maps.Map;
+import it.localhostsoftware.maps.GeoMap;
 import it.localhostsoftware.maps.Projection;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition;
@@ -29,7 +29,7 @@ import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
-public class HuaweiMap extends Map<com.huawei.hms.maps.HuaweiMap> {
+public class HuaweiMap extends GeoMap<com.huawei.hms.maps.HuaweiMap> {
     public HuaweiMap(com.huawei.hms.maps.HuaweiMap huaweiMap) {
         super(huaweiMap);
     }

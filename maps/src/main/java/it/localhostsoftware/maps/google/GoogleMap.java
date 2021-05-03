@@ -8,7 +8,7 @@ import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
 import it.localhostsoftware.maps.LocationSource;
-import it.localhostsoftware.maps.Map;
+import it.localhostsoftware.maps.GeoMap;
 import it.localhostsoftware.maps.Projection;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
@@ -29,7 +29,7 @@ import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
-public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
+public class GoogleMap extends GeoMap<com.google.android.gms.maps.GoogleMap> {
     public GoogleMap(com.google.android.gms.maps.GoogleMap googleMap) {
         super(googleMap);
     }
@@ -322,7 +322,7 @@ public class GoogleMap extends Map<com.google.android.gms.maps.GoogleMap> {
     }
 
     @Override
-    public void setOnPolylineClickListener(Map.OnPolylineClickListener var1) {
+    public void setOnPolylineClickListener(GeoMap.OnPolylineClickListener var1) {
         getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new GooglePolyline(polyline)));
     }
 

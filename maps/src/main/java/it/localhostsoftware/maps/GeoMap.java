@@ -20,7 +20,7 @@ import it.localhostsoftware.maps.model.PointOfInterest;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
-public abstract class Map<M> {
+public abstract class GeoMap<M> {
     int MAP_TYPE_NONE = 0;
     int MAP_TYPE_NORMAL = 1;
     int MAP_TYPE_SATELLITE = 2;
@@ -29,7 +29,7 @@ public abstract class Map<M> {
 
     private final M m;
 
-    public Map(M m) {
+    public GeoMap(M m) {
         this.m = m;
     }
 
