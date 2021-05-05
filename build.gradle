@@ -1,9 +1,8 @@
 buildscript {
     repositories {
         google()
-        mavenCentral()
-        maven { url 'https://developer.huawei.com/repo/' }
         jcenter()
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 
     dependencies {
@@ -14,9 +13,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
+        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://developer.huawei.com/repo/' }
-        jcenter()
     }
 }
