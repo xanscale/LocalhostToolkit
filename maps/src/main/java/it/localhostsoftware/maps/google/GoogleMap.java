@@ -18,6 +18,7 @@ import it.localhostsoftware.maps.google.model.GoogleLatLng;
 import it.localhostsoftware.maps.google.model.GoogleMarker;
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
 import it.localhostsoftware.maps.google.model.GooglePointOfInterest;
+import it.localhostsoftware.maps.google.model.GooglePolygon;
 import it.localhostsoftware.maps.google.model.GooglePolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
@@ -27,6 +28,8 @@ import it.localhostsoftware.maps.model.LatLngBounds;
 import it.localhostsoftware.maps.model.MapStyleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.Polygon;
+import it.localhostsoftware.maps.model.PolygonOptions;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
@@ -98,6 +101,11 @@ public class GoogleMap extends GeoMap<com.google.android.gms.maps.GoogleMap> {
     @Override
     public Polyline<?> addPolyline(PolylineOptions<?> var1) {
         return new GooglePolyline(getMap().addPolyline((com.google.android.gms.maps.model.PolylineOptions) var1.getPolylineOptions()));
+    }
+
+    @Override
+    public Polygon<?> addPolygon(PolygonOptions<?> var1) {
+        return new GooglePolygon(getMap().addPolygon((com.google.android.gms.maps.model.PolygonOptions) var1.getPolygonOptions()));
     }
 
     @Override
@@ -320,6 +328,11 @@ public class GoogleMap extends GeoMap<com.google.android.gms.maps.GoogleMap> {
     public void setOnCircleClickListener(OnCircleClickListener var1) {
         getMap().setOnCircleClickListener(var1 == null ? null : circle -> var1.onCircleClick(new GoogleCircle(circle)));
 
+    }
+
+    @Override
+    public void setOnPolygonClickListener(OnPolygonClickListener var1) {
+        getMap().setOnPolygonClickListener(var1 == null ? null : polygon -> var1.onPolygonClick(new GooglePolygon(polygon)));
     }
 
     @Override

@@ -18,6 +18,7 @@ import it.localhostsoftware.maps.huawei.model.HuaweiLatLng;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarker;
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
 import it.localhostsoftware.maps.huawei.model.HuaweiPointOfInterest;
+import it.localhostsoftware.maps.huawei.model.HuaweiPolygon;
 import it.localhostsoftware.maps.huawei.model.HuaweiPolyline;
 import it.localhostsoftware.maps.model.CameraPosition;
 import it.localhostsoftware.maps.model.Circle;
@@ -27,6 +28,8 @@ import it.localhostsoftware.maps.model.LatLngBounds;
 import it.localhostsoftware.maps.model.MapStyleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
+import it.localhostsoftware.maps.model.Polygon;
+import it.localhostsoftware.maps.model.PolygonOptions;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
@@ -98,6 +101,11 @@ public class HuaweiMap extends GeoMap<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public Polyline<?> addPolyline(PolylineOptions<?> var1) {
         return new HuaweiPolyline(getMap().addPolyline((com.huawei.hms.maps.model.PolylineOptions) var1.getPolylineOptions()));
+    }
+
+    @Override
+    public Polygon<?> addPolygon(PolygonOptions<?> var1) {
+        return new HuaweiPolygon(getMap().addPolygon((com.huawei.hms.maps.model.PolygonOptions) var1.getPolygonOptions()));
     }
 
     @Override
@@ -319,6 +327,11 @@ public class HuaweiMap extends GeoMap<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void setOnCircleClickListener(OnCircleClickListener var1) {
         getMap().setOnCircleClickListener(var1 == null ? null : circle -> var1.onCircleClick(new HuaweiCircle(circle)));
+    }
+
+    @Override
+    public void setOnPolygonClickListener(OnPolygonClickListener var1) {
+        getMap().setOnPolygonClickListener(var1 == null ? null : polygon -> var1.onPolygonClick(new HuaweiPolygon(polygon)));
     }
 
     @Override

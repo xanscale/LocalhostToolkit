@@ -18,6 +18,8 @@ import it.localhostsoftware.maps.model.MapStyleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.PointOfInterest;
+import it.localhostsoftware.maps.model.Polygon;
+import it.localhostsoftware.maps.model.PolygonOptions;
 import it.localhostsoftware.maps.model.Polyline;
 import it.localhostsoftware.maps.model.PolylineOptions;
 
@@ -56,7 +58,7 @@ public abstract class GeoMap<M> {
 
     abstract public Polyline<?> addPolyline(PolylineOptions<?> var1);
 
-    //TODO Polygon addPolygon(PolygonOptions var1);
+    abstract public Polygon<?> addPolygon(PolygonOptions<?> var1);
 
     abstract public Circle<?> addCircle(CircleOptions<?> var1);
 
@@ -133,7 +135,7 @@ public abstract class GeoMap<M> {
 
     abstract public void setOnCircleClickListener(OnCircleClickListener var1);
 
-    //TODO void setOnPolygonClickListener(OnPolygonClickListener var1);
+    abstract public void setOnPolygonClickListener(OnPolygonClickListener var1);
 
     abstract public void setOnPolylineClickListener(OnPolylineClickListener var1);
 
@@ -221,9 +223,9 @@ public abstract class GeoMap<M> {
         void onPolylineClick(Polyline<?> var1);
     }
 
-    /* TODO interface OnPolygonClickListener {
-        void onPolygonClick(Polygon var1);
-    } */
+    public interface OnPolygonClickListener {
+        void onPolygonClick(Polygon<?> var1);
+    }
 
     public interface OnCircleClickListener {
         void onCircleClick(Circle<?> var1);
