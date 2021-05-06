@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 import it.localhostsoftware.maps.CameraUpdate;
-import it.localhostsoftware.maps.LocationSource;
 import it.localhostsoftware.maps.GeoMap;
+import it.localhostsoftware.maps.LocationSource;
 import it.localhostsoftware.maps.Projection;
 import it.localhostsoftware.maps.UiSettings;
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
@@ -24,6 +24,7 @@ import it.localhostsoftware.maps.model.Circle;
 import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.LatLngBounds;
+import it.localhostsoftware.maps.model.MapStyleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.Polyline;
@@ -349,6 +350,11 @@ public class GoogleMap extends GeoMap<com.google.android.gms.maps.GoogleMap> {
     @Override
     public void setOnPoiClickListener(OnPoiClickListener var1) {
         getMap().setOnPoiClickListener(var1 == null ? null : pointOfInterest -> var1.onPoiClick(new GooglePointOfInterest(pointOfInterest)));
+    }
+
+    @Override
+    public boolean setMapStyle(@Nullable MapStyleOptions<?> var1) {
+        return getMap().setMapStyle(var1 == null ? null : (com.google.android.gms.maps.model.MapStyleOptions) var1.getMapStyleOptions());
     }
 
     @Override

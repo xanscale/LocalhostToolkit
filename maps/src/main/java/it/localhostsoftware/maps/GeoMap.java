@@ -14,6 +14,7 @@ import it.localhostsoftware.maps.model.CircleOptions;
 import it.localhostsoftware.maps.model.IndoorBuilding;
 import it.localhostsoftware.maps.model.LatLng;
 import it.localhostsoftware.maps.model.LatLngBounds;
+import it.localhostsoftware.maps.model.MapStyleOptions;
 import it.localhostsoftware.maps.model.Marker;
 import it.localhostsoftware.maps.model.MarkerOptions;
 import it.localhostsoftware.maps.model.PointOfInterest;
@@ -146,7 +147,7 @@ public abstract class GeoMap<M> {
 
     abstract public void setOnPoiClickListener(OnPoiClickListener var1);
 
-    //TODO boolean setMapStyle(@Nullable MapStyleOptions var1);
+    abstract public boolean setMapStyle(@Nullable MapStyleOptions<?> var1);
 
     abstract public void setMinZoomPreference(float var1);
 
