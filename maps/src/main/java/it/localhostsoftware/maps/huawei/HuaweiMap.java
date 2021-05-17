@@ -352,6 +352,7 @@ public class HuaweiMap extends GeoMap<com.huawei.hms.maps.HuaweiMap> {
     @Override
     public void setPadding(int i, int i1, int i2, int i3) {
         getMap().setPadding(i, i1, i2, i3);
+        getMap().getUiSettings().setLogoPadding(i, i1, i2, i3);
     }
 
     @Override
