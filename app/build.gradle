@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-	api 'androidx.activity:activity:1.2.2'
+	api 'androidx.activity:activity:1.2.3'
 	api 'androidx.exifinterface:exifinterface:1.3.2'
 	api 'androidx.fragment:fragment:1.3.3'
 	api 'androidx.preference:preference:1.1.1'
