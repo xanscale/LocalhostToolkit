@@ -17,7 +17,7 @@ import it.localhostsoftware.mlkit.vision.AbstractImageAnalyzer;
 public class BarcodeScanner extends AbstractImageAnalyzer<List<Barcode>> {
     @Override
     protected void process(ImageProxy imageProxy, OnSuccessListener<List<Barcode>> onSuccessListener) {
-        @SuppressLint("UnsafeExperimentalUsageError") Image image = imageProxy.getImage();
+       @SuppressLint("UnsafeOptInUsageError") Image image = imageProxy.getImage();
         if (onSuccessListener != null && image != null)
             BarcodeScanning.getClient().process(InputImage.fromMediaImage(image, imageProxy.getImageInfo().getRotationDegrees()))
                     .addOnSuccessListener(onSuccessListener)
