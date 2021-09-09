@@ -63,7 +63,6 @@ public class BiometricEncryptedSharedPreferences {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                 b.setUserAuthenticationParameters(timeout, KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG);
             else
-                //noinspection deprecation
                 b.setUserAuthenticationValidityDurationSeconds(timeout);
             return EncryptedSharedPreferences.create(fileName, MasterKeys.getOrCreate(b.build()), c, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
         } catch (GeneralSecurityException | IOException e) {
