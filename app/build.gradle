@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+	id 'com.android.library'
+	id 'maven-publish'
+}
 
 android {
 	compileSdkVersion 30
@@ -18,4 +21,14 @@ dependencies {
 	api 'androidx.lifecycle:lifecycle-viewmodel:2.3.1'
 
 	api 'com.google.android.material:material:1.4.0'
+}
+
+project.afterEvaluate {
+	publishing {
+		publications {
+			release(MavenPublication) {
+				from components.release
+			}
+		}
+	}
 }

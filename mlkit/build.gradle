@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+	id 'com.android.library'
+	id 'maven-publish'
+}
 
 android {
 	compileSdkVersion 30
@@ -22,4 +25,14 @@ dependencies {
 
 	api 'com.google.mlkit:barcode-scanning:17.0.0'
 	api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+}
+
+project.afterEvaluate {
+	publishing {
+		publications {
+			release(MavenPublication) {
+				from components.release
+			}
+		}
+	}
 }
