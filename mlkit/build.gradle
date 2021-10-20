@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-	compileSdkVersion 30
-	buildToolsVersion '30.0.3'
+	compileSdkVersion 31
 
 	defaultConfig {
 		minSdkVersion 21
-		targetSdkVersion 30
+		targetSdkVersion 31
 	}
 
 	compileOptions {
@@ -19,9 +18,9 @@ android {
 }
 
 dependencies {
-	api "androidx.camera:camera-camera2:1.1.0-alpha08"
-	api "androidx.camera:camera-lifecycle:1.1.0-alpha08"
-	api "androidx.camera:camera-view:1.0.0-alpha28"
+	api "androidx.camera:camera-camera2:1.1.0-alpha10"
+	api "androidx.camera:camera-lifecycle:1.1.0-alpha10"
+	api "androidx.camera:camera-view:1.0.0-alpha30"
 
 	api 'com.google.mlkit:barcode-scanning:17.0.0'
 	api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
