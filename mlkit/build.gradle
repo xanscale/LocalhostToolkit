@@ -18,9 +18,9 @@ android {
 }
 
 dependencies {
-	api "androidx.camera:camera-camera2:1.1.0-alpha10"
-	api "androidx.camera:camera-lifecycle:1.1.0-alpha10"
-	api "androidx.camera:camera-view:1.0.0-alpha30"
+	api "androidx.camera:camera-camera2:1.1.0-alpha11"
+	api "androidx.camera:camera-lifecycle:1.1.0-alpha11"
+	api "androidx.camera:camera-view:1.0.0-alpha31"
 
 	api 'com.google.mlkit:barcode-scanning:17.0.0'
 	api 'com.google.mlkit:text-recognition:16.0.0-beta1'
