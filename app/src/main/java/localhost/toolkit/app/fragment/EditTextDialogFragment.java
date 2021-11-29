@@ -2,8 +2,8 @@ package localhost.toolkit.app.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -18,12 +18,13 @@ import java.io.Serializable;
 
 import localhost.toolkit.R;
 
-public class EditTextDialogFragment extends DialogFragment {
+public class EditTextDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String TEXT = "TEXT";
     private static final String HINT = "HINT";
     private static final String INPUT_TYPE = "INPUT_TYPE";
     private static final String TITLE = "TITLE";
-    private static final String EXTRA = "EXTRA";
+    private static final String SERIALIZABLE = "SERIALIZABLE";
+    private static final String PARCELABLE = "PARCELABLE";
     private EditText editText;
 
     @NonNull
@@ -31,15 +32,7 @@ public class EditTextDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(requireArguments().getString(TITLE));
-        builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                OnEditTextListener l = (OnEditTextListener) getParentFragment();
-                if (l == null)
-                    l = (OnEditTextListener) requireActivity();
-                l.onEditTextDialogResult(requireArguments().getSerializable(EXTRA), editText.getText().toString());
-            }
-        });
+        builder.setPositiveButton(android.R.string.ok, this);
         builder.setNegativeButton(android.R.string.cancel, null);
         View v = View.inflate(requireContext(), R.layout.dialog_edittext, null);
         editText = v.findViewById(R.id.textInputEditText);
@@ -52,12 +45,25 @@ public class EditTextDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        getOnEditTextListener().onEditTextDialogResult(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.getText().toString());
+    }
+
+    private OnEditTextListener getOnEditTextListener() {
+        OnEditTextListener l = (OnEditTextListener) getParentFragment();
+        if (l == null)
+            l = (OnEditTextListener) requireActivity();
+        return l;
+    }
+
     public interface OnEditTextListener {
-        void onEditTextDialogResult(Serializable extra, String value);
+        void onEditTextDialogResult(Serializable serializable, Parcelable parcelable, String value);
     }
 
     public static class Builder {
-        private Serializable extra;
+        private Serializable serializable;
+        private Parcelable parcelable;
         private String title;
         private String text;
         private String hint;
@@ -66,17 +72,23 @@ public class EditTextDialogFragment extends DialogFragment {
         public EditTextDialogFragment build() {
             EditTextDialogFragment fragment = new EditTextDialogFragment();
             Bundle args = new Bundle();
-            if (extra != null) args.putSerializable(EXTRA, extra);
             if (title != null) args.putString(TITLE, title);
             if (text != null) args.putString(TEXT, text);
             if (hint != null) args.putString(HINT, hint);
             if (inputType != null) args.putInt(INPUT_TYPE, inputType);
+            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
+            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public Builder withExtra(Serializable extra) {
-            this.extra = extra;
+        public Builder withSerializable(Serializable serializable) {
+            this.serializable = serializable;
+            return this;
+        }
+
+        public Builder withParcelable(Parcelable parcelable) {
+            this.parcelable = parcelable;
             return this;
         }
 

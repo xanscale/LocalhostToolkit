@@ -2,7 +2,6 @@ package localhost.toolkit.app.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class MessageDialogFragment extends DialogFragment implements OnClickListener {
+public class MessageDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String TITLE = "TITLE";
     private static final String MESSAGE = "MESSAGE";
     private static final String EXIT = "EXIT";

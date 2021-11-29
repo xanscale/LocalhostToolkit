@@ -14,7 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
 
-public class NumberPickerDialogFragment extends DialogFragment {
+public class NumberPickerDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String TITLE = "TITLE";
     private static final String MIN = "MIN";
     private static final String MAX = "MAX";
@@ -22,12 +22,14 @@ public class NumberPickerDialogFragment extends DialogFragment {
     private static final String SERIALIZABLE = "SERIALIZABLE";
     private static final String PARCELABLE = "PARCELABLE";
     private static final String DISPLAYED_VALUES = "DISPLAYED_VALUES";
+    private NumberPicker numberPicker;
 
-    @NonNull @Override
+    @NonNull
+    @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
         builder.setTitle(requireArguments().getString(TITLE));
-        final NumberPicker numberPicker = new NumberPicker(requireActivity());
+        numberPicker = new NumberPicker(requireActivity());
         if (requireArguments().containsKey(MIN))
             numberPicker.setMinValue(requireArguments().getInt(MIN));
         if (requireArguments().containsKey(MAX))
@@ -37,18 +39,22 @@ public class NumberPickerDialogFragment extends DialogFragment {
         if (requireArguments().containsKey(DISPLAYED_VALUES))
             numberPicker.setDisplayedValues(requireArguments().getStringArray(DISPLAYED_VALUES));
         builder.setView(numberPicker);
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
-                if (l == null)
-                    l = (OnNumberSetListener) requireActivity();
-                l.onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
-            }
-        });
+        builder.setPositiveButton(android.R.string.ok, this);
         builder.setNegativeButton(android.R.string.cancel, null);
         setCancelable(false);
         return builder.create();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        getOnNumberSetListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
+    }
+
+    private OnNumberSetListener getOnNumberSetListener() {
+        OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
+        if (l == null)
+            l = (OnNumberSetListener) requireActivity();
+        return l;
     }
 
     public interface OnNumberSetListener {

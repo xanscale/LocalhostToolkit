@@ -2,7 +2,6 @@ package localhost.toolkit.app.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -17,7 +16,7 @@ import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class ConfirmDialogFragment extends DialogFragment {
+public class ConfirmDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private static final String MESSAGE = "MESSAGE";
     private static final String TITLE = "TITLE";
     private static final String POSITIVE_BUTTON = "POSITIVE_BUTTON";
@@ -29,24 +28,27 @@ public class ConfirmDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        OnClickListener onClickListener = new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                OnConfirmedListener l = (OnConfirmedListener) getParentFragment();
-                if (l == null)
-                    l = (OnConfirmedListener) requireActivity();
-                l.onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
-            }
-        };
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(requireArguments().getString(TITLE));
         builder.setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE), HtmlCompat.FROM_HTML_MODE_COMPACT));
-        builder.setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), onClickListener);
-        builder.setNegativeButton(requireArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), onClickListener);
+        builder.setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), this);
+        builder.setNegativeButton(requireArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), this);
         if (requireArguments().containsKey(NEUTRAL_BUTTON))
-            builder.setNeutralButton(requireArguments().getString(NEUTRAL_BUTTON), onClickListener);
+            builder.setNeutralButton(requireArguments().getString(NEUTRAL_BUTTON), this);
         setCancelable(false);
         return builder.create();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
+    }
+
+    private OnConfirmedListener getOnConfirmedListener() {
+        OnConfirmedListener l = (OnConfirmedListener) getParentFragment();
+        if (l == null)
+            l = (OnConfirmedListener) requireActivity();
+        return l;
     }
 
     @Retention(RetentionPolicy.SOURCE)

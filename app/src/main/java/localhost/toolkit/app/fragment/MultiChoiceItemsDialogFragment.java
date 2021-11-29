@@ -47,10 +47,14 @@ public class MultiChoiceItemsDialogFragment extends DialogFragment implements Di
     }
 
     public void onClick(DialogInterface dialog, int which) {
+        getOnMultiChoiceDialogClickListener().onClick(requireArguments().getSerializable(EXTRA), checkedItems);
+    }
+
+    private OnMultiChoiceDialogClickListener getOnMultiChoiceDialogClickListener() {
         OnMultiChoiceDialogClickListener l = (OnMultiChoiceDialogClickListener) getParentFragment();
         if (l == null)
             l = (OnMultiChoiceDialogClickListener) requireActivity();
-        l.onClick(requireArguments().getSerializable(EXTRA), checkedItems);
+        return l;
     }
 
     @Override
