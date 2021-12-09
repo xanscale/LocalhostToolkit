@@ -22,7 +22,7 @@ dependencies {
 	api 'com.google.android.material:material:1.4.0'
 }
 
-project.afterEvaluate {
+afterEvaluate {
 	publishing {
 		publications {
 			release(MavenPublication) {

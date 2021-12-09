@@ -23,7 +23,7 @@ dependencies {
     api 'com.huawei.hms:maps:6.0.1.304'
 }
 
-project.afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {

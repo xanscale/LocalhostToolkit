@@ -26,7 +26,7 @@ dependencies {
 	api 'com.google.mlkit:text-recognition:16.0.0-beta1'
 }
 
-project.afterEvaluate {
+afterEvaluate {
 	publishing {
 		publications {
 			release(MavenPublication) {

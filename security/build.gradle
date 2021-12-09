@@ -18,7 +18,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-livedata-core:2.4.0'
 }
 
-project.afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
