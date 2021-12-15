@@ -1,7 +1,6 @@
 package localhost.toolkit.app.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.InputType;
@@ -18,7 +17,7 @@ import java.io.Serializable;
 
 import localhost.toolkit.R;
 
-public class EditTextDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class EditTextDialogFragment extends DialogFragment {
     private static final String TEXT = "TEXT";
     private static final String HINT = "HINT";
     private static final String INPUT_TYPE = "INPUT_TYPE";
@@ -32,7 +31,9 @@ public class EditTextDialogFragment extends DialogFragment implements DialogInte
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(requireArguments().getString(TITLE));
-        builder.setPositiveButton(android.R.string.ok, this);
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
+                getListener().onEditTextDialogResult(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.getText().toString())
+        );
         builder.setNegativeButton(android.R.string.cancel, null);
         View v = View.inflate(requireContext(), R.layout.dialog_edittext, null);
         editText = v.findViewById(R.id.textInputEditText);
@@ -45,12 +46,7 @@ public class EditTextDialogFragment extends DialogFragment implements DialogInte
         return builder.create();
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        getOnEditTextListener().onEditTextDialogResult(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.getText().toString());
-    }
-
-    private OnEditTextListener getOnEditTextListener() {
+    private OnEditTextListener getListener() {
         OnEditTextListener l = (OnEditTextListener) getParentFragment();
         if (l == null)
             l = (OnEditTextListener) requireActivity();

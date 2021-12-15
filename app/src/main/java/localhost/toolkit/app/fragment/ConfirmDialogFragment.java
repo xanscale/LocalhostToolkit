@@ -41,10 +41,10 @@ public class ConfirmDialogFragment extends DialogFragment implements DialogInter
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        getOnConfirmedListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
+        getListener().onConfirmation(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
     }
 
-    private OnConfirmedListener getOnConfirmedListener() {
+    private OnConfirmedListener getListener() {
         OnConfirmedListener l = (OnConfirmedListener) getParentFragment();
         if (l == null)
             l = (OnConfirmedListener) requireActivity();

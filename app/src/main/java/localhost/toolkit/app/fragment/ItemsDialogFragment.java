@@ -34,10 +34,10 @@ public class ItemsDialogFragment extends DialogFragment implements DialogInterfa
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        getOnListDialogClickListener().onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
+        getListener().onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which);
     }
 
-    private OnListDialogClickListener getOnListDialogClickListener() {
+    private OnListDialogClickListener getListener() {
         OnListDialogClickListener l = (OnListDialogClickListener) getParentFragment();
         if (l == null)
             l = (OnListDialogClickListener) requireActivity();

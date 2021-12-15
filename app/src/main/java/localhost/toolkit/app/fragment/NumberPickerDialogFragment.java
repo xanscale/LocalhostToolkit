@@ -47,10 +47,10 @@ public class NumberPickerDialogFragment extends DialogFragment implements Dialog
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        getOnNumberSetListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
+        getListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
     }
 
-    private OnNumberSetListener getOnNumberSetListener() {
+    private OnNumberSetListener getListener() {
         OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
         if (l == null)
             l = (OnNumberSetListener) requireActivity();
