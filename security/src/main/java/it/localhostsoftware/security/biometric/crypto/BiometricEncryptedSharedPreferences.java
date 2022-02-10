@@ -7,6 +7,7 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
 import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -24,32 +25,34 @@ public class BiometricEncryptedSharedPreferences {
     private static final String MASTER_KEY_ALIAS = "_androidx_security_master_key_biometric";
 
     /**
-     * @param fragment   A reference to the client's fragment
-     * @param fileName   The name of the file to open; can not contain path separators
-     * @param timeout    duration in seconds, must be greater than 0
-     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param fragment          A reference to the client's fragment
+     * @param fileName          The name of the file to open; can not contain path separators
+     * @param timeout           duration in seconds, must be greater than 0
+     * @param promptInfoBuilder The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
-    public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int timeout, BiometricPrompt.PromptInfo promptInfo) {
+    public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
+        promptInfoBuilder.setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
-        new BiometricPrompt(fragment.requireActivity(), ContextCompat.getMainExecutor(fragment.requireContext()),
+        new BiometricPrompt(fragment, ContextCompat.getMainExecutor(fragment.requireContext()),
                 new AuthenticationCallback(fragment.requireContext(), fileName, timeout, out)
-        ).authenticate(promptInfo);
+        ).authenticate(promptInfoBuilder.build());
         return out;
     }
 
     /**
-     * @param activity   A reference to the client's activity
-     * @param fileName   The name of the file to open; can not contain path separators
-     * @param timeout    duration in seconds, must be greater than 0
-     * @param promptInfo The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
+     * @param activity          A reference to the client's activity
+     * @param fileName          The name of the file to open; can not contain path separators
+     * @param timeout           duration in seconds, must be greater than 0
+     * @param promptInfoBuilder The information that will be displayed on the prompt. Create this object using {@link BiometricPrompt.PromptInfo.Builder}
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
-    public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int timeout, BiometricPrompt.PromptInfo promptInfo) {
+    public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
+        promptInfoBuilder.setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
                 new AuthenticationCallback(activity, fileName, timeout, out)
-        ).authenticate(promptInfo);
+        ).authenticate(promptInfoBuilder.build());
         return out;
     }
 
