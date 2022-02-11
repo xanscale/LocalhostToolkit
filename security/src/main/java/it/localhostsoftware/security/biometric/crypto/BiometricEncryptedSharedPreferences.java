@@ -37,7 +37,8 @@ public class BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
-        promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(fragment, ContextCompat.getMainExecutor(fragment.requireContext()),
                 new AuthenticationCallback(fragment.requireContext(), fileName, timeout, out)
@@ -53,7 +54,8 @@ public class BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
-        promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
                 new AuthenticationCallback(activity, fileName, timeout, out)
