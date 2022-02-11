@@ -23,7 +23,7 @@ import java.security.GeneralSecurityException;
 public class BiometricEncryptedSharedPreferences {
     private static final int KEY_SIZE = 256;
     private static final String MASTER_KEY_ALIAS = "_androidx_security_master_key_biometric";
-    private static final int AUTHENTICATORS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL : BiometricManager.Authenticators.BIOMETRIC_WEAK;
+    private static final int AUTHENTICATORS = BiometricManager.Authenticators.DEVICE_CREDENTIAL | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? BiometricManager.Authenticators.BIOMETRIC_STRONG : BiometricManager.Authenticators.BIOMETRIC_WEAK);
 
     public static boolean canAuthenticate(Context c) {
         return BiometricManager.from(c).canAuthenticate(AUTHENTICATORS) == BiometricManager.BIOMETRIC_SUCCESS;
