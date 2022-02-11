@@ -23,7 +23,7 @@ import java.security.GeneralSecurityException;
 public class BiometricEncryptedSharedPreferences {
     private static final int KEY_SIZE = 256;
     private static final String MASTER_KEY_ALIAS = "_androidx_security_master_key_biometric";
-    private static final int AUTHENTICATORS = BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+    private static final int AUTHENTICATORS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL : BiometricManager.Authenticators.BIOMETRIC_WEAK;
 
     public static boolean canAuthenticate(Context c) {
         return BiometricManager.from(c).canAuthenticate(AUTHENTICATORS) == BiometricManager.BIOMETRIC_SUCCESS;
@@ -37,8 +37,7 @@ public class BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final Fragment fragment, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
+        promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(fragment, ContextCompat.getMainExecutor(fragment.requireContext()),
                 new AuthenticationCallback(fragment.requireContext(), fileName, timeout, out)
@@ -54,8 +53,7 @@ public class BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     public static LiveData<SharedPreferences> create(final FragmentActivity activity, final String fileName, final int timeout, BiometricPrompt.PromptInfo.Builder promptInfoBuilder) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
+        promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS);
         final MutableLiveData<SharedPreferences> out = new MutableLiveData<>();
         new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
                 new AuthenticationCallback(activity, fileName, timeout, out)
