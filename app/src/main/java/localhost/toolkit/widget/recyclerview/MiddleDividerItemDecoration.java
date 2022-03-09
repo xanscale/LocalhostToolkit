@@ -159,13 +159,17 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
             }
             childCount -= leftItems;
         }
-        for (int i = offset; i < childCount - 1 - offset; i++) {
+        for (int i = 0; i < childCount - 1; i++) {
             final View child = parent.getChildAt(i);
-            parent.getDecoratedBoundsWithMargins(child, mBounds);
-            final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
-            final int top = bottom - mDivider.getIntrinsicHeight();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(canvas);
+            int position = parent.getChildAdapterPosition(child);
+            RecyclerView.Adapter<?> adapter = parent.getAdapter();
+            if (adapter != null && position >= offset && position < adapter.getItemCount() - 1 - offset) {
+                parent.getDecoratedBoundsWithMargins(child, mBounds);
+                final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
+                final int top = bottom - mDivider.getIntrinsicHeight();
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(canvas);
+            }
         }
         canvas.restore();
     }
@@ -188,27 +192,30 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
         if (parent.getLayoutManager() instanceof GridLayoutManager) {
             childCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
         }
-        for (int i = offset; i < childCount - 1 - offset; i++) {
+        for (int i = 0; i < childCount - 1; i++) {
             final View child = parent.getChildAt(i);
-            parent.getDecoratedBoundsWithMargins(child, mBounds);
-            final int right = mBounds.right + Math.round(child.getTranslationX());
-            final int left = right - mDivider.getIntrinsicWidth();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(canvas);
+            int position = parent.getChildAdapterPosition(child);
+            RecyclerView.Adapter<?> adapter = parent.getAdapter();
+            if (adapter != null && position >= offset && position < adapter.getItemCount() - 1 - offset) {
+                parent.getDecoratedBoundsWithMargins(child, mBounds);
+                final int right = mBounds.right + Math.round(child.getTranslationX());
+                final int left = right - mDivider.getIntrinsicWidth();
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(canvas);
+            }
         }
         canvas.restore();
     }
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (mDivider == null) {
-            outRect.set(0, 0, 0, 0);
-            return;
-        }
-
-        outRect.set(0, 0,
-                mOrientation == VERTICAL ? 0 : mDivider.getIntrinsicWidth(),
-                mOrientation == HORIZONTAL ? 0 : mDivider.getIntrinsicHeight()
-        );
+        int position = parent.getChildAdapterPosition(view);
+        if (mDivider == null || position < offset || position >= state.getItemCount() - 1 - offset)
+            outRect.setEmpty();
+        else
+            outRect.set(0, 0,
+                    mOrientation == VERTICAL ? 0 : mDivider.getIntrinsicWidth(),
+                    mOrientation == HORIZONTAL ? 0 : mDivider.getIntrinsicHeight()
+            );
     }
 }
