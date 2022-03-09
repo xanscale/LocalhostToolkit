@@ -59,6 +59,8 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private final Rect mBounds = new Rect();
 
+    private int offset = 0;
+
     /**
      * Creates a divider {@link RecyclerView.ItemDecoration} that can be used with a
      * {@link LinearLayoutManager}.
@@ -88,6 +90,15 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
             throw new IllegalArgumentException("Invalid orientation. It should be either HORIZONTAL or VERTICAL");
         }
         mOrientation = orientation;
+    }
+
+    /**
+     * Set number of edge items without divider
+     *
+     * @param offset number of items
+     */
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     /**
@@ -148,7 +159,7 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
             }
             childCount -= leftItems;
         }
-        for (int i = 0; i < childCount - 1; i++) {
+        for (int i = offset; i < childCount - 1 - offset; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, mBounds);
             final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
@@ -177,7 +188,7 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
         if (parent.getLayoutManager() instanceof GridLayoutManager) {
             childCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
         }
-        for (int i = 0; i < childCount - 1; i++) {
+        for (int i = offset; i < childCount - 1 - offset; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, mBounds);
             final int right = mBounds.right + Math.round(child.getTranslationX());
