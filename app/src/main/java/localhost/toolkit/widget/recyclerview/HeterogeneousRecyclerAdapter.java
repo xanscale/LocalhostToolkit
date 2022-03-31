@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
-    private HeterogeneousFilter heterogeneousFilter;
+    private Filter filter;
     private final HashMap<Class<?>, Integer> classToType;
     private final SparseIntArray typeToPos;
     private final LayoutInflater inflater;
@@ -76,12 +76,16 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
         notifyDataSetChanged();
     }
 
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
     @Override
     public @NonNull
     Filter getFilter() {
-        if (heterogeneousFilter == null)
-            heterogeneousFilter = new HeterogeneousFilter();
-        return heterogeneousFilter;
+        if (filter == null)
+            filter = new HeterogeneousFilter();
+        return filter;
     }
 
     public void setLoopScroll(boolean loopScroll) {
