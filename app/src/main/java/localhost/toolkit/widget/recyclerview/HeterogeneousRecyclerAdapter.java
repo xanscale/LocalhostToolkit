@@ -21,7 +21,6 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
     private final SparseIntArray typeToPos;
     private final LayoutInflater inflater;
     private List<I> items;
-    private List<I> originalItems;
     private boolean loopScroll;
 
     public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
@@ -76,13 +75,12 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
         notifyDataSetChanged();
     }
 
-    public void setFilter(Filter filter) {
-        this.filter = filter;
+    public void setItems(List<I> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
-    @Override
-    public @NonNull
-    Filter getFilter() {
+    public Filter getFilter() {
         if (filter == null)
             filter = new HeterogeneousFilter();
         return filter;
@@ -93,11 +91,11 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
     }
 
     private class HeterogeneousFilter extends Filter {
+        private final List<I> originalItems = new ArrayList<>(items);
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            if (originalItems == null)
-                originalItems = new ArrayList<>(items);
             if (constraint == null || constraint.length() == 0) {
                 results.values = new ArrayList<>(originalItems);
                 results.count = originalItems.size();
@@ -121,8 +119,7 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            items = (List<I>) results.values;
-            notifyDataSetChanged();
+            setItems((List<I>) results.values);
         }
     }
 }
