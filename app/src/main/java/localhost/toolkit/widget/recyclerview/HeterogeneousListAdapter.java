@@ -1,6 +1,5 @@
 package localhost.toolkit.widget.recyclerview;
 
-import android.content.Context;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,6 +7,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,42 +17,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@Deprecated
-public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerItem, RecyclerView.ViewHolder> implements Filterable {
     private Filter filter;
     private final HashMap<Class<?>, Integer> classToType;
     private final SparseIntArray typeToPos;
-    private final LayoutInflater inflater;
-    private List<I> items;
-    private boolean loopScroll;
 
-    public HeterogeneousRecyclerAdapter(Context context, List<I> items) {
+    public HeterogeneousListAdapter() {
+        super(new DiffUtilItemCallback<>());
         setHasStableIds(true);
-        this.items = items;
-        inflater = LayoutInflater.from(context);
         classToType = new HashMap<>();
         typeToPos = new SparseIntArray();
-        notifyTypesChanged();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return getItem(typeToPos.get(viewType)).onCreateViewHolder(inflater, parent);
+        return getItem(typeToPos.get(viewType)).onCreateViewHolder(LayoutInflater.from(parent.getContext()), parent);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         getItem(position).onBindViewHolder(viewHolder);
-    }
-
-    public I getItem(int position) {
-        return items.get(loopScroll && !items.isEmpty() ? position % items.size() : position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return loopScroll && !items.isEmpty() ? Integer.MAX_VALUE : items.size();
     }
 
     @Override
@@ -61,24 +48,25 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
 
     @Override
     public long getItemId(int position) {
-        return System.identityHashCode(getItem(position));
+        return getItem(position).hashCode();
     }
 
-    public void notifyTypesChanged() {
+    @Override
+    public void submitList(@Nullable List<HeterogeneousRecyclerItem> list) {
+        super.submitList(list);
+        filter = null;
+        updateTypes();
+    }
+
+    private void updateTypes() {
         typeToPos.clear();
-        for (int i = 0; i < items.size(); i++) {
-            if (!classToType.containsKey(items.get(i).getClass()))
-                classToType.put(items.get(i).getClass(), classToType.size());
-            Integer type = classToType.get(items.get(i).getClass());
+        for (int i = 0; i < getItemCount(); i++) {
+            if (!classToType.containsKey(getItem(i).getClass()))
+                classToType.put(getItem(i).getClass(), classToType.size());
+            Integer type = classToType.get(getItem(i).getClass());
             if (type != null && typeToPos.indexOfKey(type) < 0)
                 typeToPos.put(type, i);
         }
-        notifyDataSetChanged();
-    }
-
-    public void setItems(List<I> items) {
-        this.items = items;
-        notifyDataSetChanged();
     }
 
     public Filter getFilter() {
@@ -87,12 +75,8 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
         return filter;
     }
 
-    public void setLoopScroll(boolean loopScroll) {
-        this.loopScroll = loopScroll;
-    }
-
     private class HeterogeneousFilter extends Filter {
-        private final List<I> originalItems = new ArrayList<>(items);
+        private final List<HeterogeneousRecyclerItem> originalItems = new ArrayList<>(getCurrentList());
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -106,9 +90,9 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
                 for (String word : constraint.toString().toLowerCase().split("\\W"))
                     sb.append("(?=.*").append(word).append(")");
                 sb.append("\\X*$");
-                ArrayList<I> newValues = new ArrayList<>();
+                ArrayList<HeterogeneousRecyclerItem> newValues = new ArrayList<>();
                 Pattern pattern = Pattern.compile(sb.toString());
-                for (I value : originalItems)
+                for (HeterogeneousRecyclerItem value : originalItems)
                     if (pattern.matcher(value.toString().toLowerCase()).matches())
                         newValues.add(value);
                 results.values = newValues;
@@ -120,7 +104,19 @@ public class HeterogeneousRecyclerAdapter<I extends HeterogeneousRecyclerItem> e
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            setItems((List<I>) results.values);
+            submitList((List<HeterogeneousRecyclerItem>) results.values);
+        }
+    }
+
+    private static class DiffUtilItemCallback<I extends HeterogeneousRecyclerItem<?, ?>> extends DiffUtil.ItemCallback<I> {
+        @Override
+        public boolean areItemsTheSame(@NonNull I oldItem, @NonNull I newItem) {
+            return oldItem.hashCode() == newItem.hashCode();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull I oldItem, @NonNull I newItem) {
+            return oldItem.equals(newItem);
         }
     }
 }
