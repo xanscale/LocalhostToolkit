@@ -53,9 +53,24 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
 
     @Override
     public void submitList(@Nullable List<HeterogeneousRecyclerItem> list) {
-        super.submitList(list);
-        filter = null;
-        updateTypes();
+        super.submitList(list, () -> {
+            filter = null;
+            updateTypes();
+        });
+    }
+
+    @Override
+    public void submitList(@Nullable List<HeterogeneousRecyclerItem> list, @Nullable Runnable commitCallback) {
+        super.submitList(list, () -> {
+            filter = null;
+            updateTypes();
+            if (commitCallback != null)
+                commitCallback.run();
+        });
+    }
+
+    private void applyFilter(@Nullable List<HeterogeneousRecyclerItem> list) {
+        super.submitList(list, this::updateTypes);
     }
 
     private void updateTypes() {
@@ -104,7 +119,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            submitList((List<HeterogeneousRecyclerItem>) results.values);
+            applyFilter((List<HeterogeneousRecyclerItem>) results.values);
         }
     }
 
