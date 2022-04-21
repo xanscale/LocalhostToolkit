@@ -210,7 +210,8 @@ public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
-        if (mDivider == null || position < offset || position >= state.getItemCount() - 1 - offset)
+        RecyclerView.Adapter<?> a = parent.getAdapter();
+        if (mDivider == null || position < offset || position >= (a == null ? 0 : a.getItemCount()) - 1 - offset)
             outRect.setEmpty();
         else
             outRect.set(0, 0,
