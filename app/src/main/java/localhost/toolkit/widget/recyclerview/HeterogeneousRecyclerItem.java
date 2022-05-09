@@ -13,9 +13,9 @@ public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHo
         this.extra = extra;
     }
 
-    public abstract H onCreateViewHolder(LayoutInflater inflater, ViewGroup parent);
+    public abstract H onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
-    public abstract void onBindViewHolder(H holder);
+    public abstract void onBindViewHolder(@NonNull H holder);
 
     public E getExtra() {
         return extra;
