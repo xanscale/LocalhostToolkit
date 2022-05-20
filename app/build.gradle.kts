@@ -1,5 +1,6 @@
 plugins {
     id("com.android.library")
+    id("maven-publish")
 }
 
 android {
@@ -26,4 +27,14 @@ dependencies {
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
     api("com.google.android.material:material:1.6.0")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
