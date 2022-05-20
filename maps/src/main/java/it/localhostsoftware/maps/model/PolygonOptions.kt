@@ -1,18 +1,19 @@
 package it.localhostsoftware.maps.model
 
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.MobileServices
+import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GooglePolygonOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiPolygonOptions
 
 abstract class PolygonOptions<PO>(val po: PO) {
     companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolygonOptions(com.google.android.gms.maps.model.PolygonOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolygonOptions(com.huawei.hms.maps.model.PolygonOptions())
-                else throw IllegalStateException()
+        fun getInstance(c: Context) =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> GooglePolygonOptions(com.google.android.gms.maps.model.PolygonOptions())
+                    MobileServices.HUAWEI -> HuaweiPolygonOptions(com.huawei.hms.maps.model.PolygonOptions())
+                    else -> throw IllegalStateException()
+                }
     }
 
     abstract fun add(point: LatLng<*>): PolygonOptions<*>

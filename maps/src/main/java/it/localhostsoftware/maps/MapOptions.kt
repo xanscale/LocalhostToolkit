@@ -1,20 +1,19 @@
 package it.localhostsoftware.maps
 
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.GoogleMapOptions
-import com.huawei.hms.api.HuaweiApiAvailability
 import com.huawei.hms.maps.HuaweiMapOptions
 import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
 abstract class MapOptions<MO>(val mo: MO) {
     companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) it.localhostsoftware.maps.google.GoogleMapOptions(GoogleMapOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) it.localhostsoftware.maps.huawei.HuaweiMapOptions(HuaweiMapOptions())
-                else throw IllegalStateException()
+        fun getInstance(c: Context) =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> it.localhostsoftware.maps.google.GoogleMapOptions(GoogleMapOptions())
+                    MobileServices.HUAWEI -> it.localhostsoftware.maps.huawei.HuaweiMapOptions(HuaweiMapOptions())
+                    else -> throw IllegalStateException()
+                }
     }
 
     abstract fun zOrderOnTop(var1: Boolean): MapOptions<*>

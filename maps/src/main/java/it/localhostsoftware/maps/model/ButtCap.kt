@@ -1,15 +1,16 @@
 package it.localhostsoftware.maps.model
 
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.MobileServices
+import it.localhostsoftware.maps.getMobileServices
 
 class ButtCap<C>(c: C) : Cap<C>(c) {
     companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) ButtCap(com.google.android.gms.maps.model.ButtCap())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) ButtCap(com.huawei.hms.maps.model.ButtCap())
-                else throw IllegalStateException()
+        fun getInstance(c: Context) =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> ButtCap(com.google.android.gms.maps.model.ButtCap())
+                    MobileServices.HUAWEI -> ButtCap(com.huawei.hms.maps.model.ButtCap())
+                    else -> throw IllegalStateException()
+                }
     }
 }

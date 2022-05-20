@@ -2,9 +2,6 @@ package it.localhostsoftware.maps
 
 import android.content.Context
 import android.graphics.Point
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
 import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory
 import it.localhostsoftware.maps.huawei.HuaweiCameraUpdateFactory
 import it.localhostsoftware.maps.model.CameraPosition
@@ -13,10 +10,12 @@ import it.localhostsoftware.maps.model.LatLngBounds
 
 interface CameraUpdateFactory {
     companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleCameraUpdateFactory()
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiCameraUpdateFactory()
-                else throw IllegalStateException()
+        fun getInstance(c: Context) =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> GoogleCameraUpdateFactory()
+                    MobileServices.HUAWEI -> HuaweiCameraUpdateFactory()
+                    else -> throw IllegalStateException()
+                }
     }
 
     fun zoomIn(): CameraUpdate<*>

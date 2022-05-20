@@ -2,18 +2,19 @@ package it.localhostsoftware.maps.model
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.MobileServices
+import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory
 import it.localhostsoftware.maps.huawei.model.HuaweiBitmapDescriptorFactory
 
 interface BitmapDescriptorFactory {
     companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleBitmapDescriptorFactory()
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiBitmapDescriptorFactory()
-                else throw IllegalStateException()
+        fun getInstance(c: Context) =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> GoogleBitmapDescriptorFactory()
+                    MobileServices.HUAWEI -> HuaweiBitmapDescriptorFactory()
+                    else -> throw IllegalStateException()
+                }
 
         const val HUE_RED = 0.0f
         const val HUE_ORANGE = 30.0f

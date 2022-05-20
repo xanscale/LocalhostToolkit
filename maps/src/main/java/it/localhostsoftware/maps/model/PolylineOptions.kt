@@ -1,18 +1,19 @@
 package it.localhostsoftware.maps.model
 
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.MobileServices
+import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GooglePolylineOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiPolylineOptions
 
 abstract class PolylineOptions<PO>(val po: PO) {
     companion object {
-        fun getInstance(context: Context): PolylineOptions<*> =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolylineOptions(com.google.android.gms.maps.model.PolylineOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolylineOptions(com.huawei.hms.maps.model.PolylineOptions())
-                else throw IllegalStateException()
+        fun getInstance(c: Context): PolylineOptions<*> =
+                when (c.getMobileServices()) {
+                    MobileServices.GOOGLE -> GooglePolylineOptions(com.google.android.gms.maps.model.PolylineOptions())
+                    MobileServices.HUAWEI -> HuaweiPolylineOptions(com.huawei.hms.maps.model.PolylineOptions())
+                    else -> throw IllegalStateException()
+                }
     }
 
     abstract fun add(vararg var1: LatLng<*>): PolylineOptions<*>

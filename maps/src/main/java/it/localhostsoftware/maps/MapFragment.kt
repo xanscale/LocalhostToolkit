@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.huawei.hms.api.HuaweiApiAvailability
 import com.huawei.hms.maps.HuaweiMap
 import it.localhostsoftware.maps.google.GoogleMapOptions
 import it.localhostsoftware.maps.huawei.HuaweiMapOptions
@@ -30,13 +27,15 @@ class MapFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_map, container, false)
         childFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext()) == ConnectionResult.SUCCESS)
-                    if (arguments != null && requireArguments().containsKey(GOOGLE_MAP_OPTIONS)) SupportMapFragment.newInstance(requireArguments().getParcelable(GOOGLE_MAP_OPTIONS))
-                    else SupportMapFragment.newInstance()
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(requireContext()) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-                    if (arguments != null && requireArguments().containsKey(HUAWEI_MAP_OPTIONS)) com.huawei.hms.maps.SupportMapFragment.newInstance(requireArguments().getParcelable(HUAWEI_MAP_OPTIONS))
-                    else com.huawei.hms.maps.SupportMapFragment.newInstance()
-                else throw IllegalStateException()
+                when (requireContext().getMobileServices()) {
+                    MobileServices.GOOGLE ->
+                        if (arguments != null && requireArguments().containsKey(GOOGLE_MAP_OPTIONS)) SupportMapFragment.newInstance(requireArguments().getParcelable(GOOGLE_MAP_OPTIONS))
+                        else SupportMapFragment.newInstance()
+                    MobileServices.HUAWEI ->
+                        if (arguments != null && requireArguments().containsKey(HUAWEI_MAP_OPTIONS)) com.huawei.hms.maps.SupportMapFragment.newInstance(requireArguments().getParcelable(HUAWEI_MAP_OPTIONS))
+                        else com.huawei.hms.maps.SupportMapFragment.newInstance()
+                    else -> throw IllegalStateException()
+                }
         ).commitAllowingStateLoss()
         return v
     }

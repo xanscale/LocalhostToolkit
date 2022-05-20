@@ -1,9 +1,8 @@
 package it.localhostsoftware.maps.model
 
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.MobileServices
+import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GoogleLatLngBounds.GoogleBuilder
 import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds.HuaweiBuilder
 
@@ -16,10 +15,12 @@ abstract class LatLngBounds<LB>(val lb: LB) {
 
     abstract class Builder<B>(val builder: B) {
         companion object {
-            fun getInstance(context: Context): Builder<*> =
-                    if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleBuilder(com.google.android.gms.maps.model.LatLngBounds.Builder())
-                    else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiBuilder(com.huawei.hms.maps.model.LatLngBounds.Builder())
-                    else throw IllegalStateException()
+            fun getInstance(c: Context): Builder<*> =
+                    when (c.getMobileServices()) {
+                        MobileServices.GOOGLE -> GoogleBuilder(com.google.android.gms.maps.model.LatLngBounds.Builder())
+                        MobileServices.HUAWEI -> HuaweiBuilder(com.huawei.hms.maps.model.LatLngBounds.Builder())
+                        else -> throw IllegalStateException()
+                    }
         }
 
         abstract fun include(var1: LatLng<*>): Builder<*>
