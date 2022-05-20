@@ -16,11 +16,10 @@ dependencies {
 ```
 You can just use this inside fragment or activity
 ```java
-BiometricEncryptedSharedPreferences.create(
-        this,
-        "secret_shared_prefs",
-        1,
-        new BiometricPrompt.PromptInfo.Builder().setTitle(getString(R.string.app_name)).setDeviceCredentialAllowed(true).build()
+BiometricEncryptedSharedPreferences.canAuthenticate(context)
+
+BiometricEncryptedSharedPreferences.create(context, "secret_shared_prefs", 1,
+        new BiometricPrompt.PromptInfo.Builder().setTitle(getString(R.string.app_name))
 ).observe(this, it -> {
     it.edit().putString("secretValue", "IT works!").apply();
     System.out.println(it.getString("secretValue", "It didn't work"));
