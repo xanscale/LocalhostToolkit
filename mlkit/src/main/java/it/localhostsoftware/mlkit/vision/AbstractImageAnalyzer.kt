@@ -1,77 +1,69 @@
-package it.localhostsoftware.mlkit.vision;
+package it.localhostsoftware.mlkit.vision
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.media.Image;
-import android.view.ScaleGestureDetector;
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.media.Image
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
+import android.view.View
+import androidx.annotation.RequiresPermission
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.guava.await
+import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
-import androidx.camera.core.Camera;
-import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
-import androidx.camera.core.Preview;
-import androidx.camera.core.ZoomState;
-import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.common.util.concurrent.ListenableFuture;
-
-import java.util.concurrent.Executors;
-
-public abstract class AbstractImageAnalyzer<TResult> {
+abstract class AbstractImageAnalyzer<TResult> {
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void bindToLifecycle(
-            @NonNull Context context,
-            @NonNull LifecycleOwner lifecycleOwner,
-            @NonNull PreviewView previewView,
-            @NonNull CameraSelector cameraSelector,
-            @NonNull OnSuccessListener<TResult> onSuccessListener
+    fun bindToLifecycle(
+            context: Context,
+            lifecycleOwner: LifecycleOwner,
+            previewView: PreviewView,
+            cameraSelector: CameraSelector,
+            onSuccessListener: OnSuccessListener<TResult>
     ) {
-        ListenableFuture<ProcessCameraProvider> future = ProcessCameraProvider.getInstance(context);
-        future.addListener(() -> {
-            Preview preview = new Preview.Builder().build();
-            preview.setSurfaceProvider(previewView.getSurfaceProvider());
-            ImageAnalysis imageAnalysis = new ImageAnalysis.Builder().build();
-            imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), imageProxy -> analyze(imageProxy, onSuccessListener));
-            try {
-                Camera camera = future.get().bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis);
-                setScaleGestureDetector(context, camera, previewView);
-            } catch (Exception e) {
-                e.printStackTrace();
+        lifecycleOwner.lifecycleScope.launch {
+            Preview.Builder().build().let { preview ->
+                preview.setSurfaceProvider(previewView.surfaceProvider)
+                ImageAnalysis.Builder().build().let { imageAnalysis ->
+                    imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor()) { analyze(it, onSuccessListener) }
+                    setScaleGestureDetector(context, ProcessCameraProvider.getInstance(context).await().bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis), previewView)
+                }
             }
-        }, ContextCompat.getMainExecutor(context));
+        }
     }
 
-    private void analyze(@NonNull ImageProxy imageProxy, @NonNull OnSuccessListener<TResult> onSuccessListener) {
-        @SuppressLint("UnsafeOptInUsageError") Image image = imageProxy.getImage();
-        if (image != null)
-            process(image, imageProxy.getImageInfo().getRotationDegrees())
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun analyze(imageProxy: ImageProxy, onSuccessListener: OnSuccessListener<TResult>) {
+        imageProxy.image?.let { image ->
+            process(image, imageProxy.imageInfo.rotationDegrees)
                     .addOnSuccessListener(onSuccessListener)
-                    .addOnFailureListener(Throwable::printStackTrace)
-                    .addOnCompleteListener(task -> imageProxy.close());
+                    .addOnFailureListener { it.printStackTrace() }
+                    .addOnCompleteListener { imageProxy.close() }
+        }
     }
 
-    private void setScaleGestureDetector(@NonNull Context context, @NonNull Camera camera, @NonNull PreviewView previewView) {
-        ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
-            @Override
-            public boolean onScale(ScaleGestureDetector detector) {
-                ZoomState zoomState = camera.getCameraInfo().getZoomState().getValue();
-                camera.getCameraControl().setZoomRatio(detector.getScaleFactor() * (zoomState == null ? 1.0f : zoomState.getZoomRatio()));
-                return true;
+    private fun setScaleGestureDetector(context: Context, camera: Camera, previewView: PreviewView) {
+        ScaleGestureDetector(context, object : SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                camera.cameraControl.setZoomRatio(detector.scaleFactor * (camera.cameraInfo.zoomState.value?.zoomRatio ?: 1.0f))
+                return true
             }
-        });
-        previewView.setOnTouchListener((v, event) -> {
-            v.performClick();
-            return scaleGestureDetector.onTouchEvent(event);
-        });
+        }).let {
+            previewView.setOnTouchListener { v: View, event: MotionEvent ->
+                it.onTouchEvent(event)
+                if (event.action == MotionEvent.ACTION_UP) v.performClick()
+                true
+            }
+        }
     }
 
-    protected abstract Task<TResult> process(@NonNull Image image, int rotationDegrees);
+    protected abstract fun process(image: Image, rotationDegrees: Int): Task<TResult>
 }

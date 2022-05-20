@@ -1,4 +1,1 @@
-<manifest package="it.localhostsoftware.mlkit">
-
-    <application />
-</manifest>
+<manifest package="it.localhostsoftware.mlkit" />
