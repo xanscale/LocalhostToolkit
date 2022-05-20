@@ -1,25 +1,13 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.PointOfInterest;
+import com.google.android.gms.maps.model.PointOfInterest
+import it.localhostsoftware.maps.model.LatLng
 
-public class GooglePointOfInterest extends PointOfInterest<com.google.android.gms.maps.model.PointOfInterest> {
-    public GooglePointOfInterest(com.google.android.gms.maps.model.PointOfInterest POI) {
-        super(POI);
-    }
-
-    @Override
-    public LatLng<?> getLatLng() {
-        return new GoogleLatLng(getPointOfInterest().latLng);
-    }
-
-    @Override
-    public String getPlaceId() {
-        return getPointOfInterest().placeId;
-    }
-
-    @Override
-    public String getName() {
-        return getPointOfInterest().name;
-    }
+class GooglePointOfInterest(poi: PointOfInterest) : it.localhostsoftware.maps.model.PointOfInterest<PointOfInterest>(poi) {
+    override val latLng: LatLng<*>
+        get() = GoogleLatLng(poi.latLng)
+    override val placeId: String
+        get() = poi.placeId
+    override val name: String
+        get() = poi.name
 }

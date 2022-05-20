@@ -1,53 +1,34 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.LatLngBounds
+import it.localhostsoftware.maps.model.LatLng
 
-public class GoogleLatLngBounds extends LatLngBounds<com.google.android.gms.maps.model.LatLngBounds> {
-    public GoogleLatLngBounds(com.google.android.gms.maps.model.LatLngBounds latLngBounds) {
-        super(latLngBounds);
+class GoogleLatLngBounds(latLngBounds: LatLngBounds) : it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds>(latLngBounds) {
+    override val southwest: LatLng<*>
+        get() = GoogleLatLng(lb.southwest)
+    override val northeast: LatLng<*>
+        get() = GoogleLatLng(lb.northeast)
+
+    override fun contains(var1: LatLng<*>): Boolean {
+        return lb.contains(var1.ll as com.google.android.gms.maps.model.LatLng)
     }
 
-    @Override
-    public LatLng<?> getSouthwest() {
-        return new GoogleLatLng(getLatLngBounds().southwest);
+    override fun including(var1: LatLng<*>): it.localhostsoftware.maps.model.LatLngBounds<*> {
+        lb.including(var1.ll as com.google.android.gms.maps.model.LatLng)
+        return this
     }
 
-    @Override
-    public LatLng<?> getNortheast() {
-        return new GoogleLatLng(getLatLngBounds().northeast);
-    }
+    override val center: LatLng<*>
+        get() = GoogleLatLng(lb.center)
 
-    @Override
-    public boolean contains(LatLng<?> var1) {
-        return getLatLngBounds().contains((com.google.android.gms.maps.model.LatLng) var1.getLatLng());
-    }
-
-    @Override
-    public LatLngBounds<?> including(LatLng<?> var1) {
-        getLatLngBounds().including((com.google.android.gms.maps.model.LatLng) var1.getLatLng());
-        return this;
-    }
-
-    @Override
-    public LatLng<?> getCenter() {
-        return new GoogleLatLng(getLatLngBounds().getCenter());
-    }
-
-    public static class GoogleBuilder extends Builder<com.google.android.gms.maps.model.LatLngBounds.Builder> {
-        public GoogleBuilder(com.google.android.gms.maps.model.LatLngBounds.Builder builder) {
-            super(builder);
+    class GoogleBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder>(builder) {
+        override fun include(var1: LatLng<*>): Builder<*> {
+            builder.include(var1.ll as com.google.android.gms.maps.model.LatLng)
+            return this
         }
 
-        @Override
-        public Builder<?> include(LatLng<?> var1) {
-            getBuilder().include((com.google.android.gms.maps.model.LatLng) var1.getLatLng());
-            return this;
-        }
-
-        @Override
-        public LatLngBounds<?> build() {
-            return new GoogleLatLngBounds(getBuilder().build());
+        override fun build(): it.localhostsoftware.maps.model.LatLngBounds<*> {
+            return GoogleLatLngBounds(builder.build())
         }
     }
 }

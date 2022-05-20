@@ -1,19 +1,10 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
-import it.localhostsoftware.maps.model.LatLng;
+import com.huawei.hms.maps.model.LatLng
 
-public class HuaweiLatLng extends LatLng<com.huawei.hms.maps.model.LatLng> {
-    public HuaweiLatLng(com.huawei.hms.maps.model.LatLng latLng) {
-        super(latLng);
-    }
-
-    @Override
-    public double getLatitude() {
-        return getLatLng().latitude;
-    }
-
-    @Override
-    public double getLongitude() {
-        return getLatLng().longitude;
-    }
+class HuaweiLatLng(ll: LatLng) : it.localhostsoftware.maps.model.LatLng<LatLng>(ll) {
+    override val latitude: Double
+        get() = ll.latitude
+    override val longitude: Double
+        get() = ll.longitude
 }

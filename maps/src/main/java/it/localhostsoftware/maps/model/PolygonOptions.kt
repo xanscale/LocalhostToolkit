@@ -1,98 +1,42 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GooglePolygonOptions
+import it.localhostsoftware.maps.huawei.model.HuaweiPolygonOptions
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+abstract class PolygonOptions<PO>(val po: PO) {
+    abstract fun add(point: LatLng<*>): PolygonOptions<*>
+    abstract fun add(vararg points: LatLng<*>): PolygonOptions<*>
+    abstract fun addAll(points: Iterable<LatLng<*>>): PolygonOptions<*>
+    abstract fun addHole(points: Iterable<LatLng<*>>): PolygonOptions<*>
+    abstract fun strokeWidth(width: Float): PolygonOptions<*>
+    abstract fun strokeColor(color: Int): PolygonOptions<*>
+    abstract fun strokeJointType(jointType: Int): PolygonOptions<*>
+    abstract fun strokePattern(pattern: List<PatternItem<*>>?): PolygonOptions<*>
+    abstract fun fillColor(color: Int): PolygonOptions<*>
+    abstract fun zIndex(zIndex: Float): PolygonOptions<*>
+    abstract fun visible(visible: Boolean): PolygonOptions<*>
+    abstract fun geodesic(geodesic: Boolean): PolygonOptions<*>
+    abstract fun clickable(clickable: Boolean): PolygonOptions<*>
+    abstract val points: List<LatLng<*>>
+    abstract val holes: List<List<LatLng<*>>>
+    abstract val strokeWidth: Float
+    abstract val strokeColor: Int
+    abstract val strokeJointType: Int
+    abstract val strokePattern: List<PatternItem<*>>?
+    abstract val fillColor: Int
+    abstract val zIndex: Float
+    abstract val isVisible: Boolean
+    abstract val isGeodesic: Boolean
+    abstract val isClickable: Boolean
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-import java.util.List;
-
-import it.localhostsoftware.maps.google.model.GooglePolygonOptions;
-import it.localhostsoftware.maps.huawei.model.HuaweiPolygonOptions;
-
-public abstract class PolygonOptions<PO> {
-    public static PolygonOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GooglePolygonOptions(new com.google.android.gms.maps.model.PolygonOptions());
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiPolygonOptions(new com.huawei.hms.maps.model.PolygonOptions());
-        else throw new IllegalStateException();
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolygonOptions(com.google.android.gms.maps.model.PolygonOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolygonOptions(com.huawei.hms.maps.model.PolygonOptions())
+                else throw IllegalStateException()
     }
-
-    private final PO po;
-
-    public PolygonOptions(PO po) {
-        this.po = po;
-    }
-
-    public PO getPolygonOptions() {
-        return po;
-    }
-
-    @NonNull
-    public abstract PolygonOptions<?> add(@NonNull LatLng<?> point);
-
-    @NonNull
-    public abstract PolygonOptions<?> add(@NonNull LatLng<?>... points);
-
-    @NonNull
-    public abstract PolygonOptions<?> addAll(@NonNull Iterable<LatLng<?>> points);
-
-    @NonNull
-    public abstract PolygonOptions<?> addHole(@NonNull Iterable<LatLng<?>> points);
-
-    @NonNull
-    public abstract PolygonOptions<?> strokeWidth(float width);
-
-    @NonNull
-    public abstract PolygonOptions<?> strokeColor(int color);
-
-    @NonNull
-    public abstract PolygonOptions<?> strokeJointType(int jointType);
-
-    @NonNull
-    public abstract PolygonOptions<?> strokePattern(@Nullable List<PatternItem<?>> pattern);
-
-    @NonNull
-    public abstract PolygonOptions<?> fillColor(int color);
-
-    @NonNull
-    public abstract PolygonOptions<?> zIndex(float zIndex);
-
-    @NonNull
-    public abstract PolygonOptions<?> visible(boolean visible);
-
-    @NonNull
-    public abstract PolygonOptions<?> geodesic(boolean geodesic);
-
-    @NonNull
-    public abstract PolygonOptions<?> clickable(boolean clickable);
-
-    @NonNull
-    public abstract List<LatLng<?>> getPoints();
-
-    @NonNull
-    public abstract List<List<LatLng<?>>> getHoles();
-
-    public abstract float getStrokeWidth();
-
-    public abstract int getStrokeColor();
-
-    public abstract int getStrokeJointType();
-
-    @Nullable
-    public abstract List<PatternItem<?>> getStrokePattern();
-
-    public abstract int getFillColor();
-
-    public abstract float getZIndex();
-
-    public abstract boolean isVisible();
-
-    public abstract boolean isGeodesic();
-
-    public abstract boolean isClickable();
 }

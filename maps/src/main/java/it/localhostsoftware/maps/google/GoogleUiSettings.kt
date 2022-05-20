@@ -1,114 +1,60 @@
-package it.localhostsoftware.maps.google;
+package it.localhostsoftware.maps.google
 
-import it.localhostsoftware.maps.UiSettings;
+import com.google.android.gms.maps.UiSettings
 
-public class GoogleUiSettings extends UiSettings<com.google.android.gms.maps.UiSettings> {
-    public GoogleUiSettings(com.google.android.gms.maps.UiSettings uiSettings) {
-        super(uiSettings);
+class GoogleUiSettings(uiSettings: UiSettings) : it.localhostsoftware.maps.UiSettings<UiSettings>(uiSettings) {
+    override fun setAllGesturesEnabled(var1: Boolean) {
+        uiSettings.setAllGesturesEnabled(var1)
     }
 
-    @Override
-    public void setZoomControlsEnabled(boolean b) {
-        getUiSettings().setZoomControlsEnabled(b);
-    }
-
-    @Override
-    public void setCompassEnabled(boolean b) {
-        getUiSettings().setCompassEnabled(b);
-    }
-
-    @Override
-    public void setMyLocationButtonEnabled(boolean b) {
-        getUiSettings().setMyLocationButtonEnabled(b);
-    }
-
-    @Override
-    public void setIndoorLevelPickerEnabled(boolean b) {
-        getUiSettings().setIndoorLevelPickerEnabled(b);
-    }
-
-    @Override
-    public void setScrollGesturesEnabled(boolean b) {
-        getUiSettings().setScrollGesturesEnabled(b);
-    }
-
-    @Override
-    public void setZoomGesturesEnabled(boolean b) {
-        getUiSettings().setZoomGesturesEnabled(b);
-    }
-
-    @Override
-    public void setTiltGesturesEnabled(boolean b) {
-        getUiSettings().setTiltGesturesEnabled(b);
-    }
-
-    @Override
-    public void setRotateGesturesEnabled(boolean b) {
-        getUiSettings().setRotateGesturesEnabled(b);
-    }
-
-    @Override
-    public void setScrollGesturesEnabledDuringRotateOrZoom(boolean b) {
-        getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(b);
-    }
-
-    @Override
-    public void setAllGesturesEnabled(boolean b) {
-        getUiSettings().setAllGesturesEnabled(b);
-    }
-
-    @Override
-    public void setMapToolbarEnabled(boolean b) {
-        getUiSettings().setMapToolbarEnabled(b);
-    }
-
-    @Override
-    public boolean isZoomControlsEnabled() {
-        return getUiSettings().isZoomControlsEnabled();
-    }
-
-    @Override
-    public boolean isCompassEnabled() {
-        return getUiSettings().isCompassEnabled();
-    }
-
-    @Override
-    public boolean isMyLocationButtonEnabled() {
-        return getUiSettings().isMyLocationButtonEnabled();
-    }
-
-    @Override
-    public boolean isIndoorLevelPickerEnabled() {
-        return getUiSettings().isIndoorLevelPickerEnabled();
-    }
-
-    @Override
-    public boolean isScrollGesturesEnabled() {
-        return getUiSettings().isScrollGesturesEnabled();
-    }
-
-    @Override
-    public boolean isScrollGesturesEnabledDuringRotateOrZoom() {
-        return getUiSettings().isScrollGesturesEnabledDuringRotateOrZoom();
-    }
-
-    @Override
-    public boolean isZoomGesturesEnabled() {
-        return getUiSettings().isZoomGesturesEnabled();
-    }
-
-    @Override
-    public boolean isTiltGesturesEnabled() {
-        return getUiSettings().isTiltGesturesEnabled();
-    }
-
-    @Override
-    public boolean isRotateGesturesEnabled() {
-        return getUiSettings().isRotateGesturesEnabled();
-    }
-
-    @Override
-    public boolean isMapToolbarEnabled() {
-        return getUiSettings().isMapToolbarEnabled();
-    }
+    override var isZoomControlsEnabled: Boolean
+        get() = uiSettings.isZoomControlsEnabled
+        set(b) {
+            uiSettings.isZoomControlsEnabled = b
+        }
+    override var isCompassEnabled: Boolean
+        get() = uiSettings.isCompassEnabled
+        set(b) {
+            uiSettings.isCompassEnabled = b
+        }
+    override var isMyLocationButtonEnabled: Boolean
+        get() = uiSettings.isMyLocationButtonEnabled
+        set(b) {
+            uiSettings.isMyLocationButtonEnabled = b
+        }
+    override var isIndoorLevelPickerEnabled: Boolean
+        get() = uiSettings.isIndoorLevelPickerEnabled
+        set(b) {
+            uiSettings.isIndoorLevelPickerEnabled = b
+        }
+    override var isScrollGesturesEnabled: Boolean
+        get() = uiSettings.isScrollGesturesEnabled
+        set(b) {
+            uiSettings.isScrollGesturesEnabled = b
+        }
+    override var isScrollGesturesEnabledDuringRotateOrZoom: Boolean
+        get() = uiSettings.isScrollGesturesEnabledDuringRotateOrZoom
+        set(b) {
+            uiSettings.isScrollGesturesEnabledDuringRotateOrZoom = b
+        }
+    override var isZoomGesturesEnabled: Boolean
+        get() = uiSettings.isZoomGesturesEnabled
+        set(b) {
+            uiSettings.isZoomGesturesEnabled = b
+        }
+    override var isTiltGesturesEnabled: Boolean
+        get() = uiSettings.isTiltGesturesEnabled
+        set(b) {
+            uiSettings.isTiltGesturesEnabled = b
+        }
+    override var isRotateGesturesEnabled: Boolean
+        get() = uiSettings.isRotateGesturesEnabled
+        set(b) {
+            uiSettings.isRotateGesturesEnabled = b
+        }
+    override var isMapToolbarEnabled: Boolean
+        get() = uiSettings.isMapToolbarEnabled
+        set(b) {
+            uiSettings.isMapToolbarEnabled = b
+        }
 }

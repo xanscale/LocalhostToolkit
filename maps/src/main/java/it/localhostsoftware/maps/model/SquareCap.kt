@@ -1,20 +1,15 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-public class SquareCap<C> extends Cap<C> {
-    public static SquareCap<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new SquareCap<>(new com.google.android.gms.maps.model.SquareCap());
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new SquareCap<>(new com.huawei.hms.maps.model.SquareCap());
-        else throw new IllegalStateException();
-    }
-
-    public SquareCap(C c) {
-        super(c);
+class SquareCap<C>(c: C) : Cap<C>(c) {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) SquareCap(com.google.android.gms.maps.model.SquareCap())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) SquareCap(com.huawei.hms.maps.model.SquareCap())
+                else throw IllegalStateException()
     }
 }

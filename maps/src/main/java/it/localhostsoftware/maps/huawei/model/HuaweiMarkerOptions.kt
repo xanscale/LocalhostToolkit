@@ -1,156 +1,96 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.huawei.hms.maps.model.MarkerOptions
+import it.localhostsoftware.maps.model.BitmapDescriptor
+import it.localhostsoftware.maps.model.LatLng
 
-import it.localhostsoftware.maps.model.BitmapDescriptor;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.MarkerOptions;
-
-public class HuaweiMarkerOptions extends MarkerOptions<com.huawei.hms.maps.model.MarkerOptions> {
-    public HuaweiMarkerOptions(com.huawei.hms.maps.model.MarkerOptions markerOptions) {
-        super(markerOptions);
+class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions>(markerOptions) {
+    override fun position(latLng: LatLng<*>): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.position(latLng.ll as com.huawei.hms.maps.model.LatLng)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> position(@NonNull LatLng<?> latLng) {
-        getMarkerOptions().position((com.huawei.hms.maps.model.LatLng) latLng.getLatLng());
-        return this;
+    override fun zIndex(var1: Float): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.zIndex(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> zIndex(float v) {
-        getMarkerOptions().zIndex(v);
-        return this;
+    override fun icon(var1: BitmapDescriptor<*>?): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.icon(var1?.bitmapDescriptor as? com.huawei.hms.maps.model.BitmapDescriptor)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> icon(@Nullable BitmapDescriptor<?> var1) {
-        getMarkerOptions().icon(var1 == null ? null : (com.huawei.hms.maps.model.BitmapDescriptor) var1.getBitmapDescriptor());
-        return this;
+    override fun anchor(var1: Float, var2: Float): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.anchorMarker(var1, var2)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> anchor(float v, float v1) {
-        getMarkerOptions().anchorMarker(v, v1);
-        return this;
+    override fun infoWindowAnchor(var1: Float, var2: Float): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.infoWindowAnchor(var1, var2)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> infoWindowAnchor(float v, float v1) {
-        getMarkerOptions().infoWindowAnchor(v, v1);
-        return this;
+    override fun title(var1: String): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.title(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> title(@Nullable String s) {
-        getMarkerOptions().title(s);
-        return this;
+    override fun snippet(var1: String): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.snippet(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> snippet(@Nullable String s) {
-        getMarkerOptions().snippet(s);
-        return this;
+    override fun draggable(var1: Boolean): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.draggable(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> draggable(boolean b) {
-        getMarkerOptions().draggable(b);
-        return this;
+    override fun visible(var1: Boolean): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.visible(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> visible(boolean b) {
-        getMarkerOptions().visible(b);
-        return this;
+    override fun flat(var1: Boolean): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.flat(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> flat(boolean b) {
-        getMarkerOptions().flat(b);
-        return this;
+    override fun rotation(var1: Float): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.rotation(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> rotation(float v) {
-        getMarkerOptions().rotation(v);
-        return this;
+    override fun alpha(var1: Float): it.localhostsoftware.maps.model.MarkerOptions<*> {
+        mo.alpha(var1)
+        return this
     }
 
-    @Override
-    public MarkerOptions<?> alpha(float v) {
-        getMarkerOptions().alpha(v);
-        return this;
-    }
-
-    @Override
-    public LatLng<?> getPosition() {
-        return new HuaweiLatLng(getMarkerOptions().getPosition());
-    }
-
-    @Override
-    public String getTitle() {
-        return getMarkerOptions().getTitle();
-    }
-
-    @Override
-    public String getSnippet() {
-        return getMarkerOptions().getSnippet();
-    }
-
-    @Override
-    public BitmapDescriptor<?> getIcon() {
-        return new BitmapDescriptor<>(getMarkerOptions().getIcon());
-    }
-
-    @Override
-    public float getAnchorU() {
-        return getMarkerOptions().getMarkerAnchorU();
-    }
-
-    @Override
-    public float getAnchorV() {
-        return getMarkerOptions().getMarkerAnchorV();
-    }
-
-    @Override
-    public boolean isDraggable() {
-        return getMarkerOptions().isDraggable();
-    }
-
-    @Override
-    public boolean isVisible() {
-        return getMarkerOptions().isVisible();
-    }
-
-    @Override
-    public boolean isFlat() {
-        return getMarkerOptions().isFlat();
-    }
-
-    @Override
-    public float getRotation() {
-        return getMarkerOptions().getRotation();
-    }
-
-    @Override
-    public float getInfoWindowAnchorU() {
-        return getMarkerOptions().getInfoWindowAnchorU();
-    }
-
-    @Override
-    public float getInfoWindowAnchorV() {
-        return getMarkerOptions().getInfoWindowAnchorV();
-    }
-
-    @Override
-    public float getAlpha() {
-        return getMarkerOptions().getAlpha();
-    }
-
-    @Override
-    public float getZIndex() {
-        return getMarkerOptions().getZIndex();
-    }
+    override val position: LatLng<*>
+        get() = HuaweiLatLng(mo.position)
+    override val title: String
+        get() = mo.title
+    override val snippet: String
+        get() = mo.snippet
+    override val icon: BitmapDescriptor<*>
+        get() = BitmapDescriptor(mo.icon)
+    override val anchorU: Float
+        get() = mo.markerAnchorU
+    override val anchorV: Float
+        get() = mo.markerAnchorV
+    override val isDraggable: Boolean
+        get() = mo.isDraggable
+    override val isVisible: Boolean
+        get() = mo.isVisible
+    override val isFlat: Boolean
+        get() = mo.isFlat
+    override val rotation: Float
+        get() = mo.rotation
+    override val infoWindowAnchorU: Float
+        get() = mo.infoWindowAnchorU
+    override val infoWindowAnchorV: Float
+        get() = mo.infoWindowAnchorV
+    override val alpha: Float
+        get() = mo.alpha
+    override val zIndex: Float
+        get() = mo.zIndex
 }

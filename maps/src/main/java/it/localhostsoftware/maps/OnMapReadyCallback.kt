@@ -1,5 +1,5 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps
 
-public interface OnMapReadyCallback {
-    void onMapReady(GeoMap<?> geoMap);
+interface OnMapReadyCallback {
+    fun onMapReady(geoMap: GeoMap<*>)
 }

@@ -1,45 +1,33 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps
 
-import android.content.Context;
-import android.graphics.Point;
+import android.content.Context
+import android.graphics.Point
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory
+import it.localhostsoftware.maps.huawei.HuaweiCameraUpdateFactory
+import it.localhostsoftware.maps.model.CameraPosition
+import it.localhostsoftware.maps.model.LatLng
+import it.localhostsoftware.maps.model.LatLngBounds
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
+interface CameraUpdateFactory {
+    fun zoomIn(): CameraUpdate<*>
+    fun zoomOut(): CameraUpdate<*>
+    fun scrollBy(var0: Float, var1: Float): CameraUpdate<*>
+    fun zoomTo(var0: Float): CameraUpdate<*>
+    fun zoomBy(var0: Float): CameraUpdate<*>
+    fun zoomBy(var0: Float, var1: Point): CameraUpdate<*>
+    fun newCameraPosition(var0: CameraPosition<*>): CameraUpdate<*>
+    fun newLatLng(var0: LatLng<*>): CameraUpdate<*>
+    fun newLatLngZoom(var0: LatLng<*>, var1: Float): CameraUpdate<*>
+    fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int): CameraUpdate<*>
+    fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int, var2: Int, var3: Int): CameraUpdate<*>
 
-import it.localhostsoftware.maps.google.GoogleCameraUpdateFactory;
-import it.localhostsoftware.maps.huawei.HuaweiCameraUpdateFactory;
-import it.localhostsoftware.maps.model.CameraPosition;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.LatLngBounds;
-
-public interface CameraUpdateFactory {
-    static CameraUpdateFactory getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GoogleCameraUpdateFactory();
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiCameraUpdateFactory();
-        else throw new IllegalStateException();
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleCameraUpdateFactory()
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiCameraUpdateFactory()
+                else throw IllegalStateException()
     }
-
-    CameraUpdate<?> zoomIn();
-
-    CameraUpdate<?> zoomOut();
-
-    CameraUpdate<?> scrollBy(float var0, float var1);
-
-    CameraUpdate<?> zoomTo(float var0);
-
-    CameraUpdate<?> zoomBy(float var0);
-
-    CameraUpdate<?> zoomBy(float var0, Point var1);
-
-    CameraUpdate<?> newCameraPosition(CameraPosition<?> var0);
-
-    CameraUpdate<?> newLatLng(LatLng<?> var0);
-
-    CameraUpdate<?> newLatLngZoom(LatLng<?> var0, float var1);
-
-    CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1);
-
-    CameraUpdate<?> newLatLngBounds(LatLngBounds<?> var0, int var1, int var2, int var3);
 }

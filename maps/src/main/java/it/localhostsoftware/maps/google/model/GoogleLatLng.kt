@@ -1,19 +1,10 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import it.localhostsoftware.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLng
 
-public class GoogleLatLng extends LatLng<com.google.android.gms.maps.model.LatLng> {
-    public GoogleLatLng(com.google.android.gms.maps.model.LatLng latLng) {
-        super(latLng);
-    }
-
-    @Override
-    public double getLatitude() {
-        return getLatLng().latitude;
-    }
-
-    @Override
-    public double getLongitude() {
-        return getLatLng().longitude;
-    }
+class GoogleLatLng(latLng: LatLng) : it.localhostsoftware.maps.model.LatLng<LatLng>(latLng) {
+    override val latitude: Double
+        get() = ll.latitude
+    override val longitude: Double
+        get() = ll.longitude
 }

@@ -1,30 +1,15 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
-import it.localhostsoftware.maps.model.CameraPosition;
-import it.localhostsoftware.maps.model.LatLng;
+import com.huawei.hms.maps.model.CameraPosition
+import it.localhostsoftware.maps.model.LatLng
 
-public class HuaweiCameraPosition extends CameraPosition<com.huawei.hms.maps.model.CameraPosition> {
-    public HuaweiCameraPosition(com.huawei.hms.maps.model.CameraPosition cameraPosition) {
-        super(cameraPosition);
-    }
-
-    @Override
-    public LatLng<?> getTarget() {
-        return new HuaweiLatLng(getCameraPosition().target);
-    }
-
-    @Override
-    public float getZoom() {
-        return getCameraPosition().zoom;
-    }
-
-    @Override
-    public float getTilt() {
-        return getCameraPosition().tilt;
-    }
-
-    @Override
-    public float getBearing() {
-        return getCameraPosition().bearing;
-    }
+class HuaweiCameraPosition(cp: CameraPosition) : it.localhostsoftware.maps.model.CameraPosition<CameraPosition>(cp) {
+    override val target: LatLng<*>
+        get() = HuaweiLatLng(cp.target)
+    override val zoom: Float
+        get() = cp.zoom
+    override val tilt: Float
+        get() = cp.tilt
+    override val bearing: Float
+        get() = cp.bearing
 }

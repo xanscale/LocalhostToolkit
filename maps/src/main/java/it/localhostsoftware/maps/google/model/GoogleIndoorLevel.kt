@@ -1,39 +1,17 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import androidx.annotation.NonNull;
+import com.google.android.gms.maps.model.IndoorLevel
 
-import it.localhostsoftware.maps.model.IndoorLevel;
+class GoogleIndoorLevel(IL: IndoorLevel) : it.localhostsoftware.maps.model.IndoorLevel<IndoorLevel>(IL) {
+    override val name: String
+        get() = il.name
+    override val shortName: String
+        get() = il.shortName
 
-public class GoogleIndoorLevel extends IndoorLevel<com.google.android.gms.maps.model.IndoorLevel> {
-    public GoogleIndoorLevel(com.google.android.gms.maps.model.IndoorLevel IL) {
-        super(IL);
+    override fun activate() {
+        il.activate()
     }
 
-    @NonNull
-    @Override
-    public String getName() {
-        return getIndoorLevel().getName();
-    }
-
-    @NonNull
-    @Override
-    public String getShortName() {
-        return getIndoorLevel().getShortName();
-    }
-
-    @Override
-    public void activate() {
-        getIndoorLevel().activate();
-    }
-
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    @Override
-    public boolean equals(Object var1) {
-        return getIndoorLevel().equals(var1);
-    }
-
-    @Override
-    public int hashCode() {
-        return getIndoorLevel().hashCode();
-    }
+    override fun equals(other: Any?): Boolean = il == other
+    override fun hashCode(): Int = il.hashCode()
 }

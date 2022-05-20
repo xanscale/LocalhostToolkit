@@ -1,39 +1,14 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
-import androidx.annotation.NonNull;
+import com.huawei.hms.maps.model.IndoorLevel
 
-import it.localhostsoftware.maps.model.IndoorLevel;
+class HuaweiIndoorLevel(IL: IndoorLevel) : it.localhostsoftware.maps.model.IndoorLevel<IndoorLevel>(IL) {
+    override val name: String
+        get() = il.name
+    override val shortName: String
+        get() = il.shortName
 
-public class HuaweiIndoorLevel extends IndoorLevel<com.huawei.hms.maps.model.IndoorLevel> {
-    public HuaweiIndoorLevel(com.huawei.hms.maps.model.IndoorLevel IL) {
-        super(IL);
-    }
-
-    @NonNull
-    @Override
-    public String getName() {
-        return getIndoorLevel().getName();
-    }
-
-    @NonNull
-    @Override
-    public String getShortName() {
-        return getIndoorLevel().getShortName();
-    }
-
-    @Override
-    public void activate() {
-        getIndoorLevel().activate();
-    }
-
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    @Override
-    public boolean equals(Object var1) {
-        return getIndoorLevel().equals(var1);
-    }
-
-    @Override
-    public int hashCode() {
-        return getIndoorLevel().hashCode();
-    }
+    override fun activate() = il.activate()
+    override fun equals(other: Any?): Boolean = il == other
+    override fun hashCode(): Int = il.hashCode()
 }

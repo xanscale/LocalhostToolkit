@@ -1,45 +1,37 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Context
+import android.graphics.Bitmap
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory
+import it.localhostsoftware.maps.huawei.model.HuaweiBitmapDescriptorFactory
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
+interface BitmapDescriptorFactory {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleBitmapDescriptorFactory()
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiBitmapDescriptorFactory()
+                else throw IllegalStateException()
 
-import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory;
-import it.localhostsoftware.maps.huawei.model.HuaweiBitmapDescriptorFactory;
-
-public interface BitmapDescriptorFactory {
-    float HUE_RED = 0.0F;
-    float HUE_ORANGE = 30.0F;
-    float HUE_YELLOW = 60.0F;
-    float HUE_GREEN = 120.0F;
-    float HUE_CYAN = 180.0F;
-    float HUE_AZURE = 210.0F;
-    float HUE_BLUE = 240.0F;
-    float HUE_VIOLET = 270.0F;
-    float HUE_MAGENTA = 300.0F;
-    float HUE_ROSE = 330.0F;
-
-    static BitmapDescriptorFactory getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GoogleBitmapDescriptorFactory();
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiBitmapDescriptorFactory();
-        else throw new IllegalStateException();
+        const val HUE_RED = 0.0f
+        const val HUE_ORANGE = 30.0f
+        const val HUE_YELLOW = 60.0f
+        const val HUE_GREEN = 120.0f
+        const val HUE_CYAN = 180.0f
+        const val HUE_AZURE = 210.0f
+        const val HUE_BLUE = 240.0f
+        const val HUE_VIOLET = 270.0f
+        const val HUE_MAGENTA = 300.0f
+        const val HUE_ROSE = 330.0f
     }
 
-    BitmapDescriptor<?> fromResource(int var0);
-
-    BitmapDescriptor<?> fromAsset(String var0);
-
-    BitmapDescriptor<?> fromFile(String var0);
-
-    BitmapDescriptor<?> fromPath(String var0);
-
-    BitmapDescriptor<?> defaultMarker();
-
-    BitmapDescriptor<?> defaultMarker(float var0);
-
-    BitmapDescriptor<?> fromBitmap(Bitmap var0);
+    fun fromResource(var0: Int): BitmapDescriptor<*>
+    fun fromAsset(var0: String): BitmapDescriptor<*>
+    fun fromFile(var0: String): BitmapDescriptor<*>
+    fun fromPath(var0: String): BitmapDescriptor<*>
+    fun defaultMarker(): BitmapDescriptor<*>
+    fun defaultMarker(var0: Float): BitmapDescriptor<*>
+    fun fromBitmap(var0: Bitmap): BitmapDescriptor<*>
 }

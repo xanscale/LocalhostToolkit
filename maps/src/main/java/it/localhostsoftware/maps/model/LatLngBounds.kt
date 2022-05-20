@@ -1,56 +1,28 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GoogleLatLngBounds.GoogleBuilder
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds.HuaweiBuilder
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
+abstract class LatLngBounds<LB>(val lb: LB) {
+    abstract val southwest: LatLng<*>
+    abstract val northeast: LatLng<*>
+    abstract operator fun contains(var1: LatLng<*>): Boolean
+    abstract fun including(var1: LatLng<*>): LatLngBounds<*>
+    abstract val center: LatLng<*>
 
-import it.localhostsoftware.maps.google.model.GoogleLatLngBounds;
-import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds;
+    abstract class Builder<B>(val builder: B) {
+        abstract fun include(var1: LatLng<*>): Builder<*>
+        abstract fun build(): LatLngBounds<*>
 
-public abstract class LatLngBounds<LB> {
-    private final LB lb;
-
-    public LatLngBounds(LB lb) {
-        this.lb = lb;
-    }
-
-    public LB getLatLngBounds() {
-        return lb;
-    }
-
-    public abstract LatLng<?> getSouthwest();
-
-    public abstract LatLng<?> getNortheast();
-
-    public abstract boolean contains(LatLng<?> var1);
-
-    public abstract LatLngBounds<?> including(LatLng<?> var1);
-
-    public abstract LatLng<?> getCenter();
-
-    public abstract static class Builder<B> {
-        public static Builder<?> getInstance(Context context) {
-            if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS)
-                return new GoogleLatLngBounds.GoogleBuilder(new com.google.android.gms.maps.model.LatLngBounds.Builder());
-            else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-                return new HuaweiLatLngBounds.HuaweiBuilder(new com.huawei.hms.maps.model.LatLngBounds.Builder());
-            else throw new IllegalStateException();
+        companion object {
+            fun getInstance(context: Context): Builder<*> =
+                    if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleBuilder(com.google.android.gms.maps.model.LatLngBounds.Builder())
+                    else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiBuilder(com.huawei.hms.maps.model.LatLngBounds.Builder())
+                    else throw IllegalStateException()
         }
-
-        private final B b;
-
-        public Builder(B b) {
-            this.b = b;
-        }
-
-        public B getBuilder() {
-            return b;
-        }
-
-        public abstract LatLngBounds.Builder<?> include(LatLng<?> var1);
-
-        public abstract LatLngBounds<?> build();
     }
 }

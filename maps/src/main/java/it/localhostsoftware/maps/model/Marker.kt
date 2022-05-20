@@ -1,73 +1,22 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public abstract class Marker<M> {
-    private final M m;
-
-    public Marker(M m) {
-        this.m = m;
-    }
-
-    public M getMarker() {
-        return m;
-    }
-
-    abstract public void remove();
-
-    abstract public String getId();
-
-    abstract public void setPosition(@NonNull LatLng<?> var1);
-
-    abstract public LatLng<?> getPosition();
-
-    abstract public void setZIndex(float var1);
-
-    abstract public float getZIndex();
-
-    abstract public void setIcon(@Nullable BitmapDescriptor<?> var1);
-
-    abstract public void setAnchor(float var1, float var2);
-
-    abstract public void setInfoWindowAnchor(float var1, float var2);
-
-    abstract public void setTitle(@Nullable String var1);
-
-    abstract public String getTitle();
-
-    abstract public void setSnippet(@Nullable String var1);
-
-    abstract public String getSnippet();
-
-    abstract public void setDraggable(boolean var1);
-
-    abstract public boolean isDraggable();
-
-    abstract public void showInfoWindow();
-
-    abstract public void hideInfoWindow();
-
-    abstract public boolean isInfoWindowShown();
-
-    abstract public void setVisible(boolean var1);
-
-    abstract public boolean isVisible();
-
-    abstract public void setFlat(boolean var1);
-
-    abstract public boolean isFlat();
-
-    abstract public void setRotation(float var1);
-
-    abstract public float getRotation();
-
-    abstract public void setAlpha(float var1);
-
-    abstract public float getAlpha();
-
-    abstract public void setTag(@Nullable Object var1);
-
-    @Nullable
-    abstract public Object getTag();
+abstract class Marker<M>(val m: M) {
+    abstract fun remove()
+    abstract val id: String
+    abstract var position: LatLng<*>
+    abstract var zIndex: Float
+    abstract fun setIcon(var1: BitmapDescriptor<*>?)
+    abstract fun setAnchor(var1: Float, var2: Float)
+    abstract fun setInfoWindowAnchor(var1: Float, var2: Float)
+    abstract var title: String?
+    abstract var snippet: String?
+    abstract var isDraggable: Boolean
+    abstract fun showInfoWindow()
+    abstract fun hideInfoWindow()
+    abstract val isInfoWindowShown: Boolean
+    abstract var isVisible: Boolean
+    abstract var isFlat: Boolean
+    abstract var rotation: Float
+    abstract var alpha: Float
+    abstract var tag: Any?
 }

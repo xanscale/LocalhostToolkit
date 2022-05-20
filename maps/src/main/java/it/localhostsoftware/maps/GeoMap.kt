@@ -1,267 +1,178 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps
 
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.view.View;
+import android.graphics.Bitmap
+import android.location.Location
+import android.view.View
+import androidx.annotation.RequiresPermission
+import it.localhostsoftware.maps.model.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
-
-import it.localhostsoftware.maps.model.CameraPosition;
-import it.localhostsoftware.maps.model.Circle;
-import it.localhostsoftware.maps.model.CircleOptions;
-import it.localhostsoftware.maps.model.IndoorBuilding;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.LatLngBounds;
-import it.localhostsoftware.maps.model.MapStyleOptions;
-import it.localhostsoftware.maps.model.Marker;
-import it.localhostsoftware.maps.model.MarkerOptions;
-import it.localhostsoftware.maps.model.PointOfInterest;
-import it.localhostsoftware.maps.model.Polygon;
-import it.localhostsoftware.maps.model.PolygonOptions;
-import it.localhostsoftware.maps.model.Polyline;
-import it.localhostsoftware.maps.model.PolylineOptions;
-
-public abstract class GeoMap<M> {
-    int MAP_TYPE_NONE = 0;
-    int MAP_TYPE_NORMAL = 1;
-    int MAP_TYPE_SATELLITE = 2;
-    int MAP_TYPE_TERRAIN = 3;
-    int MAP_TYPE_HYBRID = 4;
-
-    private final M m;
-
-    public GeoMap(M m) {
-        this.m = m;
+abstract class GeoMap<M>(val map: M) {
+    companion object {
+        const val MAP_TYPE_NONE = 0
+        const val MAP_TYPE_NORMAL = 1
+        const val MAP_TYPE_SATELLITE = 2
+        const val MAP_TYPE_TERRAIN = 3
+        const val MAP_TYPE_HYBRID = 4
     }
 
-    public M getMap() {
-        return m;
-    }
-
-    abstract public CameraPosition<?> getCameraPosition();
-
-    abstract public float getMaxZoomLevel();
-
-    abstract public float getMinZoomLevel();
-
-    abstract public void moveCamera(CameraUpdate<?> var1);
-
-    abstract public void animateCamera(CameraUpdate<?> var1);
-
-    abstract public void animateCamera(CameraUpdate<?> var1, CancelableCallback var2);
-
-    abstract public void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3);
-
-    abstract public void stopAnimation();
-
-    abstract public Polyline<?> addPolyline(PolylineOptions<?> var1);
-
-    abstract public Polygon<?> addPolygon(PolygonOptions<?> var1);
-
-    abstract public Circle<?> addCircle(CircleOptions<?> var1);
-
-    abstract public Marker<?> addMarker(MarkerOptions<?> var1);
+    abstract val cameraPosition: CameraPosition<*>
+    abstract val maxZoomLevel: Float
+    abstract val minZoomLevel: Float
+    abstract fun moveCamera(var1: CameraUpdate<*>)
+    abstract fun animateCamera(var1: CameraUpdate<*>)
+    abstract fun animateCamera(var1: CameraUpdate<*>, var2: CancelableCallback?)
+    abstract fun animateCamera(var1: CameraUpdate<*>, var2: Int, var3: CancelableCallback?)
+    abstract fun stopAnimation()
+    abstract fun addPolyline(var1: PolylineOptions<*>): Polyline<*>
+    abstract fun addPolygon(var1: PolygonOptions<*>): Polygon<*>
+    abstract fun addCircle(var1: CircleOptions<*>): Circle<*>
+    abstract fun addMarker(var1: MarkerOptions<*>): Marker<*>?
 
     //TODO  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
-
     //TODO  TileOverlay addTileOverlay(TileOverlayOptions var1);
+    abstract fun clear()
+    abstract val focusedBuilding: IndoorBuilding<*>?
+    abstract fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?)
+    abstract var mapType: Int
+    abstract var isTrafficEnabled: Boolean
+    abstract val isIndoorEnabled: Boolean
+    abstract fun setIndoorEnabled(var1: Boolean): Boolean
+    abstract var isBuildingsEnabled: Boolean
 
-    abstract public void clear();
-
-    abstract public IndoorBuilding<?> getFocusedBuilding();
-
-    abstract public void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1);
-
-    abstract public int getMapType();
-
-    abstract public void setMapType(int var1);
-
-    abstract public boolean isTrafficEnabled();
-
-    abstract public void setTrafficEnabled(boolean var1);
-
-    abstract public boolean isIndoorEnabled();
-
-    abstract public boolean setIndoorEnabled(boolean var1);
-
-    abstract public boolean isBuildingsEnabled();
-
-    abstract public void setBuildingsEnabled(boolean var1);
-
-    abstract public boolean isMyLocationEnabled();
-
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
-    abstract public void setMyLocationEnabled(boolean var1);
-
-    abstract public void setLocationSource(LocationSource var1);
-
-    abstract public UiSettings<?> getUiSettings();
-
-    abstract public Projection<?> getProjection();
-
-    abstract public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1);
-
-    abstract public void setOnCameraMoveListener(@Nullable OnCameraMoveListener var1);
-
-    abstract public void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1);
-
-    abstract public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1);
-
-    abstract public void setOnMapClickListener(@Nullable OnMapClickListener var1);
-
-    abstract public void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1);
-
-    abstract public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1);
-
-    abstract public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1);
-
-    abstract public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1);
-
-    abstract public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1);
-
-    abstract public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1);
-
-    abstract public void setInfoWindowAdapter(@Nullable InfoWindowAdapter var1);
-
-    abstract public void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1);
-
-    abstract public void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1);
-
-    abstract public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1);
+    @set:RequiresPermission(anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"])
+    abstract var isMyLocationEnabled: Boolean
+    abstract fun setLocationSource(var1: LocationSource?)
+    abstract val uiSettings: UiSettings<*>
+    abstract val projection: Projection<*>
+    abstract fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?)
+    abstract fun setOnCameraMoveListener(var1: OnCameraMoveListener?)
+    abstract fun setOnCameraMoveCanceledListener(var1: OnCameraMoveCanceledListener?)
+    abstract fun setOnCameraIdleListener(var1: OnCameraIdleListener?)
+    abstract fun setOnMapClickListener(var1: OnMapClickListener?)
+    abstract fun setOnMapLongClickListener(var1: OnMapLongClickListener?)
+    abstract fun setOnMarkerClickListener(var1: OnMarkerClickListener?)
+    abstract fun setOnMarkerDragListener(var1: OnMarkerDragListener?)
+    abstract fun setOnInfoWindowClickListener(var1: OnInfoWindowClickListener?)
+    abstract fun setOnInfoWindowLongClickListener(var1: OnInfoWindowLongClickListener?)
+    abstract fun setOnInfoWindowCloseListener(var1: OnInfoWindowCloseListener?)
+    abstract fun setInfoWindowAdapter(var1: InfoWindowAdapter?)
+    abstract fun setOnMyLocationButtonClickListener(var1: OnMyLocationButtonClickListener?)
+    abstract fun setOnMyLocationClickListener(var1: OnMyLocationClickListener?)
+    abstract fun setOnMapLoadedCallback(var1: OnMapLoadedCallback?)
 
     //TODO void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
-
-    abstract public void setOnCircleClickListener(OnCircleClickListener var1);
-
-    abstract public void setOnPolygonClickListener(OnPolygonClickListener var1);
-
-    abstract public void setOnPolylineClickListener(OnPolylineClickListener var1);
-
-    abstract public void snapshot(SnapshotReadyCallback var1);
-
-    abstract public void snapshot(SnapshotReadyCallback var1, Bitmap var2);
-
-    abstract public void setPadding(int var1, int var2, int var3, int var4);
-
-    abstract public void setContentDescription(String var1);
-
-    abstract public void setOnPoiClickListener(OnPoiClickListener var1);
-
-    abstract public boolean setMapStyle(@Nullable MapStyleOptions<?> var1);
-
-    abstract public void setMinZoomPreference(float var1);
-
-    abstract public void setMaxZoomPreference(float var1);
-
-    abstract public void resetMinMaxZoomPreference();
-
-    abstract public void setLatLngBoundsForCameraTarget(LatLngBounds<?> var1);
-
-    public interface OnPoiClickListener {
-        void onPoiClick(PointOfInterest<?> var1);
+    abstract fun setOnCircleClickListener(var1: OnCircleClickListener?)
+    abstract fun setOnPolygonClickListener(var1: OnPolygonClickListener?)
+    abstract fun setOnPolylineClickListener(var1: OnPolylineClickListener?)
+    abstract fun snapshot(var1: SnapshotReadyCallback)
+    abstract fun snapshot(var1: SnapshotReadyCallback, var2: Bitmap?)
+    abstract fun setPadding(var1: Int, var2: Int, var3: Int, var4: Int)
+    abstract fun setContentDescription(var1: String?)
+    abstract fun setOnPoiClickListener(var1: OnPoiClickListener?)
+    abstract fun setMapStyle(var1: MapStyleOptions<*>?): Boolean
+    abstract fun setMinZoomPreference(var1: Float)
+    abstract fun setMaxZoomPreference(var1: Float)
+    abstract fun resetMinMaxZoomPreference()
+    abstract fun setLatLngBoundsForCameraTarget(var1: LatLngBounds<*>?)
+    interface OnPoiClickListener {
+        fun onPoiClick(var1: PointOfInterest<*>)
     }
 
     /* TODO interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);
     }*/
-
-    public interface OnMapLoadedCallback {
-        void onMapLoaded();
+    interface OnMapLoadedCallback {
+        fun onMapLoaded()
     }
 
-    public interface OnMyLocationClickListener {
-        void onMyLocationClick(@NonNull Location var1);
+    interface OnMyLocationClickListener {
+        fun onMyLocationClick(var1: Location)
     }
 
-    public interface OnMyLocationButtonClickListener {
-        boolean onMyLocationButtonClick();
+    interface OnMyLocationButtonClickListener {
+        fun onMyLocationButtonClick(): Boolean
     }
 
-    public interface InfoWindowAdapter {
-        View getInfoWindow(Marker<?> var1);
-
-        View getInfoContents(Marker<?> var1);
+    interface InfoWindowAdapter {
+        fun getInfoWindow(var1: Marker<*>): View
+        fun getInfoContents(var1: Marker<*>): View
     }
 
-    public interface SnapshotReadyCallback {
-        void onSnapshotReady(Bitmap var1);
+    interface SnapshotReadyCallback {
+        fun onSnapshotReady(var1: Bitmap?)
     }
 
-    public interface CancelableCallback {
-        void onFinish();
-
-        void onCancel();
+    interface CancelableCallback {
+        fun onFinish()
+        fun onCancel()
     }
 
-    public interface OnInfoWindowCloseListener {
-        void onInfoWindowClose(Marker<?> var1);
+    interface OnInfoWindowCloseListener {
+        fun onInfoWindowClose(var1: Marker<*>)
     }
 
-    public interface OnInfoWindowLongClickListener {
-        void onInfoWindowLongClick(Marker<?> var1);
+    interface OnInfoWindowLongClickListener {
+        fun onInfoWindowLongClick(var1: Marker<*>)
     }
 
-    public interface OnInfoWindowClickListener {
-        void onInfoWindowClick(Marker<?> var1);
+    interface OnInfoWindowClickListener {
+        fun onInfoWindowClick(var1: Marker<*>)
     }
 
-    public interface OnMarkerDragListener {
-        void onMarkerDragStart(Marker<?> var1);
-
-        void onMarkerDrag(Marker<?> var1);
-
-        void onMarkerDragEnd(Marker<?> var1);
+    interface OnMarkerDragListener {
+        fun onMarkerDragStart(var1: Marker<*>)
+        fun onMarkerDrag(var1: Marker<*>)
+        fun onMarkerDragEnd(var1: Marker<*>)
     }
 
-    public interface OnMarkerClickListener {
-        boolean onMarkerClick(Marker<?> var1);
+    interface OnMarkerClickListener {
+        fun onMarkerClick(var1: Marker<*>): Boolean
     }
 
-    public interface OnPolylineClickListener {
-        void onPolylineClick(Polyline<?> var1);
+    interface OnPolylineClickListener {
+        fun onPolylineClick(var1: Polyline<*>)
     }
 
-    public interface OnPolygonClickListener {
-        void onPolygonClick(Polygon<?> var1);
+    interface OnPolygonClickListener {
+        fun onPolygonClick(var1: Polygon<*>)
     }
 
-    public interface OnCircleClickListener {
-        void onCircleClick(Circle<?> var1);
+    interface OnCircleClickListener {
+        fun onCircleClick(var1: Circle<*>)
     }
 
-    public interface OnCameraIdleListener {
-        void onCameraIdle();
+    interface OnCameraIdleListener {
+        fun onCameraIdle()
     }
 
-    public interface OnCameraMoveCanceledListener {
-        void onCameraMoveCanceled();
+    interface OnCameraMoveCanceledListener {
+        fun onCameraMoveCanceled()
     }
 
-    public interface OnCameraMoveListener {
-        void onCameraMove();
+    interface OnCameraMoveListener {
+        fun onCameraMove()
     }
 
-    public interface OnCameraMoveStartedListener {
-        int REASON_GESTURE = 1;
-        int REASON_API_ANIMATION = 2;
-        int REASON_DEVELOPER_ANIMATION = 3;
+    interface OnCameraMoveStartedListener {
+        fun onCameraMoveStarted(var1: Int)
 
-        void onCameraMoveStarted(int var1);
+        companion object {
+            const val REASON_GESTURE = 1
+            const val REASON_API_ANIMATION = 2
+            const val REASON_DEVELOPER_ANIMATION = 3
+        }
     }
 
-    public interface OnMapLongClickListener {
-        void onMapLongClick(LatLng<?> var1);
+    interface OnMapLongClickListener {
+        fun onMapLongClick(var1: LatLng<*>)
     }
 
-    public interface OnMapClickListener {
-        void onMapClick(LatLng<?> var1);
+    interface OnMapClickListener {
+        fun onMapClick(var1: LatLng<*>)
     }
 
-    public interface OnIndoorStateChangeListener {
-        void onIndoorBuildingFocused();
-
-        void onIndoorLevelActivated(IndoorBuilding<?> var1);
+    interface OnIndoorStateChangeListener {
+        fun onIndoorBuildingFocused()
+        fun onIndoorLevelActivated(var1: IndoorBuilding<*>)
     }
 }

@@ -1,70 +1,36 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GoogleCircleOptions
+import it.localhostsoftware.maps.huawei.model.HuaweiCircleOptions
 
-import androidx.annotation.Nullable;
-
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-import java.util.List;
-
-import it.localhostsoftware.maps.google.model.GoogleCircleOptions;
-import it.localhostsoftware.maps.huawei.model.HuaweiCircleOptions;
-
-public abstract class CircleOptions<CO> {
-    public static CircleOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GoogleCircleOptions(new com.google.android.gms.maps.model.CircleOptions());
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiCircleOptions(new com.huawei.hms.maps.model.CircleOptions());
-        else throw new IllegalStateException();
+abstract class CircleOptions<CO>(val co: CO) {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleCircleOptions(com.google.android.gms.maps.model.CircleOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiCircleOptions(com.huawei.hms.maps.model.CircleOptions())
+                else throw IllegalStateException()
     }
 
-    private final CO co;
-
-    public CircleOptions(CO co) {
-        this.co = co;
-    }
-
-    public CO getCircleOptions() {
-        return co;
-    }
-
-    public abstract CircleOptions<?> center(LatLng<?> var1);
-
-    public abstract CircleOptions<?> radius(double var1);
-
-    public abstract CircleOptions<?> strokeWidth(float var1);
-
-    public abstract CircleOptions<?> strokeColor(int var1);
-
-    public abstract CircleOptions<?> strokePattern(@Nullable List<PatternItem<?>> var1);
-
-    public abstract CircleOptions<?> fillColor(int var1);
-
-    public abstract CircleOptions<?> zIndex(float var1);
-
-    public abstract CircleOptions<?> visible(boolean var1);
-
-    public abstract CircleOptions<?> clickable(boolean var1);
-
-    public abstract LatLng<?> getCenter();
-
-    public abstract double getRadius();
-
-    public abstract float getStrokeWidth();
-
-    public abstract int getStrokeColor();
-
-    @Nullable
-    public abstract List<PatternItem<?>> getStrokePattern();
-
-    public abstract int getFillColor();
-
-    public abstract float getZIndex();
-
-    public abstract boolean isVisible();
-
-    public abstract boolean isClickable();
+    abstract fun center(var1: LatLng<*>): CircleOptions<*>
+    abstract fun radius(var1: Double): CircleOptions<*>
+    abstract fun strokeWidth(var1: Float): CircleOptions<*>
+    abstract fun strokeColor(var1: Int): CircleOptions<*>
+    abstract fun strokePattern(var1: List<PatternItem<*>>?): CircleOptions<*>
+    abstract fun fillColor(var1: Int): CircleOptions<*>
+    abstract fun zIndex(var1: Float): CircleOptions<*>
+    abstract fun visible(var1: Boolean): CircleOptions<*>
+    abstract fun clickable(var1: Boolean): CircleOptions<*>
+    abstract val center: LatLng<*>?
+    abstract val radius: Double
+    abstract val strokeWidth: Float
+    abstract val strokeColor: Int
+    abstract val strokePattern: List<PatternItem<*>>?
+    abstract val fillColor: Int
+    abstract val zIndex: Float
+    abstract val isVisible: Boolean
+    abstract val isClickable: Boolean
 }

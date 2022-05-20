@@ -1,53 +1,29 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.LatLngBounds;
+import com.huawei.hms.maps.model.LatLngBounds
+import it.localhostsoftware.maps.model.LatLng
 
-public class HuaweiLatLngBounds extends LatLngBounds<com.huawei.hms.maps.model.LatLngBounds> {
-    public HuaweiLatLngBounds(com.huawei.hms.maps.model.LatLngBounds latLngBounds) {
-        super(latLngBounds);
+class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds>(lb) {
+    override val southwest: LatLng<*>
+        get() = HuaweiLatLng(lb.southwest)
+    override val northeast: LatLng<*>
+        get() = HuaweiLatLng(lb.northeast)
+
+    override fun contains(var1: LatLng<*>): Boolean = lb.contains(var1.ll as com.huawei.hms.maps.model.LatLng)
+    override fun including(var1: LatLng<*>): it.localhostsoftware.maps.model.LatLngBounds<*> {
+        lb.including(var1.ll as com.huawei.hms.maps.model.LatLng)
+        return this
     }
 
-    @Override
-    public LatLng<?> getSouthwest() {
-        return new HuaweiLatLng(getLatLngBounds().southwest);
-    }
+    override val center: LatLng<*>
+        get() = HuaweiLatLng(lb.center)
 
-    @Override
-    public LatLng<?> getNortheast() {
-        return new HuaweiLatLng(getLatLngBounds().northeast);
-    }
-
-    @Override
-    public boolean contains(LatLng<?> var1) {
-        return getLatLngBounds().contains((com.huawei.hms.maps.model.LatLng) var1.getLatLng());
-    }
-
-    @Override
-    public LatLngBounds<?> including(LatLng<?> var1) {
-        getLatLngBounds().including((com.huawei.hms.maps.model.LatLng) var1.getLatLng());
-        return this;
-    }
-
-    @Override
-    public LatLng<?> getCenter() {
-        return new HuaweiLatLng(getLatLngBounds().getCenter());
-    }
-
-    public static class HuaweiBuilder extends Builder<com.huawei.hms.maps.model.LatLngBounds.Builder> {
-        public HuaweiBuilder(com.huawei.hms.maps.model.LatLngBounds.Builder builder) {
-            super(builder);
+    class HuaweiBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder>(builder) {
+        override fun include(var1: LatLng<*>): Builder<*> {
+            builder.include(var1.ll as com.huawei.hms.maps.model.LatLng)
+            return this
         }
 
-        @Override
-        public Builder<?> include(LatLng<?> var1) {
-            getBuilder().include((com.huawei.hms.maps.model.LatLng) var1.getLatLng());
-            return this;
-        }
-
-        @Override
-        public LatLngBounds<?> build() {
-            return new HuaweiLatLngBounds(getBuilder().build());
-        }
+        override fun build() = HuaweiLatLngBounds(builder.build())
     }
 }

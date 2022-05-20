@@ -1,85 +1,44 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GooglePolylineOptions
+import it.localhostsoftware.maps.huawei.model.HuaweiPolylineOptions
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-import java.util.List;
-
-import it.localhostsoftware.maps.google.model.GooglePolylineOptions;
-import it.localhostsoftware.maps.huawei.model.HuaweiPolylineOptions;
-
-public abstract class PolylineOptions<PO> {
-    public static PolylineOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GooglePolylineOptions(new com.google.android.gms.maps.model.PolylineOptions());
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiPolylineOptions(new com.huawei.hms.maps.model.PolylineOptions());
-        else throw new IllegalStateException();
+abstract class PolylineOptions<PO>(val po: PO) {
+    abstract fun add(vararg var1: LatLng<*>): PolylineOptions<*>
+    abstract fun width(var1: Float): PolylineOptions<*>
+    abstract fun color(var1: Int): PolylineOptions<*>
+    abstract fun startCap(var1: Cap<*>): PolylineOptions<*>
+    abstract fun endCap(var1: Cap<*>): PolylineOptions<*>
+    abstract fun jointType(var1: Int): PolylineOptions<*>
+    abstract fun pattern(var1: List<PatternItem<*>>?): PolylineOptions<*>
+    abstract fun zIndex(var1: Float): PolylineOptions<*>
+    abstract fun visible(var1: Boolean): PolylineOptions<*>
+    abstract fun geodesic(var1: Boolean): PolylineOptions<*>
+    abstract fun clickable(var1: Boolean): PolylineOptions<*>
+    abstract val points: List<LatLng<*>>
+    abstract val width: Float
+    abstract val color: Int
+    abstract val startCap: Cap<*>
+    abstract val endCap: Cap<*>
+    abstract val jointType: Int
+    abstract val pattern: List<PatternItem<*>>?
+    abstract val zIndex: Float
+    abstract val isVisible: Boolean
+    abstract val isGeodesic: Boolean
+    abstract val isClickable: Boolean
+    fun addAll(var1: Iterable<LatLng<*>>): PolylineOptions<*> {
+        add(*var1.toList().toTypedArray())
+        return this
     }
 
-    private final PO po;
-
-    public PolylineOptions(PO po) {
-        this.po = po;
+    companion object {
+        fun getInstance(context: Context): PolylineOptions<*> =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolylineOptions(com.google.android.gms.maps.model.PolylineOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolylineOptions(com.huawei.hms.maps.model.PolylineOptions())
+                else throw IllegalStateException()
     }
-
-    public PO getPolylineOptions() {
-        return po;
-    }
-
-    public abstract PolylineOptions<?> add(LatLng<?> var1);
-
-    public abstract PolylineOptions<?> add(LatLng<?>... var1);
-
-    public abstract PolylineOptions<?> addAll(Iterable<LatLng<?>> var1);
-
-    public abstract PolylineOptions<?> width(float var1);
-
-    public abstract PolylineOptions<?> color(int var1);
-
-    public abstract PolylineOptions<?> startCap(@NonNull Cap<?> var1);
-
-    public abstract PolylineOptions<?> endCap(@NonNull Cap<?> var1);
-
-    public abstract PolylineOptions<?> jointType(int var1);
-
-    public abstract PolylineOptions<?> pattern(@Nullable List<PatternItem<?>> var1);
-
-    public abstract PolylineOptions<?> zIndex(float var1);
-
-    public abstract PolylineOptions<?> visible(boolean var1);
-
-    public abstract PolylineOptions<?> geodesic(boolean var1);
-
-    public abstract PolylineOptions<?> clickable(boolean var1);
-
-    public abstract List<LatLng<?>> getPoints();
-
-    public abstract float getWidth();
-
-    public abstract int getColor();
-
-    @NonNull
-    public abstract Cap<?> getStartCap();
-
-    @NonNull
-    public abstract Cap<?> getEndCap();
-
-    public abstract int getJointType();
-
-    @Nullable
-    public abstract List<PatternItem<?>> getPattern();
-
-    public abstract float getZIndex();
-
-    public abstract boolean isVisible();
-
-    public abstract boolean isGeodesic();
-
-    public abstract boolean isClickable();
 }

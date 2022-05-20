@@ -1,69 +1,59 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.huawei.hms.api.HuaweiApiAvailability
+import com.huawei.hms.maps.HuaweiMap
+import it.localhostsoftware.maps.google.GoogleMapOptions
+import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-import it.localhostsoftware.maps.google.GoogleMap;
-import it.localhostsoftware.maps.google.GoogleMapOptions;
-import it.localhostsoftware.maps.huawei.HuaweiMap;
-import it.localhostsoftware.maps.huawei.HuaweiMapOptions;
-
-public class MapFragment extends Fragment {
-    public static final String GOOGLE_MAP_OPTIONS = "GoogleMapOptions";
-    public static final String HUAWEI_MAP_OPTIONS = "HuaweiMapOptions";
-
-    public static MapFragment newInstance(MapOptions<?> mapOptions) {
-        Bundle args = new Bundle();
-        if (mapOptions instanceof GoogleMapOptions)
-            args.putParcelable(GOOGLE_MAP_OPTIONS, (com.google.android.gms.maps.GoogleMapOptions) mapOptions.getMapOptions());
-        else if (mapOptions instanceof HuaweiMapOptions)
-            args.putParcelable(HUAWEI_MAP_OPTIONS, (com.huawei.hms.maps.HuaweiMapOptions) mapOptions.getMapOptions());
-        MapFragment fragment = new MapFragment();
-        fragment.setArguments(args);
-        return fragment;
+class MapFragment : Fragment() {
+    companion object {
+        const val GOOGLE_MAP_OPTIONS = "GoogleMapOptions"
+        const val HUAWEI_MAP_OPTIONS = "HuaweiMapOptions"
+        fun newInstance(mapOptions: MapOptions<*>) = MapFragment().apply {
+            arguments = Bundle().apply {
+                if (mapOptions is GoogleMapOptions) putParcelable(GOOGLE_MAP_OPTIONS, mapOptions.mo)
+                else if (mapOptions is HuaweiMapOptions) putParcelable(HUAWEI_MAP_OPTIONS, mapOptions.mo)
+            }
+        }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
-        Fragment fragment;
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext()) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            fragment = getArguments() != null && getArguments().containsKey(GOOGLE_MAP_OPTIONS) ?
-                    com.google.android.gms.maps.SupportMapFragment.newInstance(getArguments().getParcelable(GOOGLE_MAP_OPTIONS)) :
-                    com.google.android.gms.maps.SupportMapFragment.newInstance();
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(requireContext()) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            fragment = getArguments() != null && getArguments().containsKey(HUAWEI_MAP_OPTIONS) ?
-                    com.huawei.hms.maps.SupportMapFragment.newInstance(getArguments().getParcelable(HUAWEI_MAP_OPTIONS)) :
-                    com.huawei.hms.maps.SupportMapFragment.newInstance();
-        else throw new IllegalStateException();
-        getChildFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commitAllowingStateLoss();
-        return v;
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val v = inflater.inflate(R.layout.fragment_map, container, false)
+        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext()) == ConnectionResult.SUCCESS)
+                    if (arguments != null && requireArguments().containsKey(GOOGLE_MAP_OPTIONS)) SupportMapFragment.newInstance(requireArguments().getParcelable(GOOGLE_MAP_OPTIONS))
+                    else SupportMapFragment.newInstance()
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(requireContext()) == com.huawei.hms.api.ConnectionResult.SUCCESS)
+                    if (arguments != null && requireArguments().containsKey(HUAWEI_MAP_OPTIONS)) com.huawei.hms.maps.SupportMapFragment.newInstance(requireArguments().getParcelable(HUAWEI_MAP_OPTIONS))
+                    else com.huawei.hms.maps.SupportMapFragment.newInstance()
+                else throw IllegalStateException()
+        ).commitAllowingStateLoss()
+        return v
     }
 
-    public void getMapAsync(OnMapReadyCallback callback) {
-        getChildFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
-            @Override
-            public void onFragmentViewCreated(@NonNull FragmentManager fragmentManager, @NonNull Fragment f, @NonNull View view, @Nullable Bundle savedInstanceState) {
-                Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
-                if (fragment instanceof com.google.android.gms.maps.SupportMapFragment) {
-                    fragmentManager.unregisterFragmentLifecycleCallbacks(this);
-                    ((com.google.android.gms.maps.SupportMapFragment) fragment).getMapAsync(googleMap -> callback.onMapReady(new GoogleMap(googleMap)));
-                } else if (fragment instanceof com.huawei.hms.maps.SupportMapFragment) {
-                    fragmentManager.unregisterFragmentLifecycleCallbacks(this);
-                    ((com.huawei.hms.maps.SupportMapFragment) fragment).getMapAsync(googleMap -> callback.onMapReady(new HuaweiMap(googleMap)));
+    fun getMapAsync(callback: OnMapReadyCallback) {
+        childFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(fragmentManager: FragmentManager, f: Fragment, view: View, savedInstanceState: Bundle?) {
+                childFragmentManager.findFragmentById(R.id.fragmentContainerView).let { f ->
+                    if (f is SupportMapFragment) {
+                        fragmentManager.unregisterFragmentLifecycleCallbacks(this)
+                        f.getMapAsync { googleMap: GoogleMap -> callback.onMapReady(it.localhostsoftware.maps.google.GoogleMap(googleMap)) }
+                    } else if (f is com.huawei.hms.maps.SupportMapFragment) {
+                        fragmentManager.unregisterFragmentLifecycleCallbacks(this)
+                        f.getMapAsync { googleMap: HuaweiMap -> callback.onMapReady(it.localhostsoftware.maps.huawei.HuaweiMap(googleMap)) }
+                    }
                 }
             }
-        }, false);
+        }, false)
     }
 }

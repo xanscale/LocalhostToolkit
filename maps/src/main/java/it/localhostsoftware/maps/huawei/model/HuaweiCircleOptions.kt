@@ -1,131 +1,71 @@
-package it.localhostsoftware.maps.huawei.model;
+package it.localhostsoftware.maps.huawei.model
 
+import com.huawei.hms.maps.model.CircleOptions
+import it.localhostsoftware.maps.model.LatLng
+import it.localhostsoftware.maps.model.PatternItem
 
-import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import it.localhostsoftware.maps.model.CircleOptions;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.PatternItem;
-
-public class HuaweiCircleOptions extends CircleOptions<com.huawei.hms.maps.model.CircleOptions> {
-    public HuaweiCircleOptions(com.huawei.hms.maps.model.CircleOptions circleOptions) {
-        super(circleOptions);
+class HuaweiCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions>(circleOptions) {
+    override fun center(var1: LatLng<*>): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.center(var1.ll as com.huawei.hms.maps.model.LatLng)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> center(LatLng<?> var1) {
-        getCircleOptions().center((com.huawei.hms.maps.model.LatLng) var1.getLatLng());
-        return this;
+    override fun radius(var1: Double): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.radius(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> radius(double var1) {
-        getCircleOptions().radius(var1);
-        return this;
+    override fun strokeWidth(var1: Float): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.strokeWidth(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> strokeWidth(float var1) {
-        getCircleOptions().strokeWidth(var1);
-        return this;
+    override fun strokeColor(var1: Int): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.strokeColor(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> strokeColor(int var1) {
-        getCircleOptions().strokeColor(var1);
-        return this;
+    override fun strokePattern(var1: List<PatternItem<*>>?): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.strokePattern(var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+        return this
     }
 
-    @Override
-    public CircleOptions<?> strokePattern(@Nullable List<PatternItem<?>> var1) {
-        if (var1 == null)
-            getCircleOptions().strokePattern(null);
-        else {
-            ArrayList<com.huawei.hms.maps.model.PatternItem> values = new ArrayList<>(var1.size());
-            for (PatternItem<?> value : var1)
-                values.add((com.huawei.hms.maps.model.PatternItem) value.getPatternItem());
-            getCircleOptions().strokePattern(values);
-        }
-        return this;
+    override fun fillColor(var1: Int): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.fillColor(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> fillColor(int var1) {
-        getCircleOptions().fillColor(var1);
-        return this;
+    override fun zIndex(var1: Float): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.zIndex(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> zIndex(float var1) {
-        getCircleOptions().zIndex(var1);
-        return this;
+    override fun visible(var1: Boolean): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.visible(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> visible(boolean var1) {
-        getCircleOptions().visible(var1);
-        return this;
+    override fun clickable(var1: Boolean): it.localhostsoftware.maps.model.CircleOptions<*> {
+        co.clickable(var1)
+        return this
     }
 
-    @Override
-    public CircleOptions<?> clickable(boolean var1) {
-        getCircleOptions().clickable(var1);
-        return this;
-    }
-
-    @Override
-    public LatLng<?> getCenter() {
-        return new HuaweiLatLng(getCircleOptions().getCenter());
-    }
-
-    @Override
-    public double getRadius() {
-        return getCircleOptions().getRadius();
-    }
-
-    @Override
-    public float getStrokeWidth() {
-        return getCircleOptions().getStrokeWidth();
-    }
-
-    @Override
-    public int getStrokeColor() {
-        return getCircleOptions().getStrokeColor();
-    }
-
-    @Nullable
-    @Override
-    public List<PatternItem<?>> getStrokePattern() {
-        if (getCircleOptions().getStrokePattern() == null)
-            return null;
-        else {
-            ArrayList<PatternItem<?>> out = new ArrayList<>(getCircleOptions().getStrokePattern().size());
-            for (com.huawei.hms.maps.model.PatternItem value : getCircleOptions().getStrokePattern())
-                out.add(new PatternItem<>(value));
-            return out;
-        }
-    }
-
-    @Override
-    public int getFillColor() {
-        return getCircleOptions().getFillColor();
-    }
-
-    @Override
-    public float getZIndex() {
-        return getCircleOptions().getZIndex();
-    }
-
-    @Override
-    public boolean isVisible() {
-        return getCircleOptions().isVisible();
-    }
-
-    @Override
-    public boolean isClickable() {
-        return getCircleOptions().isClickable();
-    }
+    override val center: LatLng<*>
+        get() = HuaweiLatLng(co.center)
+    override val radius: Double
+        get() = co.radius
+    override val strokeWidth: Float
+        get() = co.strokeWidth
+    override val strokeColor: Int
+        get() = co.strokeColor
+    override val strokePattern: List<PatternItem<*>>?
+        get() = co.strokePattern?.map { PatternItem(it) }
+    override val fillColor: Int
+        get() = co.fillColor
+    override val zIndex: Float
+        get() = co.zIndex
+    override val isVisible: Boolean
+        get() = co.isVisible
+    override val isClickable: Boolean
+        get() = co.isClickable
 }

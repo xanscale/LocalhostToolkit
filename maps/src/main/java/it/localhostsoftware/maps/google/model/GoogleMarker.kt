@@ -1,155 +1,88 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.google.android.gms.maps.model.Marker
+import it.localhostsoftware.maps.model.BitmapDescriptor
+import it.localhostsoftware.maps.model.LatLng
 
-import it.localhostsoftware.maps.model.BitmapDescriptor;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.Marker;
-
-public class GoogleMarker extends Marker<com.google.android.gms.maps.model.Marker> {
-    public GoogleMarker(com.google.android.gms.maps.model.Marker marker) {
-        super(marker);
+class GoogleMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Marker>(marker) {
+    override fun remove() {
+        m.remove()
     }
 
-    @Override
-    public void remove() {
-        getMarker().remove();
+    override val id: String
+        get() = m.id
+    override var position: LatLng<*>
+        get() = GoogleLatLng(m.position)
+        set(value) {
+            m.position = value.ll as com.google.android.gms.maps.model.LatLng
+        }
+    override var zIndex: Float
+        get() = m.zIndex
+        set(v) {
+            m.zIndex = v
+        }
+
+    override fun setIcon(var1: BitmapDescriptor<*>?) {
+        m.setIcon(var1?.bitmapDescriptor as? com.google.android.gms.maps.model.BitmapDescriptor)
     }
 
-    @Override
-    public String getId() {
-        return getMarker().getId();
+    override fun setAnchor(var1: Float, var2: Float) {
+        m.setAnchor(var1, var2)
     }
 
-    @Override
-    public void setPosition(@NonNull LatLng<?> latLng) {
-        getMarker().setPosition((com.google.android.gms.maps.model.LatLng) latLng.getLatLng());
+    override fun setInfoWindowAnchor(var1: Float, var2: Float) {
+        m.setInfoWindowAnchor(var1, var2)
     }
 
-    @Override
-    public LatLng<?> getPosition() {
-        return new GoogleLatLng(getMarker().getPosition());
+    override var title: String?
+        get() = m.title
+        set(s) {
+            m.title = s
+        }
+    override var snippet: String?
+        get() = m.snippet
+        set(s) {
+            m.snippet = s
+        }
+    override var isDraggable: Boolean
+        get() = m.isDraggable
+        set(b) {
+            m.isDraggable = b
+        }
+
+    override fun showInfoWindow() {
+        m.showInfoWindow()
     }
 
-    @Override
-    public void setZIndex(float v) {
-        getMarker().setZIndex(v);
+    override fun hideInfoWindow() {
+        m.hideInfoWindow()
     }
 
-    @Override
-    public float getZIndex() {
-        return getMarker().getZIndex();
-    }
-
-    @Override
-    public void setIcon(@Nullable BitmapDescriptor<?> bitmapDescriptor) {
-        getMarker().setIcon(bitmapDescriptor == null ? null : (com.google.android.gms.maps.model.BitmapDescriptor) bitmapDescriptor.getBitmapDescriptor());
-    }
-
-    @Override
-    public void setAnchor(float v, float v1) {
-        getMarker().setAnchor(v, v1);
-    }
-
-    @Override
-    public void setInfoWindowAnchor(float v, float v1) {
-        getMarker().setInfoWindowAnchor(v, v1);
-    }
-
-    @Override
-    public void setTitle(@Nullable String s) {
-        getMarker().setTitle(s);
-    }
-
-    @Override
-    public String getTitle() {
-        return getMarker().getTitle();
-    }
-
-    @Override
-    public void setSnippet(@Nullable String s) {
-        getMarker().setSnippet(s);
-    }
-
-    @Override
-    public String getSnippet() {
-        return getMarker().getSnippet();
-    }
-
-    @Override
-    public void setDraggable(boolean b) {
-        getMarker().setDraggable(b);
-    }
-
-    @Override
-    public boolean isDraggable() {
-        return getMarker().isDraggable();
-    }
-
-    @Override
-    public void showInfoWindow() {
-        getMarker().showInfoWindow();
-    }
-
-    @Override
-    public void hideInfoWindow() {
-        getMarker().hideInfoWindow();
-    }
-
-    @Override
-    public boolean isInfoWindowShown() {
-        return getMarker().isInfoWindowShown();
-    }
-
-    @Override
-    public void setVisible(boolean b) {
-        getMarker().setVisible(b);
-    }
-
-    @Override
-    public boolean isVisible() {
-        return getMarker().isVisible();
-    }
-
-    @Override
-    public void setFlat(boolean b) {
-        getMarker().setFlat(b);
-    }
-
-    @Override
-    public boolean isFlat() {
-        return getMarker().isFlat();
-    }
-
-    @Override
-    public void setRotation(float v) {
-        getMarker().setRotation(v);
-    }
-
-    @Override
-    public float getRotation() {
-        return getMarker().getRotation();
-    }
-
-    @Override
-    public void setAlpha(float v) {
-        getMarker().setAlpha(v);
-    }
-
-    @Override
-    public float getAlpha() {
-        return getMarker().getAlpha();
-    }
-
-    @Override
-    public void setTag(@Nullable Object o) {
-        getMarker().setTag(o);
-    }
-
-    @Nullable
-    @Override
-    public Object getTag() {
-        return getMarker().getTag();
-    }
+    override val isInfoWindowShown: Boolean
+        get() = m.isInfoWindowShown
+    override var isVisible: Boolean
+        get() = m.isVisible
+        set(b) {
+            m.isVisible = b
+        }
+    override var isFlat: Boolean
+        get() = m.isFlat
+        set(b) {
+            m.isFlat = b
+        }
+    override var rotation: Float
+        get() = m.rotation
+        set(v) {
+            m.rotation = v
+        }
+    override var alpha: Float
+        get() = m.alpha
+        set(v) {
+            m.alpha = v
+        }
+    override var tag: Any?
+        get() = m.tag
+        set(o) {
+            m.tag = o
+        }
 }

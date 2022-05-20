@@ -1,30 +1,21 @@
-package it.localhostsoftware.maps.huawei;
+package it.localhostsoftware.maps.huawei
 
-import android.graphics.Point;
+import android.graphics.Point
+import com.huawei.hms.maps.Projection
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLng
+import it.localhostsoftware.maps.huawei.model.HuaweiVisibleRegion
+import it.localhostsoftware.maps.model.LatLng
+import it.localhostsoftware.maps.model.VisibleRegion
 
-import it.localhostsoftware.maps.Projection;
-import it.localhostsoftware.maps.huawei.model.HuaweiLatLng;
-import it.localhostsoftware.maps.huawei.model.HuaweiVisibleRegion;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.VisibleRegion;
-
-public class HuaweiProjection extends Projection<com.huawei.hms.maps.Projection> {
-    public HuaweiProjection(com.huawei.hms.maps.Projection projection) {
-        super(projection);
+class HuaweiProjection(projection: Projection) : it.localhostsoftware.maps.Projection<Projection>(projection) {
+    override fun fromScreenLocation(var1: Point): LatLng<*> {
+        return HuaweiLatLng(p.fromScreenLocation(var1))
     }
 
-    @Override
-    public LatLng<?> fromScreenLocation(Point var1) {
-        return new HuaweiLatLng(getProjection().fromScreenLocation(var1));
+    override fun toScreenLocation(var1: LatLng<*>): Point {
+        return p.toScreenLocation(var1.ll as com.huawei.hms.maps.model.LatLng)
     }
 
-    @Override
-    public Point toScreenLocation(LatLng<?> var1) {
-        return getProjection().toScreenLocation((com.huawei.hms.maps.model.LatLng) var1.getLatLng());
-    }
-
-    @Override
-    public VisibleRegion<?> getVisibleRegion() {
-        return new HuaweiVisibleRegion(getProjection().getVisibleRegion());
-    }
+    override val visibleRegion: VisibleRegion<*>
+        get() = HuaweiVisibleRegion(p.visibleRegion)
 }

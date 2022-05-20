@@ -1,142 +1,62 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import androidx.annotation.Nullable;
+import com.google.android.gms.maps.model.Circle
+import it.localhostsoftware.maps.model.LatLng
+import it.localhostsoftware.maps.model.PatternItem
 
-import java.util.ArrayList;
-import java.util.List;
-
-import it.localhostsoftware.maps.model.Circle;
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.PatternItem;
-
-public class GoogleCircle extends Circle<com.google.android.gms.maps.model.Circle> {
-    public GoogleCircle(com.google.android.gms.maps.model.Circle circle) {
-        super(circle);
-    }
-
-    @Override
-    public void remove() {
-        getCircle().remove();
-    }
-
-    @Override
-    public String getId() {
-        return getCircle().getId();
-    }
-
-    @Override
-    public void setCenter(LatLng<?> var1) {
-        getCircle().setCenter((com.google.android.gms.maps.model.LatLng) var1.getLatLng());
-    }
-
-    @Override
-    public LatLng<?> getCenter() {
-        return new GoogleLatLng(getCircle().getCenter());
-    }
-
-    @Override
-    public void setRadius(double var1) {
-        getCircle().setRadius(var1);
-    }
-
-    @Override
-    public double getRadius() {
-        return getCircle().getRadius();
-    }
-
-    @Override
-    public void setStrokeWidth(float var1) {
-        getCircle().setStrokeWidth(var1);
-    }
-
-    @Override
-    public float getStrokeWidth() {
-        return getCircle().getStrokeWidth();
-    }
-
-    @Override
-    public void setStrokeColor(int var1) {
-        getCircle().setStrokeColor(var1);
-    }
-
-    @Override
-    public int getStrokeColor() {
-        return getCircle().getStrokeColor();
-    }
-
-    @Override
-    public void setStrokePattern(@Nullable List<PatternItem<?>> var1) {
-        if (var1 == null)
-            getCircle().setStrokePattern(null);
-        else {
-            ArrayList<com.google.android.gms.maps.model.PatternItem> values = new ArrayList<>(var1.size());
-            for (PatternItem<?> value : var1)
-                values.add((com.google.android.gms.maps.model.PatternItem) value.getPatternItem());
-            getCircle().setStrokePattern(values);
+class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle>(circle) {
+    override fun remove() = c.remove()
+    override val id: String
+        get() = c.id
+    override var center: LatLng<*>
+        get() = GoogleLatLng(c.center)
+        set(var1) {
+            c.center = var1.ll as com.google.android.gms.maps.model.LatLng
         }
-    }
-
-    @Nullable
-    @Override
-    public List<PatternItem<?>> getStrokePattern() {
-        if (getCircle().getStrokePattern() == null)
-            return null;
-        else {
-            ArrayList<PatternItem<?>> out = new ArrayList<>(getCircle().getStrokePattern().size());
-            for (com.google.android.gms.maps.model.PatternItem value : getCircle().getStrokePattern())
-                out.add(new PatternItem<>(value));
-            return out;
+    override var radius: Double
+        get() = c.radius
+        set(var1) {
+            c.radius = var1
         }
-    }
-
-    @Override
-    public void setFillColor(int var1) {
-        getCircle().setFillColor(var1);
-    }
-
-    @Override
-    public int getFillColor() {
-        return getCircle().getFillColor();
-    }
-
-    @Override
-    public void setZIndex(float var1) {
-        getCircle().setZIndex(var1);
-    }
-
-    @Override
-    public float getZIndex() {
-        return getCircle().getZIndex();
-    }
-
-    @Override
-    public void setVisible(boolean var1) {
-        getCircle().setVisible(var1);
-    }
-
-    @Override
-    public boolean isVisible() {
-        return getCircle().isVisible();
-    }
-
-    @Override
-    public void setClickable(boolean var1) {
-        getCircle().setClickable(var1);
-    }
-
-    @Override
-    public boolean isClickable() {
-        return getCircle().isClickable();
-    }
-
-    @Override
-    public void setTag(@Nullable Object var1) {
-        getCircle().setTag(var1);
-    }
-
-    @Nullable
-    @Override
-    public Object getTag() {
-        return getCircle().getTag();
-    }
+    override var strokeWidth: Float
+        get() = c.strokeWidth
+        set(var1) {
+            c.strokeWidth = var1
+        }
+    override var strokeColor: Int
+        get() = c.strokeColor
+        set(var1) {
+            c.strokeColor = var1
+        }
+    override var strokePattern: List<PatternItem<*>>?
+        get() =
+            c.strokePattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+        set(var1) {
+            c.strokePattern = var1?.map { it.pi as com.google.android.gms.maps.model.PatternItem }
+        }
+    override var fillColor: Int
+        get() = c.fillColor
+        set(var1) {
+            c.fillColor = var1
+        }
+    override var zIndex: Float
+        get() = c.zIndex
+        set(var1) {
+            c.zIndex = var1
+        }
+    override var isVisible: Boolean
+        get() = c.isVisible
+        set(var1) {
+            c.isVisible = var1
+        }
+    override var isClickable: Boolean
+        get() = c.isClickable
+        set(var1) {
+            c.isClickable = var1
+        }
+    override var tag: Any?
+        get() = c.tag
+        set(var1) {
+            c.tag = var1
+        }
 }

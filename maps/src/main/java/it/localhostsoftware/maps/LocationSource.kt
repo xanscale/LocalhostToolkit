@@ -1,13 +1,11 @@
-package it.localhostsoftware.maps;
+package it.localhostsoftware.maps
 
-import android.location.Location;
+import android.location.Location
 
-public interface LocationSource {
-    void activate(OnLocationChangedListener var1);
-
-    void deactivate();
-
+interface LocationSource {
+    fun activate(var1: OnLocationChangedListener)
+    fun deactivate()
     interface OnLocationChangedListener {
-        void onLocationChanged(Location var1);
+        fun onLocationChanged(var1: Location)
     }
 }

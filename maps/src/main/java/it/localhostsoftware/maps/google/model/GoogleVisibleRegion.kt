@@ -1,56 +1,25 @@
-package it.localhostsoftware.maps.google.model;
+package it.localhostsoftware.maps.google.model
 
-import androidx.annotation.NonNull;
+import com.google.android.gms.maps.model.VisibleRegion
+import it.localhostsoftware.maps.model.LatLng
+import it.localhostsoftware.maps.model.LatLngBounds
 
-import it.localhostsoftware.maps.model.LatLng;
-import it.localhostsoftware.maps.model.LatLngBounds;
-import it.localhostsoftware.maps.model.VisibleRegion;
+class GoogleVisibleRegion(VR: VisibleRegion) : it.localhostsoftware.maps.model.VisibleRegion<VisibleRegion>(VR) {
+    override val nearLeft: LatLng<*>
+        get() = GoogleLatLng(vr.nearLeft)
+    override val nearRight: LatLng<*>
+        get() = GoogleLatLng(vr.nearRight)
+    override val farLeft: LatLng<*>
+        get() = GoogleLatLng(vr.farLeft)
+    override val farRight: LatLng<*>
+        get() = GoogleLatLng(vr.farRight)
+    override val latLngBounds: LatLngBounds<*>
+        get() = GoogleLatLngBounds(vr.latLngBounds)
 
-public class GoogleVisibleRegion extends VisibleRegion<com.google.android.gms.maps.model.VisibleRegion> {
-
-    public GoogleVisibleRegion(com.google.android.gms.maps.model.VisibleRegion VR) {
-        super(VR);
+    override fun hashCode(): Int {
+        return vr.hashCode()
     }
 
-    @Override
-    public LatLng<?> getNearLeft() {
-        return new GoogleLatLng(getVisibleRegion().nearLeft);
-    }
-
-    @Override
-    public LatLng<?> getNearRight() {
-        return new GoogleLatLng(getVisibleRegion().nearRight);
-    }
-
-    @Override
-    public LatLng<?> getFarLeft() {
-        return new GoogleLatLng(getVisibleRegion().farLeft);
-    }
-
-    @Override
-    public LatLng<?> getFarRight() {
-        return new GoogleLatLng(getVisibleRegion().farRight);
-    }
-
-    @Override
-    public LatLngBounds<?> getLatLngBounds() {
-        return new GoogleLatLngBounds(getVisibleRegion().latLngBounds);
-    }
-
-    @Override
-    public int hashCode() {
-        return getVisibleRegion().hashCode();
-    }
-
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    @Override
-    public boolean equals(Object var1) {
-        return getVisibleRegion().equals(var1);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return getVisibleRegion().toString();
-    }
+    override fun equals(other: Any?): Boolean = vr == other
+    override fun toString(): String = vr.toString()
 }

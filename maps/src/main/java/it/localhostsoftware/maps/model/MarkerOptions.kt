@@ -1,84 +1,44 @@
-package it.localhostsoftware.maps.model;
+package it.localhostsoftware.maps.model
 
-import android.content.Context;
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
+import it.localhostsoftware.maps.google.model.GoogleMarkerOptions
+import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+abstract class MarkerOptions<MO>(val mo: MO) {
+    abstract fun position(var1: LatLng<*>): MarkerOptions<*>
+    abstract fun zIndex(var1: Float): MarkerOptions<*>
+    abstract fun icon(var1: BitmapDescriptor<*>?): MarkerOptions<*>
+    abstract fun anchor(var1: Float, var2: Float): MarkerOptions<*>
+    abstract fun infoWindowAnchor(var1: Float, var2: Float): MarkerOptions<*>
+    abstract fun title(var1: String): MarkerOptions<*>
+    abstract fun snippet(var1: String): MarkerOptions<*>
+    abstract fun draggable(var1: Boolean): MarkerOptions<*>
+    abstract fun visible(var1: Boolean): MarkerOptions<*>
+    abstract fun flat(var1: Boolean): MarkerOptions<*>
+    abstract fun rotation(var1: Float): MarkerOptions<*>
+    abstract fun alpha(var1: Float): MarkerOptions<*>
+    abstract val position: LatLng<*>
+    abstract val title: String?
+    abstract val snippet: String?
+    abstract val icon: BitmapDescriptor<*>
+    abstract val anchorU: Float
+    abstract val anchorV: Float
+    abstract val isDraggable: Boolean
+    abstract val isVisible: Boolean
+    abstract val isFlat: Boolean
+    abstract val rotation: Float
+    abstract val infoWindowAnchorU: Float
+    abstract val infoWindowAnchorV: Float
+    abstract val alpha: Float
+    abstract val zIndex: Float
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.huawei.hms.api.HuaweiApiAvailability;
-
-import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
-import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions;
-
-public abstract class MarkerOptions<MO> {
-    public static MarkerOptions<?> getInstance(Context context) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == com.google.android.gms.common.ConnectionResult.SUCCESS)
-            return new GoogleMarkerOptions(new com.google.android.gms.maps.model.MarkerOptions());
-        else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS)
-            return new HuaweiMarkerOptions(new com.huawei.hms.maps.model.MarkerOptions());
-        else throw new IllegalStateException();
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleMarkerOptions(com.google.android.gms.maps.model.MarkerOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiMarkerOptions(com.huawei.hms.maps.model.MarkerOptions())
+                else throw IllegalStateException()
     }
-
-    private final MO mo;
-
-    public MarkerOptions(MO mo) {
-        this.mo = mo;
-    }
-
-    public MO getMarkerOptions() {
-        return mo;
-    }
-
-    abstract public MarkerOptions<?> position(@NonNull LatLng<?> var1);
-
-    abstract public MarkerOptions<?> zIndex(float var1);
-
-    abstract public MarkerOptions<?> icon(@Nullable BitmapDescriptor<?> var1);
-
-    abstract public MarkerOptions<?> anchor(float var1, float var2);
-
-    abstract public MarkerOptions<?> infoWindowAnchor(float var1, float var2);
-
-    abstract public MarkerOptions<?> title(@Nullable String var1);
-
-    abstract public MarkerOptions<?> snippet(@Nullable String var1);
-
-    abstract public MarkerOptions<?> draggable(boolean var1);
-
-    abstract public MarkerOptions<?> visible(boolean var1);
-
-    abstract public MarkerOptions<?> flat(boolean var1);
-
-    abstract public MarkerOptions<?> rotation(float var1);
-
-    abstract public MarkerOptions<?> alpha(float var1);
-
-    abstract public LatLng<?> getPosition();
-
-    abstract public String getTitle();
-
-    abstract public String getSnippet();
-
-    abstract public BitmapDescriptor<?> getIcon();
-
-    abstract public float getAnchorU();
-
-    abstract public float getAnchorV();
-
-    abstract public boolean isDraggable();
-
-    abstract public boolean isVisible();
-
-    abstract public boolean isFlat();
-
-    abstract public float getRotation();
-
-    abstract public float getInfoWindowAnchorU();
-
-    abstract public float getInfoWindowAnchorV();
-
-    abstract public float getAlpha();
-
-    abstract public float getZIndex();
 }

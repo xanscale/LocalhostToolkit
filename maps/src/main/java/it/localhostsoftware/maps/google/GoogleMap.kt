@@ -1,392 +1,258 @@
-package it.localhostsoftware.maps.google;
+package it.localhostsoftware.maps.google
 
-import android.graphics.Bitmap;
-import android.view.View;
+import android.graphics.Bitmap
+import android.location.Location
+import android.view.View
+import androidx.annotation.RequiresPermission
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.LocationSource
+import com.google.android.gms.maps.model.*
+import it.localhostsoftware.maps.CameraUpdate
+import it.localhostsoftware.maps.GeoMap
+import it.localhostsoftware.maps.Projection
+import it.localhostsoftware.maps.UiSettings
+import it.localhostsoftware.maps.google.model.*
+import it.localhostsoftware.maps.model.CameraPosition
+import it.localhostsoftware.maps.model.MarkerOptions
+import it.localhostsoftware.maps.model.PolylineOptions
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap>(googleMap) {
+    override val cameraPosition: CameraPosition<*>
+        get() = GoogleCameraPosition(map.cameraPosition)
+    override val maxZoomLevel: Float
+        get() = map.maxZoomLevel
+    override val minZoomLevel: Float
+        get() = map.minZoomLevel
 
-import it.localhostsoftware.maps.CameraUpdate;
-import it.localhostsoftware.maps.GeoMap;
-import it.localhostsoftware.maps.LocationSource;
-import it.localhostsoftware.maps.Projection;
-import it.localhostsoftware.maps.UiSettings;
-import it.localhostsoftware.maps.google.model.GoogleCameraPosition;
-import it.localhostsoftware.maps.google.model.GoogleCircle;
-import it.localhostsoftware.maps.google.model.GoogleIndoorBuilding;
-import it.localhostsoftware.maps.google.model.GoogleLatLng;
-import it.localhostsoftware.maps.google.model.GoogleMarker;
-import it.localhostsoftware.maps.google.model.GoogleMarkerOptions;
-import it.localhostsoftware.maps.google.model.GooglePointOfInterest;
-import it.localhostsoftware.maps.google.model.GooglePolygon;
-import it.localhostsoftware.maps.google.model.GooglePolyline;
-import it.localhostsoftware.maps.model.CameraPosition;
-import it.localhostsoftware.maps.model.Circle;
-import it.localhostsoftware.maps.model.CircleOptions;
-import it.localhostsoftware.maps.model.IndoorBuilding;
-import it.localhostsoftware.maps.model.LatLngBounds;
-import it.localhostsoftware.maps.model.MapStyleOptions;
-import it.localhostsoftware.maps.model.Marker;
-import it.localhostsoftware.maps.model.MarkerOptions;
-import it.localhostsoftware.maps.model.Polygon;
-import it.localhostsoftware.maps.model.PolygonOptions;
-import it.localhostsoftware.maps.model.Polyline;
-import it.localhostsoftware.maps.model.PolylineOptions;
-
-public class GoogleMap extends GeoMap<com.google.android.gms.maps.GoogleMap> {
-    public GoogleMap(com.google.android.gms.maps.GoogleMap googleMap) {
-        super(googleMap);
+    override fun moveCamera(var1: CameraUpdate<*>) {
+        map.moveCamera(var1.cu as com.google.android.gms.maps.CameraUpdate)
     }
 
-    @Override
-    public CameraPosition<?> getCameraPosition() {
-        return new GoogleCameraPosition(getMap().getCameraPosition());
+    override fun animateCamera(var1: CameraUpdate<*>) {
+        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate)
     }
 
-    @Override
-    public float getMaxZoomLevel() {
-        return getMap().getMaxZoomLevel();
-    }
-
-    @Override
-    public float getMinZoomLevel() {
-        return getMap().getMinZoomLevel();
-    }
-
-    @Override
-    public void moveCamera(CameraUpdate<?> var1) {
-        getMap().moveCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate());
-    }
-
-    @Override
-    public void animateCamera(CameraUpdate<?> var1) {
-        getMap().animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate());
-    }
-
-    @Override
-    public void animateCamera(CameraUpdate<?> var1, CancelableCallback var2) {
-        getMap().animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate(), new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
-            @Override
-            public void onFinish() {
-                var2.onFinish();
+    override fun animateCamera(var1: CameraUpdate<*>, var2: CancelableCallback?) {
+        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate, var2?.let {
+            object : GoogleMap.CancelableCallback {
+                override fun onFinish() = it.onFinish()
+                override fun onCancel() = it.onCancel()
             }
+        })
+    }
 
-            @Override
-            public void onCancel() {
-                var2.onCancel();
+    override fun animateCamera(var1: CameraUpdate<*>, var2: Int, var3: CancelableCallback?) {
+        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate, var2, var3?.let {
+            object : GoogleMap.CancelableCallback {
+                override fun onFinish() = it.onFinish()
+                override fun onCancel() = it.onCancel()
             }
-        });
+        })
     }
 
-    @Override
-    public void animateCamera(CameraUpdate<?> var1, int var2, CancelableCallback var3) {
-        getMap().animateCamera((com.google.android.gms.maps.CameraUpdate) var1.getCameraUpdate(), var2, new com.google.android.gms.maps.GoogleMap.CancelableCallback() {
-            @Override
-            public void onFinish() {
-                var3.onFinish();
+    override fun stopAnimation() {
+        map.stopAnimation()
+    }
+
+    override fun addPolyline(var1: PolylineOptions<*>): it.localhostsoftware.maps.model.Polyline<*> {
+        return GooglePolyline(map.addPolyline(var1.po as com.google.android.gms.maps.model.PolylineOptions))
+    }
+
+    override fun addPolygon(var1: it.localhostsoftware.maps.model.PolygonOptions<*>): it.localhostsoftware.maps.model.Polygon<*> {
+        return GooglePolygon(map.addPolygon(var1.po as PolygonOptions))
+    }
+
+    override fun addCircle(var1: it.localhostsoftware.maps.model.CircleOptions<*>): it.localhostsoftware.maps.model.Circle<*> {
+        return GoogleCircle(map.addCircle(var1.co as CircleOptions))
+    }
+
+    override fun addMarker(var1: MarkerOptions<*>): it.localhostsoftware.maps.model.Marker<*>? {
+        return map.addMarker((var1 as GoogleMarkerOptions).mo)?.let { GoogleMarker(it) }
+    }
+
+    override fun clear() {
+        map.clear()
+    }
+
+    override val focusedBuilding: it.localhostsoftware.maps.model.IndoorBuilding<*>?
+        get() = map.focusedBuilding?.let { GoogleIndoorBuilding(it) }
+
+    override fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?) {
+        map.setOnIndoorStateChangeListener(var1?.let {
+            object : GoogleMap.OnIndoorStateChangeListener {
+                override fun onIndoorBuildingFocused() = it.onIndoorBuildingFocused()
+                override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = it.onIndoorLevelActivated(GoogleIndoorBuilding(indoorBuilding))
             }
-
-            @Override
-            public void onCancel() {
-                var3.onCancel();
-            }
-        });
+        })
     }
 
-    @Override
-    public void stopAnimation() {
-        getMap().stopAnimation();
-    }
-
-    @Override
-    public Polyline<?> addPolyline(PolylineOptions<?> var1) {
-        return new GooglePolyline(getMap().addPolyline((com.google.android.gms.maps.model.PolylineOptions) var1.getPolylineOptions()));
-    }
-
-    @Override
-    public Polygon<?> addPolygon(PolygonOptions<?> var1) {
-        return new GooglePolygon(getMap().addPolygon((com.google.android.gms.maps.model.PolygonOptions) var1.getPolygonOptions()));
-    }
-
-    @Override
-    public Circle<?> addCircle(CircleOptions<?> var1) {
-        return new GoogleCircle(getMap().addCircle((com.google.android.gms.maps.model.CircleOptions) var1.getCircleOptions()));
-    }
-
-    @Override
-    public Marker<?> addMarker(MarkerOptions<?> var1) {
-        return new GoogleMarker(getMap().addMarker(((GoogleMarkerOptions) var1).getMarkerOptions()));
-    }
-
-    @Override
-    public void clear() {
-        getMap().clear();
-    }
-
-    @Override
-    public IndoorBuilding<?> getFocusedBuilding() {
-        return new GoogleIndoorBuilding(getMap().getFocusedBuilding());
-    }
-
-    @Override
-    public void setOnIndoorStateChangeListener(OnIndoorStateChangeListener var1) {
-        if (var1 == null)
-            getMap().setOnIndoorStateChangeListener(null);
-        else {
-            getMap().setOnIndoorStateChangeListener(new com.google.android.gms.maps.GoogleMap.OnIndoorStateChangeListener() {
-                @Override
-                public void onIndoorBuildingFocused() {
-                    var1.onIndoorBuildingFocused();
-                }
-
-                @Override
-                public void onIndoorLevelActivated(com.google.android.gms.maps.model.IndoorBuilding indoorBuilding) {
-                    var1.onIndoorLevelActivated(new GoogleIndoorBuilding(indoorBuilding));
-                }
-            });
+    override var mapType: Int
+        get() = map.mapType
+        set(i) {
+            map.mapType = i
         }
+    override var isTrafficEnabled: Boolean
+        get() = map.isTrafficEnabled
+        set(b) {
+            map.isTrafficEnabled = b
+        }
+    override val isIndoorEnabled: Boolean
+        get() = map.isIndoorEnabled
+
+    override fun setIndoorEnabled(var1: Boolean): Boolean {
+        return map.setIndoorEnabled(var1)
     }
 
-    @Override
-    public int getMapType() {
-        return getMap().getMapType();
-    }
+    override var isBuildingsEnabled: Boolean
+        get() = map.isBuildingsEnabled
+        set(b) {
+            map.isBuildingsEnabled = b
+        }
 
-    @Override
-    public void setMapType(int i) {
-        getMap().setMapType(i);
-    }
+    @set:RequiresPermission(anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"])
+    override var isMyLocationEnabled: Boolean
+        get() = map.isMyLocationEnabled
+        set(b) {
+            map.isMyLocationEnabled = b
+        }
 
-    @Override
-    public boolean isTrafficEnabled() {
-        return getMap().isTrafficEnabled();
-    }
-
-    @Override
-    public void setTrafficEnabled(boolean b) {
-        getMap().setTrafficEnabled(b);
-    }
-
-    @Override
-    public boolean isIndoorEnabled() {
-        return getMap().isIndoorEnabled();
-    }
-
-    @Override
-    public boolean setIndoorEnabled(boolean b) {
-        return getMap().setIndoorEnabled(b);
-    }
-
-    @Override
-    public boolean isBuildingsEnabled() {
-        return getMap().isBuildingsEnabled();
-    }
-
-    @Override
-    public void setBuildingsEnabled(boolean b) {
-        getMap().setBuildingsEnabled(b);
-    }
-
-    @Override
-    public boolean isMyLocationEnabled() {
-        return getMap().isMyLocationEnabled();
-    }
-
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
-    @Override
-    public void setMyLocationEnabled(boolean b) {
-        getMap().setMyLocationEnabled(b);
-    }
-
-    @Override
-    public void setLocationSource(LocationSource var1) {
-        getMap().setLocationSource(var1 == null ? null : new com.google.android.gms.maps.LocationSource() {
-            @Override
-            public void activate(OnLocationChangedListener onLocationChangedListener) {
-                var1.activate(onLocationChangedListener::onLocationChanged);
+    override fun setLocationSource(var1: it.localhostsoftware.maps.LocationSource?) {
+        map.setLocationSource(var1?.let { ls ->
+            object : LocationSource {
+                override fun deactivate() = ls.deactivate()
+                override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
+                        var1.activate(object : it.localhostsoftware.maps.LocationSource.OnLocationChangedListener {
+                            override fun onLocationChanged(var1: Location) = onLocationChangedListener.onLocationChanged(var1)
+                        })
             }
+        })
+    }
 
-            @Override
-            public void deactivate() {
-                var1.deactivate();
+    override val uiSettings: UiSettings<*>
+        get() = GoogleUiSettings(map.uiSettings)
+    override val projection: Projection<*>
+        get() = GoogleProjection(map.projection)
+
+    override fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?) {
+        map.setOnCameraMoveStartedListener(var1?.let { GoogleMap.OnCameraMoveStartedListener { var1.onCameraMoveStarted(it) } })
+    }
+
+    override fun setOnCameraMoveListener(var1: OnCameraMoveListener?) {
+        map.setOnCameraMoveListener(var1?.let { GoogleMap.OnCameraMoveListener { var1.onCameraMove() } })
+    }
+
+    override fun setOnCameraMoveCanceledListener(var1: OnCameraMoveCanceledListener?) {
+        map.setOnCameraMoveCanceledListener(var1?.let { GoogleMap.OnCameraMoveCanceledListener { var1.onCameraMoveCanceled() } })
+    }
+
+    override fun setOnCameraIdleListener(var1: OnCameraIdleListener?) {
+        map.setOnCameraIdleListener(var1?.let { GoogleMap.OnCameraIdleListener { var1.onCameraIdle() } })
+    }
+
+    override fun setOnMapClickListener(var1: OnMapClickListener?) {
+        map.setOnMapClickListener(var1?.let { GoogleMap.OnMapClickListener { var1.onMapClick(GoogleLatLng(it)) } })
+    }
+
+    override fun setOnMapLongClickListener(var1: OnMapLongClickListener?) {
+        map.setOnMapLongClickListener(var1?.let { GoogleMap.OnMapLongClickListener { var1.onMapLongClick(GoogleLatLng(it)) } })
+    }
+
+    override fun setOnMarkerClickListener(var1: OnMarkerClickListener?) {
+        map.setOnMarkerClickListener(var1?.let { GoogleMap.OnMarkerClickListener { var1.onMarkerClick(GoogleMarker(it)) } })
+    }
+
+    override fun setOnMarkerDragListener(var1: OnMarkerDragListener?) {
+        map.setOnMarkerDragListener(var1?.let {
+            object : GoogleMap.OnMarkerDragListener {
+                override fun onMarkerDragStart(marker: Marker) = var1.onMarkerDragStart(GoogleMarker(marker))
+                override fun onMarkerDrag(marker: Marker) = var1.onMarkerDrag(GoogleMarker(marker))
+                override fun onMarkerDragEnd(marker: Marker) = var1.onMarkerDragEnd(GoogleMarker(marker))
             }
-        });
+        })
     }
 
-    @Override
-    public UiSettings<?> getUiSettings() {
-        return new GoogleUiSettings(getMap().getUiSettings());
+    override fun setOnInfoWindowClickListener(var1: OnInfoWindowClickListener?) {
+        map.setOnInfoWindowClickListener(var1?.let { GoogleMap.OnInfoWindowClickListener { var1.onInfoWindowClick(GoogleMarker(it)) } })
     }
 
-    @Override
-    public Projection<?> getProjection() {
-        return new GoogleProjection(getMap().getProjection());
+    override fun setOnInfoWindowLongClickListener(var1: OnInfoWindowLongClickListener?) {
+        map.setOnInfoWindowLongClickListener(var1?.let { GoogleMap.OnInfoWindowLongClickListener { var1.onInfoWindowLongClick(GoogleMarker(it)) } })
     }
 
-    @Override
-    public void setOnCameraMoveStartedListener(@Nullable OnCameraMoveStartedListener var1) {
-        getMap().setOnCameraMoveStartedListener(var1 == null ? null : var1::onCameraMoveStarted);
+    override fun setOnInfoWindowCloseListener(var1: OnInfoWindowCloseListener?) {
+        map.setOnInfoWindowCloseListener(var1?.let { GoogleMap.OnInfoWindowCloseListener { var1.onInfoWindowClose(GoogleMarker(it)) } })
     }
 
-    @Override
-    public void setOnCameraMoveListener(@Nullable OnCameraMoveListener var1) {
-        getMap().setOnCameraMoveListener(var1 == null ? null : var1::onCameraMove);
-    }
-
-    @Override
-    public void setOnCameraMoveCanceledListener(@Nullable OnCameraMoveCanceledListener var1) {
-        getMap().setOnCameraMoveCanceledListener(var1 == null ? null : var1::onCameraMoveCanceled);
-    }
-
-    @Override
-    public void setOnCameraIdleListener(@Nullable OnCameraIdleListener var1) {
-        getMap().setOnCameraIdleListener(var1 == null ? null : var1::onCameraIdle);
-    }
-
-    @Override
-    public void setOnMapClickListener(@Nullable OnMapClickListener var1) {
-        getMap().setOnMapClickListener(var1 == null ? null : latLng -> var1.onMapClick(new GoogleLatLng(latLng)));
-    }
-
-    @Override
-    public void setOnMapLongClickListener(@Nullable OnMapLongClickListener var1) {
-        getMap().setOnMapLongClickListener(var1 == null ? null : latLng -> var1.onMapLongClick(new GoogleLatLng(latLng)));
-    }
-
-    @Override
-    public void setOnMarkerClickListener(@Nullable OnMarkerClickListener var1) {
-        getMap().setOnMarkerClickListener(var1 == null ? null : marker -> var1.onMarkerClick(new GoogleMarker(marker)));
-    }
-
-    @Override
-    public void setOnMarkerDragListener(@Nullable OnMarkerDragListener var1) {
-        getMap().setOnMarkerDragListener(var1 == null ? null : new com.google.android.gms.maps.GoogleMap.OnMarkerDragListener() {
-            @Override
-            public void onMarkerDragStart(com.google.android.gms.maps.model.Marker marker) {
-                var1.onMarkerDragStart(new GoogleMarker(marker));
+    override fun setInfoWindowAdapter(var1: InfoWindowAdapter?) {
+        map.setInfoWindowAdapter(var1?.let {
+            object : GoogleMap.InfoWindowAdapter {
+                override fun getInfoWindow(marker: Marker): View = var1.getInfoWindow(GoogleMarker(marker))
+                override fun getInfoContents(marker: Marker): View = var1.getInfoContents(GoogleMarker(marker))
             }
-
-            @Override
-            public void onMarkerDrag(com.google.android.gms.maps.model.Marker marker) {
-                var1.onMarkerDrag(new GoogleMarker(marker));
-            }
-
-            @Override
-            public void onMarkerDragEnd(com.google.android.gms.maps.model.Marker marker) {
-                var1.onMarkerDragEnd(new GoogleMarker(marker));
-            }
-        });
+        })
     }
 
-    @Override
-    public void setOnInfoWindowClickListener(@Nullable OnInfoWindowClickListener var1) {
-        getMap().setOnInfoWindowClickListener(var1 == null ? null : marker -> var1.onInfoWindowClick(new GoogleMarker(marker)));
+    override fun setOnMyLocationButtonClickListener(var1: OnMyLocationButtonClickListener?) {
+        map.setOnMyLocationButtonClickListener(var1?.let { GoogleMap.OnMyLocationButtonClickListener { var1.onMyLocationButtonClick() } })
     }
 
-    @Override
-    public void setOnInfoWindowLongClickListener(@Nullable OnInfoWindowLongClickListener var1) {
-        getMap().setOnInfoWindowLongClickListener(var1 == null ? null : marker -> var1.onInfoWindowLongClick(new GoogleMarker(marker)));
-
+    override fun setOnMyLocationClickListener(var1: OnMyLocationClickListener?) {
+        map.setOnMyLocationClickListener(var1?.let { GoogleMap.OnMyLocationClickListener { var1.onMyLocationClick(it) } })
     }
 
-    @Override
-    public void setOnInfoWindowCloseListener(@Nullable OnInfoWindowCloseListener var1) {
-        getMap().setOnInfoWindowCloseListener(var1 == null ? null : marker -> var1.onInfoWindowClose(new GoogleMarker(marker)));
+    override fun setOnMapLoadedCallback(var1: OnMapLoadedCallback?) {
+        map.setOnMapLoadedCallback(var1?.let { GoogleMap.OnMapLoadedCallback { var1.onMapLoaded() } })
     }
 
-    @Override
-    public void setInfoWindowAdapter(@Nullable InfoWindowAdapter var1) {
-        getMap().setInfoWindowAdapter(var1 == null ? null : new com.google.android.gms.maps.GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(com.google.android.gms.maps.model.Marker marker) {
-                return var1.getInfoWindow(new GoogleMarker(marker));
-            }
-
-            @Override
-            public View getInfoContents(com.google.android.gms.maps.model.Marker marker) {
-                return var1.getInfoContents(new GoogleMarker(marker));
-            }
-        });
+    override fun setOnCircleClickListener(var1: OnCircleClickListener?) {
+        map.setOnCircleClickListener(var1?.let { GoogleMap.OnCircleClickListener { var1.onCircleClick(GoogleCircle(it)) } })
     }
 
-    @Override
-    public void setOnMyLocationButtonClickListener(@Nullable OnMyLocationButtonClickListener var1) {
-        getMap().setOnMyLocationButtonClickListener(var1 == null ? null : var1::onMyLocationButtonClick);
+    override fun setOnPolygonClickListener(var1: OnPolygonClickListener?) {
+        map.setOnPolygonClickListener(var1?.let { GoogleMap.OnPolygonClickListener { var1.onPolygonClick(GooglePolygon(it)) } })
     }
 
-    @Override
-    public void setOnMyLocationClickListener(@Nullable OnMyLocationClickListener var1) {
-        getMap().setOnMyLocationClickListener(var1 == null ? null : var1::onMyLocationClick);
+    override fun setOnPolylineClickListener(var1: OnPolylineClickListener?) {
+        map.setOnPolylineClickListener(var1?.let { GoogleMap.OnPolylineClickListener { var1.onPolylineClick(GooglePolyline(it)) } })
     }
 
-    @Override
-    public void setOnMapLoadedCallback(@Nullable OnMapLoadedCallback var1) {
-        getMap().setOnMapLoadedCallback(var1 == null ? null : var1::onMapLoaded);
+    override fun snapshot(var1: SnapshotReadyCallback) {
+        map.snapshot { var1.onSnapshotReady(it) }
     }
 
-    @Override
-    public void setOnCircleClickListener(OnCircleClickListener var1) {
-        getMap().setOnCircleClickListener(var1 == null ? null : circle -> var1.onCircleClick(new GoogleCircle(circle)));
-
+    override fun snapshot(var1: SnapshotReadyCallback, var2: Bitmap?) {
+        map.snapshot({ var1.onSnapshotReady(it) }, var2)
     }
 
-    @Override
-    public void setOnPolygonClickListener(OnPolygonClickListener var1) {
-        getMap().setOnPolygonClickListener(var1 == null ? null : polygon -> var1.onPolygonClick(new GooglePolygon(polygon)));
+    override fun setPadding(var1: Int, var2: Int, var3: Int, var4: Int) {
+        map.setPadding(var1, var2, var3, var4)
     }
 
-    @Override
-    public void setOnPolylineClickListener(GeoMap.OnPolylineClickListener var1) {
-        getMap().setOnPolylineClickListener(var1 == null ? null : polyline -> var1.onPolylineClick(new GooglePolyline(polyline)));
+    override fun setContentDescription(var1: String?) {
+        map.setContentDescription(var1)
     }
 
-    @Override
-    public void snapshot(SnapshotReadyCallback var1) {
-        getMap().snapshot(var1::onSnapshotReady);
+    override fun setOnPoiClickListener(var1: OnPoiClickListener?) {
+        map.setOnPoiClickListener(var1?.let { GoogleMap.OnPoiClickListener { var1.onPoiClick(GooglePointOfInterest(it)) } })
     }
 
-    @Override
-    public void snapshot(SnapshotReadyCallback var1, Bitmap var2) {
-        getMap().snapshot(var1::onSnapshotReady, var2);
+    override fun setMapStyle(var1: it.localhostsoftware.maps.model.MapStyleOptions<*>?): Boolean {
+        return map.setMapStyle(var1?.let { var1.mso as MapStyleOptions })
     }
 
-    @Override
-    public void setPadding(int i, int i1, int i2, int i3) {
-        getMap().setPadding(i, i1, i2, i3);
+    override fun setMinZoomPreference(var1: Float) {
+        map.setMinZoomPreference(var1)
     }
 
-    @Override
-    public void setContentDescription(String s) {
-        getMap().setContentDescription(s);
+    override fun setMaxZoomPreference(var1: Float) {
+        map.setMaxZoomPreference(var1)
     }
 
-    @Override
-    public void setOnPoiClickListener(OnPoiClickListener var1) {
-        getMap().setOnPoiClickListener(var1 == null ? null : pointOfInterest -> var1.onPoiClick(new GooglePointOfInterest(pointOfInterest)));
+    override fun resetMinMaxZoomPreference() {
+        map.resetMinMaxZoomPreference()
     }
 
-    @Override
-    public boolean setMapStyle(@Nullable MapStyleOptions<?> var1) {
-        return getMap().setMapStyle(var1 == null ? null : (com.google.android.gms.maps.model.MapStyleOptions) var1.getMapStyleOptions());
-    }
-
-    @Override
-    public void setMinZoomPreference(float v) {
-        getMap().setMinZoomPreference(v);
-    }
-
-    @Override
-    public void setMaxZoomPreference(float v) {
-        getMap().setMaxZoomPreference(v);
-    }
-
-    @Override
-    public void resetMinMaxZoomPreference() {
-        getMap().resetMinMaxZoomPreference();
-    }
-
-    @Override
-    public void setLatLngBoundsForCameraTarget(LatLngBounds<?> var1) {
-        getMap().setLatLngBoundsForCameraTarget(var1 == null ? null : (com.google.android.gms.maps.model.LatLngBounds) var1.getLatLngBounds());
+    override fun setLatLngBoundsForCameraTarget(var1: it.localhostsoftware.maps.model.LatLngBounds<*>?) {
+        map.setLatLngBoundsForCameraTarget(var1?.let { var1.lb as LatLngBounds })
     }
 }

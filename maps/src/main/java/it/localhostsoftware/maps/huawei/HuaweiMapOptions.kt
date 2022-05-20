@@ -1,189 +1,123 @@
-package it.localhostsoftware.maps.huawei;
+package it.localhostsoftware.maps.huawei
 
-import it.localhostsoftware.maps.MapOptions;
-import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition;
-import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds;
-import it.localhostsoftware.maps.model.CameraPosition;
-import it.localhostsoftware.maps.model.LatLngBounds;
+import com.huawei.hms.maps.HuaweiMapOptions
+import it.localhostsoftware.maps.MapOptions
+import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds
+import it.localhostsoftware.maps.model.CameraPosition
+import it.localhostsoftware.maps.model.LatLngBounds
 
-public class HuaweiMapOptions extends MapOptions<com.huawei.hms.maps.HuaweiMapOptions> {
-    public HuaweiMapOptions(com.huawei.hms.maps.HuaweiMapOptions huaweiMapOptions) {
-        super(huaweiMapOptions);
+class HuaweiMapOptions(huaweiMapOptions: HuaweiMapOptions) : MapOptions<HuaweiMapOptions>(huaweiMapOptions) {
+    override fun zOrderOnTop(var1: Boolean): MapOptions<*> {
+        mo.zOrderOnTop(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> zOrderOnTop(boolean var1) {
-        getMapOptions().zOrderOnTop(var1);
-        return this;
+    override fun useViewLifecycleInFragment(var1: Boolean): MapOptions<*> {
+        mo.useViewLifecycleInFragment(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> useViewLifecycleInFragment(boolean var1) {
-        getMapOptions().useViewLifecycleInFragment(var1);
-        return this;
+    override fun mapType(var1: Int): MapOptions<*> {
+        mo.mapType(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> mapType(int var1) {
-        getMapOptions().mapType(var1);
-        return this;
+    override fun camera(var1: CameraPosition<*>?): MapOptions<*> {
+        mo.camera(var1?.cp as? com.huawei.hms.maps.model.CameraPosition)
+        return this
     }
 
-    @Override
-    public MapOptions<?> camera(CameraPosition<?> var1) {
-        getMapOptions().camera((com.huawei.hms.maps.model.CameraPosition) var1.getCameraPosition());
-        return this;
+    override fun zoomControlsEnabled(var1: Boolean): MapOptions<*> {
+        mo.zoomControlsEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> zoomControlsEnabled(boolean var1) {
-        getMapOptions().zoomControlsEnabled(var1);
-        return this;
+    override fun compassEnabled(var1: Boolean): MapOptions<*> {
+        mo.compassEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> compassEnabled(boolean var1) {
-        getMapOptions().compassEnabled(var1);
-        return this;
+    override fun scrollGesturesEnabled(var1: Boolean): MapOptions<*> {
+        mo.scrollGesturesEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> scrollGesturesEnabled(boolean var1) {
-        getMapOptions().scrollGesturesEnabled(var1);
-        return this;
+    override fun zoomGesturesEnabled(var1: Boolean): MapOptions<*> {
+        mo.zoomGesturesEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> zoomGesturesEnabled(boolean var1) {
-        getMapOptions().zoomGesturesEnabled(var1);
-        return this;
+    override fun tiltGesturesEnabled(var1: Boolean): MapOptions<*> {
+        mo.tiltGesturesEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> tiltGesturesEnabled(boolean var1) {
-        getMapOptions().tiltGesturesEnabled(var1);
-        return this;
+    override fun rotateGesturesEnabled(var1: Boolean): MapOptions<*> {
+        mo.rotateGesturesEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> rotateGesturesEnabled(boolean var1) {
-        getMapOptions().rotateGesturesEnabled(var1);
-        return this;
+    override fun liteMode(var1: Boolean): MapOptions<*> {
+        mo.liteMode(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> liteMode(boolean var1) {
-        getMapOptions().liteMode(var1);
-        return this;
+    override fun mapToolbarEnabled(var1: Boolean): MapOptions<*> {
+        mo.mapToolbarEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> mapToolbarEnabled(boolean var1) {
-        getMapOptions().mapToolbarEnabled(var1);
-        return this;
+    override fun ambientEnabled(var1: Boolean): MapOptions<*> {
+        mo.ambientEnabled(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> ambientEnabled(boolean var1) {
-        getMapOptions().ambientEnabled(var1);
-        return this;
+    override fun minZoomPreference(var1: Float): MapOptions<*> {
+        mo.minZoomPreference(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> minZoomPreference(float var1) {
-        getMapOptions().minZoomPreference(var1);
-        return this;
+    override fun maxZoomPreference(var1: Float): MapOptions<*> {
+        mo.maxZoomPreference(var1)
+        return this
     }
 
-    @Override
-    public MapOptions<?> maxZoomPreference(float var1) {
-        getMapOptions().maxZoomPreference(var1);
-        return this;
+    override fun latLngBoundsForCameraTarget(var1: LatLngBounds<*>?): MapOptions<*> {
+        mo.latLngBoundsForCameraTarget(var1?.lb as? com.huawei.hms.maps.model.LatLngBounds)
+        return this
     }
 
-    @Override
-    public MapOptions<?> latLngBoundsForCameraTarget(LatLngBounds<?> var1) {
-        getMapOptions().latLngBoundsForCameraTarget((com.huawei.hms.maps.model.LatLngBounds) var1.getLatLngBounds());
-        return this;
-    }
-
-    @Override
-    public Boolean getZOrderOnTop() {
-        return getMapOptions().getZOrderOnTop();
-    }
-
-    @Override
-    public Boolean getUseViewLifecycleInFragment() {
-        return getMapOptions().getUseViewLifecycleInFragment();
-    }
-
-    @Override
-    public int getMapType() {
-        return getMapOptions().getMapType();
-    }
-
-    @Override
-    public CameraPosition<?> getCamera() {
-        return new HuaweiCameraPosition(getMapOptions().getCamera());
-    }
-
-    @Override
-    public Boolean getZoomControlsEnabled() {
-        return getMapOptions().getZoomControlsEnabled();
-    }
-
-    @Override
-    public Boolean getCompassEnabled() {
-        return getMapOptions().getCompassEnabled();
-    }
-
-    @Override
-    public Boolean getScrollGesturesEnabled() {
-        return getMapOptions().getScrollGesturesEnabled();
-    }
-
-    @Override
-    public Boolean getZoomGesturesEnabled() {
-        return getMapOptions().getZoomGesturesEnabled();
-    }
-
-    @Override
-    public Boolean getTiltGesturesEnabled() {
-        return getMapOptions().getTiltGesturesEnabled();
-    }
-
-    @Override
-    public Boolean getRotateGesturesEnabled() {
-        return getMapOptions().getRotateGesturesEnabled();
-    }
-
-    @Override
-    public Boolean getLiteMode() {
-        return getMapOptions().getLiteMode();
-    }
-
-    @Override
-    public Boolean getMapToolbarEnabled() {
-        return getMapOptions().getMapToolbarEnabled();
-    }
-
-    @Override
-    public Boolean getAmbientEnabled() {
-        return getMapOptions().getAmbientEnabled();
-    }
-
-    @Override
-    public Float getMinZoomPreference() {
-        return getMapOptions().getMinZoomPreference();
-    }
-
-    @Override
-    public Float getMaxZoomPreference() {
-        return getMapOptions().getMaxZoomPreference();
-    }
-
-    @Override
-    public LatLngBounds<?> getLatLngBoundsForCameraTarget() {
-        return new HuaweiLatLngBounds(getMapOptions().getLatLngBoundsForCameraTarget());
-    }
+    override val zOrderOnTop: Boolean
+        get() = mo.zOrderOnTop
+    override val useViewLifecycleInFragment: Boolean
+        get() = mo.useViewLifecycleInFragment
+    override val mapType: Int
+        get() = mo.mapType
+    override val camera: CameraPosition<*>
+        get() = HuaweiCameraPosition(mo.camera)
+    override val zoomControlsEnabled: Boolean
+        get() = mo.zoomControlsEnabled
+    override val compassEnabled: Boolean
+        get() = mo.compassEnabled
+    override val scrollGesturesEnabled: Boolean
+        get() = mo.scrollGesturesEnabled
+    override val zoomGesturesEnabled: Boolean
+        get() = mo.zoomGesturesEnabled
+    override val tiltGesturesEnabled: Boolean
+        get() = mo.tiltGesturesEnabled
+    override val rotateGesturesEnabled: Boolean
+        get() = mo.rotateGesturesEnabled
+    override val liteMode: Boolean
+        get() = mo.liteMode
+    override val mapToolbarEnabled: Boolean
+        get() = mo.mapToolbarEnabled
+    override val ambientEnabled: Boolean
+        get() = mo.ambientEnabled
+    override val minZoomPreference: Float
+        get() = mo.minZoomPreference
+    override val maxZoomPreference: Float
+        get() = mo.maxZoomPreference
+    override val latLngBoundsForCameraTarget: LatLngBounds<*>
+        get() = HuaweiLatLngBounds(mo.latLngBoundsForCameraTarget)
 }
