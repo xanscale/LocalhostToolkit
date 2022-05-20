@@ -15,14 +15,14 @@ abstract class LatLngBounds<LB>(val lb: LB) {
     abstract val center: LatLng<*>
 
     abstract class Builder<B>(val builder: B) {
-        abstract fun include(var1: LatLng<*>): Builder<*>
-        abstract fun build(): LatLngBounds<*>
-
         companion object {
             fun getInstance(context: Context): Builder<*> =
                     if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleBuilder(com.google.android.gms.maps.model.LatLngBounds.Builder())
                     else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiBuilder(com.huawei.hms.maps.model.LatLngBounds.Builder())
                     else throw IllegalStateException()
         }
+
+        abstract fun include(var1: LatLng<*>): Builder<*>
+        abstract fun build(): LatLngBounds<*>
     }
 }

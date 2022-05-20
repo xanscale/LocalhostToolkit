@@ -10,6 +10,13 @@ import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
 abstract class MapOptions<MO>(val mo: MO) {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) it.localhostsoftware.maps.google.GoogleMapOptions(GoogleMapOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) it.localhostsoftware.maps.huawei.HuaweiMapOptions(HuaweiMapOptions())
+                else throw IllegalStateException()
+    }
+
     abstract fun zOrderOnTop(var1: Boolean): MapOptions<*>
     abstract fun useViewLifecycleInFragment(var1: Boolean): MapOptions<*>
     abstract fun mapType(var1: Int): MapOptions<*>
@@ -42,11 +49,4 @@ abstract class MapOptions<MO>(val mo: MO) {
     abstract val minZoomPreference: Float?
     abstract val maxZoomPreference: Float?
     abstract val latLngBoundsForCameraTarget: LatLngBounds<*>?
-
-    companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) it.localhostsoftware.maps.google.GoogleMapOptions(GoogleMapOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) it.localhostsoftware.maps.huawei.HuaweiMapOptions(HuaweiMapOptions())
-                else throw IllegalStateException()
-    }
 }

@@ -8,6 +8,13 @@ import it.localhostsoftware.maps.google.model.GooglePolylineOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiPolylineOptions
 
 abstract class PolylineOptions<PO>(val po: PO) {
+    companion object {
+        fun getInstance(context: Context): PolylineOptions<*> =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolylineOptions(com.google.android.gms.maps.model.PolylineOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolylineOptions(com.huawei.hms.maps.model.PolylineOptions())
+                else throw IllegalStateException()
+    }
+
     abstract fun add(vararg var1: LatLng<*>): PolylineOptions<*>
     abstract fun width(var1: Float): PolylineOptions<*>
     abstract fun color(var1: Int): PolylineOptions<*>
@@ -33,12 +40,5 @@ abstract class PolylineOptions<PO>(val po: PO) {
     fun addAll(var1: Iterable<LatLng<*>>): PolylineOptions<*> {
         add(*var1.toList().toTypedArray())
         return this
-    }
-
-    companion object {
-        fun getInstance(context: Context): PolylineOptions<*> =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolylineOptions(com.google.android.gms.maps.model.PolylineOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolylineOptions(com.huawei.hms.maps.model.PolylineOptions())
-                else throw IllegalStateException()
     }
 }

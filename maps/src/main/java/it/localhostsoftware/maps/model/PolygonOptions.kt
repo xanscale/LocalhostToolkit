@@ -8,6 +8,13 @@ import it.localhostsoftware.maps.google.model.GooglePolygonOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiPolygonOptions
 
 abstract class PolygonOptions<PO>(val po: PO) {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolygonOptions(com.google.android.gms.maps.model.PolygonOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolygonOptions(com.huawei.hms.maps.model.PolygonOptions())
+                else throw IllegalStateException()
+    }
+
     abstract fun add(point: LatLng<*>): PolygonOptions<*>
     abstract fun add(vararg points: LatLng<*>): PolygonOptions<*>
     abstract fun addAll(points: Iterable<LatLng<*>>): PolygonOptions<*>
@@ -32,11 +39,4 @@ abstract class PolygonOptions<PO>(val po: PO) {
     abstract val isVisible: Boolean
     abstract val isGeodesic: Boolean
     abstract val isClickable: Boolean
-
-    companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GooglePolygonOptions(com.google.android.gms.maps.model.PolygonOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiPolygonOptions(com.huawei.hms.maps.model.PolygonOptions())
-                else throw IllegalStateException()
-    }
 }

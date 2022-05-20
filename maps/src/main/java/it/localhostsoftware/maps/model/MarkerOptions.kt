@@ -8,6 +8,13 @@ import it.localhostsoftware.maps.google.model.GoogleMarkerOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions
 
 abstract class MarkerOptions<MO>(val mo: MO) {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleMarkerOptions(com.google.android.gms.maps.model.MarkerOptions())
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiMarkerOptions(com.huawei.hms.maps.model.MarkerOptions())
+                else throw IllegalStateException()
+    }
+
     abstract fun position(var1: LatLng<*>): MarkerOptions<*>
     abstract fun zIndex(var1: Float): MarkerOptions<*>
     abstract fun icon(var1: BitmapDescriptor<*>?): MarkerOptions<*>
@@ -34,11 +41,4 @@ abstract class MarkerOptions<MO>(val mo: MO) {
     abstract val infoWindowAnchorV: Float
     abstract val alpha: Float
     abstract val zIndex: Float
-
-    companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleMarkerOptions(com.google.android.gms.maps.model.MarkerOptions())
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiMarkerOptions(com.huawei.hms.maps.model.MarkerOptions())
-                else throw IllegalStateException()
-    }
 }

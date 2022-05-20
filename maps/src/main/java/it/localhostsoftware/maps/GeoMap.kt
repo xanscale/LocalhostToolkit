@@ -154,13 +154,13 @@ abstract class GeoMap<M>(val map: M) {
     }
 
     interface OnCameraMoveStartedListener {
-        fun onCameraMoveStarted(var1: Int)
-
         companion object {
             const val REASON_GESTURE = 1
             const val REASON_API_ANIMATION = 2
             const val REASON_DEVELOPER_ANIMATION = 3
         }
+
+        fun onCameraMoveStarted(var1: Int)
     }
 
     interface OnMapLongClickListener {

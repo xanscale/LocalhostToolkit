@@ -12,6 +12,13 @@ import it.localhostsoftware.maps.model.LatLng
 import it.localhostsoftware.maps.model.LatLngBounds
 
 interface CameraUpdateFactory {
+    companion object {
+        fun getInstance(context: Context) =
+                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleCameraUpdateFactory()
+                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiCameraUpdateFactory()
+                else throw IllegalStateException()
+    }
+
     fun zoomIn(): CameraUpdate<*>
     fun zoomOut(): CameraUpdate<*>
     fun scrollBy(var0: Float, var1: Float): CameraUpdate<*>
@@ -23,11 +30,4 @@ interface CameraUpdateFactory {
     fun newLatLngZoom(var0: LatLng<*>, var1: Float): CameraUpdate<*>
     fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int): CameraUpdate<*>
     fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int, var2: Int, var3: Int): CameraUpdate<*>
-
-    companion object {
-        fun getInstance(context: Context) =
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS) GoogleCameraUpdateFactory()
-                else if (HuaweiApiAvailability.getInstance().isHuaweiMobileServicesAvailable(context) == com.huawei.hms.api.ConnectionResult.SUCCESS) HuaweiCameraUpdateFactory()
-                else throw IllegalStateException()
-    }
 }
