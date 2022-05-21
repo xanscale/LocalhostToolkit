@@ -13,210 +13,123 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package localhost.toolkit.widget.recyclerview
 
-package localhost.toolkit.widget.recyclerview;
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.view.View
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import kotlin.math.roundToInt
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-/**
- * MiddleDividerItemDecoration is a {@link RecyclerView.ItemDecoration} that can be used as a divider
- * between items of a {@link LinearLayoutManager}. It supports {@link #HORIZONTAL},
- * {@link #VERTICAL} and {@link #ALL} orientations.
- *
- * <pre>
- *     mDividerItemDecoration = new MiddleDividerItemDecoration(recyclerView.getContext(),
- *             mLayoutManager.getOrientation());
- *     recyclerView.addItemDecoration(mDividerItemDecoration);
- * </pre>
- */
-public class MiddleDividerItemDecoration extends RecyclerView.ItemDecoration {
-    public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
-    public static final int VERTICAL = LinearLayout.VERTICAL;
-    public static final int ALL = 2;
-
-    private static final String TAG = "DividerItem";
-    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-
-    private Drawable mDivider;
-
-    /**
-     * Current orientation. Either {@link #HORIZONTAL}, {@link #VERTICAL} or {@link #ALL}.
-     */
-    private int mOrientation;
-
-    private final Rect mBounds = new Rect();
-
-    private int offset = 0;
-
-    /**
-     * Creates a divider {@link RecyclerView.ItemDecoration} that can be used with a
-     * {@link LinearLayoutManager}.
-     *
-     * @param context     Current context, it will be used to access resources.
-     * @param orientation Divider orientation. Should be {@link #HORIZONTAL}, {@link #VERTICAL} or {@link #ALL}.
-     */
-    public MiddleDividerItemDecoration(Context context, int orientation) {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        mDivider = a.getDrawable(0);
-        if (mDivider == null) {
-            Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this "
-                    + "MiddleDividerItemDecoration. Please set that attribute all call setDrawable()");
-        }
-        a.recycle();
-        setOrientation(orientation);
+class MiddleDividerItemDecoration(context: Context, private val orientation: Int) : ItemDecoration() {
+    companion object {
+        const val HORIZONTAL = LinearLayout.HORIZONTAL
+        const val VERTICAL = LinearLayout.VERTICAL
+        const val ALL = 2
+        private const val TAG = "DividerItem"
+        private val ATTRS = intArrayOf(android.R.attr.listDivider)
     }
 
-    /**
-     * Sets the orientation for this divider. This should be called if
-     * {@link RecyclerView.LayoutManager} changes orientation.
-     *
-     * @param orientation {@link #HORIZONTAL}, {@link #VERTICAL} or {@link #ALL}
-     */
-    public void setOrientation(int orientation) {
-        if (orientation != HORIZONTAL && orientation != VERTICAL && orientation != ALL) {
-            throw new IllegalArgumentException("Invalid orientation. It should be either HORIZONTAL or VERTICAL");
-        }
-        mOrientation = orientation;
-    }
+    private val mBounds = Rect()
+    var drawable: Drawable
+    var offset = 0
 
-    /**
-     * Set number of edge items without divider
-     *
-     * @param offset number of items
-     */
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    /**
-     * Sets the {@link Drawable} for this divider.
-     *
-     * @param drawable Drawable that should be used as a divider.
-     */
-    public void setDrawable(@NonNull Drawable drawable) {
-        mDivider = drawable;
-    }
-
-    /**
-     * @return the {@link Drawable} for this divider.
-     */
-    @Nullable
-    public Drawable getDrawable() {
-        return mDivider;
-    }
-
-    @Override
-    public void onDraw(@NonNull Canvas c, RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (parent.getLayoutManager() == null || mDivider == null) {
-            return;
-        }
-        switch (mOrientation) {
-            case ALL:
-                drawVertical(c, parent);
-                drawHorizontal(c, parent);
-                break;
-            case VERTICAL:
-                drawVertical(c, parent);
-                break;
-            default:
-                drawHorizontal(c, parent);
-                break;
+    init {
+        context.obtainStyledAttributes(ATTRS).use {
+            it.getDrawable(0).let { d ->
+                checkNotNull(d) { "@android:attr/listDivider was not set in the theme used for this MiddleDividerItemDecoration. Please set that attribute all call setDrawable()" }
+                drawable = d
+            }
         }
     }
 
-    private void drawVertical(Canvas canvas, RecyclerView parent) {
-        canvas.save();
-        final int left;
-        final int right;
-        if (parent.getClipToPadding()) {
-            left = parent.getPaddingLeft();
-            right = parent.getWidth() - parent.getPaddingRight();
-            canvas.clipRect(left, parent.getPaddingTop(), right,
-                    parent.getHeight() - parent.getPaddingBottom());
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        if (parent.layoutManager == null) return
+        when (orientation) {
+            ALL -> {
+                drawVertical(c, parent)
+                drawHorizontal(c, parent)
+            }
+            VERTICAL -> drawVertical(c, parent)
+            else -> drawHorizontal(c, parent)
+        }
+    }
+
+    private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
+        canvas.save()
+        val left: Int
+        val right: Int
+        if (parent.clipToPadding) {
+            left = parent.paddingLeft
+            right = parent.width - parent.paddingRight
+            canvas.clipRect(left, parent.paddingTop, right, parent.height - parent.paddingBottom)
         } else {
-            left = 0;
-            right = parent.getWidth();
+            left = 0
+            right = parent.width
         }
-
-        int childCount = parent.getChildCount();
-        if (parent.getLayoutManager() instanceof GridLayoutManager) {
-            int leftItems = childCount % ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
-            if (leftItems == 0) {
-                leftItems = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
-            }
-            childCount -= leftItems;
+        var childCount = parent.childCount
+        (parent.layoutManager as? GridLayoutManager)?.let {
+            var leftItems = childCount % it.spanCount
+            if (leftItems == 0) leftItems = it.spanCount
+            childCount -= leftItems
         }
-        for (int i = 0; i < childCount - 1; i++) {
-            final View child = parent.getChildAt(i);
-            int position = parent.getChildAdapterPosition(child);
-            RecyclerView.Adapter<?> adapter = parent.getAdapter();
-            if (adapter != null && position >= offset && position < adapter.getItemCount() - 1 - offset) {
-                parent.getDecoratedBoundsWithMargins(child, mBounds);
-                final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
-                final int top = bottom - mDivider.getIntrinsicHeight();
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(canvas);
+        for (i in 0 until childCount - 1) {
+            val child = parent.getChildAt(i)
+            val position = parent.getChildAdapterPosition(child)
+            if (position >= offset && position < (parent.adapter?.itemCount ?: 0) - 1 - offset) {
+                parent.getDecoratedBoundsWithMargins(child, mBounds)
+                val bottom = mBounds.bottom + child.translationY.roundToInt()
+                val top = bottom - drawable.intrinsicHeight
+                drawable.setBounds(left, top, right, bottom)
+                drawable.draw(canvas)
             }
         }
-        canvas.restore();
+        canvas.restore()
     }
 
-    private void drawHorizontal(Canvas canvas, RecyclerView parent) {
-        canvas.save();
-        final int top;
-        final int bottom;
-        if (parent.getClipToPadding()) {
-            top = parent.getPaddingTop();
-            bottom = parent.getHeight() - parent.getPaddingBottom();
-            canvas.clipRect(parent.getPaddingLeft(), top,
-                    parent.getWidth() - parent.getPaddingRight(), bottom);
+    private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
+        canvas.save()
+        val top: Int
+        val bottom: Int
+        if (parent.clipToPadding) {
+            top = parent.paddingTop
+            bottom = parent.height - parent.paddingBottom
+            canvas.clipRect(parent.paddingLeft, top, parent.width - parent.paddingRight, bottom)
         } else {
-            top = 0;
-            bottom = parent.getHeight();
+            top = 0
+            bottom = parent.height
         }
-
-        int childCount = parent.getChildCount();
-        if (parent.getLayoutManager() instanceof GridLayoutManager) {
-            childCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
+        var childCount = parent.childCount
+        (parent.layoutManager as? GridLayoutManager)?.let {
+            childCount = it.spanCount
         }
-        for (int i = 0; i < childCount - 1; i++) {
-            final View child = parent.getChildAt(i);
-            int position = parent.getChildAdapterPosition(child);
-            RecyclerView.Adapter<?> adapter = parent.getAdapter();
-            if (adapter != null && position >= offset && position < adapter.getItemCount() - 1 - offset) {
-                parent.getDecoratedBoundsWithMargins(child, mBounds);
-                final int right = mBounds.right + Math.round(child.getTranslationX());
-                final int left = right - mDivider.getIntrinsicWidth();
-                mDivider.setBounds(left, top, right, bottom);
-                mDivider.draw(canvas);
+        for (i in 0 until childCount - 1) {
+            val child = parent.getChildAt(i)
+            val position = parent.getChildAdapterPosition(child)
+            if (position >= offset && position < (parent.adapter?.itemCount ?: 0) - 1 - offset) {
+                parent.getDecoratedBoundsWithMargins(child, mBounds)
+                val right = mBounds.right + child.translationX.roundToInt()
+                val left = right - drawable.intrinsicWidth
+                drawable.setBounds(left, top, right, bottom)
+                drawable.draw(canvas)
             }
         }
-        canvas.restore();
+        canvas.restore()
     }
 
-    @Override
-    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        int position = parent.getChildAdapterPosition(view);
-        RecyclerView.Adapter<?> a = parent.getAdapter();
-        if (mDivider == null || position < offset || position >= (a == null ? 0 : a.getItemCount()) - 1 - offset)
-            outRect.setEmpty();
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        val position = parent.getChildAdapterPosition(view)
+        if (position < offset || position >= (parent.adapter?.itemCount ?: 0) - 1 - offset)
+            outRect.setEmpty()
         else
             outRect.set(0, 0,
-                    mOrientation == VERTICAL ? 0 : mDivider.getIntrinsicWidth(),
-                    mOrientation == HORIZONTAL ? 0 : mDivider.getIntrinsicHeight()
-            );
+                    if (orientation == VERTICAL) 0 else drawable.intrinsicWidth,
+                    if (orientation == HORIZONTAL) 0 else drawable.intrinsicHeight
+            )
     }
 }
