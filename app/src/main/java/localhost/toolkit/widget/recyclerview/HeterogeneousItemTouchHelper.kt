@@ -1,74 +1,53 @@
-package localhost.toolkit.widget.recyclerview;
+package localhost.toolkit.widget.recyclerview
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Collections;
-import java.util.List;
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 /**
- * SimpleItemTouchHelper.attachToRecyclerView(recyclerView);
+ * HeterogeneousItemTouchHelper.attachToRecyclerView(recyclerView);
  */
-public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
-    private final RecyclerView.Adapter<?> adapter;
-    private final int dragFlags;
-    private final int swipeFlags;
-
-    private SimpleItemTouchHelper(RecyclerView.Adapter<?> adapter, int dragFlags, int swipeFlags) {
-        this.adapter = adapter;
-        this.dragFlags = dragFlags;
-        this.swipeFlags = swipeFlags;
+class HeterogeneousItemTouchHelper private constructor(
+        private val adapter: HeterogeneousListAdapter,
+        private val dragFlags: Int,
+        private val swipeFlags: Int
+) : ItemTouchHelper.Callback() {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        adapter.submitList(adapter.currentList.toMutableList().apply {
+            removeAt(viewHolder.adapterPosition)
+        })
     }
 
-    public static void attachToRecyclerView(RecyclerView recyclerView) {
-        if (recyclerView.getLayoutManager() == null)
-            throw new IllegalStateException("LayoutManager is null !");
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager)
-            new ItemTouchHelper(new SimpleItemTouchHelper(recyclerView.getAdapter(),
-                    ItemTouchHelper.UP | ItemTouchHelper.DOWN,
-                    ItemTouchHelper.START | ItemTouchHelper.END
-            )).attachToRecyclerView(recyclerView);
-        else if (recyclerView.getLayoutManager() instanceof GridLayoutManager)
-            new ItemTouchHelper(new SimpleItemTouchHelper(recyclerView.getAdapter(),
-                    ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END,
-                    0
-            )).attachToRecyclerView(recyclerView);
-        else
-            throw new IllegalStateException(recyclerView.getLayoutManager().getClass().getSimpleName() + " is not supported");
-    }
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) =
+            makeMovementFlags(dragFlags, swipeFlags)
 
-    @Override
-    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        if (adapter instanceof SimpleItemTouchHelperCallback)
-            ((SimpleItemTouchHelperCallback) adapter).getItems().remove(viewHolder.getAdapterPosition());
-        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-    }
-
-    @Override
-    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(dragFlags, swipeFlags);
-    }
-
-    @Override
-    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        if (adapter instanceof SimpleItemTouchHelperCallback) {
-            int fromPosition = viewHolder.getAdapterPosition();
-            int toPosition = target.getAdapterPosition();
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        adapter.submitList(adapter.currentList.toMutableList().apply {
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
             if (fromPosition < toPosition)
-                for (int i = fromPosition; i < toPosition; i++)
-                    Collections.swap(((SimpleItemTouchHelperCallback) adapter).getItems(), i, i + 1);
+                for (i in fromPosition until toPosition)
+                    Collections.swap(this, i, i + 1)
             else
-                for (int i = fromPosition; i > toPosition; i--)
-                    Collections.swap(((SimpleItemTouchHelperCallback) adapter).getItems(), i, i - 1);
-        }
-        adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        return true;
+                for (i in fromPosition downTo toPosition + 1)
+                    Collections.swap(this, i, i - 1)
+        })
+        return true
     }
 
-    public interface SimpleItemTouchHelperCallback {
-        List<?> getItems();
+    companion object {
+        private const val VERTICAL = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        private const val HORIZONTAL = ItemTouchHelper.START or ItemTouchHelper.END
+        fun attachToRecyclerView(recyclerView: RecyclerView) {
+            (recyclerView.adapter as? HeterogeneousListAdapter)?.let {
+                ItemTouchHelper(when (recyclerView.layoutManager) {
+                    is LinearLayoutManager -> HeterogeneousItemTouchHelper(it, VERTICAL, HORIZONTAL)
+                    is GridLayoutManager -> HeterogeneousItemTouchHelper(it, VERTICAL or HORIZONTAL, 0)
+                    else -> throw IllegalStateException(recyclerView.layoutManager!!.javaClass.simpleName + " is not supported")
+                }).attachToRecyclerView(recyclerView)
+            } ?: throw IllegalStateException(recyclerView.adapter!!.javaClass.simpleName + " is not supported")
+        }
     }
 }
