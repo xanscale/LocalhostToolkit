@@ -9,10 +9,9 @@ import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds.HuaweiBuilder
 abstract class LatLngBounds<LB>(val lb: LB) {
     abstract val southwest: LatLng<*>
     abstract val northeast: LatLng<*>
+    abstract val center: LatLng<*>
     abstract operator fun contains(var1: LatLng<*>): Boolean
     abstract fun including(var1: LatLng<*>): LatLngBounds<*>
-    abstract val center: LatLng<*>
-
     abstract class Builder<B>(val builder: B) {
         companion object {
             fun getInstance(c: Context): Builder<*> =

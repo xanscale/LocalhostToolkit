@@ -8,116 +8,84 @@ import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
 class GoogleMapOptions(googleMapOptions: GoogleMapOptions) : MapOptions<GoogleMapOptions>(googleMapOptions) {
-    override fun zOrderOnTop(var1: Boolean): MapOptions<*> {
-        mo.zOrderOnTop(var1)
-        return this
-    }
-
-    override fun useViewLifecycleInFragment(var1: Boolean): MapOptions<*> {
-        mo.useViewLifecycleInFragment(var1)
-        return this
-    }
-
-    override fun mapType(var1: Int): MapOptions<*> {
-        mo.mapType(var1)
-        return this
-    }
-
-    override fun camera(var1: CameraPosition<*>?): MapOptions<*> {
-        mo.camera(var1?.cp as? com.google.android.gms.maps.model.CameraPosition)
-        return this
-    }
-
-    override fun zoomControlsEnabled(var1: Boolean): MapOptions<*> {
-        mo.zoomControlsEnabled(var1)
-        return this
-    }
-
-    override fun compassEnabled(var1: Boolean): MapOptions<*> {
-        mo.compassEnabled(var1)
-        return this
-    }
-
-    override fun scrollGesturesEnabled(var1: Boolean): MapOptions<*> {
-        mo.scrollGesturesEnabled(var1)
-        return this
-    }
-
-    override fun zoomGesturesEnabled(var1: Boolean): MapOptions<*> {
-        mo.zoomGesturesEnabled(var1)
-        return this
-    }
-
-    override fun tiltGesturesEnabled(var1: Boolean): MapOptions<*> {
-        mo.tiltGesturesEnabled(var1)
-        return this
-    }
-
-    override fun rotateGesturesEnabled(var1: Boolean): MapOptions<*> {
-        mo.rotateGesturesEnabled(var1)
-        return this
-    }
-
-    override fun liteMode(var1: Boolean): MapOptions<*> {
-        mo.liteMode(var1)
-        return this
-    }
-
-    override fun mapToolbarEnabled(var1: Boolean): MapOptions<*> {
-        mo.mapToolbarEnabled(var1)
-        return this
-    }
-
-    override fun ambientEnabled(var1: Boolean): MapOptions<*> {
-        mo.ambientEnabled(var1)
-        return this
-    }
-
-    override fun minZoomPreference(var1: Float): MapOptions<*> {
-        mo.minZoomPreference(var1)
-        return this
-    }
-
-    override fun maxZoomPreference(var1: Float): MapOptions<*> {
-        mo.maxZoomPreference(var1)
-        return this
-    }
-
-    override fun latLngBoundsForCameraTarget(var1: LatLngBounds<*>?): MapOptions<*> {
-        mo.latLngBoundsForCameraTarget(var1?.lb as? com.google.android.gms.maps.model.LatLngBounds)
-        return this
-    }
-
-    override val zOrderOnTop: Boolean?
+    override var zOrderOnTop: Boolean?
         get() = mo.zOrderOnTop
-    override val useViewLifecycleInFragment: Boolean?
+        set(value) {
+            value?.let { mo.zOrderOnTop(it) }
+        }
+    override var useViewLifecycleInFragment: Boolean?
         get() = mo.useViewLifecycleInFragment
-    override val mapType: Int
+        set(value) {
+            value?.let { mo.useViewLifecycleInFragment(it) }
+        }
+    override var mapType: Int
         get() = mo.mapType
-    override val camera: CameraPosition<*>?
+        set(value) {
+            mo.mapType(value)
+        }
+    override var camera: CameraPosition<*>?
         get() = mo.camera?.let { GoogleCameraPosition(it) }
-    override val zoomControlsEnabled: Boolean?
+        set(value) {
+            mo.camera(value?.cp as? com.google.android.gms.maps.model.CameraPosition)
+        }
+    override var zoomControlsEnabled: Boolean?
         get() = mo.zoomControlsEnabled
-    override val compassEnabled: Boolean?
+        set(value) {
+            value?.let { mo.zoomControlsEnabled(it) }
+        }
+    override var compassEnabled: Boolean?
         get() = mo.compassEnabled
-    override val scrollGesturesEnabled: Boolean?
+        set(value) {
+            value?.let { mo.compassEnabled(it) }
+        }
+    override var scrollGesturesEnabled: Boolean?
         get() = mo.scrollGesturesEnabled
-    override val zoomGesturesEnabled: Boolean?
+        set(value) {
+            value?.let { mo.scrollGesturesEnabled(it) }
+        }
+    override var zoomGesturesEnabled: Boolean?
         get() = mo.zoomGesturesEnabled
-    override val tiltGesturesEnabled: Boolean?
+        set(value) {
+            value?.let { mo.zoomGesturesEnabled(it) }
+        }
+    override var tiltGesturesEnabled: Boolean?
         get() = mo.tiltGesturesEnabled
-    override val rotateGesturesEnabled: Boolean?
+        set(value) {
+            value?.let { mo.tiltGesturesEnabled(it) }
+        }
+    override var rotateGesturesEnabled: Boolean?
         get() = mo.rotateGesturesEnabled
-    override val liteMode: Boolean?
+        set(value) {
+            value?.let { mo.rotateGesturesEnabled(it) }
+        }
+    override var liteMode: Boolean?
         get() = mo.liteMode
-    override val mapToolbarEnabled: Boolean?
+        set(value) {
+            value?.let { mo.liteMode(it) }
+        }
+    override var mapToolbarEnabled: Boolean?
         get() = mo.mapToolbarEnabled
-    override val ambientEnabled: Boolean?
+        set(value) {
+            value?.let { mo.mapToolbarEnabled(it) }
+        }
+    override var ambientEnabled: Boolean?
         get() = mo.ambientEnabled
-    override val minZoomPreference: Float?
+        set(value) {
+            value?.let { mo.ambientEnabled(it) }
+        }
+    override var minZoomPreference: Float?
         get() = mo.minZoomPreference
-    override val maxZoomPreference: Float?
+        set(value) {
+            value?.let { mo.minZoomPreference(it) }
+        }
+    override var maxZoomPreference: Float?
         get() = mo.maxZoomPreference
-    override val latLngBoundsForCameraTarget: LatLngBounds<*>?
+        set(value) {
+            value?.let { mo.maxZoomPreference(it) }
+        }
+    override var latLngBoundsForCameraTarget: LatLngBounds<*>?
         get() = mo.latLngBoundsForCameraTarget?.let { GoogleLatLngBounds(it) }
+        set(value) {
+            mo.latLngBoundsForCameraTarget(value?.lb as? com.google.android.gms.maps.model.LatLngBounds)
+        }
 }

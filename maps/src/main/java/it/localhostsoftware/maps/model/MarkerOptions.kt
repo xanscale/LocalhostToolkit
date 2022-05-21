@@ -16,30 +16,16 @@ abstract class MarkerOptions<MO>(val mo: MO) {
                 }
     }
 
-    abstract fun position(var1: LatLng<*>): MarkerOptions<*>
-    abstract fun zIndex(var1: Float): MarkerOptions<*>
-    abstract fun icon(var1: BitmapDescriptor<*>?): MarkerOptions<*>
-    abstract fun anchor(var1: Float, var2: Float): MarkerOptions<*>
-    abstract fun infoWindowAnchor(var1: Float, var2: Float): MarkerOptions<*>
-    abstract fun title(var1: String): MarkerOptions<*>
-    abstract fun snippet(var1: String): MarkerOptions<*>
-    abstract fun draggable(var1: Boolean): MarkerOptions<*>
-    abstract fun visible(var1: Boolean): MarkerOptions<*>
-    abstract fun flat(var1: Boolean): MarkerOptions<*>
-    abstract fun rotation(var1: Float): MarkerOptions<*>
-    abstract fun alpha(var1: Float): MarkerOptions<*>
-    abstract val position: LatLng<*>
-    abstract val title: String?
-    abstract val snippet: String?
-    abstract val icon: BitmapDescriptor<*>
-    abstract val anchorU: Float
-    abstract val anchorV: Float
-    abstract val isDraggable: Boolean
-    abstract val isVisible: Boolean
-    abstract val isFlat: Boolean
-    abstract val rotation: Float
-    abstract val infoWindowAnchorU: Float
-    abstract val infoWindowAnchorV: Float
-    abstract val alpha: Float
-    abstract val zIndex: Float
+    abstract var position: LatLng<*>
+    abstract var title: String?
+    abstract var snippet: String?
+    abstract var icon: BitmapDescriptor<*>?
+    abstract var anchor: Pair<Float, Float>
+    abstract var isDraggable: Boolean
+    abstract var isVisible: Boolean
+    abstract var isFlat: Boolean
+    abstract var rotation: Float
+    abstract var infoWindowAnchor: Pair<Float, Float>
+    abstract var alpha: Float
+    abstract var zIndex: Float
 }

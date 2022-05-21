@@ -5,18 +5,8 @@ import it.localhostsoftware.maps.model.LatLng
 import it.localhostsoftware.maps.model.PatternItem
 
 class HuaweiPolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions>(polygonOptions) {
-    override fun add(point: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.add(point.ll as com.huawei.hms.maps.model.LatLng)
-        return this
-    }
-
     override fun add(vararg points: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*> {
         po.add(*points.map { it.ll as com.huawei.hms.maps.model.LatLng }.toTypedArray())
-        return this
-    }
-
-    override fun addAll(points: Iterable<LatLng<*>>): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.addAll(points.map { it.ll as com.huawei.hms.maps.model.LatLng })
         return this
     }
 
@@ -25,71 +15,53 @@ class HuaweiPolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftwar
         return this
     }
 
-    override fun strokeWidth(width: Float): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.strokeWidth(width)
-        return this
-    }
-
-    override fun strokeColor(color: Int): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.strokeColor(color)
-        return this
-    }
-
-    override fun strokeJointType(jointType: Int): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.strokeJointType(jointType)
-        return this
-    }
-
-    override fun strokePattern(pattern: List<PatternItem<*>>?): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.strokePattern(pattern?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
-        return this
-    }
-
-    override fun fillColor(color: Int): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.fillColor(color)
-        return this
-    }
-
-    override fun zIndex(zIndex: Float): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.zIndex(zIndex)
-        return this
-    }
-
-    override fun visible(visible: Boolean): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.visible(visible)
-        return this
-    }
-
-    override fun geodesic(geodesic: Boolean): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.geodesic(geodesic)
-        return this
-    }
-
-    override fun clickable(clickable: Boolean): it.localhostsoftware.maps.model.PolygonOptions<*> {
-        po.clickable(clickable)
-        return this
-    }
-
     override val points: List<LatLng<*>>
         get() = po.points.map { HuaweiLatLng(it) }
     override val holes: List<List<LatLng<*>>>
         get() = po.holes.map { it.map { ll -> HuaweiLatLng(ll) } }
-    override val strokeWidth: Float
+    override var strokeWidth: Float
         get() = po.strokeWidth
-    override val strokeColor: Int
+        set(value) {
+            po.strokeWidth(value)
+        }
+    override var strokeColor: Int
         get() = po.strokeColor
-    override val strokeJointType: Int
+        set(value) {
+            po.strokeColor(value)
+        }
+    override var strokeJointType: Int
         get() = po.strokeJointType
-    override val strokePattern: List<PatternItem<*>>?
-        get() = po.strokePattern?.map { PatternItem(it) }
-    override val fillColor: Int
+        set(value) {
+            po.strokeJointType(value)
+        }
+    override var strokePattern: List<PatternItem<*>>?
+        get() = po.strokePattern?.map { PatternItem<com.huawei.hms.maps.model.PatternItem>(it) }
+        set(value) {
+            po.strokePattern(value?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+        }
+    override var fillColor: Int
         get() = po.fillColor
-    override val zIndex: Float
+        set(value) {
+            po.fillColor(value)
+        }
+    override var zIndex: Float
         get() = po.zIndex
-    override val isVisible: Boolean
+        set(value) {
+            po.zIndex(value)
+        }
+    override var isVisible: Boolean
         get() = po.isVisible
-    override val isGeodesic: Boolean
+        set(value) {
+            po.visible(value)
+        }
+    override var isGeodesic: Boolean
         get() = po.isGeodesic
-    override val isClickable: Boolean
+        set(value) {
+            po.geodesic(value)
+        }
+    override var isClickable: Boolean
         get() = po.isClickable
+        set(value) {
+            po.clickable(value)
+        }
 }

@@ -56,3 +56,7 @@ class MapFragment : Fragment() {
         }, false)
     }
 }
+
+interface OnMapReadyCallback {
+    fun onMapReady(geoMap: GeoMap<*>)
+}

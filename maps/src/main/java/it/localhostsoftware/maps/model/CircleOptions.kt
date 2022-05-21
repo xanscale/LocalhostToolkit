@@ -16,22 +16,13 @@ abstract class CircleOptions<CO>(val co: CO) {
                 }
     }
 
-    abstract fun center(var1: LatLng<*>): CircleOptions<*>
-    abstract fun radius(var1: Double): CircleOptions<*>
-    abstract fun strokeWidth(var1: Float): CircleOptions<*>
-    abstract fun strokeColor(var1: Int): CircleOptions<*>
-    abstract fun strokePattern(var1: List<PatternItem<*>>?): CircleOptions<*>
-    abstract fun fillColor(var1: Int): CircleOptions<*>
-    abstract fun zIndex(var1: Float): CircleOptions<*>
-    abstract fun visible(var1: Boolean): CircleOptions<*>
-    abstract fun clickable(var1: Boolean): CircleOptions<*>
-    abstract val center: LatLng<*>?
-    abstract val radius: Double
-    abstract val strokeWidth: Float
-    abstract val strokeColor: Int
-    abstract val strokePattern: List<PatternItem<*>>?
-    abstract val fillColor: Int
-    abstract val zIndex: Float
-    abstract val isVisible: Boolean
-    abstract val isClickable: Boolean
+    abstract var center: LatLng<*>?
+    abstract var radius: Double
+    abstract var strokeWidth: Float
+    abstract var strokeColor: Int
+    abstract var strokePattern: List<PatternItem<*>>?
+    abstract var fillColor: Int
+    abstract var zIndex: Float
+    abstract var isVisible: Boolean
+    abstract var isClickable: Boolean
 }

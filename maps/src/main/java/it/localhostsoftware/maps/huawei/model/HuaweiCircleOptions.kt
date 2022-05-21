@@ -5,67 +5,49 @@ import it.localhostsoftware.maps.model.LatLng
 import it.localhostsoftware.maps.model.PatternItem
 
 class HuaweiCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions>(circleOptions) {
-    override fun center(var1: LatLng<*>): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.center(var1.ll as com.huawei.hms.maps.model.LatLng)
-        return this
-    }
-
-    override fun radius(var1: Double): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.radius(var1)
-        return this
-    }
-
-    override fun strokeWidth(var1: Float): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.strokeWidth(var1)
-        return this
-    }
-
-    override fun strokeColor(var1: Int): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.strokeColor(var1)
-        return this
-    }
-
-    override fun strokePattern(var1: List<PatternItem<*>>?): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.strokePattern(var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
-        return this
-    }
-
-    override fun fillColor(var1: Int): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.fillColor(var1)
-        return this
-    }
-
-    override fun zIndex(var1: Float): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.zIndex(var1)
-        return this
-    }
-
-    override fun visible(var1: Boolean): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.visible(var1)
-        return this
-    }
-
-    override fun clickable(var1: Boolean): it.localhostsoftware.maps.model.CircleOptions<*> {
-        co.clickable(var1)
-        return this
-    }
-
-    override val center: LatLng<*>
+    override var center: LatLng<*>?
         get() = HuaweiLatLng(co.center)
-    override val radius: Double
+        set(value) {
+            value?.let { co.center(value.ll as com.huawei.hms.maps.model.LatLng) } ?: throw IllegalStateException()
+        }
+    override var radius: Double
         get() = co.radius
-    override val strokeWidth: Float
+        set(value) {
+            co.radius(value)
+        }
+    override var strokeWidth: Float
         get() = co.strokeWidth
-    override val strokeColor: Int
+        set(value) {
+            co.strokeWidth(value)
+        }
+    override var strokeColor: Int
         get() = co.strokeColor
-    override val strokePattern: List<PatternItem<*>>?
+        set(value) {
+            co.strokeColor(value)
+        }
+    override var strokePattern: List<PatternItem<*>>?
         get() = co.strokePattern?.map { PatternItem(it) }
-    override val fillColor: Int
+        set(value) {
+            co.strokePattern(value?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+        }
+    override var fillColor: Int
         get() = co.fillColor
-    override val zIndex: Float
+        set(value) {
+            co.fillColor(value)
+        }
+    override var zIndex: Float
         get() = co.zIndex
-    override val isVisible: Boolean
+        set(value) {
+            co.zIndex(value)
+        }
+    override var isVisible: Boolean
         get() = co.isVisible
-    override val isClickable: Boolean
+        set(value) {
+            co.visible(value)
+        }
+    override var isClickable: Boolean
         get() = co.isClickable
+        set(value) {
+            co.clickable(value)
+        }
 }

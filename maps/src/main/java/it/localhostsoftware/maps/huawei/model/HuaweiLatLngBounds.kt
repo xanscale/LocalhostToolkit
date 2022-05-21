@@ -8,15 +8,16 @@ class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.Lat
         get() = HuaweiLatLng(lb.southwest)
     override val northeast: LatLng<*>
         get() = HuaweiLatLng(lb.northeast)
+    override val center: LatLng<*>
+        get() = HuaweiLatLng(lb.center)
 
-    override fun contains(var1: LatLng<*>): Boolean = lb.contains(var1.ll as com.huawei.hms.maps.model.LatLng)
+    override fun contains(var1: LatLng<*>) =
+            lb.contains(var1.ll as com.huawei.hms.maps.model.LatLng)
+
     override fun including(var1: LatLng<*>): it.localhostsoftware.maps.model.LatLngBounds<*> {
         lb.including(var1.ll as com.huawei.hms.maps.model.LatLng)
         return this
     }
-
-    override val center: LatLng<*>
-        get() = HuaweiLatLng(lb.center)
 
     class HuaweiBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder>(builder) {
         override fun include(var1: LatLng<*>): Builder<*> {
@@ -24,6 +25,7 @@ class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.Lat
             return this
         }
 
-        override fun build() = HuaweiLatLngBounds(builder.build())
+        override fun build() =
+                HuaweiLatLngBounds(builder.build())
     }
 }

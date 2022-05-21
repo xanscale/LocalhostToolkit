@@ -7,80 +7,60 @@ import it.localhostsoftware.maps.model.PatternItem
 
 class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions>(polylineOptions) {
     override fun add(vararg var1: LatLng<*>): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        var1.forEach { po.add(it.ll as com.huawei.hms.maps.model.LatLng) }
-        return this
-    }
-
-    override fun width(var1: Float): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.width(var1)
-        return this
-    }
-
-    override fun color(var1: Int): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.color(var1)
-        return this
-    }
-
-    override fun startCap(var1: Cap<*>): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.startCap(var1.cap as com.huawei.hms.maps.model.Cap)
-        return this
-    }
-
-    override fun endCap(var1: Cap<*>): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.endCap(var1.cap as com.huawei.hms.maps.model.Cap)
-        return this
-    }
-
-    override fun jointType(var1: Int): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.jointType(var1)
-        return this
-    }
-
-    override fun pattern(var1: List<PatternItem<*>>?): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.pattern(var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
-        return this
-    }
-
-    override fun zIndex(var1: Float): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.zIndex(var1)
-        return this
-    }
-
-    override fun visible(var1: Boolean): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.visible(var1)
-        return this
-    }
-
-    override fun geodesic(var1: Boolean): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.geodesic(var1)
-        return this
-    }
-
-    override fun clickable(var1: Boolean): it.localhostsoftware.maps.model.PolylineOptions<*> {
-        po.clickable(var1)
+        po.add(*var1.map { it.ll as com.huawei.hms.maps.model.LatLng }.toTypedArray())
         return this
     }
 
     override val points: List<LatLng<*>>
         get() = po.points.map { HuaweiLatLng(it) }
-    override val width: Float
+    override var width: Float
         get() = po.width
-    override val color: Int
+        set(value) {
+            po.width(value)
+        }
+    override var color: Int
         get() = po.color
-    override val startCap: Cap<*>
+        set(value) {
+            po.color(value)
+        }
+    override var startCap: Cap<*>
         get() = Cap(po.startCap)
-    override val endCap: Cap<*>
+        set(value) {
+            po.startCap(value.cap as com.huawei.hms.maps.model.Cap)
+        }
+    override var endCap: Cap<*>
         get() = Cap(po.endCap)
-    override val jointType: Int
+        set(value) {
+            po.endCap(value.cap as com.huawei.hms.maps.model.Cap)
+        }
+    override var jointType: Int
         get() = po.jointType
-    override val pattern: List<PatternItem<*>>?
-        get() = po.pattern?.map { PatternItem(it) }
-    override val zIndex: Float
+        set(value) {
+            po.jointType(value)
+        }
+    override var pattern: List<PatternItem<*>>?
+        get() = po.pattern?.map { PatternItem<com.huawei.hms.maps.model.PatternItem>(it) }
+        set(value) {
+            po.pattern(value?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+        }
+    override var zIndex: Float
         get() = po.zIndex
-    override val isVisible: Boolean
+        set(value) {
+            po.zIndex(value)
+        }
+    override var isVisible: Boolean
         get() = po.isVisible
-    override val isGeodesic: Boolean
+        set(value) {
+            po.visible(value)
+        }
+    override var isGeodesic: Boolean
         get() = po.isGeodesic
-    override val isClickable: Boolean
+        set(value) {
+            po.geodesic(value)
+        }
+    override var isClickable: Boolean
         get() = po.isClickable
+        set(value) {
+            po.clickable(value)
+        }
 }
