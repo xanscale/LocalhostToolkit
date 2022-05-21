@@ -1,41 +1,27 @@
-package localhost.toolkit.widget.viewpager;
+package localhost.toolkit.widget.viewpager
 
-import android.view.View;
+import android.view.View
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
+import kotlin.math.abs
+import kotlin.math.max
 
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
-
-public class ZoomOutPageTransformer implements ViewPager.PageTransformer, ViewPager2.PageTransformer {
-    private final float minScale;
-    private final float minAlpha;
-
-    public ZoomOutPageTransformer() {
-        minScale = 0.85f;
-        minAlpha = 0.5f;
-    }
-
-    public ZoomOutPageTransformer(float minScale, float minAlpha) {
-        this.minScale = minScale;
-        this.minAlpha = minAlpha;
-    }
-
-    @Override
-    public void transformPage(@NonNull View view, float position) {
-        if (position < -1)
-            view.setAlpha(0);
-        else if (position <= 1) {
-            float scaleFactor = Math.max(minScale, 1 - Math.abs(position));
-            float vMargin = view.getHeight() * (1 - scaleFactor) / 2;
-            float hMargin = view.getWidth() * (1 - scaleFactor) / 2;
-            if (position < 0)
-                view.setTranslationX(hMargin - vMargin / 2);
-            else
-                view.setTranslationX(-hMargin + vMargin / 2);
-            view.setScaleX(scaleFactor);
-            view.setScaleY(scaleFactor);
-            view.setAlpha(minAlpha + (scaleFactor - minScale) / (1 - minScale) * (1 - minAlpha));
-        } else
-            view.setAlpha(0);
+class ZoomOutPageTransformer(
+        private val minScale: Float = 0.85f,
+        private val minAlpha: Float = 0.5f
+) : ViewPager.PageTransformer, ViewPager2.PageTransformer {
+    override fun transformPage(view: View, position: Float) {
+        view.alpha = if (position in -1f..1f) {
+            max(minScale, 1 - abs(position)).let { scaleFactor ->
+                (view.height * (1 - scaleFactor) / 2).let { vMargin ->
+                    (view.width * (1 - scaleFactor) / 2).let { hMargin ->
+                        view.translationX = if (position < 0) hMargin - vMargin / 2 else -hMargin + vMargin / 2
+                    }
+                }
+                view.scaleX = scaleFactor
+                view.scaleY = scaleFactor
+                minAlpha + (scaleFactor - minScale) / (1 - minScale) * (1 - minAlpha)
+            }
+        } else 0f
     }
 }
