@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
 
     api("androidx.activity:activity-ktx:1.4.0")
     api("androidx.exifinterface:exifinterface:1.3.3")
