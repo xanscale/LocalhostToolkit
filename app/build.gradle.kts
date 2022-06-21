@@ -27,7 +27,7 @@ dependencies {
     api("androidx.fragment:fragment-ktx:1.4.1")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
-    api("com.google.android.material:material:1.6.0")
+    api("com.google.android.material:material:1.6.1")
 }
 
 publishing {
