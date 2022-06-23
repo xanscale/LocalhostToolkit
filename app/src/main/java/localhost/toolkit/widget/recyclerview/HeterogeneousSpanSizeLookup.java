@@ -13,6 +13,6 @@ public class HeterogeneousSpanSizeLookup<I extends HeterogeneousRecyclerItem<?, 
 
     @Override
     public int getSpanSize(int position) {
-        return items.get(position).getSpanSize();
+        return position < items.size() ? items.get(position).getSpanSize() : 1;
     }
 }
