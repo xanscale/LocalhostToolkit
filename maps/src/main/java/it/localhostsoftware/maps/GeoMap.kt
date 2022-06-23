@@ -74,22 +74,22 @@ abstract class GeoMap<M>(val map: M) {
     abstract fun setMaxZoomPreference(var1: Float)
     abstract fun resetMinMaxZoomPreference()
     abstract fun setLatLngBoundsForCameraTarget(var1: LatLngBounds<*>?)
-    interface OnPoiClickListener {
+    fun interface OnPoiClickListener {
         fun onPoiClick(var1: PointOfInterest<*>)
     }
 
     /* TODO interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);
     }*/
-    interface OnMapLoadedCallback {
+    fun interface OnMapLoadedCallback {
         fun onMapLoaded()
     }
 
-    interface OnMyLocationClickListener {
+    fun interface OnMyLocationClickListener {
         fun onMyLocationClick(var1: Location)
     }
 
-    interface OnMyLocationButtonClickListener {
+    fun interface OnMyLocationButtonClickListener {
         fun onMyLocationButtonClick(): Boolean
     }
 
@@ -98,7 +98,7 @@ abstract class GeoMap<M>(val map: M) {
         fun getInfoContents(var1: Marker<*>): View
     }
 
-    interface SnapshotReadyCallback {
+    fun interface SnapshotReadyCallback {
         fun onSnapshotReady(var1: Bitmap?)
     }
 
@@ -107,15 +107,15 @@ abstract class GeoMap<M>(val map: M) {
         fun onCancel()
     }
 
-    interface OnInfoWindowCloseListener {
+    fun interface OnInfoWindowCloseListener {
         fun onInfoWindowClose(var1: Marker<*>)
     }
 
-    interface OnInfoWindowLongClickListener {
+    fun interface OnInfoWindowLongClickListener {
         fun onInfoWindowLongClick(var1: Marker<*>)
     }
 
-    interface OnInfoWindowClickListener {
+    fun interface OnInfoWindowClickListener {
         fun onInfoWindowClick(var1: Marker<*>)
     }
 
@@ -125,35 +125,35 @@ abstract class GeoMap<M>(val map: M) {
         fun onMarkerDragEnd(var1: Marker<*>)
     }
 
-    interface OnMarkerClickListener {
+    fun interface OnMarkerClickListener {
         fun onMarkerClick(var1: Marker<*>): Boolean
     }
 
-    interface OnPolylineClickListener {
+    fun interface OnPolylineClickListener {
         fun onPolylineClick(var1: Polyline<*>)
     }
 
-    interface OnPolygonClickListener {
+    fun interface OnPolygonClickListener {
         fun onPolygonClick(var1: Polygon<*>)
     }
 
-    interface OnCircleClickListener {
+    fun interface OnCircleClickListener {
         fun onCircleClick(var1: Circle<*>)
     }
 
-    interface OnCameraIdleListener {
+    fun interface OnCameraIdleListener {
         fun onCameraIdle()
     }
 
-    interface OnCameraMoveCanceledListener {
+    fun interface OnCameraMoveCanceledListener {
         fun onCameraMoveCanceled()
     }
 
-    interface OnCameraMoveListener {
+    fun interface OnCameraMoveListener {
         fun onCameraMove()
     }
 
-    interface OnCameraMoveStartedListener {
+    fun interface OnCameraMoveStartedListener {
         companion object {
             const val REASON_GESTURE = 1
             const val REASON_API_ANIMATION = 2
@@ -163,11 +163,11 @@ abstract class GeoMap<M>(val map: M) {
         fun onCameraMoveStarted(var1: Int)
     }
 
-    interface OnMapLongClickListener {
+    fun interface OnMapLongClickListener {
         fun onMapLongClick(var1: LatLng<*>)
     }
 
-    interface OnMapClickListener {
+    fun interface OnMapClickListener {
         fun onMapClick(var1: LatLng<*>)
     }
 
