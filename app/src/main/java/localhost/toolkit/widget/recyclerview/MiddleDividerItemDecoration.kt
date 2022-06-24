@@ -40,11 +40,12 @@ class MiddleDividerItemDecoration(context: Context, private val orientation: Int
     var offset = 0
 
     init {
-        context.obtainStyledAttributes(ATTRS).use {
+        context.obtainStyledAttributes(ATTRS).let {
             it.getDrawable(0).let { d ->
                 checkNotNull(d) { "@android:attr/listDivider was not set in the theme used for this MiddleDividerItemDecoration. Please set that attribute all call setDrawable()" }
                 drawable = d
             }
+            it.recycle()
         }
     }
 
