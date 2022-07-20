@@ -59,6 +59,7 @@ object BiometricEncryptedSharedPreferences {
             setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
             setKeySize(KEY_SIZE)
             setUserAuthenticationRequired(true)
+            @Suppress("DEPRECATION")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                 setUserAuthenticationParameters(timeout, KeyProperties.AUTH_BIOMETRIC_STRONG or KeyProperties.AUTH_DEVICE_CREDENTIAL)
             else
