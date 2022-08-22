@@ -123,20 +123,18 @@ public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> impleme
         }
 
         public Bitmap getBitmap(Context context) throws IOException {
-            if (contractType == ContractType.IMAGE)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                    return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
-                else {
-                    Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                    int rotation = getRotation(context);
-                    if (rotation != 0) {
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(rotation);
-                        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-                    }
-                    return bmp;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
+            else {
+                Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+                int rotation = getRotation(context);
+                if (rotation != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(rotation);
+                    bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
                 }
-            else throw new IllegalStateException("ContractType: " + contractType);
+                return bmp;
+            }
         }
 
         public int getOrientation(Context context) throws IOException {
