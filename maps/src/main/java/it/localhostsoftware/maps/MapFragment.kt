@@ -15,7 +15,7 @@ class MapFragment : Fragment() {
     companion object {
         const val GOOGLE_MAP_OPTIONS = "GoogleMapOptions"
         const val HUAWEI_MAP_OPTIONS = "HuaweiMapOptions"
-        fun newInstance(mapOptions: MapOptions<*>) = MapFragment().apply {
+        fun newInstance(mapOptions: MapOptions<*>?) = MapFragment().apply {
             arguments = Bundle().apply {
                 if (mapOptions is GoogleMapOptions) putParcelable(GOOGLE_MAP_OPTIONS, mapOptions.mo)
                 else if (mapOptions is HuaweiMapOptions) putParcelable(HUAWEI_MAP_OPTIONS, mapOptions.mo)
