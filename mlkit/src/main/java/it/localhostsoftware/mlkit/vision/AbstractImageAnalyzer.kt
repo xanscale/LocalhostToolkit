@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
 abstract class AbstractImageAnalyzer<TResult> {
-    private var camera: Camera? = null
+    var camera: Camera? = null
 
     @RequiresPermission(Manifest.permission.CAMERA)
     fun bindToLifecycle(
