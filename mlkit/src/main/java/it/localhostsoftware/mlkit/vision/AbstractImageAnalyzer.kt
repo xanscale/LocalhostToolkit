@@ -21,12 +21,15 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
 abstract class AbstractImageAnalyzer<TResult> {
+    private var camera: Camera? = null
+
     @RequiresPermission(Manifest.permission.CAMERA)
     fun bindToLifecycle(
             context: Context,
             lifecycleOwner: LifecycleOwner,
             previewView: PreviewView,
             cameraSelector: CameraSelector,
+            enableScaleGestureDetector: Boolean = true,
             onSuccessListener: OnSuccessListener<TResult>
     ) {
         lifecycleOwner.lifecycleScope.launch {
@@ -34,7 +37,8 @@ abstract class AbstractImageAnalyzer<TResult> {
                 preview.setSurfaceProvider(previewView.surfaceProvider)
                 ImageAnalysis.Builder().build().let { imageAnalysis ->
                     imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor()) { analyze(it, onSuccessListener) }
-                    setScaleGestureDetector(context, ProcessCameraProvider.getInstance(context).await().bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis), previewView)
+                    camera = ProcessCameraProvider.getInstance(context).await().bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
+                    if (enableScaleGestureDetector) setScaleGestureDetector(context, previewView)
                 }
             }
         }
@@ -50,12 +54,12 @@ abstract class AbstractImageAnalyzer<TResult> {
         }
     }
 
-    private fun setScaleGestureDetector(context: Context, camera: Camera, previewView: PreviewView) {
+    private fun setScaleGestureDetector(context: Context, previewView: PreviewView) {
         ScaleGestureDetector(context, object : SimpleOnScaleGestureListener() {
-            override fun onScale(detector: ScaleGestureDetector): Boolean {
-                camera.cameraControl.setZoomRatio(detector.scaleFactor * (camera.cameraInfo.zoomState.value?.zoomRatio ?: 1.0f))
-                return true
-            }
+            override fun onScale(detector: ScaleGestureDetector) = camera?.let {
+                it.cameraControl.setZoomRatio(detector.scaleFactor * (it.cameraInfo.zoomState.value?.zoomRatio ?: 1.0f))
+                true
+            } ?: false
         }).let {
             previewView.setOnTouchListener { v: View, event: MotionEvent ->
                 it.onTouchEvent(event)
