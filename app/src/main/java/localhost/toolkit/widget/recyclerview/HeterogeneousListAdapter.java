@@ -42,7 +42,9 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
 
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        getItem(holder.getBindingAdapterPosition()).onViewRecycled(holder);
+        int pos = holder.getBindingAdapterPosition();
+        if (pos != RecyclerView.NO_POSITION)
+            getItem(pos).onViewRecycled(holder);
     }
 
     @Override
