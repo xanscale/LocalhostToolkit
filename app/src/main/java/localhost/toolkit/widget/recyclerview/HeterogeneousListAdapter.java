@@ -41,6 +41,11 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
     }
 
     @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        getItem(holder.getBindingAdapterPosition()).onViewRecycled(holder);
+    }
+
+    @Override
     public int getItemViewType(int position) {
         Integer type = classToType.get(getItem(position).getClass());
         return type == null ? super.getItemViewType(position) : type;

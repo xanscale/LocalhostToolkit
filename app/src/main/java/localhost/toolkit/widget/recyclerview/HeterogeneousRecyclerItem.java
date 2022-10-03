@@ -17,6 +17,9 @@ public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHo
 
     public abstract void onBindViewHolder(@NonNull H holder);
 
+    public void onViewRecycled(@NonNull H holder) {
+    }
+
     public E getExtra() {
         return extra;
     }
