@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 
     compileOptions {
@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.fragment:fragment:1.5.3")
+    implementation("androidx.fragment:fragment:1.5.4")
     api("com.google.android.gms:play-services-maps:18.1.0")
     api("com.huawei.hms:maps:6.6.1.301")
 }
