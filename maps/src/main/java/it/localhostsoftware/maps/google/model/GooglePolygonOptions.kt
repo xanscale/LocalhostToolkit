@@ -1,22 +1,21 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.PolygonOptions
-import it.localhostsoftware.maps.model.LatLng
 
-class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem>(polygonOptions) {
-    override fun add(vararg points: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*,*> {
-        po.add(*points.map { it.ll as com.google.android.gms.maps.model.LatLng }.toTypedArray())
+class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem, GoogleLatLng>(polygonOptions) {
+    override fun add(vararg points: GoogleLatLng): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+        po.add(*points.map { it.ll }.toTypedArray())
         return this
     }
 
-    override fun addHole(points: Iterable<LatLng<*>>): it.localhostsoftware.maps.model.PolygonOptions<*,*> {
-        po.addHole(points.map { it.ll as com.google.android.gms.maps.model.LatLng })
+    override fun addHole(points: Iterable<GoogleLatLng>): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+        po.addHole(points.map { it.ll })
         return this
     }
 
-    override val points: List<LatLng<*>>
+    override val points: List<GoogleLatLng>
         get() = po.points.map { GoogleLatLng(it) }
-    override val holes: List<List<LatLng<*>>>
+    override val holes: List<List<GoogleLatLng>>
         get() = po.holes.map { it.map { ll -> GoogleLatLng(ll) } }
     override var strokeWidth: Float
         get() = po.strokeWidth

@@ -1,22 +1,21 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.PolygonOptions
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiPolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, HuaweiPatternItem>(polygonOptions) {
-    override fun add(vararg points: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*, *> {
-        po.add(*points.map { it.ll as com.huawei.hms.maps.model.LatLng }.toTypedArray())
+class HuaweiPolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, HuaweiPatternItem, HuaweiLatLng>(polygonOptions) {
+    override fun add(vararg points: HuaweiLatLng): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+        po.add(*points.map { it.ll }.toTypedArray())
         return this
     }
 
-    override fun addHole(points: Iterable<LatLng<*>>): it.localhostsoftware.maps.model.PolygonOptions<*, *> {
-        po.addHole(points.map { it.ll as com.huawei.hms.maps.model.LatLng })
+    override fun addHole(points: Iterable<HuaweiLatLng>): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+        po.addHole(points.map { it.ll })
         return this
     }
 
-    override val points: List<LatLng<*>>
+    override val points: List<HuaweiLatLng>
         get() = po.points.map { HuaweiLatLng(it) }
-    override val holes: List<List<LatLng<*>>>
+    override val holes: List<List<HuaweiLatLng>>
         get() = po.holes.map { it.map { ll -> HuaweiLatLng(ll) } }
     override var strokeWidth: Float
         get() = po.strokeWidth
