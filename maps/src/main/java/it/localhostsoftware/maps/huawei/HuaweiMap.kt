@@ -13,9 +13,8 @@ import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.huawei.model.*
-import it.localhostsoftware.maps.model.MarkerOptions
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle>(huaweiMap) {
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker>(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -57,8 +56,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun addCircle(var1: HuaweiCircleOptions) =
         HuaweiCircle(map.addCircle(var1.co))
 
-    override fun addMarker(var1: MarkerOptions<*>) =
-        HuaweiMarker(map.addMarker((var1 as HuaweiMarkerOptions).mo))
+    override fun addMarker(var1: HuaweiMarkerOptions) =
+        HuaweiMarker(map.addMarker(var1.mo))
 
     override fun clear() =
         map.clear()

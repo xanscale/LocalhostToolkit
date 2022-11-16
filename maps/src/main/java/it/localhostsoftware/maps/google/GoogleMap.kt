@@ -5,14 +5,16 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.IndoorBuilding
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.google.model.*
-import it.localhostsoftware.maps.model.MarkerOptions
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle>(googleMap) {
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker>(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -54,8 +56,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun addCircle(var1: GoogleCircleOptions) =
         GoogleCircle(map.addCircle(var1.co))
 
-    override fun addMarker(var1: MarkerOptions<*>) =
-        map.addMarker((var1 as GoogleMarkerOptions).mo)?.let { GoogleMarker(it) }
+    override fun addMarker(var1: GoogleMarkerOptions) =
+        map.addMarker(var1.mo)?.let { GoogleMarker(it) }
 
     override fun clear() =
         map.clear()

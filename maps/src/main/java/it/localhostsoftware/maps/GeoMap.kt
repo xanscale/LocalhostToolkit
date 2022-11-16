@@ -6,7 +6,9 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>>(val map: M) {
+abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>,
+        MRO: MarkerOptions<*>, MR: Marker<*>
+        >(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
         const val MAP_TYPE_NORMAL = 1
@@ -26,7 +28,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : Pol
     abstract fun addPolyline(var1: PLO): PL
     abstract fun addPolygon(var1: PGO): PG
     abstract fun addCircle(var1: CO): C
-    abstract fun addMarker(var1: MarkerOptions<*>): Marker<*>?
+    abstract fun addMarker(var1: MRO): MR?
 
     //TODO  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
     //TODO  TileOverlay addTileOverlay(TileOverlayOptions var1);
