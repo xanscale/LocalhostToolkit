@@ -1,7 +1,6 @@
 package it.localhostsoftware.maps.huawei
 
 import android.graphics.Bitmap
-import android.location.Location
 import android.view.View
 import androidx.annotation.RequiresPermission
 import com.huawei.hms.maps.HuaweiMap
@@ -11,12 +10,11 @@ import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.huawei.model.*
-import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.MarkerOptions
 import it.localhostsoftware.maps.model.PolylineOptions
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate>(huaweiMap) {
-    override val cameraPosition: CameraPosition<*>
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition>(huaweiMap) {
+    override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
         get() = map.maxZoomLevel
@@ -120,9 +118,7 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate>(hu
             object : LocationSource {
                 override fun deactivate() = ls.deactivate()
                 override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
-                        var1.activate(object : it.localhostsoftware.maps.LocationSource.OnLocationChangedListener {
-                            override fun onLocationChanged(var1: Location) = onLocationChangedListener.onLocationChanged(var1)
-                        })
+                    var1.activate(it.localhostsoftware.maps.LocationSource.OnLocationChangedListener { onLocationChangedListener.onLocationChanged(it) })
             }
         })
     }

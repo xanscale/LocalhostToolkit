@@ -1,7 +1,6 @@
 package it.localhostsoftware.maps.google
 
 import android.graphics.Bitmap
-import android.location.Location
 import android.view.View
 import androidx.annotation.RequiresPermission
 import com.google.android.gms.maps.GoogleMap
@@ -11,12 +10,11 @@ import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.google.model.*
-import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.MarkerOptions
 import it.localhostsoftware.maps.model.PolylineOptions
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate>(googleMap) {
-    override val cameraPosition: CameraPosition<*>
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition>(googleMap) {
+    override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
         get() = map.maxZoomLevel
@@ -120,9 +118,7 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate>(go
             object : LocationSource {
                 override fun deactivate() = ls.deactivate()
                 override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
-                    var1.activate(object : it.localhostsoftware.maps.LocationSource.OnLocationChangedListener {
-                        override fun onLocationChanged(var1: Location) = onLocationChangedListener.onLocationChanged(var1)
-                    })
+                    var1.activate(it.localhostsoftware.maps.LocationSource.OnLocationChangedListener { onLocationChangedListener.onLocationChanged(it) })
             }
         })
     }

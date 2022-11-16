@@ -59,5 +59,5 @@ class MapFragment : Fragment() {
 }
 
 fun interface OnMapReadyCallback {
-    fun onMapReady(geoMap: GeoMap<*, *>)
+    fun onMapReady(geoMap: GeoMap<*, *, *>)
 }

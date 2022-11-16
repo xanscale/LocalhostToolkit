@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU: CameraUpdate<*>>(val map: M) {
+abstract class GeoMap<M, CU: CameraUpdate<*>, CP: CameraPosition<*>>(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
         const val MAP_TYPE_NORMAL = 1
@@ -15,7 +15,7 @@ abstract class GeoMap<M, CU: CameraUpdate<*>>(val map: M) {
         const val MAP_TYPE_HYBRID = 4
     }
 
-    abstract val cameraPosition: CameraPosition<*>
+    abstract val cameraPosition: CP
     abstract val maxZoomLevel: Float
     abstract val minZoomLevel: Float
     abstract fun moveCamera(var1: CU)
