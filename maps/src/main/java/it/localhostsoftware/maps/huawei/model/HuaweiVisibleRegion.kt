@@ -13,7 +13,7 @@ class HuaweiVisibleRegion(VR: VisibleRegion) : it.localhostsoftware.maps.model.V
         get() = HuaweiLatLng(vr.farLeft)
     override val farRight: LatLng<*>
         get() = HuaweiLatLng(vr.farRight)
-    override val latLngBounds: LatLngBounds<*>
+    override val latLngBounds: LatLngBounds<*,*>
         get() = HuaweiLatLngBounds(vr.latLngBounds)
 
     override fun hashCode(): Int {

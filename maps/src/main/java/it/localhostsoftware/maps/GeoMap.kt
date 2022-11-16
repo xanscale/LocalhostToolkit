@@ -7,7 +7,7 @@ import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
 abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *>, PL : Polyline<*, *>, PGO : PolygonOptions<*, *>, PG : Polygon<*, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *, *>,
-        MRO : MarkerOptions<*, *>, MR : Marker<*>, IB : IndoorBuilding<*, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LLB : LatLngBounds<*>
+        MRO : MarkerOptions<*, *>, MR : Marker<*, *, *>, IB : IndoorBuilding<*, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LLB : LatLngBounds<*, *>
         >(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
@@ -96,8 +96,8 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     }
 
     interface InfoWindowAdapter {
-        fun getInfoWindow(var1: Marker<*>): View
-        fun getInfoContents(var1: Marker<*>): View
+        fun getInfoWindow(var1: Marker<*, *, *>): View
+        fun getInfoContents(var1: Marker<*, *, *>): View
     }
 
     fun interface SnapshotReadyCallback {
@@ -110,25 +110,25 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     }
 
     fun interface OnInfoWindowCloseListener {
-        fun onInfoWindowClose(var1: Marker<*>)
+        fun onInfoWindowClose(var1: Marker<*, *, *>)
     }
 
     fun interface OnInfoWindowLongClickListener {
-        fun onInfoWindowLongClick(var1: Marker<*>)
+        fun onInfoWindowLongClick(var1: Marker<*, *, *>)
     }
 
     fun interface OnInfoWindowClickListener {
-        fun onInfoWindowClick(var1: Marker<*>)
+        fun onInfoWindowClick(var1: Marker<*, *, *>)
     }
 
     interface OnMarkerDragListener {
-        fun onMarkerDragStart(var1: Marker<*>)
-        fun onMarkerDrag(var1: Marker<*>)
-        fun onMarkerDragEnd(var1: Marker<*>)
+        fun onMarkerDragStart(var1: Marker<*, *, *>)
+        fun onMarkerDrag(var1: Marker<*, *, *>)
+        fun onMarkerDragEnd(var1: Marker<*, *, *>)
     }
 
     fun interface OnMarkerClickListener {
-        fun onMarkerClick(var1: Marker<*>): Boolean
+        fun onMarkerClick(var1: Marker<*, *, *>): Boolean
     }
 
     fun interface OnPolylineClickListener {

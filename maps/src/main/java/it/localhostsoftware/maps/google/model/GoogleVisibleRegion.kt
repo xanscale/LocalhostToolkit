@@ -13,7 +13,7 @@ class GoogleVisibleRegion(VR: VisibleRegion) : it.localhostsoftware.maps.model.V
         get() = GoogleLatLng(vr.farLeft)
     override val farRight: LatLng<*>
         get() = GoogleLatLng(vr.farRight)
-    override val latLngBounds: LatLngBounds<*>
+    override val latLngBounds: LatLngBounds<*, *>
         get() = GoogleLatLngBounds(vr.latLngBounds)
 
     override fun hashCode(): Int {

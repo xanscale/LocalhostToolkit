@@ -6,7 +6,7 @@ import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
-abstract class MapOptions<MO, CP : CameraPosition<*, *>, LLB : LatLngBounds<*>>(val mo: MO) {
+abstract class MapOptions<MO, CP : CameraPosition<*, *>, LLB : LatLngBounds<*, *>>(val mo: MO) {
     companion object {
         fun getInstance(c: Context) =
             when (c.getMobileServices()) {

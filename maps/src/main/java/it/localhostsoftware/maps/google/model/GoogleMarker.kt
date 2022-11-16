@@ -1,20 +1,18 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.Marker
-import it.localhostsoftware.maps.model.BitmapDescriptor
-import it.localhostsoftware.maps.model.LatLng
 
-class GoogleMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Marker>(marker) {
+class GoogleMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Marker, GoogleLatLng, GoogleBitmapDescriptor>(marker) {
     override fun remove() {
         m.remove()
     }
 
     override val id: String
         get() = m.id
-    override var position: LatLng<*>
+    override var position: GoogleLatLng
         get() = GoogleLatLng(m.position)
         set(value) {
-            m.position = value.ll as com.google.android.gms.maps.model.LatLng
+            m.position = value.ll
         }
     override var zIndex: Float
         get() = m.zIndex
@@ -22,8 +20,8 @@ class GoogleMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Mark
             m.zIndex = v
         }
 
-    override fun setIcon(var1: BitmapDescriptor<*>?) {
-        m.setIcon(var1?.bitmapDescriptor as? com.google.android.gms.maps.model.BitmapDescriptor)
+    override fun setIcon(var1: GoogleBitmapDescriptor?) {
+        m.setIcon(var1?.bitmapDescriptor)
     }
 
     override fun setAnchor(var1: Float, var2: Float) {

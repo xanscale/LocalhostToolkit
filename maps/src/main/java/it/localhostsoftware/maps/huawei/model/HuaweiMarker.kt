@@ -4,17 +4,17 @@ import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.model.BitmapDescriptor
 import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Marker>(marker) {
+class HuaweiMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Marker, HuaweiLatLng, HuaweiBitmapDescriptor>(marker) {
     override fun remove() {
         m.remove()
     }
 
     override val id: String
         get() = m.id
-    override var position: LatLng<*>
+    override var position: HuaweiLatLng
         get() = HuaweiLatLng(m.position)
         set(value) {
-            m.position = value.ll as com.huawei.hms.maps.model.LatLng
+            m.position = value.ll
         }
     override var zIndex: Float
         get() = m.zIndex
@@ -22,8 +22,8 @@ class HuaweiMarker(marker: Marker) : it.localhostsoftware.maps.model.Marker<Mark
             m.zIndex = v
         }
 
-    override fun setIcon(var1: BitmapDescriptor<*>?) {
-        m.setIcon(var1?.bitmapDescriptor as? com.huawei.hms.maps.model.BitmapDescriptor)
+    override fun setIcon(var1: HuaweiBitmapDescriptor?) {
+        m.setIcon(var1?.bitmapDescriptor)
     }
 
     override fun setAnchor(var1: Float, var2: Float) {

@@ -1,31 +1,30 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.LatLngBounds
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds>(lb) {
-    override val southwest: LatLng<*>
+class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds, HuaweiLatLng>(lb) {
+    override val southwest: HuaweiLatLng
         get() = HuaweiLatLng(lb.southwest)
-    override val northeast: LatLng<*>
+    override val northeast: HuaweiLatLng
         get() = HuaweiLatLng(lb.northeast)
-    override val center: LatLng<*>
+    override val center: HuaweiLatLng
         get() = HuaweiLatLng(lb.center)
 
-    override fun contains(var1: LatLng<*>) =
-            lb.contains(var1.ll as com.huawei.hms.maps.model.LatLng)
+    override fun contains(var1: HuaweiLatLng) =
+        lb.contains(var1.ll)
 
-    override fun including(var1: LatLng<*>): it.localhostsoftware.maps.model.LatLngBounds<*> {
-        lb.including(var1.ll as com.huawei.hms.maps.model.LatLng)
+    override fun including(var1: HuaweiLatLng): it.localhostsoftware.maps.model.LatLngBounds<*, *> {
+        lb.including(var1.ll)
         return this
     }
 
-    class HuaweiBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder>(builder) {
-        override fun include(var1: LatLng<*>): Builder<*> {
-            builder.include(var1.ll as com.huawei.hms.maps.model.LatLng)
+    class HuaweiBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder, HuaweiLatLng>(builder) {
+        override fun include(var1: HuaweiLatLng): Builder<*, *> {
+            builder.include(var1.ll)
             return this
         }
 
         override fun build() =
-                HuaweiLatLngBounds(builder.build())
+            HuaweiLatLngBounds(builder.build())
     }
 }

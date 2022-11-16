@@ -1,11 +1,11 @@
 package it.localhostsoftware.maps.model
 
-abstract class Marker<M>(val m: M) {
+abstract class Marker<M, LL : LatLng<*>, BD: BitmapDescriptor<*>>(val m: M) {
     abstract fun remove()
     abstract val id: String
-    abstract var position: LatLng<*>
+    abstract var position: LL
     abstract var zIndex: Float
-    abstract fun setIcon(var1: BitmapDescriptor<*>?)
+    abstract fun setIcon(var1: BD?)
     abstract fun setAnchor(var1: Float, var2: Float)
     abstract fun setInfoWindowAnchor(var1: Float, var2: Float)
     abstract var title: String?
