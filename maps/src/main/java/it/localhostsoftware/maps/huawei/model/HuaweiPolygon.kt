@@ -2,9 +2,8 @@ package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.Polygon
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class HuaweiPolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon>(polygon) {
+class HuaweiPolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, HuaweiPatternItem>(polygon) {
     override fun remove() {
         p.remove()
     }
@@ -36,11 +35,11 @@ class HuaweiPolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<
         set(var1) {
             p.strokeJointType = var1
         }
-    override var strokePattern: List<PatternItem<*>>?
+    override var strokePattern: List<HuaweiPatternItem>?
         get() =
-            p.strokePattern?.map { PatternItem(it) }
+            p.strokePattern?.map { HuaweiPatternItem(it) }
         set(var1) {
-            p.strokePattern = var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem }
+            p.strokePattern = var1?.map { it.pi }
         }
     override var fillColor: Int
         get() = p.fillColor

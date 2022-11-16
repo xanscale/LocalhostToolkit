@@ -1,12 +1,12 @@
 package it.localhostsoftware.maps.model
 
-abstract class Circle<C>(val c: C) {
+abstract class Circle<C, PI : PatternItem<*>>(val c: C) {
     abstract val id: String
     abstract var center: LatLng<*>
     abstract var radius: Double
     abstract var strokeWidth: Float
     abstract var strokeColor: Int
-    abstract var strokePattern: List<PatternItem<*>>?
+    abstract var strokePattern: List<PI>?
     abstract var fillColor: Int
     abstract var zIndex: Float
     abstract var isVisible: Boolean

@@ -2,15 +2,14 @@ package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.PolygonOptions
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions>(polygonOptions) {
-    override fun add(vararg points: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*> {
+class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem>(polygonOptions) {
+    override fun add(vararg points: LatLng<*>): it.localhostsoftware.maps.model.PolygonOptions<*,*> {
         po.add(*points.map { it.ll as com.google.android.gms.maps.model.LatLng }.toTypedArray())
         return this
     }
 
-    override fun addHole(points: Iterable<LatLng<*>>): it.localhostsoftware.maps.model.PolygonOptions<*> {
+    override fun addHole(points: Iterable<LatLng<*>>): it.localhostsoftware.maps.model.PolygonOptions<*,*> {
         po.addHole(points.map { it.ll as com.google.android.gms.maps.model.LatLng })
         return this
     }
@@ -34,10 +33,10 @@ class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftwar
         set(value) {
             po.strokeJointType(value)
         }
-    override var strokePattern: List<PatternItem<*>>?
-        get() = po.strokePattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+    override var strokePattern: List<GooglePatternItem>?
+        get() = po.strokePattern?.map { GooglePatternItem(it) }
         set(value) {
-            po.strokePattern(value?.map { it.pi as com.google.android.gms.maps.model.PatternItem })
+            po.strokePattern(value?.map { it.pi })
         }
     override var fillColor: Int
         get() = po.fillColor

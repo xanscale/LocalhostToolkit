@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>,
+abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*, *>, PL : Polyline<*, *>, PGO : PolygonOptions<*, *>, PG : Polygon<*, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *>,
         MRO : MarkerOptions<*>, MR : Marker<*>, IB : IndoorBuilding<*>, US : UiSettings<*>, PJ : Projection<*>, MSO : MapStyleOptions<*>, LLB : LatLngBounds<*>
         >(val map: M) {
     companion object {
@@ -132,15 +132,15 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : Pol
     }
 
     fun interface OnPolylineClickListener {
-        fun onPolylineClick(var1: Polyline<*>)
+        fun onPolylineClick(var1: Polyline<*, *>)
     }
 
     fun interface OnPolygonClickListener {
-        fun onPolygonClick(var1: Polygon<*>)
+        fun onPolygonClick(var1: Polygon<*, *>)
     }
 
     fun interface OnCircleClickListener {
-        fun onCircleClick(var1: Circle<*>)
+        fun onCircleClick(var1: Circle<*, *>)
     }
 
     fun interface OnCameraIdleListener {

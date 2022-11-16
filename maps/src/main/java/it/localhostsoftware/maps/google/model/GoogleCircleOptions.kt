@@ -1,14 +1,12 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.CircleOptions
-import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class GoogleCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions>(circleOptions) {
-    override var center: LatLng<*>?
+class GoogleCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions, GoogleLatLng, GooglePatternItem>(circleOptions) {
+    override var center: GoogleLatLng?
         get() = co.center?.let { GoogleLatLng(it) }
         set(value) {
-            value?.let { co.center(value.ll as com.google.android.gms.maps.model.LatLng) } ?: throw IllegalStateException()
+            value?.let { co.center(value.ll) } ?: throw IllegalStateException()
         }
     override var radius: Double
         get() = co.radius
@@ -25,10 +23,10 @@ class GoogleCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.m
         set(value) {
             co.strokeColor(value)
         }
-    override var strokePattern: List<PatternItem<*>>?
-        get() = co.strokePattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+    override var strokePattern: List<GooglePatternItem>?
+        get() = co.strokePattern?.map { GooglePatternItem(it) }
         set(value) {
-            co.strokePattern(value?.map { it.pi as com.google.android.gms.maps.model.PatternItem })
+            co.strokePattern(value?.map { it.pi })
         }
     override var fillColor: Int
         get() = co.fillColor

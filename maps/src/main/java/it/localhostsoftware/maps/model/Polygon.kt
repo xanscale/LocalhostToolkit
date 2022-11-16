@@ -1,6 +1,6 @@
 package it.localhostsoftware.maps.model
 
-abstract class Polygon<P>(val p: P) {
+abstract class Polygon<P, PI : PatternItem<*>>(val p: P) {
     abstract fun remove()
     abstract val id: String
     abstract var points: List<LatLng<*>>
@@ -8,7 +8,7 @@ abstract class Polygon<P>(val p: P) {
     abstract var strokeWidth: Float
     abstract var strokeColor: Int
     abstract var strokeJointType: Int
-    abstract var strokePattern: List<PatternItem<*>>?
+    abstract var strokePattern: List<PI>?
     abstract var fillColor: Int
     abstract var zIndex: Float
     abstract var isVisible: Boolean

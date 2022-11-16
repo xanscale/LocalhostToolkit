@@ -2,9 +2,8 @@ package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.Circle
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle>(circle) {
+class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, GooglePatternItem>(circle) {
     override fun remove() = c.remove()
     override val id: String
         get() = c.id
@@ -28,11 +27,11 @@ class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circ
         set(var1) {
             c.strokeColor = var1
         }
-    override var strokePattern: List<PatternItem<*>>?
+    override var strokePattern: List<GooglePatternItem>?
         get() =
-            c.strokePattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+            c.strokePattern?.map { GooglePatternItem(it) }
         set(var1) {
-            c.strokePattern = var1?.map { it.pi as com.google.android.gms.maps.model.PatternItem }
+            c.strokePattern = var1?.map { it.pi }
         }
     override var fillColor: Int
         get() = c.fillColor

@@ -3,10 +3,9 @@ package it.localhostsoftware.maps.huawei.model
 import com.huawei.hms.maps.model.PolylineOptions
 import it.localhostsoftware.maps.model.Cap
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions>(polylineOptions) {
-    override fun add(vararg var1: LatLng<*>): it.localhostsoftware.maps.model.PolylineOptions<*> {
+class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, HuaweiPatternItem>(polylineOptions) {
+    override fun add(vararg var1: LatLng<*>): it.localhostsoftware.maps.model.PolylineOptions<*, *> {
         po.add(*var1.map { it.ll as com.huawei.hms.maps.model.LatLng }.toTypedArray())
         return this
     }
@@ -38,10 +37,10 @@ class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoft
         set(value) {
             po.jointType(value)
         }
-    override var pattern: List<PatternItem<*>>?
-        get() = po.pattern?.map { PatternItem<com.huawei.hms.maps.model.PatternItem>(it) }
+    override var pattern: List<HuaweiPatternItem>?
+        get() = po.pattern?.map { HuaweiPatternItem(it) }
         set(value) {
-            po.pattern(value?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+            po.pattern(value?.map { it.pi })
         }
     override var zIndex: Float
         get() = po.zIndex

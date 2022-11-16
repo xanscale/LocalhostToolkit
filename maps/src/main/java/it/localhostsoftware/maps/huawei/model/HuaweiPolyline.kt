@@ -3,9 +3,8 @@ package it.localhostsoftware.maps.huawei.model
 import com.huawei.hms.maps.model.Polyline
 import it.localhostsoftware.maps.model.Cap
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline>(polyline) {
+class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline, HuaweiPatternItem>(polyline) {
     override fun remove() {
         p.remove()
     }
@@ -42,10 +41,10 @@ class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyl
         set(var1) {
             p.jointType = var1
         }
-    override var pattern: List<PatternItem<*>>?
-        get() = p.pattern?.map { PatternItem(it) }
+    override var pattern: List<HuaweiPatternItem>?
+        get() = p.pattern?.map { HuaweiPatternItem(it) }
         set(var1) {
-            p.pattern = var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem }
+            p.pattern = var1?.map { it.pi }
         }
     override var zIndex: Float
         get() = p.zIndex

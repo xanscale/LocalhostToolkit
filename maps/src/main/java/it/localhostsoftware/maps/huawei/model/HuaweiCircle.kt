@@ -2,9 +2,8 @@ package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.Circle
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class HuaweiCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle>(circle) {
+class HuaweiCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, HuaweiPatternItem>(circle) {
     override fun remove() {
         c.remove()
     }
@@ -31,11 +30,11 @@ class HuaweiCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circ
         set(var1) {
             c.strokeColor = var1
         }
-    override var strokePattern: List<PatternItem<*>>?
+    override var strokePattern: List<HuaweiPatternItem>?
         get() =
-            c.strokePattern?.map { PatternItem(it) }
+            c.strokePattern?.map { HuaweiPatternItem(it) }
         set(var1) {
-            c.strokePattern = var1?.map { it.pi as com.huawei.hms.maps.model.PatternItem }
+            c.strokePattern = var1?.map { it.pi }
         }
     override var fillColor: Int
         get() = c.fillColor

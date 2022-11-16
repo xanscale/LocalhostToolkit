@@ -1,14 +1,12 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.CircleOptions
-import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class HuaweiCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions>(circleOptions) {
-    override var center: LatLng<*>?
+class HuaweiCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.maps.model.CircleOptions<CircleOptions, HuaweiLatLng, HuaweiPatternItem>(circleOptions) {
+    override var center: HuaweiLatLng?
         get() = HuaweiLatLng(co.center)
         set(value) {
-            value?.let { co.center(value.ll as com.huawei.hms.maps.model.LatLng) } ?: throw IllegalStateException()
+            value?.let { co.center(value.ll) } ?: throw IllegalStateException()
         }
     override var radius: Double
         get() = co.radius
@@ -25,10 +23,10 @@ class HuaweiCircleOptions(circleOptions: CircleOptions) : it.localhostsoftware.m
         set(value) {
             co.strokeColor(value)
         }
-    override var strokePattern: List<PatternItem<*>>?
-        get() = co.strokePattern?.map { PatternItem(it) }
+    override var strokePattern: List<HuaweiPatternItem>?
+        get() = co.strokePattern?.map { HuaweiPatternItem(it) }
         set(value) {
-            co.strokePattern(value?.map { it.pi as com.huawei.hms.maps.model.PatternItem })
+            co.strokePattern(value?.map { it.pi })
         }
     override var fillColor: Int
         get() = co.fillColor

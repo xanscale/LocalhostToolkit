@@ -2,9 +2,8 @@ package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.Polygon
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class GooglePolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon>(polygon) {
+class GooglePolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, GooglePatternItem>(polygon) {
     override fun remove() {
         p.remove()
     }
@@ -36,10 +35,10 @@ class GooglePolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<
         set(var1) {
             p.strokeJointType = var1
         }
-    override var strokePattern: List<PatternItem<*>>?
-        get() = p.strokePattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+    override var strokePattern: List<GooglePatternItem>?
+        get() = p.strokePattern?.map { GooglePatternItem(it) }
         set(var1) {
-            p.strokePattern = var1?.map { it.pi as com.google.android.gms.maps.model.PatternItem }
+            p.strokePattern = var1?.map { it.pi }
         }
     override var fillColor: Int
         get() = p.fillColor

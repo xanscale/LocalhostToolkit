@@ -3,9 +3,8 @@ package it.localhostsoftware.maps.google.model
 import com.google.android.gms.maps.model.Polyline
 import it.localhostsoftware.maps.model.Cap
 import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.PatternItem
 
-class GooglePolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline>(polyline) {
+class GooglePolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline, GooglePatternItem>(polyline) {
     override fun remove() {
         p.remove()
     }
@@ -42,10 +41,10 @@ class GooglePolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyl
         set(var1) {
             p.jointType = var1
         }
-    override var pattern: List<PatternItem<*>>?
-        get() = p.pattern?.map { PatternItem<com.google.android.gms.maps.model.PatternItem>(it) }
+    override var pattern: List<GooglePatternItem>?
+        get() = p.pattern?.map { GooglePatternItem(it) }
         set(var1) {
-            p.pattern = var1?.map { it.pi as com.google.android.gms.maps.model.PatternItem }
+            p.pattern = var1?.map { it.pi }
         }
     override var zIndex: Float
         get() = p.zIndex
