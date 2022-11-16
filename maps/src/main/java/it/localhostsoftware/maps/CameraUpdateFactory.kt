@@ -8,7 +8,7 @@ import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLng
 import it.localhostsoftware.maps.model.LatLngBounds
 
-interface CameraUpdateFactory<CU : CameraUpdate<*>, CP : CameraPosition<*>, LL : LatLng<*>, LLB : LatLngBounds<*>> {
+interface CameraUpdateFactory<CU : CameraUpdate<*>, CP : CameraPosition<*, *>, LL : LatLng<*>, LLB : LatLngBounds<*>> {
     companion object {
         fun getInstance(c: Context) =
             when (c.getMobileServices()) {

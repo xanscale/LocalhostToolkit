@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*, *>, PL : Polyline<*, *>, PGO : PolygonOptions<*, *>, PG : Polygon<*, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *>,
+abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *>, PL : Polyline<*, *>, PGO : PolygonOptions<*, *>, PG : Polygon<*, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *>,
         MRO : MarkerOptions<*, *>, MR : Marker<*>, IB : IndoorBuilding<*>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LLB : LatLngBounds<*>
         >(val map: M) {
     companion object {
