@@ -6,13 +6,12 @@ import androidx.annotation.RequiresPermission
 import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.LocationSource
 import com.huawei.hms.maps.model.IndoorBuilding
-import com.huawei.hms.maps.model.LatLngBounds
 import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
 
 class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker,
-        HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions
+        HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLngBounds
         >(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
@@ -209,6 +208,6 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun resetMinMaxZoomPreference() =
         map.resetMinMaxZoomPreference()
 
-    override fun setLatLngBoundsForCameraTarget(var1: it.localhostsoftware.maps.model.LatLngBounds<*>?) =
-        map.setLatLngBoundsForCameraTarget(var1?.let { var1.lb as LatLngBounds })
+    override fun setLatLngBoundsForCameraTarget(var1: HuaweiLatLngBounds?) =
+        map.setLatLngBoundsForCameraTarget(var1?.let { var1.lb })
 }

@@ -6,13 +6,12 @@ import androidx.annotation.RequiresPermission
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.IndoorBuilding
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.google.model.*
 
 class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker,
-        GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions
+        GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLngBounds
         >(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
@@ -207,6 +206,6 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun resetMinMaxZoomPreference() =
         map.resetMinMaxZoomPreference()
 
-    override fun setLatLngBoundsForCameraTarget(var1: it.localhostsoftware.maps.model.LatLngBounds<*>?) =
-        map.setLatLngBoundsForCameraTarget(var1?.let { var1.lb as LatLngBounds })
+    override fun setLatLngBoundsForCameraTarget(var1: GoogleLatLngBounds?) =
+        map.setLatLngBoundsForCameraTarget(var1?.let { var1.lb })
 }

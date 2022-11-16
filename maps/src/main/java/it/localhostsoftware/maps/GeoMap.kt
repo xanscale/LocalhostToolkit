@@ -7,7 +7,7 @@ import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
 abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>,
-        MRO : MarkerOptions<*>, MR : Marker<*>, IB : IndoorBuilding<*>, US : UiSettings<*>, PJ : Projection<*>, MSO : MapStyleOptions<*>
+        MRO : MarkerOptions<*>, MR : Marker<*>, IB : IndoorBuilding<*>, US : UiSettings<*>, PJ : Projection<*>, MSO : MapStyleOptions<*>, LLB : LatLngBounds<*>
         >(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
@@ -75,7 +75,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : Pol
     abstract fun setMinZoomPreference(var1: Float)
     abstract fun setMaxZoomPreference(var1: Float)
     abstract fun resetMinMaxZoomPreference()
-    abstract fun setLatLngBoundsForCameraTarget(var1: LatLngBounds<*>?)
+    abstract fun setLatLngBoundsForCameraTarget(var1: LLB?)
     fun interface OnPoiClickListener {
         fun onPoiClick(var1: PointOfInterest<*>)
     }
