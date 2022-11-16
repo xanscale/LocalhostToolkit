@@ -1,16 +1,14 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.PolylineOptions
-import it.localhostsoftware.maps.model.Cap
-import it.localhostsoftware.maps.model.LatLng
 
-class GooglePolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, GooglePatternItem>(polylineOptions) {
-    override fun add(vararg var1: LatLng<*>): it.localhostsoftware.maps.model.PolylineOptions<*, *> {
-        po.add(*var1.map { it.ll as com.google.android.gms.maps.model.LatLng }.toTypedArray())
+class GooglePolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, GooglePatternItem, GoogleLatLng, GoogleCap>(polylineOptions) {
+    override fun add(vararg var1: GoogleLatLng): it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, GooglePatternItem, GoogleLatLng, GoogleCap> {
+        po.add(*var1.map { it.ll }.toTypedArray())
         return this
     }
 
-    override val points: List<LatLng<*>>
+    override val points: List<GoogleLatLng>
         get() = po.points.map { GoogleLatLng(it) }
     override var width: Float
         get() = po.width
@@ -22,15 +20,15 @@ class GooglePolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoft
         set(value) {
             po.color(value)
         }
-    override var startCap: Cap<*>
-        get() = Cap(po.startCap)
+    override var startCap: GoogleCap
+        get() = GoogleCap(po.startCap)
         set(value) {
-            po.startCap(value.cap as com.google.android.gms.maps.model.Cap)
+            po.startCap(value.cap)
         }
-    override var endCap: Cap<*>
-        get() = Cap(po.endCap)
+    override var endCap: GoogleCap
+        get() = GoogleCap(po.endCap)
         set(value) {
-            po.endCap(value.cap as com.google.android.gms.maps.model.Cap)
+            po.endCap(value.cap)
         }
     override var jointType: Int
         get() = po.jointType

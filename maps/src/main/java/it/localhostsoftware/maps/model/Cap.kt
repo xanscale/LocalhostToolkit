@@ -1,3 +1,3 @@
 package it.localhostsoftware.maps.model
 
-open class Cap<C>(val cap: C)
+abstract class Cap<C>(val cap: C)

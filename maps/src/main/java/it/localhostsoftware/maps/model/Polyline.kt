@@ -1,13 +1,13 @@
 package it.localhostsoftware.maps.model
 
-abstract class Polyline<P, PI : PatternItem<*>>(val p: P) {
+abstract class Polyline<P, PI : PatternItem<*>, LL:LatLng<*>, C: Cap<*>>(val p: P) {
     abstract fun remove()
     abstract val id: String
-    abstract var points: List<LatLng<*>>
+    abstract var points: List<LL>
     abstract var width: Float
     abstract var color: Int
-    abstract var startCap: Cap<*>
-    abstract var endCap: Cap<*>
+    abstract var startCap: C
+    abstract var endCap: C
     abstract var jointType: Int
     abstract var pattern: List<PI>?
     abstract var zIndex: Float

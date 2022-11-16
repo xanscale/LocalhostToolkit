@@ -3,12 +3,12 @@ package it.localhostsoftware.maps.huawei.model
 import com.huawei.hms.maps.model.PolygonOptions
 
 class HuaweiPolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, HuaweiPatternItem, HuaweiLatLng>(polygonOptions) {
-    override fun add(vararg points: HuaweiLatLng): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+    override fun add(vararg points: HuaweiLatLng): it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, HuaweiPatternItem, HuaweiLatLng> {
         po.add(*points.map { it.ll }.toTypedArray())
         return this
     }
 
-    override fun addHole(points: Iterable<HuaweiLatLng>): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+    override fun addHole(points: Iterable<HuaweiLatLng>): it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, HuaweiPatternItem, HuaweiLatLng> {
         po.addHole(points.map { it.ll })
         return this
     }

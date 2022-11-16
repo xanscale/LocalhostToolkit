@@ -2,19 +2,18 @@ package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.Polyline
 import it.localhostsoftware.maps.model.Cap
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline, HuaweiPatternItem>(polyline) {
+class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyline<Polyline, HuaweiPatternItem, HuaweiLatLng, HuaweiCap>(polyline) {
     override fun remove() {
         p.remove()
     }
 
     override val id: String
         get() = p.id
-    override var points: List<LatLng<*>>
+    override var points: List<HuaweiLatLng>
         get() = p.points.map { HuaweiLatLng(it) }
         set(var1) {
-            p.points = var1.map { it.ll as com.huawei.hms.maps.model.LatLng }
+            p.points = var1.map { it.ll }
         }
     override var width: Float
         get() = p.width
@@ -26,15 +25,15 @@ class HuaweiPolyline(polyline: Polyline) : it.localhostsoftware.maps.model.Polyl
         set(var1) {
             p.color = var1
         }
-    override var startCap: Cap<*>
-        get() = Cap(p.startCap)
+    override var startCap: HuaweiCap
+        get() = HuaweiCap(p.startCap)
         set(var1) {
-            p.startCap = var1.cap as com.huawei.hms.maps.model.Cap
+            p.startCap = var1.cap
         }
-    override var endCap: Cap<*>
-        get() = Cap(p.endCap)
+    override var endCap: HuaweiCap
+        get() = HuaweiCap(p.endCap)
         set(var1) {
-            p.endCap = var1.cap as com.huawei.hms.maps.model.Cap
+            p.endCap = var1.cap
         }
     override var jointType: Int
         get() = p.jointType

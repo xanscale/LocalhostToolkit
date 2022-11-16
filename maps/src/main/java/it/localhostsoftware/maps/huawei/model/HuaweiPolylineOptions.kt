@@ -1,16 +1,14 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.PolylineOptions
-import it.localhostsoftware.maps.model.Cap
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, HuaweiPatternItem>(polylineOptions) {
-    override fun add(vararg var1: LatLng<*>): it.localhostsoftware.maps.model.PolylineOptions<*, *> {
-        po.add(*var1.map { it.ll as com.huawei.hms.maps.model.LatLng }.toTypedArray())
+class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, HuaweiPatternItem, HuaweiLatLng, HuaweiCap>(polylineOptions) {
+    override fun add(vararg var1: HuaweiLatLng): it.localhostsoftware.maps.model.PolylineOptions<PolylineOptions, HuaweiPatternItem, HuaweiLatLng, HuaweiCap> {
+        po.add(*var1.map { it.ll }.toTypedArray())
         return this
     }
 
-    override val points: List<LatLng<*>>
+    override val points: List<HuaweiLatLng>
         get() = po.points.map { HuaweiLatLng(it) }
     override var width: Float
         get() = po.width
@@ -22,15 +20,15 @@ class HuaweiPolylineOptions(polylineOptions: PolylineOptions) : it.localhostsoft
         set(value) {
             po.color(value)
         }
-    override var startCap: Cap<*>
-        get() = Cap(po.startCap)
+    override var startCap: HuaweiCap
+        get() = HuaweiCap(po.startCap)
         set(value) {
-            po.startCap(value.cap as com.huawei.hms.maps.model.Cap)
+            po.startCap(value.cap)
         }
-    override var endCap: Cap<*>
-        get() = Cap(po.endCap)
+    override var endCap: HuaweiCap
+        get() = HuaweiCap(po.endCap)
         set(value) {
-            po.endCap(value.cap as com.huawei.hms.maps.model.Cap)
+            po.endCap(value.cap)
         }
     override var jointType: Int
         get() = po.jointType

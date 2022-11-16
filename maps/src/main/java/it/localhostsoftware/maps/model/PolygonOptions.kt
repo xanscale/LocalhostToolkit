@@ -16,8 +16,8 @@ abstract class PolygonOptions<PO, PI : PatternItem<*>, LL : LatLng<*>>(val po: P
             }
     }
 
-    abstract fun add(vararg points: LL): PolygonOptions<*, *, *>
-    abstract fun addHole(points: Iterable<LL>): PolygonOptions<*, *, *>
+    abstract fun add(vararg points: LL): PolygonOptions<PO, PI, LL>
+    abstract fun addHole(points: Iterable<LL>): PolygonOptions<PO, PI, LL>
     abstract val points: List<LL>
     abstract val holes: List<List<LL>>
     abstract var strokeWidth: Float
@@ -29,7 +29,7 @@ abstract class PolygonOptions<PO, PI : PatternItem<*>, LL : LatLng<*>>(val po: P
     abstract var isVisible: Boolean
     abstract var isGeodesic: Boolean
     abstract var isClickable: Boolean
-    fun addAll(var1: Iterable<LL>): PolygonOptions<*, *, *> {
+    fun addAll(var1: Iterable<LL>): PolygonOptions<PO, PI, LL> {
         var1.forEach { add(it) }
         return this
     }

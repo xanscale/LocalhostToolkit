@@ -3,12 +3,12 @@ package it.localhostsoftware.maps.google.model
 import com.google.android.gms.maps.model.PolygonOptions
 
 class GooglePolygonOptions(polygonOptions: PolygonOptions) : it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem, GoogleLatLng>(polygonOptions) {
-    override fun add(vararg points: GoogleLatLng): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+    override fun add(vararg points: GoogleLatLng): it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem, GoogleLatLng> {
         po.add(*points.map { it.ll }.toTypedArray())
         return this
     }
 
-    override fun addHole(points: Iterable<GoogleLatLng>): it.localhostsoftware.maps.model.PolygonOptions<*, *, *> {
+    override fun addHole(points: Iterable<GoogleLatLng>): it.localhostsoftware.maps.model.PolygonOptions<PolygonOptions, GooglePatternItem, GoogleLatLng> {
         po.addHole(points.map { it.ll })
         return this
     }
