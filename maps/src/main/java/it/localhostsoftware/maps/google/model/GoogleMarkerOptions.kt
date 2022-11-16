@@ -1,13 +1,12 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.MarkerOptions
-import it.localhostsoftware.maps.model.LatLng
 
-class GoogleMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, GoogleBitmapDescriptor>(markerOptions) {
-    override var position: LatLng<*>
+class GoogleMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, GoogleBitmapDescriptor, GoogleLatLng>(markerOptions) {
+    override var position: GoogleLatLng
         get() = GoogleLatLng(mo.position)
         set(value) {
-            mo.position(value.ll as com.google.android.gms.maps.model.LatLng)
+            mo.position(value.ll)
         }
     override var title: String?
         get() = mo.title

@@ -1,13 +1,12 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.MarkerOptions
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, HuaweiBitmapDescriptor>(markerOptions) {
-    override var position: LatLng<*>
+class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, HuaweiBitmapDescriptor, HuaweiLatLng>(markerOptions) {
+    override var position: HuaweiLatLng
         get() = HuaweiLatLng(mo.position)
         set(value) {
-            mo.position(value.ll as com.huawei.hms.maps.model.LatLng)
+            mo.position(value.ll)
         }
     override var title: String?
         get() = mo.title

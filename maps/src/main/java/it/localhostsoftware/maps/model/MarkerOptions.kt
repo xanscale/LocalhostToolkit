@@ -6,7 +6,7 @@ import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GoogleMarkerOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiMarkerOptions
 
-abstract class MarkerOptions<MO, BD : BitmapDescriptor<*>>(val mo: MO) {
+abstract class MarkerOptions<MO, BD : BitmapDescriptor<*>, LL : LatLng<*>>(val mo: MO) {
     companion object {
         fun getInstance(c: Context) =
             when (c.getMobileServices()) {
@@ -16,7 +16,7 @@ abstract class MarkerOptions<MO, BD : BitmapDescriptor<*>>(val mo: MO) {
             }
     }
 
-    abstract var position: LatLng<*>
+    abstract var position: LL
     abstract var title: String?
     abstract var snippet: String?
     abstract var icon: BD?
