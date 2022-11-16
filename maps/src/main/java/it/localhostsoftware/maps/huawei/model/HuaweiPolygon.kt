@@ -1,24 +1,22 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.Polygon
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiPolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, HuaweiPatternItem>(polygon) {
-    override fun remove() {
+class HuaweiPolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, HuaweiPatternItem, HuaweiLatLng>(polygon) {
+    override fun remove() =
         p.remove()
-    }
 
     override val id: String
         get() = p.id
-    override var points: List<LatLng<*>>
+    override var points: List<HuaweiLatLng>
         get() = p.points.map { HuaweiLatLng(it) }
         set(var1) {
-            p.points = var1.map { it.ll as com.huawei.hms.maps.model.LatLng }
+            p.points = var1.map { it.ll }
         }
-    override var holes: List<List<LatLng<*>>>
+    override var holes: List<List<HuaweiLatLng>>
         get() = p.holes.map { it.map { ll -> HuaweiLatLng(ll) } }
         set(var1) {
-            p.holes = var1.map { it.map { ll -> ll.ll as com.huawei.hms.maps.model.LatLng } }
+            p.holes = var1.map { it.map { ll -> ll.ll } }
         }
     override var strokeWidth: Float
         get() = p.strokeWidth

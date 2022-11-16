@@ -1,24 +1,23 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.Polygon
-import it.localhostsoftware.maps.model.LatLng
 
-class GooglePolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, GooglePatternItem>(polygon) {
+class GooglePolygon(polygon: Polygon) : it.localhostsoftware.maps.model.Polygon<Polygon, GooglePatternItem, GoogleLatLng>(polygon) {
     override fun remove() {
         p.remove()
     }
 
     override val id: String
         get() = p.id
-    override var points: List<LatLng<*>>
+    override var points: List<GoogleLatLng>
         get() = p.points.map { GoogleLatLng(it) }
         set(var1) {
-            p.points = var1.map { it.ll as com.google.android.gms.maps.model.LatLng }
+            p.points = var1.map { it.ll }
         }
-    override var holes: List<List<LatLng<*>>>
+    override var holes: List<List<GoogleLatLng>>
         get() = p.holes.map { it.map { ll -> GoogleLatLng(ll) } }
         set(var1) {
-            p.holes = var1.map { it.map { ll -> ll.ll as com.google.android.gms.maps.model.LatLng } }
+            p.holes = var1.map { it.map { ll -> ll.ll } }
         }
     override var strokeWidth: Float
         get() = p.strokeWidth
