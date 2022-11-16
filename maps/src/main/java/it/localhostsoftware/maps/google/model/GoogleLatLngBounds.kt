@@ -13,13 +13,13 @@ class GoogleLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.Lat
     override fun contains(var1: GoogleLatLng) =
         lb.contains(var1.ll)
 
-    override fun including(var1: GoogleLatLng): it.localhostsoftware.maps.model.LatLngBounds<*, *> {
+    override fun including(var1: GoogleLatLng): it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds, GoogleLatLng> {
         lb.including(var1.ll)
         return this
     }
 
     class GoogleBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder, GoogleLatLng>(builder) {
-        override fun include(var1: GoogleLatLng): Builder<*, *> {
+        override fun include(var1: GoogleLatLng): Builder<LatLngBounds.Builder, GoogleLatLng> {
             builder.include(var1.ll)
             return this
         }

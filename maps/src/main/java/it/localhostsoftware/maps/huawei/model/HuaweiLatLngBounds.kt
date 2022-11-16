@@ -13,13 +13,13 @@ class HuaweiLatLngBounds(lb: LatLngBounds) : it.localhostsoftware.maps.model.Lat
     override fun contains(var1: HuaweiLatLng) =
         lb.contains(var1.ll)
 
-    override fun including(var1: HuaweiLatLng): it.localhostsoftware.maps.model.LatLngBounds<*, *> {
+    override fun including(var1: HuaweiLatLng): it.localhostsoftware.maps.model.LatLngBounds<LatLngBounds, HuaweiLatLng> {
         lb.including(var1.ll)
         return this
     }
 
     class HuaweiBuilder(builder: LatLngBounds.Builder) : Builder<LatLngBounds.Builder, HuaweiLatLng>(builder) {
-        override fun include(var1: HuaweiLatLng): Builder<*, *> {
+        override fun include(var1: HuaweiLatLng): Builder<LatLngBounds.Builder, HuaweiLatLng> {
             builder.include(var1.ll)
             return this
         }

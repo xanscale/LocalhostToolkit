@@ -11,7 +11,7 @@ abstract class LatLngBounds<LB, LL : LatLng<*>>(val lb: LB) {
     abstract val northeast: LL
     abstract val center: LL
     abstract operator fun contains(var1: LL): Boolean
-    abstract fun including(var1: LL): LatLngBounds<*, *>
+    abstract fun including(var1: LL): LatLngBounds<LB, LL>
     abstract class Builder<B, LL : LatLng<*>>(val builder: B) {
         companion object {
             fun getInstance(c: Context): Builder<*, *> =
@@ -22,7 +22,7 @@ abstract class LatLngBounds<LB, LL : LatLng<*>>(val lb: LB) {
                 }
         }
 
-        abstract fun include(var1: LL): Builder<*, *>
+        abstract fun include(var1: LL): Builder<B, LL>
         abstract fun build(): LatLngBounds<*, *>
     }
 }
