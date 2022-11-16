@@ -1,16 +1,15 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.Circle
-import it.localhostsoftware.maps.model.LatLng
 
-class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, GooglePatternItem>(circle) {
+class GoogleCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, GooglePatternItem, GoogleLatLng>(circle) {
     override fun remove() = c.remove()
     override val id: String
         get() = c.id
-    override var center: LatLng<*>
+    override var center: GoogleLatLng
         get() = GoogleLatLng(c.center)
         set(var1) {
-            c.center = var1.ll as com.google.android.gms.maps.model.LatLng
+            c.center = var1.ll
         }
     override var radius: Double
         get() = c.radius

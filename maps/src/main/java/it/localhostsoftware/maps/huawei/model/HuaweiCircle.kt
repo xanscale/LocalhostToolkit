@@ -1,19 +1,18 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.Circle
-import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, HuaweiPatternItem>(circle) {
+class HuaweiCircle(circle: Circle) : it.localhostsoftware.maps.model.Circle<Circle, HuaweiPatternItem, HuaweiLatLng>(circle) {
     override fun remove() {
         c.remove()
     }
 
     override val id: String
         get() = c.id
-    override var center: LatLng<*>
+    override var center: HuaweiLatLng
         get() = HuaweiLatLng(c.center)
         set(var1) {
-            c.center = var1.ll as com.huawei.hms.maps.model.LatLng
+            c.center = var1.ll
         }
     override var radius: Double
         get() = c.radius
