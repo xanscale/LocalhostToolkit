@@ -32,9 +32,9 @@ dependencies {
     api("androidx.camera:camera-lifecycle:1.1.0")
     api("androidx.camera:camera-view:1.1.0")
 
-    api("com.google.mlkit:barcode-scanning:17.0.2") // 3.2 MB
-    api("com.google.mlkit:text-recognition:16.0.0-beta6") // 4 MB
-    api("com.google.mlkit:image-labeling-custom:17.0.1") // 3.8 MB
+    compileOnly("com.google.mlkit:barcode-scanning:17.0.2") // 3.2 MB
+    compileOnly("com.google.mlkit:text-recognition:16.0.0-beta6") // 4 MB
+    compileOnly("com.google.mlkit:image-labeling-custom:17.0.1") // 3.8 MB
 }
 
 publishing {
