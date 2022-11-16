@@ -7,14 +7,14 @@ import it.localhostsoftware.maps.getMobileServices
 import it.localhostsoftware.maps.google.model.GoogleBitmapDescriptorFactory
 import it.localhostsoftware.maps.huawei.model.HuaweiBitmapDescriptorFactory
 
-interface BitmapDescriptorFactory {
+interface BitmapDescriptorFactory<BD : BitmapDescriptor<*>> {
     companion object {
         fun getInstance(c: Context) =
-                when (c.getMobileServices()) {
-                    MobileServices.GOOGLE -> GoogleBitmapDescriptorFactory()
-                    MobileServices.HUAWEI -> HuaweiBitmapDescriptorFactory()
-                    else -> throw IllegalStateException()
-                }
+            when (c.getMobileServices()) {
+                MobileServices.GOOGLE -> GoogleBitmapDescriptorFactory()
+                MobileServices.HUAWEI -> HuaweiBitmapDescriptorFactory()
+                else -> throw IllegalStateException()
+            }
 
         const val HUE_RED = 0.0f
         const val HUE_ORANGE = 30.0f
@@ -28,11 +28,11 @@ interface BitmapDescriptorFactory {
         const val HUE_ROSE = 330.0f
     }
 
-    fun fromResource(var0: Int): BitmapDescriptor<*>
-    fun fromAsset(var0: String): BitmapDescriptor<*>
-    fun fromFile(var0: String): BitmapDescriptor<*>
-    fun fromPath(var0: String): BitmapDescriptor<*>
-    fun defaultMarker(): BitmapDescriptor<*>
-    fun defaultMarker(var0: Float): BitmapDescriptor<*>
-    fun fromBitmap(var0: Bitmap): BitmapDescriptor<*>
+    fun fromResource(var0: Int): BD
+    fun fromAsset(var0: String): BD
+    fun fromFile(var0: String): BD
+    fun fromPath(var0: String): BD
+    fun defaultMarker(): BD
+    fun defaultMarker(var0: Float): BD
+    fun fromBitmap(var0: Bitmap): BD
 }

@@ -1,10 +1,9 @@
 package it.localhostsoftware.maps.google.model
 
 import com.google.android.gms.maps.model.MarkerOptions
-import it.localhostsoftware.maps.model.BitmapDescriptor
 import it.localhostsoftware.maps.model.LatLng
 
-class GoogleMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions>(markerOptions) {
+class GoogleMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, GoogleBitmapDescriptor>(markerOptions) {
     override var position: LatLng<*>
         get() = GoogleLatLng(mo.position)
         set(value) {
@@ -20,10 +19,10 @@ class GoogleMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.m
         set(value) {
             mo.snippet(value)
         }
-    override var icon: BitmapDescriptor<*>?
-        get() = BitmapDescriptor(mo.icon)
+    override var icon: GoogleBitmapDescriptor?
+        get() = mo.icon?.let { GoogleBitmapDescriptor(it) }
         set(value) {
-            mo.icon(value?.bitmapDescriptor as? com.google.android.gms.maps.model.BitmapDescriptor)
+            mo.icon(value?.bitmapDescriptor)
         }
     override var isDraggable: Boolean
         get() = mo.isDraggable

@@ -1,10 +1,9 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.MarkerOptions
-import it.localhostsoftware.maps.model.BitmapDescriptor
 import it.localhostsoftware.maps.model.LatLng
 
-class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions>(markerOptions) {
+class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.maps.model.MarkerOptions<MarkerOptions, HuaweiBitmapDescriptor>(markerOptions) {
     override var position: LatLng<*>
         get() = HuaweiLatLng(mo.position)
         set(value) {
@@ -20,10 +19,10 @@ class HuaweiMarkerOptions(markerOptions: MarkerOptions) : it.localhostsoftware.m
         set(value) {
             mo.snippet(value)
         }
-    override var icon: BitmapDescriptor<*>?
-        get() = BitmapDescriptor(mo.icon)
+    override var icon: HuaweiBitmapDescriptor?
+        get() = mo.icon?.let { HuaweiBitmapDescriptor(it) }
         set(value) {
-            mo.icon(value?.bitmapDescriptor as? com.huawei.hms.maps.model.BitmapDescriptor)
+            mo.icon(value?.bitmapDescriptor)
         }
     override var isDraggable: Boolean
         get() = mo.isDraggable
