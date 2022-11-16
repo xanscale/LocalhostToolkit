@@ -47,10 +47,10 @@ class MapFragment : Fragment() {
                 childFragmentManager.findFragmentById(R.id.fragmentContainerView).let { mapFragment ->
                     if (mapFragment is com.google.android.gms.maps.SupportMapFragment) {
                         fragmentManager.unregisterFragmentLifecycleCallbacks(this)
-                        mapFragment.getMapAsync { googleMap: com.google.android.gms.maps.GoogleMap -> callback.onMapReady(GoogleMap(googleMap)) }
+                        mapFragment.getMapAsync { callback.onMapReady(GoogleMap(it)) }
                     } else if (mapFragment is com.huawei.hms.maps.SupportMapFragment) {
                         fragmentManager.unregisterFragmentLifecycleCallbacks(this)
-                        mapFragment.getMapAsync { googleMap: com.huawei.hms.maps.HuaweiMap -> callback.onMapReady(HuaweiMap(googleMap)) }
+                        mapFragment.getMapAsync { callback.onMapReady(HuaweiMap(it)) }
                     }
                 }
             }
