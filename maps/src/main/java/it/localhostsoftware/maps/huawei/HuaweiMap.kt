@@ -7,13 +7,12 @@ import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.LocationSource
 import com.huawei.hms.maps.model.IndoorBuilding
 import com.huawei.hms.maps.model.LatLngBounds
-import com.huawei.hms.maps.model.MapStyleOptions
 import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
 
 class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker,
-        HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection
+        HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions
         >(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
@@ -198,8 +197,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun setOnPoiClickListener(var1: OnPoiClickListener?) =
         map.setOnPoiClickListener(var1?.let { HuaweiMap.OnPoiClickListener { var1.onPoiClick(HuaweiPointOfInterest(it)) } })
 
-    override fun setMapStyle(var1: it.localhostsoftware.maps.model.MapStyleOptions<*>?) =
-        map.setMapStyle(var1?.let { var1.mso as MapStyleOptions })
+    override fun setMapStyle(var1: HuaweiMapStyleOptions?) =
+        map.setMapStyle(var1?.let { var1.mso })
 
     override fun setMinZoomPreference(var1: Float) =
         map.setMinZoomPreference(var1)

@@ -7,14 +7,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.IndoorBuilding
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
-import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.google.model.*
 
 class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker,
-        GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection
+        GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions
         >(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
@@ -197,8 +195,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun setOnPoiClickListener(var1: OnPoiClickListener?) =
         map.setOnPoiClickListener(var1?.let { GoogleMap.OnPoiClickListener { var1.onPoiClick(GooglePointOfInterest(it)) } })
 
-    override fun setMapStyle(var1: it.localhostsoftware.maps.model.MapStyleOptions<*>?) =
-        map.setMapStyle(var1?.let { var1.mso as MapStyleOptions })
+    override fun setMapStyle(var1: GoogleMapStyleOptions?) =
+        map.setMapStyle(var1?.let { var1.mso })
 
     override fun setMinZoomPreference(var1: Float) =
         map.setMinZoomPreference(var1)
