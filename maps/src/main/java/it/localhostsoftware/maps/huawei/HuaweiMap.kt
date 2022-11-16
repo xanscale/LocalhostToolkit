@@ -12,7 +12,7 @@ import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.huawei.model.*
 import it.localhostsoftware.maps.model.MarkerOptions
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions>(huaweiMap) {
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline>(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float

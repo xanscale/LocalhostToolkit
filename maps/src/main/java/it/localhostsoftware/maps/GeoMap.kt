@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU: CameraUpdate<*>, CP: CameraPosition<*>, PO: PolylineOptions<*>>(val map: M) {
+abstract class GeoMap<M, CU: CameraUpdate<*>, CP: CameraPosition<*>, PO: PolylineOptions<*>, P : Polyline<*>>(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
         const val MAP_TYPE_NORMAL = 1
@@ -23,7 +23,7 @@ abstract class GeoMap<M, CU: CameraUpdate<*>, CP: CameraPosition<*>, PO: Polylin
     abstract fun animateCamera(var1: CU, var2: CancelableCallback?)
     abstract fun animateCamera(var1: CU, var2: Int, var3: CancelableCallback?)
     abstract fun stopAnimation()
-    abstract fun addPolyline(var1: PO): Polyline<*>
+    abstract fun addPolyline(var1: PO): P
     abstract fun addPolygon(var1: PolygonOptions<*>): Polygon<*>
     abstract fun addCircle(var1: CircleOptions<*>): Circle<*>
     abstract fun addMarker(var1: MarkerOptions<*>): Marker<*>?

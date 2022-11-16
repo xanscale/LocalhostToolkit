@@ -12,7 +12,7 @@ import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.google.model.*
 import it.localhostsoftware.maps.model.MarkerOptions
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions>(googleMap) {
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline>(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
