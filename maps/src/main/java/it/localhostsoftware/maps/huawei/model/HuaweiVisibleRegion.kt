@@ -1,19 +1,17 @@
 package it.localhostsoftware.maps.huawei.model
 
 import com.huawei.hms.maps.model.VisibleRegion
-import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.LatLngBounds
 
-class HuaweiVisibleRegion(VR: VisibleRegion) : it.localhostsoftware.maps.model.VisibleRegion<VisibleRegion>(VR) {
-    override val nearLeft: LatLng<*>
+class HuaweiVisibleRegion(VR: VisibleRegion) : it.localhostsoftware.maps.model.VisibleRegion<VisibleRegion, HuaweiLatLng, HuaweiLatLngBounds>(VR) {
+    override val nearLeft: HuaweiLatLng
         get() = HuaweiLatLng(vr.nearLeft)
-    override val nearRight: LatLng<*>
+    override val nearRight: HuaweiLatLng
         get() = HuaweiLatLng(vr.nearRight)
-    override val farLeft: LatLng<*>
+    override val farLeft: HuaweiLatLng
         get() = HuaweiLatLng(vr.farLeft)
-    override val farRight: LatLng<*>
+    override val farRight: HuaweiLatLng
         get() = HuaweiLatLng(vr.farRight)
-    override val latLngBounds: LatLngBounds<*,*>
+    override val latLngBounds: HuaweiLatLngBounds
         get() = HuaweiLatLngBounds(vr.latLngBounds)
 
     override fun hashCode(): Int {

@@ -13,6 +13,6 @@ class HuaweiProjection(projection: Projection) : it.localhostsoftware.maps.Proje
     override fun toScreenLocation(var1: HuaweiLatLng): Point? =
         p.toScreenLocation(var1.ll)
 
-    override val visibleRegion: VisibleRegion<*>
+    override val visibleRegion: VisibleRegion<*, *, *>
         get() = HuaweiVisibleRegion(p.visibleRegion)
 }
