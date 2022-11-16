@@ -16,7 +16,7 @@ class HeterogeneousItemTouchHelper private constructor(
 ) : ItemTouchHelper.Callback() {
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         adapter.submitList(adapter.currentList.toMutableList().apply {
-            removeAt(viewHolder.adapterPosition)
+            removeAt(viewHolder.bindingAdapterPosition)
         })
     }
 
@@ -25,8 +25,8 @@ class HeterogeneousItemTouchHelper private constructor(
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         adapter.submitList(adapter.currentList.toMutableList().apply {
-            val fromPosition = viewHolder.adapterPosition
-            val toPosition = target.adapterPosition
+            val fromPosition = viewHolder.bindingAdapterPosition
+            val toPosition = target.bindingAdapterPosition
             if (fromPosition < toPosition)
                 for (i in fromPosition until toPosition)
                     Collections.swap(this, i, i + 1)
@@ -43,8 +43,8 @@ class HeterogeneousItemTouchHelper private constructor(
         fun attachToRecyclerView(recyclerView: RecyclerView) {
             (recyclerView.adapter as? HeterogeneousListAdapter)?.let {
                 ItemTouchHelper(when (recyclerView.layoutManager) {
-                    is LinearLayoutManager -> HeterogeneousItemTouchHelper(it, VERTICAL, HORIZONTAL)
                     is GridLayoutManager -> HeterogeneousItemTouchHelper(it, VERTICAL or HORIZONTAL, 0)
+                    is LinearLayoutManager -> HeterogeneousItemTouchHelper(it, VERTICAL, HORIZONTAL)
                     else -> throw IllegalStateException(recyclerView.layoutManager!!.javaClass.simpleName + " is not supported")
                 }).attachToRecyclerView(recyclerView)
             } ?: throw IllegalStateException(recyclerView.adapter!!.javaClass.simpleName + " is not supported")
