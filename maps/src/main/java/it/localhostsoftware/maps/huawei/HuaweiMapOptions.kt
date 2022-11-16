@@ -4,10 +4,8 @@ import com.huawei.hms.maps.HuaweiMapOptions
 import it.localhostsoftware.maps.MapOptions
 import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition
 import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds
-import it.localhostsoftware.maps.model.CameraPosition
-import it.localhostsoftware.maps.model.LatLngBounds
 
-class HuaweiMapOptions(huaweiMapOptions: HuaweiMapOptions) : MapOptions<HuaweiMapOptions>(huaweiMapOptions) {
+class HuaweiMapOptions(huaweiMapOptions: HuaweiMapOptions) : MapOptions<HuaweiMapOptions, HuaweiCameraPosition, HuaweiLatLngBounds>(huaweiMapOptions) {
     override var zOrderOnTop: Boolean?
         get() = mo.zOrderOnTop
         set(value) {
@@ -23,10 +21,10 @@ class HuaweiMapOptions(huaweiMapOptions: HuaweiMapOptions) : MapOptions<HuaweiMa
         set(value) {
             mo.mapType(value)
         }
-    override var camera: CameraPosition<*>?
+    override var camera: HuaweiCameraPosition?
         get() = mo.camera?.let { HuaweiCameraPosition(it) }
         set(value) {
-            mo.camera(value?.cp as? com.huawei.hms.maps.model.CameraPosition)
+            mo.camera(value?.cp)
         }
     override var zoomControlsEnabled: Boolean?
         get() = mo.zoomControlsEnabled
@@ -83,9 +81,9 @@ class HuaweiMapOptions(huaweiMapOptions: HuaweiMapOptions) : MapOptions<HuaweiMa
         set(value) {
             value?.let { mo.maxZoomPreference(it) }
         }
-    override var latLngBoundsForCameraTarget: LatLngBounds<*>?
+    override var latLngBoundsForCameraTarget: HuaweiLatLngBounds?
         get() = mo.latLngBoundsForCameraTarget?.let { HuaweiLatLngBounds(it) }
         set(value) {
-            mo.latLngBoundsForCameraTarget(value?.lb as? com.huawei.hms.maps.model.LatLngBounds)
+            mo.latLngBoundsForCameraTarget(value?.lb)
         }
 }

@@ -4,10 +4,8 @@ import com.google.android.gms.maps.GoogleMapOptions
 import it.localhostsoftware.maps.MapOptions
 import it.localhostsoftware.maps.google.model.GoogleCameraPosition
 import it.localhostsoftware.maps.google.model.GoogleLatLngBounds
-import it.localhostsoftware.maps.model.CameraPosition
-import it.localhostsoftware.maps.model.LatLngBounds
 
-class GoogleMapOptions(googleMapOptions: GoogleMapOptions) : MapOptions<GoogleMapOptions>(googleMapOptions) {
+class GoogleMapOptions(googleMapOptions: GoogleMapOptions) : MapOptions<GoogleMapOptions, GoogleCameraPosition, GoogleLatLngBounds>(googleMapOptions) {
     override var zOrderOnTop: Boolean?
         get() = mo.zOrderOnTop
         set(value) {
@@ -23,10 +21,10 @@ class GoogleMapOptions(googleMapOptions: GoogleMapOptions) : MapOptions<GoogleMa
         set(value) {
             mo.mapType(value)
         }
-    override var camera: CameraPosition<*>?
+    override var camera: GoogleCameraPosition?
         get() = mo.camera?.let { GoogleCameraPosition(it) }
         set(value) {
-            mo.camera(value?.cp as? com.google.android.gms.maps.model.CameraPosition)
+            mo.camera(value?.cp)
         }
     override var zoomControlsEnabled: Boolean?
         get() = mo.zoomControlsEnabled
@@ -83,9 +81,9 @@ class GoogleMapOptions(googleMapOptions: GoogleMapOptions) : MapOptions<GoogleMa
         set(value) {
             value?.let { mo.maxZoomPreference(it) }
         }
-    override var latLngBoundsForCameraTarget: LatLngBounds<*>?
+    override var latLngBoundsForCameraTarget: GoogleLatLngBounds?
         get() = mo.latLngBoundsForCameraTarget?.let { GoogleLatLngBounds(it) }
         set(value) {
-            mo.latLngBoundsForCameraTarget(value?.lb as? com.google.android.gms.maps.model.LatLngBounds)
+            mo.latLngBoundsForCameraTarget(value?.lb)
         }
 }

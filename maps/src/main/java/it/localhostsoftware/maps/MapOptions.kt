@@ -6,7 +6,7 @@ import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
-abstract class MapOptions<MO>(val mo: MO) {
+abstract class MapOptions<MO, CP : CameraPosition<*>, LLB : LatLngBounds<*>>(val mo: MO) {
     companion object {
         fun getInstance(c: Context) =
             when (c.getMobileServices()) {
@@ -19,7 +19,7 @@ abstract class MapOptions<MO>(val mo: MO) {
     abstract var zOrderOnTop: Boolean?
     abstract var useViewLifecycleInFragment: Boolean?
     abstract var mapType: Int
-    abstract var camera: CameraPosition<*>?
+    abstract var camera: CP?
     abstract var zoomControlsEnabled: Boolean?
     abstract var compassEnabled: Boolean?
     abstract var scrollGesturesEnabled: Boolean?
@@ -31,5 +31,5 @@ abstract class MapOptions<MO>(val mo: MO) {
     abstract var ambientEnabled: Boolean?
     abstract var minZoomPreference: Float?
     abstract var maxZoomPreference: Float?
-    abstract var latLngBoundsForCameraTarget: LatLngBounds<*>?
+    abstract var latLngBoundsForCameraTarget: LLB?
 }

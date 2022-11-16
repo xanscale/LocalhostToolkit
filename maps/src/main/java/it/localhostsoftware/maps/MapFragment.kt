@@ -14,7 +14,7 @@ import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 class MapFragment : Fragment() {
     companion object {
         private const val MAP_OPTIONS = "mapOptions"
-        fun newInstance(mapOptions: MapOptions<*>?) = MapFragment().apply {
+        fun newInstance(mapOptions: MapOptions<*, *, *>?) = MapFragment().apply {
             arguments = Bundle().apply {
                 if (mapOptions is GoogleMapOptions) putParcelable(MAP_OPTIONS, mapOptions.mo)
                 else if (mapOptions is HuaweiMapOptions) putParcelable(MAP_OPTIONS, mapOptions.mo)
