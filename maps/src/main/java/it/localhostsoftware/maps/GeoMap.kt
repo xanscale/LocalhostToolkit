@@ -7,7 +7,7 @@ import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
 abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>,
-        MRO: MarkerOptions<*>, MR: Marker<*>
+        MRO: MarkerOptions<*>, MR: Marker<*>, IB: IndoorBuilding<*>
         >(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
@@ -33,7 +33,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : Pol
     //TODO  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
     //TODO  TileOverlay addTileOverlay(TileOverlayOptions var1);
     abstract fun clear()
-    abstract val focusedBuilding: IndoorBuilding<*>?
+    abstract val focusedBuilding: IB?
     abstract fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?)
     abstract var mapType: Int
     abstract var isTrafficEnabled: Boolean

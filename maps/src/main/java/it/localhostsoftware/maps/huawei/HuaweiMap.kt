@@ -14,7 +14,9 @@ import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.huawei.model.*
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker>(huaweiMap) {
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker,
+        HuaweiIndoorBuilding
+        >(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -62,8 +64,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun clear() =
         map.clear()
 
-    override val focusedBuilding: it.localhostsoftware.maps.model.IndoorBuilding<*>
-        get() = HuaweiIndoorBuilding(map.focusedBuilding)
+    override val focusedBuilding: HuaweiIndoorBuilding?
+        get() = map.focusedBuilding?.let { HuaweiIndoorBuilding(it) }
 
     override fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?) =
         map.setOnIndoorStateChangeListener(var1?.let {

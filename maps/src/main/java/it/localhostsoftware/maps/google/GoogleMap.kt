@@ -14,7 +14,9 @@ import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.google.model.*
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker>(googleMap) {
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker,
+        GoogleIndoorBuilding
+        >(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -62,7 +64,7 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun clear() =
         map.clear()
 
-    override val focusedBuilding: it.localhostsoftware.maps.model.IndoorBuilding<*>?
+    override val focusedBuilding: GoogleIndoorBuilding?
         get() = map.focusedBuilding?.let { GoogleIndoorBuilding(it) }
 
     override fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?) =
