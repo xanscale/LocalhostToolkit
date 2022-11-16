@@ -12,7 +12,7 @@ import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.google.model.*
 import it.localhostsoftware.maps.model.MarkerOptions
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline>(googleMap) {
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions>(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -48,8 +48,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun addPolyline(var1: GooglePolylineOptions) =
         GooglePolyline(map.addPolyline(var1.po))
 
-    override fun addPolygon(var1: it.localhostsoftware.maps.model.PolygonOptions<*>) =
-        GooglePolygon(map.addPolygon(var1.po as PolygonOptions))
+    override fun addPolygon(var1: GooglePolygonOptions) =
+        GooglePolygon(map.addPolygon(var1.po))
 
     override fun addCircle(var1: it.localhostsoftware.maps.model.CircleOptions<*>) =
         GoogleCircle(map.addCircle(var1.co as CircleOptions))
