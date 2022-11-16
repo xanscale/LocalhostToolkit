@@ -10,11 +10,10 @@ import com.huawei.hms.maps.model.LatLngBounds
 import com.huawei.hms.maps.model.MapStyleOptions
 import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
-import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.huawei.model.*
 
 class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker,
-        HuaweiIndoorBuilding, HuaweiUiSettings
+        HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection
         >(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
@@ -114,7 +113,7 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
 
     override val uiSettings: HuaweiUiSettings
         get() = HuaweiUiSettings(map.uiSettings)
-    override val projection: Projection<*>
+    override val projection: HuaweiProjection
         get() = HuaweiProjection(map.projection)
 
     override fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?) =

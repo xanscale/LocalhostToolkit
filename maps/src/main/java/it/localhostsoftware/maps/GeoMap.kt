@@ -7,7 +7,7 @@ import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
 abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : PolylineOptions<*>, PL : Polyline<*>, PGO : PolygonOptions<*>, PG : Polygon<*>, CO : CircleOptions<*>, C : Circle<*>,
-        MRO: MarkerOptions<*>, MR: Marker<*>, IB: IndoorBuilding<*>, US: UiSettings<*>
+        MRO : MarkerOptions<*>, MR : Marker<*>, IB : IndoorBuilding<*>, US : UiSettings<*>, PJ : Projection<*>
         >(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
@@ -45,7 +45,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*>, PLO : Pol
     abstract var isMyLocationEnabled: Boolean
     abstract fun setLocationSource(var1: LocationSource?)
     abstract val uiSettings: US
-    abstract val projection: Projection<*>
+    abstract val projection: PJ
     abstract fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?)
     abstract fun setOnCameraMoveListener(var1: OnCameraMoveListener?)
     abstract fun setOnCameraMoveCanceledListener(var1: OnCameraMoveCanceledListener?)

@@ -14,7 +14,7 @@ import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.google.model.*
 
 class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker,
-        GoogleIndoorBuilding, GoogleUiSettings
+        GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection
         >(googleMap) {
     override val cameraPosition: GoogleCameraPosition
         get() = GoogleCameraPosition(map.cameraPosition)
@@ -114,7 +114,7 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
 
     override val uiSettings: GoogleUiSettings
         get() = GoogleUiSettings(map.uiSettings)
-    override val projection: Projection<*>
+    override val projection: GoogleProjection
         get() = GoogleProjection(map.projection)
 
     override fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?) =
