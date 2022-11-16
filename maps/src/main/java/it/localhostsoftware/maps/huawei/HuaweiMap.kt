@@ -5,14 +5,17 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.LocationSource
-import com.huawei.hms.maps.model.*
+import com.huawei.hms.maps.model.IndoorBuilding
+import com.huawei.hms.maps.model.LatLngBounds
+import com.huawei.hms.maps.model.MapStyleOptions
+import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
 import it.localhostsoftware.maps.huawei.model.*
 import it.localhostsoftware.maps.model.MarkerOptions
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon>(huaweiMap) {
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle>(huaweiMap) {
     override val cameraPosition: HuaweiCameraPosition
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -51,8 +54,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun addPolygon(var1: HuaweiPolygonOptions) =
         HuaweiPolygon(map.addPolygon(var1.po))
 
-    override fun addCircle(var1: it.localhostsoftware.maps.model.CircleOptions<*>) =
-        HuaweiCircle(map.addCircle(var1.co as CircleOptions))
+    override fun addCircle(var1: HuaweiCircleOptions) =
+        HuaweiCircle(map.addCircle(var1.co))
 
     override fun addMarker(var1: MarkerOptions<*>) =
         HuaweiMarker(map.addMarker((var1 as HuaweiMarkerOptions).mo))
