@@ -1,7 +1,7 @@
 plugins {
+    `maven-publish`
     kotlin("android")
     id("com.android.library")
-    id("maven-publish")
 }
 
 android {
