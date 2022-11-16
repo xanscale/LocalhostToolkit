@@ -2,11 +2,11 @@ package it.localhostsoftware.maps.huawei
 
 import android.graphics.Point
 import com.huawei.hms.maps.CameraUpdateFactory
-import it.localhostsoftware.maps.model.CameraPosition
-import it.localhostsoftware.maps.model.LatLng
-import it.localhostsoftware.maps.model.LatLngBounds
+import it.localhostsoftware.maps.huawei.model.HuaweiCameraPosition
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLng
+import it.localhostsoftware.maps.huawei.model.HuaweiLatLngBounds
 
-class HuaweiCameraUpdateFactory : it.localhostsoftware.maps.CameraUpdateFactory {
+class HuaweiCameraUpdateFactory : it.localhostsoftware.maps.CameraUpdateFactory<HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiLatLng, HuaweiLatLngBounds> {
     override fun zoomIn() =
         HuaweiCameraUpdate(CameraUpdateFactory.zoomIn())
 
@@ -25,18 +25,18 @@ class HuaweiCameraUpdateFactory : it.localhostsoftware.maps.CameraUpdateFactory 
     override fun zoomBy(var0: Float, var1: Point) =
         HuaweiCameraUpdate(CameraUpdateFactory.zoomBy(var0, var1))
 
-    override fun newCameraPosition(var0: CameraPosition<*>) =
-        HuaweiCameraUpdate(CameraUpdateFactory.newCameraPosition(var0.cp as com.huawei.hms.maps.model.CameraPosition))
+    override fun newCameraPosition(var0: HuaweiCameraPosition) =
+        HuaweiCameraUpdate(CameraUpdateFactory.newCameraPosition(var0.cp))
 
-    override fun newLatLng(var0: LatLng<*>) =
-        HuaweiCameraUpdate(CameraUpdateFactory.newLatLng(var0.ll as com.huawei.hms.maps.model.LatLng))
+    override fun newLatLng(var0: HuaweiLatLng) =
+        HuaweiCameraUpdate(CameraUpdateFactory.newLatLng(var0.ll))
 
-    override fun newLatLngZoom(var0: LatLng<*>, var1: Float) =
-        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngZoom(var0.ll as com.huawei.hms.maps.model.LatLng, var1))
+    override fun newLatLngZoom(var0: HuaweiLatLng, var1: Float) =
+        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngZoom(var0.ll, var1))
 
-    override fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int) =
-        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngBounds(var0.lb as com.huawei.hms.maps.model.LatLngBounds, var1))
+    override fun newLatLngBounds(var0: HuaweiLatLngBounds, var1: Int) =
+        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngBounds(var0.lb, var1))
 
-    override fun newLatLngBounds(var0: LatLngBounds<*>, var1: Int, var2: Int, var3: Int) =
-        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngBounds(var0.lb as com.huawei.hms.maps.model.LatLngBounds, var1, var2, var3))
+    override fun newLatLngBounds(var0: HuaweiLatLngBounds, var1: Int, var2: Int, var3: Int) =
+        HuaweiCameraUpdate(CameraUpdateFactory.newLatLngBounds(var0.lb, var1, var2, var3))
 }
