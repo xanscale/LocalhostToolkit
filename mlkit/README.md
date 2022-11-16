@@ -9,7 +9,7 @@ allprojects {
 Add it in your module build.gradle:
 ```
 dependencies {
-	implementation 'com.github.xanscale.LocalhostToolkit:ml-vision:-SNAPSHOT'
+	implementation 'com.github.xanscale.LocalhostToolkit:mlkit:-SNAPSHOT'
 }
 ```
 This library require to Add Firebase to Your Android Project:
