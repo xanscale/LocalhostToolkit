@@ -77,7 +77,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun resetMinMaxZoomPreference()
     abstract fun setLatLngBoundsForCameraTarget(var1: LLB?)
     fun interface OnPoiClickListener {
-        fun onPoiClick(var1: PointOfInterest<*>)
+        fun onPoiClick(var1: PointOfInterest<*, *>)
     }
 
     /* TODO interface OnGroundOverlayClickListener {
