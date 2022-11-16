@@ -7,7 +7,6 @@ import androidx.annotation.RequiresPermission
 import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.LocationSource
 import com.huawei.hms.maps.model.*
-import it.localhostsoftware.maps.CameraUpdate
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
@@ -16,7 +15,7 @@ import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.MarkerOptions
 import it.localhostsoftware.maps.model.PolylineOptions
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap>(huaweiMap) {
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate>(huaweiMap) {
     override val cameraPosition: CameraPosition<*>
         get() = HuaweiCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -24,16 +23,16 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap>(huaweiMap) {
     override val minZoomLevel: Float
         get() = map.minZoomLevel
 
-    override fun moveCamera(var1: CameraUpdate<*>) {
-        map.moveCamera(var1.cu as com.huawei.hms.maps.CameraUpdate)
+    override fun moveCamera(var1: HuaweiCameraUpdate) {
+        map.moveCamera(var1.cu)
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>) {
-        map.animateCamera(var1.cu as com.huawei.hms.maps.CameraUpdate)
+    override fun animateCamera(var1: HuaweiCameraUpdate) {
+        map.animateCamera(var1.cu)
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>, var2: CancelableCallback?) {
-        map.animateCamera(var1.cu as com.huawei.hms.maps.CameraUpdate, var2?.let {
+    override fun animateCamera(var1: HuaweiCameraUpdate, var2: CancelableCallback?) {
+        map.animateCamera(var1.cu, var2?.let {
             object : HuaweiMap.CancelableCallback {
                 override fun onFinish() = it.onFinish()
                 override fun onCancel() = it.onCancel()
@@ -41,8 +40,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap>(huaweiMap) {
         })
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>, var2: Int, var3: CancelableCallback?) {
-        map.animateCamera(var1.cu as com.huawei.hms.maps.CameraUpdate, var2, var3?.let {
+    override fun animateCamera(var1: HuaweiCameraUpdate, var2: Int, var3: CancelableCallback?) {
+        map.animateCamera(var1.cu, var2, var3?.let {
             object : HuaweiMap.CancelableCallback {
                 override fun onFinish() = it.onFinish()
                 override fun onCancel() = it.onCancel()

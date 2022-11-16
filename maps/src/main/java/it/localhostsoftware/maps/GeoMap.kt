@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M>(val map: M) {
+abstract class GeoMap<M, CU: CameraUpdate<*>>(val map: M) {
     companion object {
         const val MAP_TYPE_NONE = 0
         const val MAP_TYPE_NORMAL = 1
@@ -18,10 +18,10 @@ abstract class GeoMap<M>(val map: M) {
     abstract val cameraPosition: CameraPosition<*>
     abstract val maxZoomLevel: Float
     abstract val minZoomLevel: Float
-    abstract fun moveCamera(var1: CameraUpdate<*>)
-    abstract fun animateCamera(var1: CameraUpdate<*>)
-    abstract fun animateCamera(var1: CameraUpdate<*>, var2: CancelableCallback?)
-    abstract fun animateCamera(var1: CameraUpdate<*>, var2: Int, var3: CancelableCallback?)
+    abstract fun moveCamera(var1: CU)
+    abstract fun animateCamera(var1: CU)
+    abstract fun animateCamera(var1: CU, var2: CancelableCallback?)
+    abstract fun animateCamera(var1: CU, var2: Int, var3: CancelableCallback?)
     abstract fun stopAnimation()
     abstract fun addPolyline(var1: PolylineOptions<*>): Polyline<*>
     abstract fun addPolygon(var1: PolygonOptions<*>): Polygon<*>

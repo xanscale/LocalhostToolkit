@@ -7,7 +7,6 @@ import androidx.annotation.RequiresPermission
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.*
-import it.localhostsoftware.maps.CameraUpdate
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.Projection
 import it.localhostsoftware.maps.UiSettings
@@ -16,7 +15,7 @@ import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.MarkerOptions
 import it.localhostsoftware.maps.model.PolylineOptions
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap>(googleMap) {
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate>(googleMap) {
     override val cameraPosition: CameraPosition<*>
         get() = GoogleCameraPosition(map.cameraPosition)
     override val maxZoomLevel: Float
@@ -24,16 +23,16 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap>(googleMap) {
     override val minZoomLevel: Float
         get() = map.minZoomLevel
 
-    override fun moveCamera(var1: CameraUpdate<*>) {
-        map.moveCamera(var1.cu as com.google.android.gms.maps.CameraUpdate)
+    override fun moveCamera(var1: GoogleCameraUpdate) {
+        map.moveCamera(var1.cu)
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>) {
-        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate)
+    override fun animateCamera(var1: GoogleCameraUpdate) {
+        map.animateCamera(var1.cu)
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>, var2: CancelableCallback?) {
-        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate, var2?.let {
+    override fun animateCamera(var1: GoogleCameraUpdate, var2: CancelableCallback?) {
+        map.animateCamera(var1.cu, var2?.let {
             object : GoogleMap.CancelableCallback {
                 override fun onFinish() = it.onFinish()
                 override fun onCancel() = it.onCancel()
@@ -41,8 +40,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap>(googleMap) {
         })
     }
 
-    override fun animateCamera(var1: CameraUpdate<*>, var2: Int, var3: CancelableCallback?) {
-        map.animateCamera(var1.cu as com.google.android.gms.maps.CameraUpdate, var2, var3?.let {
+    override fun animateCamera(var1: GoogleCameraUpdate, var2: Int, var3: CancelableCallback?) {
+        map.animateCamera(var1.cu, var2, var3?.let {
             object : GoogleMap.CancelableCallback {
                 override fun onFinish() = it.onFinish()
                 override fun onCancel() = it.onCancel()
@@ -121,9 +120,9 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap>(googleMap) {
             object : LocationSource {
                 override fun deactivate() = ls.deactivate()
                 override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
-                        var1.activate(object : it.localhostsoftware.maps.LocationSource.OnLocationChangedListener {
-                            override fun onLocationChanged(var1: Location) = onLocationChangedListener.onLocationChanged(var1)
-                        })
+                    var1.activate(object : it.localhostsoftware.maps.LocationSource.OnLocationChangedListener {
+                        override fun onLocationChanged(var1: Location) = onLocationChangedListener.onLocationChanged(var1)
+                    })
             }
         })
     }
