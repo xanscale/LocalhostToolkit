@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace  = "localhost.toolkit"
     compileSdk = 33
 
     defaultConfig {

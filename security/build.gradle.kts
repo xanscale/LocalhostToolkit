@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace  = "it.localhostsoftware.security"
     compileSdk = 33
 
     defaultConfig {

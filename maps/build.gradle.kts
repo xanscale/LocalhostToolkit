@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace  = "it.localhostsoftware.maps"
     compileSdk = 33
 
     defaultConfig {

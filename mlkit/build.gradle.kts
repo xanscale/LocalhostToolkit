@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace  = "it.localhostsoftware.mlkit"
     compileSdk = 33
 
     defaultConfig {
