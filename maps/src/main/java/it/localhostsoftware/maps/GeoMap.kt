@@ -45,7 +45,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
 
     @set:RequiresPermission(anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"])
     abstract var isMyLocationEnabled: Boolean
-    abstract fun setLocationSource(var1: LocationSource?)
+    abstract fun setLocationSource(activate: (((Location) -> Unit) -> Unit)?, deactivate: (() -> Unit)?)
     abstract val uiSettings: US
     abstract val projection: PJ
     abstract fun setOnCameraMoveStartedListener(onCameraMoveStarted: ((Int) -> Unit)?)

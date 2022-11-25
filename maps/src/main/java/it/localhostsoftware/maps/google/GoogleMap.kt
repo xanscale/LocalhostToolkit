@@ -94,14 +94,12 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
             map.isMyLocationEnabled = b
         }
 
-    override fun setLocationSource(var1: it.localhostsoftware.maps.LocationSource?) =
-        map.setLocationSource(var1?.let { ls ->
-            object : LocationSource {
-                override fun deactivate() = ls.deactivate()
-                override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
-                    var1.activate(it.localhostsoftware.maps.LocationSource.OnLocationChangedListener { onLocationChangedListener.onLocationChanged(it) })
-            }
-        })
+    override fun setLocationSource(activate: (((Location) -> Unit) -> Unit)?, deactivate: (() -> Unit)?) =
+        map.setLocationSource(if (activate != null && deactivate != null) object : LocationSource {
+            override fun deactivate() = deactivate()
+            override fun activate(onLocationChangedListener: LocationSource.OnLocationChangedListener) =
+                activate { onLocationChangedListener.onLocationChanged(it) }
+        } else null)
 
     override val uiSettings: GoogleUiSettings
         get() = GoogleUiSettings(map.uiSettings)
