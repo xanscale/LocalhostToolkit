@@ -1,6 +1,5 @@
 package localhost.toolkit.app.appcompat;
 
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -74,18 +73,8 @@ public class RequestPermissionLauncher extends LiveData<RequestPermissionLaunche
                 builder.setTitle(title);
             if (rational != null)
                 builder.setMessage(rational);
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    launcher.launch(permissions);
-                }
-            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    setValue(PermissionResult.DENIED);
-                }
-            });
+            builder.setPositiveButton(android.R.string.ok, (dialog, which) -> launcher.launch(permissions));
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> setValue(PermissionResult.DENIED));
             builder.show();
         } else
             launcher.launch(permissions);
