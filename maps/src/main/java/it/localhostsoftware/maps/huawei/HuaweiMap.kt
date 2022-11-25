@@ -9,6 +9,7 @@ import com.huawei.hms.maps.model.IndoorBuilding
 import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
+import it.localhostsoftware.maps.model.PointOfInterest
 
 class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker,
         HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLngBounds
@@ -115,25 +116,25 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
         get() = HuaweiProjection(map.projection)
 
     override fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?) =
-        map.setOnCameraMoveStartedListener(var1?.let { HuaweiMap.OnCameraMoveStartedListener { var1.onCameraMoveStarted(it) } })
+        map.setOnCameraMoveStartedListener(var1?.let { { var1.onCameraMoveStarted(it) } })
 
     override fun setOnCameraMoveListener(var1: OnCameraMoveListener?) =
-        map.setOnCameraMoveListener(var1?.let { HuaweiMap.OnCameraMoveListener { var1.onCameraMove() } })
+        map.setOnCameraMoveListener(var1?.let { { var1.onCameraMove() } })
 
     override fun setOnCameraMoveCanceledListener(var1: OnCameraMoveCanceledListener?) =
-        map.setOnCameraMoveCanceledListener(var1?.let { HuaweiMap.OnCameraMoveCanceledListener { var1.onCameraMoveCanceled() } })
+        map.setOnCameraMoveCanceledListener(var1?.let { { var1.onCameraMoveCanceled() } })
 
     override fun setOnCameraIdleListener(var1: OnCameraIdleListener?) =
-        map.setOnCameraIdleListener(var1?.let { HuaweiMap.OnCameraIdleListener { var1.onCameraIdle() } })
+        map.setOnCameraIdleListener(var1?.let { { var1.onCameraIdle() } })
 
     override fun setOnMapClickListener(var1: OnMapClickListener?) =
-        map.setOnMapClickListener(var1?.let { HuaweiMap.OnMapClickListener { var1.onMapClick(HuaweiLatLng(it)) } })
+        map.setOnMapClickListener(var1?.let { { var1.onMapClick(HuaweiLatLng(it)) } })
 
     override fun setOnMapLongClickListener(var1: OnMapLongClickListener?) =
-        map.setOnMapLongClickListener(var1?.let { HuaweiMap.OnMapLongClickListener { var1.onMapLongClick(HuaweiLatLng(it)) } })
+        map.setOnMapLongClickListener(var1?.let { { var1.onMapLongClick(HuaweiLatLng(it)) } })
 
     override fun setOnMarkerClickListener(var1: OnMarkerClickListener?) =
-        map.setOnMarkerClickListener(var1?.let { HuaweiMap.OnMarkerClickListener { var1.onMarkerClick(HuaweiMarker(it)) } })
+        map.setOnMarkerClickListener(var1?.let { { var1.onMarkerClick(HuaweiMarker(it)) } })
 
     override fun setOnMarkerDragListener(var1: OnMarkerDragListener?) =
         map.setOnMarkerDragListener(var1?.let {
@@ -145,13 +146,13 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
         })
 
     override fun setOnInfoWindowClickListener(var1: OnInfoWindowClickListener?) =
-        map.setOnInfoWindowClickListener(var1?.let { HuaweiMap.OnInfoWindowClickListener { var1.onInfoWindowClick(HuaweiMarker(it)) } })
+        map.setOnInfoWindowClickListener(var1?.let { { var1.onInfoWindowClick(HuaweiMarker(it)) } })
 
     override fun setOnInfoWindowLongClickListener(var1: OnInfoWindowLongClickListener?) =
-        map.setOnInfoWindowLongClickListener(var1?.let { HuaweiMap.OnInfoWindowLongClickListener { var1.onInfoWindowLongClick(HuaweiMarker(it)) } })
+        map.setOnInfoWindowLongClickListener(var1?.let { { var1.onInfoWindowLongClick(HuaweiMarker(it)) } })
 
     override fun setOnInfoWindowCloseListener(var1: OnInfoWindowCloseListener?) =
-        map.setOnInfoWindowCloseListener(var1?.let { HuaweiMap.OnInfoWindowCloseListener { var1.onInfoWindowClose(HuaweiMarker(it)) } })
+        map.setOnInfoWindowCloseListener(var1?.let { { var1.onInfoWindowClose(HuaweiMarker(it)) } })
 
     override fun setInfoWindowAdapter(var1: InfoWindowAdapter?) =
         map.setInfoWindowAdapter(var1?.let {
@@ -162,22 +163,22 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
         })
 
     override fun setOnMyLocationButtonClickListener(var1: OnMyLocationButtonClickListener?) =
-        map.setOnMyLocationButtonClickListener(var1?.let { HuaweiMap.OnMyLocationButtonClickListener { var1.onMyLocationButtonClick() } })
+        map.setOnMyLocationButtonClickListener(var1?.let { { var1.onMyLocationButtonClick() } })
 
     override fun setOnMyLocationClickListener(var1: OnMyLocationClickListener?) =
-        map.setOnMyLocationClickListener(var1?.let { HuaweiMap.OnMyLocationClickListener { var1.onMyLocationClick(it) } })
+        map.setOnMyLocationClickListener(var1?.let { { var1.onMyLocationClick(it) } })
 
     override fun setOnMapLoadedCallback(var1: OnMapLoadedCallback?) =
-        map.setOnMapLoadedCallback(var1?.let { HuaweiMap.OnMapLoadedCallback { var1.onMapLoaded() } })
+        map.setOnMapLoadedCallback(var1?.let { { var1.onMapLoaded() } })
 
     override fun setOnCircleClickListener(var1: OnCircleClickListener?) =
-        map.setOnCircleClickListener(var1?.let { HuaweiMap.OnCircleClickListener { var1.onCircleClick(HuaweiCircle(it)) } })
+        map.setOnCircleClickListener(var1?.let { { var1.onCircleClick(HuaweiCircle(it)) } })
 
     override fun setOnPolygonClickListener(var1: OnPolygonClickListener?) =
-        map.setOnPolygonClickListener(var1?.let { HuaweiMap.OnPolygonClickListener { var1.onPolygonClick(HuaweiPolygon(it)) } })
+        map.setOnPolygonClickListener(var1?.let { { var1.onPolygonClick(HuaweiPolygon(it)) } })
 
     override fun setOnPolylineClickListener(var1: OnPolylineClickListener?) =
-        map.setOnPolylineClickListener(var1?.let { HuaweiMap.OnPolylineClickListener { var1.onPolylineClick(HuaweiPolyline(it)) } })
+        map.setOnPolylineClickListener(var1?.let { { var1.onPolylineClick(HuaweiPolyline(it)) } })
 
     override fun snapshot(var1: SnapshotReadyCallback) =
         map.snapshot { var1.onSnapshotReady(it) }
@@ -193,8 +194,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun setContentDescription(var1: String?) =
         map.setContentDescription(var1)
 
-    override fun setOnPoiClickListener(var1: OnPoiClickListener?) =
-        map.setOnPoiClickListener(var1?.let { HuaweiMap.OnPoiClickListener { var1.onPoiClick(HuaweiPointOfInterest(it)) } })
+    override fun setOnPoiClickListener(block: ((PointOfInterest<*, *>) -> Unit)?) =
+        map.setOnPoiClickListener(block?.let { { block(HuaweiPointOfInterest(it)) } })
 
     override fun setMapStyle(var1: HuaweiMapStyleOptions?) =
         map.setMapStyle(var1?.let { var1.mso })

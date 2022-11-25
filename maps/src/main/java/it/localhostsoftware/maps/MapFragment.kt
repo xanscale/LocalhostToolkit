@@ -41,23 +41,19 @@ class MapFragment : Fragment() {
         return v
     }
 
-    fun getMapAsync(callback: OnMapReadyCallback) {
+    fun getMapAsync(geomap: (GeoMap<*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *>) -> Unit) {
         childFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentViewCreated(fragmentManager: FragmentManager, f: Fragment, view: View, savedInstanceState: Bundle?) {
                 childFragmentManager.findFragmentById(R.id.fragmentContainerView).let { mapFragment ->
                     if (mapFragment is com.google.android.gms.maps.SupportMapFragment) {
                         fragmentManager.unregisterFragmentLifecycleCallbacks(this)
-                        mapFragment.getMapAsync { callback.onMapReady(GoogleMap(it)) }
+                        mapFragment.getMapAsync { geomap(GoogleMap(it)) }
                     } else if (mapFragment is com.huawei.hms.maps.SupportMapFragment) {
                         fragmentManager.unregisterFragmentLifecycleCallbacks(this)
-                        mapFragment.getMapAsync { callback.onMapReady(HuaweiMap(it)) }
+                        mapFragment.getMapAsync { geomap(HuaweiMap(it)) }
                     }
                 }
             }
         }, false)
     }
-}
-
-fun interface OnMapReadyCallback {
-    fun onMapReady(geoMap: GeoMap<*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *>)
 }

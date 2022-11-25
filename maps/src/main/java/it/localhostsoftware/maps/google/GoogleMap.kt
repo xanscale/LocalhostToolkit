@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.IndoorBuilding
 import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.google.model.*
+import it.localhostsoftware.maps.model.PointOfInterest
 
 class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker,
         GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLngBounds
@@ -115,25 +116,25 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
         get() = GoogleProjection(map.projection)
 
     override fun setOnCameraMoveStartedListener(var1: OnCameraMoveStartedListener?) =
-        map.setOnCameraMoveStartedListener(var1?.let { GoogleMap.OnCameraMoveStartedListener { var1.onCameraMoveStarted(it) } })
+        map.setOnCameraMoveStartedListener(var1?.let { { var1.onCameraMoveStarted(it) } })
 
     override fun setOnCameraMoveListener(var1: OnCameraMoveListener?) =
-        map.setOnCameraMoveListener(var1?.let { GoogleMap.OnCameraMoveListener { var1.onCameraMove() } })
+        map.setOnCameraMoveListener(var1?.let { { var1.onCameraMove() } })
 
     override fun setOnCameraMoveCanceledListener(var1: OnCameraMoveCanceledListener?) =
-        map.setOnCameraMoveCanceledListener(var1?.let { GoogleMap.OnCameraMoveCanceledListener { var1.onCameraMoveCanceled() } })
+        map.setOnCameraMoveCanceledListener(var1?.let { { var1.onCameraMoveCanceled() } })
 
     override fun setOnCameraIdleListener(var1: OnCameraIdleListener?) =
-        map.setOnCameraIdleListener(var1?.let { GoogleMap.OnCameraIdleListener { var1.onCameraIdle() } })
+        map.setOnCameraIdleListener(var1?.let { { var1.onCameraIdle() } })
 
     override fun setOnMapClickListener(var1: OnMapClickListener?) =
-        map.setOnMapClickListener(var1?.let { GoogleMap.OnMapClickListener { var1.onMapClick(GoogleLatLng(it)) } })
+        map.setOnMapClickListener(var1?.let { { var1.onMapClick(GoogleLatLng(it)) } })
 
     override fun setOnMapLongClickListener(var1: OnMapLongClickListener?) =
-        map.setOnMapLongClickListener(var1?.let { GoogleMap.OnMapLongClickListener { var1.onMapLongClick(GoogleLatLng(it)) } })
+        map.setOnMapLongClickListener(var1?.let { { var1.onMapLongClick(GoogleLatLng(it)) } })
 
     override fun setOnMarkerClickListener(var1: OnMarkerClickListener?) =
-        map.setOnMarkerClickListener(var1?.let { GoogleMap.OnMarkerClickListener { var1.onMarkerClick(GoogleMarker(it)) } })
+        map.setOnMarkerClickListener(var1?.let { { var1.onMarkerClick(GoogleMarker(it)) } })
 
     override fun setOnMarkerDragListener(var1: OnMarkerDragListener?) =
         map.setOnMarkerDragListener(var1?.let {
@@ -145,13 +146,13 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
         })
 
     override fun setOnInfoWindowClickListener(var1: OnInfoWindowClickListener?) =
-        map.setOnInfoWindowClickListener(var1?.let { GoogleMap.OnInfoWindowClickListener { var1.onInfoWindowClick(GoogleMarker(it)) } })
+        map.setOnInfoWindowClickListener(var1?.let { { var1.onInfoWindowClick(GoogleMarker(it)) } })
 
     override fun setOnInfoWindowLongClickListener(var1: OnInfoWindowLongClickListener?) =
-        map.setOnInfoWindowLongClickListener(var1?.let { GoogleMap.OnInfoWindowLongClickListener { var1.onInfoWindowLongClick(GoogleMarker(it)) } })
+        map.setOnInfoWindowLongClickListener(var1?.let { { var1.onInfoWindowLongClick(GoogleMarker(it)) } })
 
     override fun setOnInfoWindowCloseListener(var1: OnInfoWindowCloseListener?) =
-        map.setOnInfoWindowCloseListener(var1?.let { GoogleMap.OnInfoWindowCloseListener { var1.onInfoWindowClose(GoogleMarker(it)) } })
+        map.setOnInfoWindowCloseListener(var1?.let { { var1.onInfoWindowClose(GoogleMarker(it)) } })
 
     override fun setInfoWindowAdapter(var1: InfoWindowAdapter?) =
         map.setInfoWindowAdapter(var1?.let {
@@ -162,22 +163,22 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
         })
 
     override fun setOnMyLocationButtonClickListener(var1: OnMyLocationButtonClickListener?) =
-        map.setOnMyLocationButtonClickListener(var1?.let { GoogleMap.OnMyLocationButtonClickListener { var1.onMyLocationButtonClick() } })
+        map.setOnMyLocationButtonClickListener(var1?.let { { var1.onMyLocationButtonClick() } })
 
     override fun setOnMyLocationClickListener(var1: OnMyLocationClickListener?) =
-        map.setOnMyLocationClickListener(var1?.let { GoogleMap.OnMyLocationClickListener { var1.onMyLocationClick(it) } })
+        map.setOnMyLocationClickListener(var1?.let { { var1.onMyLocationClick(it) } })
 
     override fun setOnMapLoadedCallback(var1: OnMapLoadedCallback?) =
-        map.setOnMapLoadedCallback(var1?.let { GoogleMap.OnMapLoadedCallback { var1.onMapLoaded() } })
+        map.setOnMapLoadedCallback(var1?.let { { var1.onMapLoaded() } })
 
     override fun setOnCircleClickListener(var1: OnCircleClickListener?) =
-        map.setOnCircleClickListener(var1?.let { GoogleMap.OnCircleClickListener { var1.onCircleClick(GoogleCircle(it)) } })
+        map.setOnCircleClickListener(var1?.let { { var1.onCircleClick(GoogleCircle(it)) } })
 
     override fun setOnPolygonClickListener(var1: OnPolygonClickListener?) =
-        map.setOnPolygonClickListener(var1?.let { GoogleMap.OnPolygonClickListener { var1.onPolygonClick(GooglePolygon(it)) } })
+        map.setOnPolygonClickListener(var1?.let { { var1.onPolygonClick(GooglePolygon(it)) } })
 
     override fun setOnPolylineClickListener(var1: OnPolylineClickListener?) =
-        map.setOnPolylineClickListener(var1?.let { GoogleMap.OnPolylineClickListener { var1.onPolylineClick(GooglePolyline(it)) } })
+        map.setOnPolylineClickListener(var1?.let { { var1.onPolylineClick(GooglePolyline(it)) } })
 
     override fun snapshot(var1: SnapshotReadyCallback) =
         map.snapshot { var1.onSnapshotReady(it) }
@@ -191,8 +192,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun setContentDescription(var1: String?) =
         map.setContentDescription(var1)
 
-    override fun setOnPoiClickListener(var1: OnPoiClickListener?) =
-        map.setOnPoiClickListener(var1?.let { GoogleMap.OnPoiClickListener { var1.onPoiClick(GooglePointOfInterest(it)) } })
+    override fun setOnPoiClickListener(block: ((PointOfInterest<*, *>) -> Unit)?) =
+        map.setOnPoiClickListener(block?.let { { block(GooglePointOfInterest(it)) } })
 
     override fun setMapStyle(var1: GoogleMapStyleOptions?) =
         map.setMapStyle(var1?.let { var1.mso })

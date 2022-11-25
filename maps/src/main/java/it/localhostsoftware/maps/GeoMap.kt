@@ -70,15 +70,12 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun snapshot(var1: SnapshotReadyCallback, var2: Bitmap?)
     abstract fun setPadding(var1: Int, var2: Int, var3: Int, var4: Int)
     abstract fun setContentDescription(var1: String?)
-    abstract fun setOnPoiClickListener(var1: OnPoiClickListener?)
+    abstract fun setOnPoiClickListener(block: ((PointOfInterest<*, *>) -> Unit)?)
     abstract fun setMapStyle(var1: MSO?): Boolean
     abstract fun setMinZoomPreference(var1: Float)
     abstract fun setMaxZoomPreference(var1: Float)
     abstract fun resetMinMaxZoomPreference()
     abstract fun setLatLngBoundsForCameraTarget(var1: LLB?)
-    fun interface OnPoiClickListener {
-        fun onPoiClick(var1: PointOfInterest<*, *>)
-    }
 
     /* TODO interface OnGroundOverlayClickListener {
         void onGroundOverlayClick(GroundOverlay var1);
