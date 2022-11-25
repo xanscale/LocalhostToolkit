@@ -27,21 +27,17 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun animateCamera(var1: GoogleCameraUpdate) =
         map.animateCamera(var1.cu)
 
-    override fun animateCamera(var1: GoogleCameraUpdate, var2: CancelableCallback?) =
-        map.animateCamera(var1.cu, var2?.let {
-            object : GoogleMap.CancelableCallback {
-                override fun onFinish() = it.onFinish()
-                override fun onCancel() = it.onCancel()
-            }
-        })
+    override fun animateCamera(var1: GoogleCameraUpdate, onFinish: (() -> Unit)?, onCancel: (() -> Unit)?) =
+        map.animateCamera(var1.cu, if (onFinish != null && onCancel != null) object : GoogleMap.CancelableCallback {
+            override fun onFinish() = onFinish()
+            override fun onCancel() = onCancel()
+        } else null)
 
-    override fun animateCamera(var1: GoogleCameraUpdate, var2: Int, var3: CancelableCallback?) =
-        map.animateCamera(var1.cu, var2, var3?.let {
-            object : GoogleMap.CancelableCallback {
-                override fun onFinish() = it.onFinish()
-                override fun onCancel() = it.onCancel()
-            }
-        })
+    override fun animateCamera(var1: GoogleCameraUpdate, var2: Int, onFinish: (() -> Unit)?, onCancel: (() -> Unit)?) =
+        map.animateCamera(var1.cu, var2, if (onFinish != null && onCancel != null) object : GoogleMap.CancelableCallback {
+            override fun onFinish() = onFinish()
+            override fun onCancel() = onCancel()
+        } else null)
 
     override fun stopAnimation() =
         map.stopAnimation()
@@ -64,13 +60,11 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override val focusedBuilding: GoogleIndoorBuilding?
         get() = map.focusedBuilding?.let { GoogleIndoorBuilding(it) }
 
-    override fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?) =
-        map.setOnIndoorStateChangeListener(var1?.let {
-            object : GoogleMap.OnIndoorStateChangeListener {
-                override fun onIndoorBuildingFocused() = it.onIndoorBuildingFocused()
-                override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = it.onIndoorLevelActivated(GoogleIndoorBuilding(indoorBuilding))
-            }
-        })
+    override fun setOnIndoorStateChangeListener(onIndoorBuildingFocused: (() -> Unit)?, onIndoorLevelActivated: ((GoogleIndoorBuilding) -> Unit)?) =
+        map.setOnIndoorStateChangeListener(if (onIndoorBuildingFocused != null && onIndoorLevelActivated != null) object : GoogleMap.OnIndoorStateChangeListener {
+            override fun onIndoorBuildingFocused() = onIndoorBuildingFocused()
+            override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = onIndoorLevelActivated(GoogleIndoorBuilding(indoorBuilding))
+        } else null)
 
     override var mapType: Int
         get() = map.mapType
@@ -82,12 +76,11 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
         set(b) {
             map.isTrafficEnabled = b
         }
-    override val isIndoorEnabled: Boolean
+    override var isIndoorEnabled: Boolean
         get() = map.isIndoorEnabled
-
-    override fun setIndoorEnabled(var1: Boolean) =
-        map.setIndoorEnabled(var1)
-
+        set(b) {
+            map.isIndoorEnabled = b
+        }
     override var isBuildingsEnabled: Boolean
         get() = map.isBuildingsEnabled
         set(b) {
@@ -115,76 +108,72 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override val projection: GoogleProjection
         get() = GoogleProjection(map.projection)
 
-    override fun setOnCameraMoveStartedListener(block: ((Int) -> Unit)?) =
-        map.setOnCameraMoveStartedListener(block?.let { { block(it) } })
+    override fun setOnCameraMoveStartedListener(onCameraMoveStarted: ((Int) -> Unit)?) =
+        map.setOnCameraMoveStartedListener(onCameraMoveStarted?.let { { onCameraMoveStarted(it) } })
 
-    override fun setOnCameraMoveListener(block: (() -> Unit)?) =
-        map.setOnCameraMoveListener(block?.let { { block() } })
+    override fun setOnCameraMoveListener(onCameraMove: (() -> Unit)?) =
+        map.setOnCameraMoveListener(onCameraMove?.let { { onCameraMove() } })
 
-    override fun setOnCameraMoveCanceledListener(block: (() -> Unit)?) =
-        map.setOnCameraMoveCanceledListener(block?.let { { block() } })
+    override fun setOnCameraMoveCanceledListener(onCameraMoveCanceled: (() -> Unit)?) =
+        map.setOnCameraMoveCanceledListener(onCameraMoveCanceled?.let { { onCameraMoveCanceled() } })
 
-    override fun setOnCameraIdleListener(block: (() -> Unit)?) =
-        map.setOnCameraIdleListener(block?.let { { block() } })
+    override fun setOnCameraIdleListener(onCameraIdle: (() -> Unit)?) =
+        map.setOnCameraIdleListener(onCameraIdle?.let { { onCameraIdle() } })
 
-    override fun setOnMapClickListener(block: ((GoogleLatLng) -> Unit)?) =
-        map.setOnMapClickListener(block?.let { { block(GoogleLatLng(it)) } })
+    override fun setOnMapClickListener(onMapClick: ((GoogleLatLng) -> Unit)?) =
+        map.setOnMapClickListener(onMapClick?.let { { onMapClick(GoogleLatLng(it)) } })
 
-    override fun setOnMapLongClickListener(block: ((GoogleLatLng) -> Unit)?) =
-        map.setOnMapLongClickListener(block?.let { { block(GoogleLatLng(it)) } })
+    override fun setOnMapLongClickListener(onMapLongClick: ((GoogleLatLng) -> Unit)?) =
+        map.setOnMapLongClickListener(onMapLongClick?.let { { onMapLongClick(GoogleLatLng(it)) } })
 
-    override fun setOnMarkerClickListener(block: ((GoogleMarker) -> Boolean)?) =
-        map.setOnMarkerClickListener(block?.let { { block(GoogleMarker(it)) } })
+    override fun setOnMarkerClickListener(onMarkerClick: ((GoogleMarker) -> Boolean)?) =
+        map.setOnMarkerClickListener(onMarkerClick?.let { { onMarkerClick(GoogleMarker(it)) } })
 
-    override fun setOnMarkerDragListener(var1: OnMarkerDragListener?) =
-        map.setOnMarkerDragListener(var1?.let {
-            object : GoogleMap.OnMarkerDragListener {
-                override fun onMarkerDragStart(marker: Marker) = var1.onMarkerDragStart(GoogleMarker(marker))
-                override fun onMarkerDrag(marker: Marker) = var1.onMarkerDrag(GoogleMarker(marker))
-                override fun onMarkerDragEnd(marker: Marker) = var1.onMarkerDragEnd(GoogleMarker(marker))
-            }
-        })
+    override fun setOnMarkerDragListener(onMarkerDragStart: ((GoogleMarker) -> Unit)?, onMarkerDrag: ((GoogleMarker) -> Unit)?, onMarkerDragEnd: ((GoogleMarker) -> Unit)?) =
+        map.setOnMarkerDragListener(if (onMarkerDragStart != null && onMarkerDrag != null && onMarkerDragEnd != null) object : GoogleMap.OnMarkerDragListener {
+            override fun onMarkerDragStart(marker: Marker) = onMarkerDragStart(GoogleMarker(marker))
+            override fun onMarkerDrag(marker: Marker) = onMarkerDrag(GoogleMarker(marker))
+            override fun onMarkerDragEnd(marker: Marker) = onMarkerDragEnd(GoogleMarker(marker))
+        } else null)
 
-    override fun setOnInfoWindowClickListener(block: ((GoogleMarker) -> Unit)?) =
-        map.setOnInfoWindowClickListener(block?.let { { block(GoogleMarker(it)) } })
+    override fun setOnInfoWindowClickListener(onInfoWindowClick: ((GoogleMarker) -> Unit)?) =
+        map.setOnInfoWindowClickListener(onInfoWindowClick?.let { { onInfoWindowClick(GoogleMarker(it)) } })
 
-    override fun setOnInfoWindowLongClickListener(block: ((GoogleMarker) -> Unit)?) =
-        map.setOnInfoWindowLongClickListener(block?.let { { block(GoogleMarker(it)) } })
+    override fun setOnInfoWindowLongClickListener(onInfoWindowLongClick: ((GoogleMarker) -> Unit)?) =
+        map.setOnInfoWindowLongClickListener(onInfoWindowLongClick?.let { { onInfoWindowLongClick(GoogleMarker(it)) } })
 
-    override fun setOnInfoWindowCloseListener(block: ((GoogleMarker) -> Unit)?) =
-        map.setOnInfoWindowCloseListener(block?.let { { block(GoogleMarker(it)) } })
+    override fun setOnInfoWindowCloseListener(onInfoWindowClose: ((GoogleMarker) -> Unit)?) =
+        map.setOnInfoWindowCloseListener(onInfoWindowClose?.let { { onInfoWindowClose(GoogleMarker(it)) } })
 
-    override fun setInfoWindowAdapter(var1: InfoWindowAdapter?) =
-        map.setInfoWindowAdapter(var1?.let {
-            object : GoogleMap.InfoWindowAdapter {
-                override fun getInfoWindow(marker: Marker): View = var1.getInfoWindow(GoogleMarker(marker))
-                override fun getInfoContents(marker: Marker): View = var1.getInfoContents(GoogleMarker(marker))
-            }
-        })
+    override fun setInfoWindowAdapter(getInfoWindow: ((GoogleMarker) -> View)?, getInfoContents: ((GoogleMarker) -> View)?) =
+        map.setInfoWindowAdapter(if (getInfoWindow != null && getInfoContents != null) object : GoogleMap.InfoWindowAdapter {
+            override fun getInfoWindow(marker: Marker): View = getInfoWindow(GoogleMarker(marker))
+            override fun getInfoContents(marker: Marker): View = getInfoContents(GoogleMarker(marker))
+        } else null)
 
-    override fun setOnMyLocationButtonClickListener(block: (() -> Boolean)?) =
-        map.setOnMyLocationButtonClickListener(block?.let { { block() } })
+    override fun setOnMyLocationButtonClickListener(onMyLocationButtonClick: (() -> Boolean)?) =
+        map.setOnMyLocationButtonClickListener(onMyLocationButtonClick?.let { { onMyLocationButtonClick() } })
 
-    override fun setOnMyLocationClickListener(block: ((Location) -> Unit)?) =
-        map.setOnMyLocationClickListener(block?.let { { block(it) } })
+    override fun setOnMyLocationClickListener(onMyLocationClick: ((Location) -> Unit)?) =
+        map.setOnMyLocationClickListener(onMyLocationClick?.let { { onMyLocationClick(it) } })
 
-    override fun setOnMapLoadedCallback(block: (() -> Unit)?) =
-        map.setOnMapLoadedCallback(block?.let { { block() } })
+    override fun setOnMapLoadedCallback(onMapLoaded: (() -> Unit)?) =
+        map.setOnMapLoadedCallback(onMapLoaded?.let { { onMapLoaded() } })
 
-    override fun setOnCircleClickListener(block: ((GoogleCircle) -> Unit)?) =
-        map.setOnCircleClickListener(block?.let { { block(GoogleCircle(it)) } })
+    override fun setOnCircleClickListener(onCircleClick: ((GoogleCircle) -> Unit)?) =
+        map.setOnCircleClickListener(onCircleClick?.let { { onCircleClick(GoogleCircle(it)) } })
 
-    override fun setOnPolygonClickListener(block: ((GooglePolygon) -> Unit)?) =
-        map.setOnPolygonClickListener(block?.let { { block(GooglePolygon(it)) } })
+    override fun setOnPolygonClickListener(onPolygonClick: ((GooglePolygon) -> Unit)?) =
+        map.setOnPolygonClickListener(onPolygonClick?.let { { onPolygonClick(GooglePolygon(it)) } })
 
-    override fun setOnPolylineClickListener(block: ((GooglePolyline) -> Unit)?) =
-        map.setOnPolylineClickListener(block?.let { { block(GooglePolyline(it)) } })
+    override fun setOnPolylineClickListener(onPolylineClick: ((GooglePolyline) -> Unit)?) =
+        map.setOnPolylineClickListener(onPolylineClick?.let { { onPolylineClick(GooglePolyline(it)) } })
 
-    override fun snapshot(block: ((Bitmap?) -> Unit)) =
-        map.snapshot { block(it) }
+    override fun snapshot(onSnapshotReady: ((Bitmap?) -> Unit)) =
+        map.snapshot { onSnapshotReady(it) }
 
-    override fun snapshot(block: ((Bitmap?) -> Unit), var2: Bitmap?) =
-        map.snapshot({ block(it) }, var2)
+    override fun snapshot(onSnapshotReady: ((Bitmap?) -> Unit), var2: Bitmap?) =
+        map.snapshot({ onSnapshotReady(it) }, var2)
 
     override fun setPadding(var1: Int, var2: Int, var3: Int, var4: Int) =
         map.setPadding(var1, var2, var3, var4)
@@ -192,8 +181,8 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
     override fun setContentDescription(var1: String?) =
         map.setContentDescription(var1)
 
-    override fun setOnPoiClickListener(block: ((GooglePointOfInterest) -> Unit)?) =
-        map.setOnPoiClickListener(block?.let { { block(GooglePointOfInterest(it)) } })
+    override fun setOnPoiClickListener(onPoiClick: ((GooglePointOfInterest) -> Unit)?) =
+        map.setOnPoiClickListener(onPoiClick?.let { { onPoiClick(GooglePointOfInterest(it)) } })
 
     override fun setMapStyle(var1: GoogleMapStyleOptions?) =
         map.setMapStyle(var1?.let { var1.mso })

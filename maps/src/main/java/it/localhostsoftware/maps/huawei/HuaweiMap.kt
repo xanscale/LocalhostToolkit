@@ -27,21 +27,17 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun animateCamera(var1: HuaweiCameraUpdate) =
         map.animateCamera(var1.cu)
 
-    override fun animateCamera(var1: HuaweiCameraUpdate, var2: CancelableCallback?) =
-        map.animateCamera(var1.cu, var2?.let {
-            object : HuaweiMap.CancelableCallback {
-                override fun onFinish() = it.onFinish()
-                override fun onCancel() = it.onCancel()
-            }
-        })
+    override fun animateCamera(var1: HuaweiCameraUpdate, onFinish: (() -> Unit)?, onCancel: (() -> Unit)?) =
+        map.animateCamera(var1.cu, if (onFinish != null && onCancel != null) object : HuaweiMap.CancelableCallback {
+            override fun onFinish() = onFinish()
+            override fun onCancel() = onCancel()
+        } else null)
 
-    override fun animateCamera(var1: HuaweiCameraUpdate, var2: Int, var3: CancelableCallback?) =
-        map.animateCamera(var1.cu, var2, var3?.let {
-            object : HuaweiMap.CancelableCallback {
-                override fun onFinish() = it.onFinish()
-                override fun onCancel() = it.onCancel()
-            }
-        })
+    override fun animateCamera(var1: HuaweiCameraUpdate, var2: Int, onFinish: (() -> Unit)?, onCancel: (() -> Unit)?) =
+        map.animateCamera(var1.cu, var2, if (onFinish != null && onCancel != null) object : HuaweiMap.CancelableCallback {
+            override fun onFinish() = onFinish()
+            override fun onCancel() = onCancel()
+        } else null)
 
     override fun stopAnimation() =
         map.stopAnimation()
@@ -64,13 +60,11 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override val focusedBuilding: HuaweiIndoorBuilding?
         get() = map.focusedBuilding?.let { HuaweiIndoorBuilding(it) }
 
-    override fun setOnIndoorStateChangeListener(var1: OnIndoorStateChangeListener?) =
-        map.setOnIndoorStateChangeListener(var1?.let {
-            object : HuaweiMap.OnIndoorStateChangeListener {
-                override fun onIndoorBuildingFocused() = var1.onIndoorBuildingFocused()
-                override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = var1.onIndoorLevelActivated(HuaweiIndoorBuilding(indoorBuilding))
-            }
-        })
+    override fun setOnIndoorStateChangeListener(onIndoorBuildingFocused: (() -> Unit)?, onIndoorLevelActivated: ((HuaweiIndoorBuilding) -> Unit)?) =
+        map.setOnIndoorStateChangeListener(if (onIndoorBuildingFocused != null && onIndoorLevelActivated != null) object : HuaweiMap.OnIndoorStateChangeListener {
+            override fun onIndoorBuildingFocused() = onIndoorBuildingFocused()
+            override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = onIndoorLevelActivated(HuaweiIndoorBuilding(indoorBuilding))
+        } else null)
 
     override var mapType: Int
         get() = map.mapType
@@ -82,12 +76,11 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
         set(b) {
             map.isTrafficEnabled = b
         }
-    override val isIndoorEnabled: Boolean
+    override var isIndoorEnabled: Boolean
         get() = map.isIndoorEnabled
-
-    override fun setIndoorEnabled(var1: Boolean) =
-        map.setIndoorEnabled(var1)
-
+        set(b) {
+            map.isIndoorEnabled = b
+        }
     override var isBuildingsEnabled: Boolean
         get() = map.isBuildingsEnabled
         set(b) {
@@ -115,76 +108,72 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override val projection: HuaweiProjection
         get() = HuaweiProjection(map.projection)
 
-    override fun setOnCameraMoveStartedListener(block: ((Int) -> Unit)?) =
-        map.setOnCameraMoveStartedListener(block?.let { { block(it) } })
+    override fun setOnCameraMoveStartedListener(onCameraMoveStarted: ((Int) -> Unit)?) =
+        map.setOnCameraMoveStartedListener(onCameraMoveStarted?.let { { onCameraMoveStarted(it) } })
 
-    override fun setOnCameraMoveListener(block: (() -> Unit)?) =
-        map.setOnCameraMoveListener(block?.let { { block() } })
+    override fun setOnCameraMoveListener(onCameraMove: (() -> Unit)?) =
+        map.setOnCameraMoveListener(onCameraMove?.let { { onCameraMove() } })
 
-    override fun setOnCameraMoveCanceledListener(block: (() -> Unit)?) =
-        map.setOnCameraMoveCanceledListener(block?.let { { block() } })
+    override fun setOnCameraMoveCanceledListener(onCameraMoveCanceled: (() -> Unit)?) =
+        map.setOnCameraMoveCanceledListener(onCameraMoveCanceled?.let { { onCameraMoveCanceled() } })
 
-    override fun setOnCameraIdleListener(block: (() -> Unit)?) =
-        map.setOnCameraIdleListener(block?.let { { block() } })
+    override fun setOnCameraIdleListener(onCameraIdle: (() -> Unit)?) =
+        map.setOnCameraIdleListener(onCameraIdle?.let { { onCameraIdle() } })
 
-    override fun setOnMapClickListener(block: ((HuaweiLatLng) -> Unit)?) =
-        map.setOnMapClickListener(block?.let { { block(HuaweiLatLng(it)) } })
+    override fun setOnMapClickListener(onMapClick: ((HuaweiLatLng) -> Unit)?) =
+        map.setOnMapClickListener(onMapClick?.let { { onMapClick(HuaweiLatLng(it)) } })
 
-    override fun setOnMapLongClickListener(block: ((HuaweiLatLng) -> Unit)?) =
-        map.setOnMapLongClickListener(block?.let { { block(HuaweiLatLng(it)) } })
+    override fun setOnMapLongClickListener(onMapLongClick: ((HuaweiLatLng) -> Unit)?) =
+        map.setOnMapLongClickListener(onMapLongClick?.let { { onMapLongClick(HuaweiLatLng(it)) } })
 
-    override fun setOnMarkerClickListener(block: ((HuaweiMarker) -> Boolean)?) =
-        map.setOnMarkerClickListener(block?.let { { block(HuaweiMarker(it)) } })
+    override fun setOnMarkerClickListener(onMarkerClick: ((HuaweiMarker) -> Boolean)?) =
+        map.setOnMarkerClickListener(onMarkerClick?.let { { onMarkerClick(HuaweiMarker(it)) } })
 
-    override fun setOnMarkerDragListener(var1: OnMarkerDragListener?) =
-        map.setOnMarkerDragListener(var1?.let {
-            object : HuaweiMap.OnMarkerDragListener {
-                override fun onMarkerDragStart(marker: Marker) = var1.onMarkerDragStart(HuaweiMarker(marker))
-                override fun onMarkerDrag(marker: Marker) = var1.onMarkerDrag(HuaweiMarker(marker))
-                override fun onMarkerDragEnd(marker: Marker) = var1.onMarkerDragEnd(HuaweiMarker(marker))
-            }
-        })
+    override fun setOnMarkerDragListener(onMarkerDragStart: ((HuaweiMarker) -> Unit)?, onMarkerDrag: ((HuaweiMarker) -> Unit)?, onMarkerDragEnd: ((HuaweiMarker) -> Unit)?) =
+        map.setOnMarkerDragListener(if (onMarkerDragStart != null && onMarkerDrag != null && onMarkerDragEnd != null) object : HuaweiMap.OnMarkerDragListener {
+            override fun onMarkerDragStart(marker: Marker) = onMarkerDragStart(HuaweiMarker(marker))
+            override fun onMarkerDrag(marker: Marker) = onMarkerDrag(HuaweiMarker(marker))
+            override fun onMarkerDragEnd(marker: Marker) = onMarkerDragEnd(HuaweiMarker(marker))
+        } else null)
 
-    override fun setOnInfoWindowClickListener(block: ((HuaweiMarker) -> Unit)?) =
-        map.setOnInfoWindowClickListener(block?.let { { block(HuaweiMarker(it)) } })
+    override fun setOnInfoWindowClickListener(onInfoWindowClick: ((HuaweiMarker) -> Unit)?) =
+        map.setOnInfoWindowClickListener(onInfoWindowClick?.let { { onInfoWindowClick(HuaweiMarker(it)) } })
 
-    override fun setOnInfoWindowLongClickListener(block: ((HuaweiMarker) -> Unit)?) =
-        map.setOnInfoWindowLongClickListener(block?.let { { block(HuaweiMarker(it)) } })
+    override fun setOnInfoWindowLongClickListener(onInfoWindowLongClick: ((HuaweiMarker) -> Unit)?) =
+        map.setOnInfoWindowLongClickListener(onInfoWindowLongClick?.let { { onInfoWindowLongClick(HuaweiMarker(it)) } })
 
-    override fun setOnInfoWindowCloseListener(block: ((HuaweiMarker) -> Unit)?) =
-        map.setOnInfoWindowCloseListener(block?.let { { block(HuaweiMarker(it)) } })
+    override fun setOnInfoWindowCloseListener(onInfoWindowClose: ((HuaweiMarker) -> Unit)?) =
+        map.setOnInfoWindowCloseListener(onInfoWindowClose?.let { { onInfoWindowClose(HuaweiMarker(it)) } })
 
-    override fun setInfoWindowAdapter(var1: InfoWindowAdapter?) =
-        map.setInfoWindowAdapter(var1?.let {
-            object : HuaweiMap.InfoWindowAdapter {
-                override fun getInfoWindow(marker: Marker): View = it.getInfoWindow(HuaweiMarker(marker))
-                override fun getInfoContents(marker: Marker): View = it.getInfoContents(HuaweiMarker(marker))
-            }
-        })
+    override fun setInfoWindowAdapter(getInfoWindow: ((HuaweiMarker) -> View)?, getInfoContents: ((HuaweiMarker) -> View)?) =
+        map.setInfoWindowAdapter(if (getInfoWindow != null && getInfoContents != null) object : HuaweiMap.InfoWindowAdapter {
+            override fun getInfoWindow(marker: Marker): View = getInfoWindow(HuaweiMarker(marker))
+            override fun getInfoContents(marker: Marker): View = getInfoContents(HuaweiMarker(marker))
+        } else null)
 
-    override fun setOnMyLocationButtonClickListener(block: (() -> Boolean)?) =
-        map.setOnMyLocationButtonClickListener(block?.let { { block() } })
+    override fun setOnMyLocationButtonClickListener(onMyLocationButtonClick: (() -> Boolean)?) =
+        map.setOnMyLocationButtonClickListener(onMyLocationButtonClick?.let { { onMyLocationButtonClick() } })
 
-    override fun setOnMyLocationClickListener(block: ((Location) -> Unit)?) =
-        map.setOnMyLocationClickListener(block?.let { { block(it) } })
+    override fun setOnMyLocationClickListener(onMyLocationClick: ((Location) -> Unit)?) =
+        map.setOnMyLocationClickListener(onMyLocationClick?.let { { onMyLocationClick(it) } })
 
-    override fun setOnMapLoadedCallback(block: (() -> Unit)?) =
-        map.setOnMapLoadedCallback(block?.let { { block() } })
+    override fun setOnMapLoadedCallback(onMapLoaded: (() -> Unit)?) =
+        map.setOnMapLoadedCallback(onMapLoaded?.let { { onMapLoaded() } })
 
-    override fun setOnCircleClickListener(block: ((HuaweiCircle) -> Unit)?) =
-        map.setOnCircleClickListener(block?.let { { block(HuaweiCircle(it)) } })
+    override fun setOnCircleClickListener(onCircleClick: ((HuaweiCircle) -> Unit)?) =
+        map.setOnCircleClickListener(onCircleClick?.let { { onCircleClick(HuaweiCircle(it)) } })
 
-    override fun setOnPolygonClickListener(block: ((HuaweiPolygon) -> Unit)?) =
-        map.setOnPolygonClickListener(block?.let { { block(HuaweiPolygon(it)) } })
+    override fun setOnPolygonClickListener(onPolygonClick: ((HuaweiPolygon) -> Unit)?) =
+        map.setOnPolygonClickListener(onPolygonClick?.let { { onPolygonClick(HuaweiPolygon(it)) } })
 
-    override fun setOnPolylineClickListener(block: ((HuaweiPolyline) -> Unit)?) =
-        map.setOnPolylineClickListener(block?.let { { block(HuaweiPolyline(it)) } })
+    override fun setOnPolylineClickListener(onPolylineClick: ((HuaweiPolyline) -> Unit)?) =
+        map.setOnPolylineClickListener(onPolylineClick?.let { { onPolylineClick(HuaweiPolyline(it)) } })
 
-    override fun snapshot(block: ((Bitmap?) -> Unit)) =
-        map.snapshot { block(it) }
+    override fun snapshot(onSnapshotReady: ((Bitmap?) -> Unit)) =
+        map.snapshot { onSnapshotReady(it) }
 
-    override fun snapshot(block: ((Bitmap?) -> Unit), var2: Bitmap?) =
-        map.snapshot({ block(it) }, var2)
+    override fun snapshot(onSnapshotReady: ((Bitmap?) -> Unit), var2: Bitmap?) =
+        map.snapshot({ onSnapshotReady(it) }, var2)
 
     override fun setPadding(var1: Int, var2: Int, var3: Int, var4: Int) {
         map.setPadding(var1, var2, var3, var4)
@@ -194,8 +183,8 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
     override fun setContentDescription(var1: String?) =
         map.setContentDescription(var1)
 
-    override fun setOnPoiClickListener(block: ((HuaweiPointOfInterest) -> Unit)?) =
-        map.setOnPoiClickListener(block?.let { { block(HuaweiPointOfInterest(it)) } })
+    override fun setOnPoiClickListener(onPoiClick: ((HuaweiPointOfInterest) -> Unit)?) =
+        map.setOnPoiClickListener(onPoiClick?.let { { onPoiClick(HuaweiPointOfInterest(it)) } })
 
     override fun setMapStyle(var1: HuaweiMapStyleOptions?) =
         map.setMapStyle(var1?.let { var1.mso })
