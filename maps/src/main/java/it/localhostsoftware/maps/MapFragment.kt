@@ -41,7 +41,7 @@ class MapFragment : Fragment() {
         return v
     }
 
-    fun getMapAsync(geomap: (GeoMap<*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *>) -> Unit) {
+    fun getMapAsync(geomap: (GeoMap<*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *>) -> Unit) {
         childFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentViewCreated(fragmentManager: FragmentManager, f: Fragment, view: View, savedInstanceState: Bundle?) {
                 childFragmentManager.findFragmentById(R.id.fragmentContainerView).let { mapFragment ->
