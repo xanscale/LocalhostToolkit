@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.google.model.*
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest, GoogleGroundOverlayOptions, GoogleGroundOverlay>(
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest, GoogleGroundOverlayOptions, GoogleGroundOverlay, GoogleTileOverlayOptions, GoogleTileOverlay>(
     googleMap
 ) {
     override val cameraPosition: GoogleCameraPosition
@@ -56,6 +56,9 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
 
     override fun addGroundOverlay(var1: GoogleGroundOverlayOptions) =
         map.addGroundOverlay(var1.goo)?.let { GoogleGroundOverlay(it) }
+
+    override fun addTileOverlay(var1: GoogleTileOverlayOptions) =
+        map.addTileOverlay(var1.too)?.let { GoogleTileOverlay(it) }
 
     override fun clear() =
         map.clear()

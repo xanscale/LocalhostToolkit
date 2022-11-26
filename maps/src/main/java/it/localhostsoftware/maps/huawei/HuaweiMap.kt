@@ -11,7 +11,7 @@ import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest, HuaweiGroundOverlayOptions, HuaweiGroundOverlay>(
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest, HuaweiGroundOverlayOptions, HuaweiGroundOverlay, HuaweiTileOverlayOptions, HuaweiTileOverlay>(
     huaweiMap
 ) {
     override val cameraPosition: HuaweiCameraPosition
@@ -56,6 +56,9 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
 
     override fun addGroundOverlay(var1: HuaweiGroundOverlayOptions) =
         map.addGroundOverlay(var1.goo)?.let { HuaweiGroundOverlay(it) }
+
+    override fun addTileOverlay(var1: HuaweiTileOverlayOptions) =
+        map.addTileOverlay(var1.too)?.let { HuaweiTileOverlay(it) }
 
     override fun clear() =
         map.clear()
