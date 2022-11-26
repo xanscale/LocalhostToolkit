@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *, *, *>, PL : Polyline<*, *, *, *>, PGO : PolygonOptions<*, *, *>, PG : Polygon<*, *, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *, *>, MRO : MarkerOptions<*, *, *>, MR : Marker<*, *, *>, IB : IndoorBuilding<*, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LL : LatLng<*>, LLB : LatLngBounds<*, *>, POI : PointOfInterest<*, *>>(
+abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *, *, *>, PL : Polyline<*, *, *, *>, PGO : PolygonOptions<*, *, *>, PG : Polygon<*, *, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *, *>, MRO : MarkerOptions<*, *, *>, MR : Marker<*, *, *>, IB : IndoorBuilding<*, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LL : LatLng<*>, LLB : LatLngBounds<*, *>, POI : PointOfInterest<*, *>, GOO : GroundOverlayOptions<*, *, *, *>, GO : GroundOverlay<*, *, *, *>>(
     val map: M
 ) {
     companion object {
@@ -32,8 +32,8 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun addPolygon(var1: PGO): PG
     abstract fun addCircle(var1: CO): C
     abstract fun addMarker(var1: MRO): MR?
+    abstract fun addGroundOverlay(var1: GOO): GO?
 
-    //TODO  GroundOverlay addGroundOverlay(GroundOverlayOptions var1);
     //TODO  TileOverlay addTileOverlay(TileOverlayOptions var1);
     abstract fun clear()
     abstract val focusedBuilding: IB?
@@ -63,8 +63,7 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun setOnMyLocationButtonClickListener(onMyLocationButtonClick: (() -> Boolean)?)
     abstract fun setOnMyLocationClickListener(onMyLocationClick: ((Location) -> Unit)?)
     abstract fun setOnMapLoadedCallback(onMapLoaded: (() -> Unit)?)
-
-    //TODO void setOnGroundOverlayClickListener(OnGroundOverlayClickListener var1);
+    abstract fun setOnGroundOverlayClickListener(onGroundOverlayClick: (GO) -> Unit)
     abstract fun setOnCircleClickListener(onCircleClick: ((C) -> Unit)?)
     abstract fun setOnPolygonClickListener(onPolygonClick: ((PG) -> Unit)?)
     abstract fun setOnPolylineClickListener(onPolylineClick: ((PL) -> Unit)?)
@@ -78,7 +77,4 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun setMaxZoomPreference(var1: Float)
     abstract fun resetMinMaxZoomPreference()
     abstract fun setLatLngBoundsForCameraTarget(var1: LLB?)
-    /* TODO interface OnGroundOverlayClickListener {
-        void onGroundOverlayClick(GroundOverlay var1);
-    }*/
 }

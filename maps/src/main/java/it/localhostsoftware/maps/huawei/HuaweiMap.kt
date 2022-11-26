@@ -11,7 +11,7 @@ import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest>(
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest, HuaweiGroundOverlayOptions, HuaweiGroundOverlay>(
     huaweiMap
 ) {
     override val cameraPosition: HuaweiCameraPosition
@@ -53,6 +53,9 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
 
     override fun addMarker(var1: HuaweiMarkerOptions) =
         HuaweiMarker(map.addMarker(var1.mo))
+
+    override fun addGroundOverlay(var1: HuaweiGroundOverlayOptions) =
+        map.addGroundOverlay(var1.goo)?.let { HuaweiGroundOverlay(it) }
 
     override fun clear() =
         map.clear()
@@ -157,6 +160,9 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
 
     override fun setOnMapLoadedCallback(onMapLoaded: (() -> Unit)?) =
         map.setOnMapLoadedCallback(onMapLoaded?.let { { onMapLoaded() } })
+
+    override fun setOnGroundOverlayClickListener(onGroundOverlayClick: (HuaweiGroundOverlay) -> Unit) =
+        map.setOnGroundOverlayClickListener { onGroundOverlayClick(HuaweiGroundOverlay(it)) }
 
     override fun setOnCircleClickListener(onCircleClick: ((HuaweiCircle) -> Unit)?) =
         map.setOnCircleClickListener(onCircleClick?.let { { onCircleClick(HuaweiCircle(it)) } })

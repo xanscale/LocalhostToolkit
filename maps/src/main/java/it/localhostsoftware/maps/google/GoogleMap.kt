@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.google.model.*
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest>(
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest, GoogleGroundOverlayOptions, GoogleGroundOverlay>(
     googleMap
 ) {
     override val cameraPosition: GoogleCameraPosition
@@ -53,6 +53,9 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
 
     override fun addMarker(var1: GoogleMarkerOptions) =
         map.addMarker(var1.mo)?.let { GoogleMarker(it) }
+
+    override fun addGroundOverlay(var1: GoogleGroundOverlayOptions) =
+        map.addGroundOverlay(var1.goo)?.let { GoogleGroundOverlay(it) }
 
     override fun clear() =
         map.clear()
@@ -157,6 +160,9 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
 
     override fun setOnMapLoadedCallback(onMapLoaded: (() -> Unit)?) =
         map.setOnMapLoadedCallback(onMapLoaded?.let { { onMapLoaded() } })
+
+    override fun setOnGroundOverlayClickListener(onGroundOverlayClick: (GoogleGroundOverlay) -> Unit) =
+        map.setOnGroundOverlayClickListener { onGroundOverlayClick(GoogleGroundOverlay(it)) }
 
     override fun setOnCircleClickListener(onCircleClick: ((GoogleCircle) -> Unit)?) =
         map.setOnCircleClickListener(onCircleClick?.let { { onCircleClick(GoogleCircle(it)) } })
