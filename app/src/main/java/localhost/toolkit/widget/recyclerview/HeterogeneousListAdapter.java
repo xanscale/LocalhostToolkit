@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerItem, RecyclerView.ViewHolder> implements Filterable {
+public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerItem<?,? super RecyclerView.ViewHolder>, RecyclerView.ViewHolder> implements Filterable {
     private Filter filter;
     private final HashMap<Class<?>, Integer> classToType;
     private final SparseIntArray typeToPos;
@@ -59,7 +59,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
     }
 
     @Override
-    public void submitList(@Nullable List<HeterogeneousRecyclerItem> list) {
+    public void submitList(@Nullable List<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> list) {
         super.submitList(list, () -> {
             filter = null;
             updateTypes();
@@ -67,7 +67,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
     }
 
     @Override
-    public void submitList(@Nullable List<HeterogeneousRecyclerItem> list, @Nullable Runnable commitCallback) {
+    public void submitList(@Nullable List<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> list, @Nullable Runnable commitCallback) {
         super.submitList(list, () -> {
             filter = null;
             updateTypes();
@@ -76,7 +76,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
         });
     }
 
-    private void applyFilter(@Nullable List<HeterogeneousRecyclerItem> list) {
+    private void applyFilter(@Nullable List<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> list) {
         super.submitList(list, this::updateTypes);
     }
 
@@ -98,7 +98,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
     }
 
     private class HeterogeneousFilter extends Filter {
-        private final List<HeterogeneousRecyclerItem> originalItems = new ArrayList<>(getCurrentList());
+        private final List<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> originalItems = new ArrayList<>(getCurrentList());
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -112,9 +112,9 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
                 for (String word : constraint.toString().toLowerCase().split("\\W"))
                     sb.append("(?=.*").append(word).append(")");
                 sb.append("\\X*$");
-                ArrayList<HeterogeneousRecyclerItem> newValues = new ArrayList<>();
+                ArrayList<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>> newValues = new ArrayList<>();
                 Pattern pattern = Pattern.compile(sb.toString());
-                for (HeterogeneousRecyclerItem value : originalItems)
+                for (HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder> value : originalItems)
                     if (pattern.matcher(value.toString().toLowerCase()).matches())
                         newValues.add(value);
                 results.values = newValues;
@@ -126,7 +126,7 @@ public class HeterogeneousListAdapter extends ListAdapter<HeterogeneousRecyclerI
         @Override
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            applyFilter((List<HeterogeneousRecyclerItem>) results.values);
+            applyFilter((List<HeterogeneousRecyclerItem<?, ? super RecyclerView.ViewHolder>>) results.values);
         }
     }
 
