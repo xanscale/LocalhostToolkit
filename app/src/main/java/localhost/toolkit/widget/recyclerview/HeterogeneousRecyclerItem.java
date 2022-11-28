@@ -15,6 +15,14 @@ public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHo
 
     public abstract H onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
+    void internalOnBindViewHolder(@NonNull RecyclerView.ViewHolder holder) {
+        onBindViewHolder((H) holder);
+    }
+
+    void internalOnViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        onViewRecycled((H) holder);
+    }
+
     public abstract void onBindViewHolder(@NonNull H holder);
 
     public void onViewRecycled(@NonNull H holder) {
