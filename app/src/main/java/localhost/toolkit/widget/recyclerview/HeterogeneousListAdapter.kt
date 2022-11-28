@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import java.util.regex.Pattern
 
-class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>, RecyclerView.ViewHolder>(DiffUtilItemCallback<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>()), Filterable {
+class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, RecyclerView.ViewHolder>(DiffUtilItemCallback()), Filterable {
     private var filter: Filter? = null
     private val classToType: HashMap<Class<*>, Int> = HashMap()
     private val typeToPos: SparseIntArray = SparseIntArray()
@@ -37,20 +37,20 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, out Re
     override fun getItemId(position: Int) =
         getItem(position).hashCode().toLong()
 
-    override fun submitList(list: List<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>?) =
+    override fun submitList(list: List<HeterogeneousRecyclerItem<*, *>>?) =
         super.submitList(list) {
             filter = null
             updateTypes()
         }
 
-    override fun submitList(list: List<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>?, commitCallback: Runnable?) =
+    override fun submitList(list: List<HeterogeneousRecyclerItem<*, *>>?, commitCallback: Runnable?) =
         super.submitList(list) {
             filter = null
             updateTypes()
             commitCallback?.run()
         }
 
-    private fun applyFilter(list: List<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>?) =
+    private fun applyFilter(list: List<HeterogeneousRecyclerItem<*, *>>?) =
         super.submitList(list) { updateTypes() }
 
     private fun updateTypes() {
@@ -71,7 +71,7 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, out Re
     }
 
     private inner class HeterogeneousFilter : Filter() {
-        private val originalItems: List<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>> = ArrayList(currentList)
+        private val originalItems: List<HeterogeneousRecyclerItem<*, *>> = ArrayList(currentList)
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
             if (constraint == null || constraint.isEmpty()) {
@@ -84,7 +84,7 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, out Re
                     }
                     append("\\X*$")
                 }.toString())
-                val newValues = ArrayList<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>()
+                val newValues = ArrayList<HeterogeneousRecyclerItem<*, *>>()
                 originalItems.forEach {
                     if (pattern.matcher(it.toString().lowercase(Locale.getDefault())).matches())
                         newValues.add(it)
@@ -97,16 +97,16 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, out Re
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             @Suppress("UNCHECKED_CAST")
-            applyFilter(results.values as List<HeterogeneousRecyclerItem<*, out RecyclerView.ViewHolder>>?)
+            applyFilter(results.values as List<HeterogeneousRecyclerItem<*, *>>?)
         }
     }
 
-    private class DiffUtilItemCallback<I : HeterogeneousRecyclerItem<*, *>> : DiffUtil.ItemCallback<I>() {
-        override fun areItemsTheSame(oldItem: I, newItem: I): Boolean {
+    private class DiffUtilItemCallback : DiffUtil.ItemCallback<HeterogeneousRecyclerItem<*, *>>() {
+        override fun areItemsTheSame(oldItem: HeterogeneousRecyclerItem<*, *>, newItem: HeterogeneousRecyclerItem<*, *>): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: I, newItem: I): Boolean {
+        override fun areContentsTheSame(oldItem: HeterogeneousRecyclerItem<*, *>, newItem: HeterogeneousRecyclerItem<*, *>): Boolean {
             return oldItem == newItem
         }
     }
