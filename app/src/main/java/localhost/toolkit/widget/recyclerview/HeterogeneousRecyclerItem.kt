@@ -1,61 +1,33 @@
-package localhost.toolkit.widget.recyclerview;
+package localhost.toolkit.widget.recyclerview
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+abstract class HeterogeneousRecyclerItem<E, H : RecyclerView.ViewHolder>(var extra: E) {
+    fun internalOnBindViewHolder(holder: RecyclerView.ViewHolder) =
+        @Suppress("UNCHECKED_CAST")
+        onBindViewHolder(holder as H)
 
-public abstract class HeterogeneousRecyclerItem<E, H extends RecyclerView.ViewHolder> {
-    protected E extra;
+    fun internalOnViewRecycled(holder: RecyclerView.ViewHolder) =
+        @Suppress("UNCHECKED_CAST")
+        onViewRecycled(holder as H)
 
-    public HeterogeneousRecyclerItem(E extra) {
-        this.extra = extra;
+    abstract fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): H
+    abstract fun onBindViewHolder(holder: H)
+    open fun onViewRecycled(holder: H) {}
+    val spanSize: Int
+        get() = 1
+
+    override fun toString() =
+        extra.toString()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is HeterogeneousRecyclerItem<*, *>) return false
+        return extra == other.extra
     }
 
-    public abstract H onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
-
-    void internalOnBindViewHolder(@NonNull RecyclerView.ViewHolder holder) {
-        onBindViewHolder((H) holder);
-    }
-
-    void internalOnViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        onViewRecycled((H) holder);
-    }
-
-    public abstract void onBindViewHolder(@NonNull H holder);
-
-    public void onViewRecycled(@NonNull H holder) {
-    }
-
-    public E getExtra() {
-        return extra;
-    }
-
-    public void setExtra(E extra) {
-        this.extra = extra;
-    }
-
-    public int getSpanSize() {
-        return 1;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return extra.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HeterogeneousRecyclerItem)) return false;
-        HeterogeneousRecyclerItem<?, ?> that = (HeterogeneousRecyclerItem<?, ?>) o;
-        return extra.equals(that.extra);
-    }
-
-    @Override
-    public int hashCode() {
-        return extra.hashCode();
-    }
+    override fun hashCode() =
+        extra.hashCode()
 }
