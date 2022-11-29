@@ -1,4 +1,5 @@
-package localhost.toolkit.content;
+package localhost.toolkit.content
 
-public class FileProvider extends androidx.core.content.FileProvider {
-}
+import androidx.core.content.FileProvider
+
+class FileProvider : FileProvider()
