@@ -1,70 +1,46 @@
-package localhost.toolkit.app.fragment;
+package localhost.toolkit.app.fragment
 
-import android.app.Dialog;
-import android.os.Bundle;
+import android.os.Bundle
+import androidx.core.text.HtmlCompat
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-import androidx.annotation.NonNull;
-import androidx.core.text.HtmlCompat;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-public class MessageDialogFragment extends DialogFragment {
-    private static final String TITLE = "TITLE";
-    private static final String MESSAGE = "MESSAGE";
-    private static final String EXIT = "EXIT";
-    private static final String POSITIVE_BUTTON = "POSITIVE_BUTTON";
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-        builder.setTitle(requireArguments().getString(TITLE));
-        if (requireArguments().containsKey(MESSAGE))
-            builder.setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE), HtmlCompat.FROM_HTML_MODE_COMPACT));
-        builder.setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), (dialog, which) -> {
-            if (requireArguments().getBoolean(EXIT))
-                requireActivity().onBackPressed();
-        });
-        setCancelable(false);
-        return builder.create();
+class MessageDialogFragment(
+    title: String? = null,
+    message: String? = null,
+    exit: Boolean? = null,
+    positiveButton: String? = null
+) : DialogFragment() {
+    companion object {
+        private const val TITLE = "TITLE"
+        private const val MESSAGE = "MESSAGE"
+        private const val EXIT = "EXIT"
+        private const val POSITIVE_BUTTON = "POSITIVE_BUTTON"
     }
 
-    public static class Builder {
-        private String title;
-        private String message;
-        private Boolean exit;
-        private String positiveButton;
-
-        public MessageDialogFragment build() {
-            MessageDialogFragment fragment = new MessageDialogFragment();
-            Bundle args = new Bundle();
-            if (title != null) args.putString(TITLE, title);
-            if (message != null) args.putString(MESSAGE, message);
-            if (exit != null) args.putBoolean(EXIT, exit);
-            if (positiveButton != null) args.putString(POSITIVE_BUTTON, positiveButton);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public Builder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Builder withExit(Boolean exit) {
-            this.exit = exit;
-            return this;
-        }
-
-        public Builder withPositiveButton(String positiveButton) {
-            this.positiveButton = positiveButton;
-            return this;
+    init {
+        Bundle().apply {
+            title?.let { putString(TITLE, it) }
+            message?.let { putString(MESSAGE, it) }
+            exit?.let { putBoolean(EXIT, it) }
+            positiveButton?.let { putString(POSITIVE_BUTTON, it) }
+        }.let {
+            if (!it.isEmpty) arguments = it
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(requireArguments().getString(TITLE))
+            if (requireArguments().containsKey(MESSAGE))
+                setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE)!!, HtmlCompat.FROM_HTML_MODE_COMPACT))
+            setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok))) { _, _ ->
+                if (requireArguments().getBoolean(EXIT)) requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }.create()
 }
