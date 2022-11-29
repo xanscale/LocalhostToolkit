@@ -1,64 +1,44 @@
-package localhost.toolkit.app.fragment;
+package localhost.toolkit.app.fragment
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.widget.ImageView;
+import android.os.Bundle
+import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-public class ImageDialogFragment extends DialogFragment {
-    private static final String ICON = "ICON";
-    private static final String IMAGE_RESOURCE = "IMAGE_RESOURCE";
-    private static final String TITLE = "TITLE";
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-        builder.setPositiveButton(android.R.string.ok, null);
-        if (requireArguments().containsKey(TITLE))
-            builder.setTitle(requireArguments().getInt(TITLE));
-        if (requireArguments().containsKey(ICON))
-            builder.setIcon(requireArguments().getInt(ICON));
-        ImageView image = new ImageView(getActivity());
-        builder.setView(image);
-        if (requireArguments().containsKey(IMAGE_RESOURCE))
-            image.setImageResource(requireArguments().getInt(IMAGE_RESOURCE));
-        setCancelable(false);
-        return builder.create();
+class ImageDialogFragment(
+    icon: Int? = null,
+    title: Int? = null,
+    imageResource: Int? = null
+) : DialogFragment() {
+    companion object {
+        private const val ICON = "ICON"
+        private const val IMAGE_RESOURCE = "IMAGE_RESOURCE"
+        private const val TITLE = "TITLE"
     }
 
-    public static class Builder {
-        private Integer icon;
-        private Integer title;
-        private Integer imageResource;
-
-        public ImageDialogFragment build() {
-            ImageDialogFragment fragment = new ImageDialogFragment();
-            Bundle args = new Bundle();
-            if (icon != null) args.putInt(ICON, icon);
-            if (title != null) args.putInt(TITLE, title);
-            if (imageResource != null) args.putInt(IMAGE_RESOURCE, imageResource);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public Builder withIcon(Integer icon) {
-            this.icon = icon;
-            return this;
-        }
-
-        public Builder withTitle(Integer title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withImageResource(Integer imageResource) {
-            this.imageResource = imageResource;
-            return this;
+    init {
+        Bundle().apply {
+            icon?.let { putInt(ICON, it) }
+            title?.let { putInt(TITLE, it) }
+            imageResource?.let { putInt(IMAGE_RESOURCE, it) }
+        }.let {
+            if (!it.isEmpty) arguments = it
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setPositiveButton(android.R.string.ok, null)
+            if (requireArguments().containsKey(TITLE)) setTitle(requireArguments().getInt(TITLE))
+            if (requireArguments().containsKey(ICON)) setIcon(requireArguments().getInt(ICON))
+            if (requireArguments().containsKey(IMAGE_RESOURCE))
+                setView(ImageView(requireActivity()).apply {
+                    setImageResource(requireArguments().getInt(IMAGE_RESOURCE))
+                })
+        }.create()
 }

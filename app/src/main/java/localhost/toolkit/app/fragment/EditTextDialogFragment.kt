@@ -1,111 +1,72 @@
-package localhost.toolkit.app.fragment;
+package localhost.toolkit.app.fragment
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.InputType;
-import android.view.View;
-import android.widget.EditText;
+import android.app.Dialog
+import android.content.DialogInterface
+import android.os.Bundle
+import android.os.Parcelable
+import android.text.InputType
+import android.view.View
+import android.widget.EditText
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
+import localhost.toolkit.R
+import java.io.Serializable
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.io.Serializable;
-
-import localhost.toolkit.R;
-
-public class EditTextDialogFragment extends DialogFragment {
-    private static final String TEXT = "TEXT";
-    private static final String HINT = "HINT";
-    private static final String INPUT_TYPE = "INPUT_TYPE";
-    private static final String TITLE = "TITLE";
-    private static final String SERIALIZABLE = "SERIALIZABLE";
-    private static final String PARCELABLE = "PARCELABLE";
-    private EditText editText;
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-        builder.setTitle(requireArguments().getString(TITLE));
-        builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
-                getListener().onEditTextDialogResult(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.getText().toString())
-        );
-        builder.setNegativeButton(android.R.string.cancel, null);
-        View v = View.inflate(requireContext(), R.layout.dialog_edittext, null);
-        editText = v.findViewById(R.id.textInputEditText);
-        TextInputLayout til = v.findViewById(R.id.textInputLayout);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | requireArguments().getInt(INPUT_TYPE, 0));
-        editText.setText(requireArguments().getString(TEXT));
-        til.setHint(requireArguments().getString(HINT));
-        builder.setView(v);
-        setCancelable(false);
-        return builder.create();
+class EditTextDialogFragment(
+    serializable: Serializable? = null,
+    parcelable: Parcelable? = null,
+    title: String? = null,
+    text: String? = null,
+    hint: String? = null,
+    inputType: Int? = null
+) : DialogFragment() {
+    companion object {
+        private const val TEXT = "TEXT"
+        private const val HINT = "HINT"
+        private const val INPUT_TYPE = "INPUT_TYPE"
+        private const val TITLE = "TITLE"
+        private const val SERIALIZABLE = "SERIALIZABLE"
+        private const val PARCELABLE = "PARCELABLE"
     }
 
-    private OnEditTextListener getListener() {
-        OnEditTextListener l = (OnEditTextListener) getParentFragment();
-        if (l == null)
-            l = (OnEditTextListener) requireActivity();
-        return l;
+    private lateinit var editText: EditText
+    private val listener: OnClickListener
+        get() = parentFragment as? OnClickListener ?: requireActivity() as OnClickListener
+
+    init {
+        Bundle().apply {
+            title?.let { putString(TITLE, it) }
+            text?.let { putString(TEXT, it) }
+            hint?.let { putString(HINT, it) }
+            inputType?.let { putInt(INPUT_TYPE, it) }
+            serializable?.let { putSerializable(SERIALIZABLE, it) }
+            parcelable?.let { putParcelable(PARCELABLE, it) }
+        }.let {
+            if (!it.isEmpty) arguments = it
+        }
     }
 
-    public interface OnEditTextListener {
-        void onEditTextDialogResult(Serializable serializable, Parcelable parcelable, String value);
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        isCancelable = false
     }
 
-    public static class Builder {
-        private Serializable serializable;
-        private Parcelable parcelable;
-        private String title;
-        private String text;
-        private String hint;
-        private Integer inputType;
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(requireArguments().getString(TITLE))
+            setPositiveButton(android.R.string.ok) { _, _ -> listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.text.toString()) }
+            setNegativeButton(android.R.string.cancel, null)
+            setView(View.inflate(requireContext(), R.layout.dialog_edittext, null).apply {
+                editText = findViewById(R.id.textInputEditText)
+                editText.inputType = InputType.TYPE_CLASS_TEXT or requireArguments().getInt(INPUT_TYPE, 0)
+                editText.setText(requireArguments().getString(TEXT))
+                findViewById<TextInputLayout>(R.id.textInputLayout).hint = requireArguments().getString(HINT)
+            })
+        }.create()
+    }
 
-        public EditTextDialogFragment build() {
-            EditTextDialogFragment fragment = new EditTextDialogFragment();
-            Bundle args = new Bundle();
-            if (title != null) args.putString(TITLE, title);
-            if (text != null) args.putString(TEXT, text);
-            if (hint != null) args.putString(HINT, hint);
-            if (inputType != null) args.putInt(INPUT_TYPE, inputType);
-            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
-            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public Builder withSerializable(Serializable serializable) {
-            this.serializable = serializable;
-            return this;
-        }
-
-        public Builder withParcelable(Parcelable parcelable) {
-            this.parcelable = parcelable;
-            return this;
-        }
-
-        public Builder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withText(String text) {
-            this.text = text;
-            return this;
-        }
-
-        public Builder withHint(String hint) {
-            this.hint = hint;
-            return this;
-        }
-
-        public Builder withInputType(Integer inputType) {
-            this.inputType = inputType;
-            return this;
-        }
+    interface OnClickListener {
+        fun onClick(serializable: Serializable?, parcelable: Parcelable?, value: String)
     }
 }
