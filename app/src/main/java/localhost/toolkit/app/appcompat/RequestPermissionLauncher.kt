@@ -1,84 +1,65 @@
-package localhost.toolkit.app.appcompat;
+package localhost.toolkit.app.appcompat
 
-import android.content.pm.PackageManager;
+import android.content.pm.PackageManager
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
+class RequestPermissionLauncher : LiveData<RequestPermissionLauncher.PermissionResult>, ActivityResultCallback<Map<String, Boolean>> {
+    private val launcher: ActivityResultLauncher<Array<String>>
+    private var act: FragmentActivity? = null
+    private var frg: Fragment? = null
+    private val activity
+        get() = if (act != null) act!! else frg!!.requireActivity()
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.Map;
-
-public class RequestPermissionLauncher extends LiveData<RequestPermissionLauncher.PermissionResult> implements ActivityResultCallback<Map<String, Boolean>> {
-    private final ActivityResultLauncher<String[]> launcher;
-    private FragmentActivity activity;
-    private Fragment fragment;
-
-    public RequestPermissionLauncher(Fragment fragment) {
-        this.fragment = fragment;
-        launcher = fragment.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
+    constructor(fragment: Fragment) {
+        this.frg = fragment
+        launcher = fragment.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), this)
     }
 
-    public RequestPermissionLauncher(FragmentActivity activity) {
-        this.activity = activity;
-        launcher = activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), this);
+    constructor(activity: FragmentActivity) {
+        this.act = activity
+        launcher = activity.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), this)
     }
 
-    private FragmentActivity getActivity() {
-        if (activity != null)
-            return activity;
-        else
-            return fragment.requireActivity();
+    override fun onActivityResult(results: Map<String, Boolean>) {
+        val permissions = results.keys.toTypedArray()
+        value = when {
+            results.isEmpty() -> PermissionResult.DENIED
+            checkSelfPermission(permissions) -> PermissionResult.GRANTED
+            shouldShowRequestPermissionRationale(permissions) -> PermissionResult.DENIED
+            else -> PermissionResult.PERMANENTLY_DENIED
+        }
     }
 
-    @Override
-    public void onActivityResult(Map<String, Boolean> results) {
-        String[] permissions = results.keySet().toArray(new String[0]);
-        if (results.isEmpty())
-            setValue(PermissionResult.DENIED);
-        else if (checkSelfPermission(permissions))
-            setValue(PermissionResult.GRANTED);
-        else if (shouldShowRequestPermissionRationale(permissions))
-            setValue(PermissionResult.DENIED);
-        else
-            setValue(PermissionResult.PERMANENTLY_DENIED);
-    }
+    private fun checkSelfPermission(permissions: Array<String>) =
+        permissions.all { ContextCompat.checkSelfPermission(activity, it) == PackageManager.PERMISSION_GRANTED }
 
-    private boolean checkSelfPermission(String... permissions) {
-        for (String perm : permissions)
-            if (ContextCompat.checkSelfPermission(getActivity(), perm) != PackageManager.PERMISSION_GRANTED)
-                return false;
-        return true;
-    }
+    private fun shouldShowRequestPermissionRationale(permissions: Array<String>) =
+        permissions.any { ActivityCompat.shouldShowRequestPermissionRationale(activity, it) }
 
-    private boolean shouldShowRequestPermissionRationale(String... permissions) {
-        for (String perm : permissions)
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), perm))
-                return true;
-        return false;
-    }
+    fun launch(title: String?, rational: String?, permission: String) =
+        launch(title, rational, arrayOf(permission))
 
-    public void launch(String title, String rational, final String... permissions) {
-        if (checkSelfPermission(permissions))
-            setValue(PermissionResult.GRANTED);
+    fun launch(title: String?, rational: String?, permissions: Array<String>) {
+        if (checkSelfPermission(permissions)) value = PermissionResult.GRANTED
         else if (shouldShowRequestPermissionRationale(permissions)) {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-            if (title != null)
-                builder.setTitle(title);
-            if (rational != null)
-                builder.setMessage(rational);
-            builder.setPositiveButton(android.R.string.ok, (dialog, which) -> launcher.launch(permissions));
-            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> setValue(PermissionResult.DENIED));
-            builder.show();
-        } else
-            launcher.launch(permissions);
+            MaterialAlertDialogBuilder(activity).apply {
+                if (title != null) setTitle(title)
+                if (rational != null) setMessage(rational)
+                setPositiveButton(android.R.string.ok) { _, _ -> launcher.launch(permissions) }
+                setNegativeButton(android.R.string.cancel) { _, _ -> value = PermissionResult.DENIED }
+            }.show()
+        } else launcher.launch(permissions)
     }
 
-    public enum PermissionResult {GRANTED, DENIED, PERMANENTLY_DENIED}
+    enum class PermissionResult {
+        GRANTED, DENIED, PERMANENTLY_DENIED
+    }
 }
