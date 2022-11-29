@@ -1,17 +1,8 @@
-package localhost.toolkit.text;
+package localhost.toolkit.text
 
-import android.widget.EditText;
+import android.widget.EditText
 
-public class ErrorEqualsListener extends AbstractErrorListener {
-    private final EditText reference;
-
-    public ErrorEqualsListener(String errorMsg, EditText subject, EditText reference) {
-        super(errorMsg, subject);
-        this.reference = reference;
-    }
-
-    @Override
-    public boolean matches() {
-        return editText.getText().toString().equals(reference.getText().toString());
-    }
+class ErrorEqualsListener(errorMsg: String, subject: EditText, private val reference: EditText) : AbstractErrorListener(errorMsg, subject) {
+    override fun matches() =
+        editText.text.toString() == reference.text.toString()
 }

@@ -1,18 +1,8 @@
-package localhost.toolkit.widget.recyclerview;
+package localhost.toolkit.widget.recyclerview
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 
-import java.util.List;
-
-public class HeterogeneousSpanSizeLookup<I extends HeterogeneousRecyclerItem<?, ?>> extends GridLayoutManager.SpanSizeLookup {
-    private final List<I> items;
-
-    public HeterogeneousSpanSizeLookup(List<I> items) {
-        this.items = items;
-    }
-
-    @Override
-    public int getSpanSize(int position) {
-        return position < items.size() ? items.get(position).getSpanSize() : 1;
-    }
+class HeterogeneousSpanSizeLookup(private val items: List<HeterogeneousRecyclerItem<*, *>>) : SpanSizeLookup() {
+    override fun getSpanSize(position: Int) =
+        if (position < items.size) items[position].spanSize else 1
 }

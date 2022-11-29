@@ -1,31 +1,11 @@
-package localhost.toolkit.text;
+package localhost.toolkit.text
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
+import android.view.View
+import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
 
-public class AutoFocusRightTextWatcher implements TextWatcher {
-	private final EditText editText;
-	private final int maxLength;
-
-	public AutoFocusRightTextWatcher(EditText editText, int maxLength) {
-		this.editText = editText;
-		this.maxLength = maxLength;
-		editText.addTextChangedListener(this);
-	}
-
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-	}
-
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-		if (s.length() == maxLength)
-			editText.focusSearch(View.FOCUS_RIGHT).requestFocus();
-	}
+fun EditText.addAutoFocusRightTextWatcher(maxLength: Int) {
+    doAfterTextChanged {
+        if (it?.length == maxLength) focusSearch(View.FOCUS_RIGHT).requestFocus()
+    }
 }
