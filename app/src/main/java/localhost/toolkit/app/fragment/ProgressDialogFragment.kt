@@ -1,50 +1,36 @@
-package localhost.toolkit.app.fragment;
+package localhost.toolkit.app.fragment
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
+import android.app.Dialog
+import android.os.Bundle
+import android.view.WindowManager
+import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import localhost.toolkit.R
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-
-import localhost.toolkit.R;
-
-public class ProgressDialogFragment extends DialogFragment {
-    private static final String CANCELABLE = "CANCELABLE";
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog_Alert_App);
-        builder.setView(new ProgressBar(requireContext()));
-        setCancelable((requireArguments().getBoolean(CANCELABLE, true)));
-        requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        return builder.create();
+class ProgressDialogFragment(cancelable: Boolean? = null) : DialogFragment() {
+    companion object {
+        private const val CANCELABLE = "CANCELABLE"
     }
 
-    @Override
-    public void onStop() {
-        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        super.onStop();
+    init {
+        Bundle().apply {
+            cancelable?.let { putBoolean(CANCELABLE, it) }
+        }.let {
+            if (!it.isEmpty) arguments = it
+        }
     }
 
-    public static class Builder {
-        private Boolean cancelable;
-
-        public ProgressDialogFragment build() {
-            ProgressDialogFragment fragment = new ProgressDialogFragment();
-            Bundle args = new Bundle();
-            if (cancelable != null)
-                args.putBoolean(CANCELABLE, cancelable);
-            fragment.setArguments(args);
-            return fragment;
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        arguments?.let {
+            isCancelable = it.getBoolean(CANCELABLE, true)
         }
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        return AlertDialog.Builder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog_Alert_App).setView(ProgressBar(requireContext())).create()
+    }
 
-        public Builder withCancelable(Boolean cancelable) {
-            this.cancelable = cancelable;
-            return this;
-        }
+    override fun onStop() {
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        super.onStop()
     }
 }
