@@ -42,6 +42,9 @@ class NumberPickerDialogFragment(
     }
 
     private lateinit var numberPicker: NumberPicker
+    private val listener: OnClickListener
+        get() = parentFragment as? OnClickListener ?: requireActivity() as OnClickListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isCancelable = false
@@ -51,12 +54,10 @@ class NumberPickerDialogFragment(
         MaterialAlertDialogBuilder(requireActivity()).apply {
             setTitle(requireArguments().getString(TITLE))
             setView(NumberPicker(requireActivity()).apply {
-                arguments?.let {
-                    if (it.containsKey(MIN)) minValue = it.getInt(MIN)
-                    if (it.containsKey(MAX)) maxValue = it.getInt(MAX)
-                    if (it.containsKey(VALUE)) value = it.getInt(VALUE)
-                    if (it.containsKey(DISPLAYED_VALUES)) displayedValues = it.getStringArray(DISPLAYED_VALUES)
-                }
+                if (requireArguments().containsKey(MIN)) minValue = requireArguments().getInt(MIN)
+                if (requireArguments().containsKey(MAX)) maxValue = requireArguments().getInt(MAX)
+                if (requireArguments().containsKey(VALUE)) value = requireArguments().getInt(VALUE)
+                if (requireArguments().containsKey(DISPLAYED_VALUES)) displayedValues = requireArguments().getStringArray(DISPLAYED_VALUES)
                 numberPicker = this
             })
             setPositiveButton(android.R.string.ok, this@NumberPickerDialogFragment)
@@ -64,13 +65,10 @@ class NumberPickerDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
+        listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
     }
 
-    private val listener: OnNumberSetListener
-        get() = parentFragment as? OnNumberSetListener ?: requireActivity() as OnNumberSetListener
-
-    interface OnNumberSetListener {
-        fun onNumberSet(serializable: Serializable?, parcelable: Parcelable?, value: Int)
+    interface OnClickListener {
+        fun onClick(serializable: Serializable?, parcelable: Parcelable?, value: Int)
     }
 }

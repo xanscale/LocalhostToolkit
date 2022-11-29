@@ -22,9 +22,7 @@ class ProgressDialogFragment(cancelable: Boolean? = null) : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            isCancelable = it.getBoolean(CANCELABLE, true)
-        }
+        isCancelable = requireArguments().getBoolean(CANCELABLE, true)
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
