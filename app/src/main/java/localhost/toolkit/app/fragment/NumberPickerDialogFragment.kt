@@ -1,122 +1,76 @@
-package localhost.toolkit.app.fragment;
+package localhost.toolkit.app.fragment
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.widget.NumberPicker;
+import android.content.DialogInterface
+import android.os.Bundle
+import android.os.Parcelable
+import android.widget.NumberPicker
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.io.Serializable
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.io.Serializable;
-
-public class NumberPickerDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
-    private static final String TITLE = "TITLE";
-    private static final String MIN = "MIN";
-    private static final String MAX = "MAX";
-    private static final String VALUE = "VALUE";
-    private static final String SERIALIZABLE = "SERIALIZABLE";
-    private static final String PARCELABLE = "PARCELABLE";
-    private static final String DISPLAYED_VALUES = "DISPLAYED_VALUES";
-    private NumberPicker numberPicker;
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
-        builder.setTitle(requireArguments().getString(TITLE));
-        numberPicker = new NumberPicker(requireActivity());
-        if (requireArguments().containsKey(MIN))
-            numberPicker.setMinValue(requireArguments().getInt(MIN));
-        if (requireArguments().containsKey(MAX))
-            numberPicker.setMaxValue(requireArguments().getInt(MAX));
-        if (requireArguments().containsKey(VALUE))
-            numberPicker.setValue(requireArguments().getInt(VALUE));
-        if (requireArguments().containsKey(DISPLAYED_VALUES))
-            numberPicker.setDisplayedValues(requireArguments().getStringArray(DISPLAYED_VALUES));
-        builder.setView(numberPicker);
-        builder.setPositiveButton(android.R.string.ok, this);
-        builder.setNegativeButton(android.R.string.cancel, null);
-        setCancelable(false);
-        return builder.create();
+class NumberPickerDialogFragment(
+    serializable: Serializable? = null,
+    parcelable: Parcelable? = null,
+    title: String? = null,
+    min: Int? = null,
+    max: Int? = null,
+    value: Int? = null,
+    displayedValues: Array<String>? = null
+) : DialogFragment(), DialogInterface.OnClickListener {
+    companion object {
+        private const val TITLE = "TITLE"
+        private const val MIN = "MIN"
+        private const val MAX = "MAX"
+        private const val VALUE = "VALUE"
+        private const val SERIALIZABLE = "SERIALIZABLE"
+        private const val PARCELABLE = "PARCELABLE"
+        private const val DISPLAYED_VALUES = "DISPLAYED_VALUES"
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        getListener().onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.getValue());
+    init {
+        Bundle().apply {
+            title?.let { putString(TITLE, it) }
+            serializable?.let { putSerializable(SERIALIZABLE, it) }
+            parcelable?.let { putParcelable(PARCELABLE, it) }
+            min?.let { putInt(MIN, it) }
+            max?.let { putInt(MAX, it) }
+            value?.let { putInt(VALUE, it) }
+            displayedValues?.let { putStringArray(DISPLAYED_VALUES, it) }
+        }.let {
+            if (!it.isEmpty) arguments = it
+        }
     }
 
-    private OnNumberSetListener getListener() {
-        OnNumberSetListener l = (OnNumberSetListener) getParentFragment();
-        if (l == null)
-            l = (OnNumberSetListener) requireActivity();
-        return l;
+    private lateinit var numberPicker: NumberPicker
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
     }
 
-    public interface OnNumberSetListener {
-        void onNumberSet(Serializable serializable, Parcelable parcelable, int value);
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        MaterialAlertDialogBuilder(requireActivity()).apply {
+            setTitle(requireArguments().getString(TITLE))
+            setView(NumberPicker(requireActivity()).apply {
+                arguments?.let {
+                    if (it.containsKey(MIN)) minValue = it.getInt(MIN)
+                    if (it.containsKey(MAX)) maxValue = it.getInt(MAX)
+                    if (it.containsKey(VALUE)) value = it.getInt(VALUE)
+                    if (it.containsKey(DISPLAYED_VALUES)) displayedValues = it.getStringArray(DISPLAYED_VALUES)
+                }
+                numberPicker = this
+            })
+            setPositiveButton(android.R.string.ok, this@NumberPickerDialogFragment)
+            setNegativeButton(android.R.string.cancel, null)
+        }.create()
+
+    override fun onClick(dialog: DialogInterface, which: Int) {
+        listener.onNumberSet(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
     }
 
-    public static class Builder {
-        private Serializable serializable;
-        private Parcelable parcelable;
-        private String title;
-        private Integer min;
-        private Integer max;
-        private Integer value;
-        private String[] displayedValues;
+    private val listener: OnNumberSetListener
+        get() = parentFragment as? OnNumberSetListener ?: requireActivity() as OnNumberSetListener
 
-        public NumberPickerDialogFragment build() {
-            NumberPickerDialogFragment fragment = new NumberPickerDialogFragment();
-            Bundle args = new Bundle();
-            if (title != null) args.putString(TITLE, title);
-            if (serializable != null) args.putSerializable(SERIALIZABLE, serializable);
-            if (parcelable != null) args.putParcelable(PARCELABLE, parcelable);
-            if (min != null) args.putInt(MIN, min);
-            if (max != null) args.putInt(MAX, max);
-            if (value != null) args.putInt(VALUE, value);
-            if (displayedValues != null) args.putStringArray(DISPLAYED_VALUES, displayedValues);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public Builder withSerializable(Serializable serializable) {
-            this.serializable = serializable;
-            return this;
-        }
-
-        public Builder withParcelable(Parcelable parcelable) {
-            this.parcelable = parcelable;
-            return this;
-        }
-
-        public Builder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withMin(Integer min) {
-            this.min = min;
-            return this;
-        }
-
-        public Builder withMax(Integer max) {
-            this.max = max;
-            return this;
-        }
-
-        public Builder withValue(Integer value) {
-            this.value = value;
-            return this;
-        }
-
-        public Builder withDisplayedValues(String[] displayedValues) {
-            this.displayedValues = displayedValues;
-            return this;
-        }
+    interface OnNumberSetListener {
+        fun onNumberSet(serializable: Serializable?, parcelable: Parcelable?, value: Int)
     }
 }
