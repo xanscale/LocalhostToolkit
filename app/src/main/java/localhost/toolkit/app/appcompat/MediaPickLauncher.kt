@@ -145,8 +145,8 @@ class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCall
             }
 
         fun getSize(cr: ContentResolver) =
-            cr.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null).use { cursor ->
-                if (cursor != null && cursor.moveToFirst() && cursor.columnCount != 0) cursor.getLong(0) else -1
+            cr.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null).use { c ->
+                if (c != null && c.moveToFirst() && c.columnCount != 0) c.getLong(0) else -1
             }
     }
 
