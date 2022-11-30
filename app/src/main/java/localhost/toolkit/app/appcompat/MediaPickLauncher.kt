@@ -1,189 +1,156 @@
-package localhost.toolkit.app.appcompat;
+package localhost.toolkit.app.appcompat
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
-import android.graphics.Matrix;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Size
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.CallSuper
+import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import java.io.File
+import java.io.IOException
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI as ImagesMediaEXTERNAL_CONTENT_URI
+import android.provider.MediaStore.Images.Thumbnails.DATA as ImagesThumbsDATA
+import android.provider.MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER as ImagesThumbsDEFAULT_SORT_ORDER
+import android.provider.MediaStore.Images.Thumbnails.MINI_KIND as ImagesThumbsMINI_KIND
+import android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI as VideoMediaEXTERNAL_CONTENT_URI
+import android.provider.MediaStore.Video.Thumbnails.DATA as VideoThumbsDATA
+import android.provider.MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER as VideoThumbsDEFAULT_SORT_ORDER
+import android.provider.MediaStore.Video.Thumbnails.MINI_KIND as VideoThumbsMINI_KIND
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.exifinterface.media.ExifInterface;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
+class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCallback<MediaPickLauncher.Media?> {
+    private val launcher: ActivityResultLauncher<ContractType>
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import localhost.toolkit.content.FileProvider;
-
-public class MediaPickLauncher extends LiveData<MediaPickLauncher.Media> implements ActivityResultCallback<MediaPickLauncher.Media> {
-    private final ActivityResultLauncher<ContractType> launcher;
-
-    public MediaPickLauncher(Fragment fragment) {
-        launcher = fragment.registerForActivityResult(new MediaPickContract(fragment), this);
+    constructor(fragment: Fragment) {
+        launcher = fragment.registerForActivityResult(MediaPickContract(fragment), this)
     }
 
-    public MediaPickLauncher(FragmentActivity activity) {
-        launcher = activity.registerForActivityResult(new MediaPickContract(activity), this);
+    constructor(activity: FragmentActivity) {
+        launcher = activity.registerForActivityResult(MediaPickContract(activity), this)
     }
 
-    @Override
-    public void onActivityResult(Media result) {
-        setValue(result);
+    override fun onActivityResult(result: Media?) {
+        value = result
     }
 
-    public void launch(ContractType contractType) {
-        launcher.launch(contractType);
+    fun launch(contractType: ContractType) {
+        launcher.launch(contractType)
     }
 
-    private static class MediaPickContract extends ActivityResultContract<ContractType, Media> {
-        private final ViewModelStoreOwner owner;
-        private MediaViewModel mediaViewModel;
-
-        public MediaPickContract(ViewModelStoreOwner owner) {
-            this.owner = owner;
-        }
+    private class MediaPickContract(private val owner: ViewModelStoreOwner) : ActivityResultContract<ContractType, Media?>() {
+        private val viewModel by lazy { ViewModelProvider(owner)[MediaViewModel::class.java] }
 
         @CallSuper
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, @NonNull ContractType input) {
-            getViewModel().contractType = input;
-            switch (input) {
-                case IMAGE:
-                    Intent intent = Intent.createChooser(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), null);
+        override fun createIntent(context: Context, input: ContractType): Intent = when (input) {
+            ContractType.IMAGE -> {
+                Intent.createChooser(Intent(Intent.ACTION_PICK, ImagesMediaEXTERNAL_CONTENT_URI), null).apply {
                     try {
-                        getViewModel().uri = FileProvider.getUriForFile(context, context.getPackageName() + ".localhost.provider", File.createTempFile("image", ".jpg"));
-                        return intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, getViewModel().uri)});
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return intent;
+                        viewModel.uri = FileProvider.getUriForFile(context, context.packageName + ".localhost.provider", File.createTempFile("image", ".jpg"))
+                        putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, viewModel.uri)))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
-                case VIDEO:
-                    return Intent.createChooser(new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI), null)
-                            .putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(MediaStore.ACTION_VIDEO_CAPTURE)});
-                default:
-                    return new Intent(Intent.ACTION_GET_CONTENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
+                }
             }
-        }
+            ContractType.VIDEO -> Intent.createChooser(Intent(Intent.ACTION_PICK, VideoMediaEXTERNAL_CONTENT_URI), null)
+                .putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(Intent(MediaStore.ACTION_VIDEO_CAPTURE)))
+            else -> Intent(Intent.ACTION_GET_CONTENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE)
+        }.also { viewModel.contractType = input }
 
-        @Override
-        public final Media parseResult(int resultCode, @Nullable Intent intent) {
-            return resultCode != Activity.RESULT_OK ? null : new Media(getViewModel().contractType, intent != null && intent.getData() != null ? intent.getData() : getViewModel().uri);
-        }
-
-        private MediaViewModel getViewModel() {
-            if (mediaViewModel == null)
-                mediaViewModel = new ViewModelProvider(owner).get(MediaViewModel.class);
-            return mediaViewModel;
-        }
+        override fun parseResult(resultCode: Int, intent: Intent?) =
+            if (resultCode != Activity.RESULT_OK) null
+            else Media(viewModel.contractType!!, intent?.data ?: viewModel.uri!!)
     }
 
-    public static class MediaViewModel extends ViewModel {
-        public ContractType contractType;
-        public Uri uri;
+    class MediaViewModel : ViewModel() {
+        var contractType: ContractType? = null
+        var uri: Uri? = null
     }
 
-    public static class Media {
-        private final ContractType contractType;
-        private final Uri uri;
+    class Media(private val contractType: ContractType, val uri: Uri) {
+        fun getMimeType(cr: ContentResolver) =
+            cr.getType(uri)
 
-        public Media(ContractType contractType, Uri uri) {
-            this.contractType = contractType;
-            this.uri = uri;
-        }
+        @Throws(IOException::class)
+        fun openInputStream(cr: ContentResolver) =
+            cr.openInputStream(uri) ?: throw IOException("inputStream null")
 
-        public Uri getUri() {
-            return uri;
-        }
+        @Throws(IOException::class)
+        fun getOrientation(cr: ContentResolver) =
+            if (contractType == ContractType.IMAGE)
+                openInputStream(cr).use { input ->
+                    ExifInterface(input).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+                }
+            else throw IllegalStateException("ContractType $contractType not allowed")
 
-        public String getMimeType(Context context) {
-            return context.getContentResolver().getType(uri);
-        }
+        @Throws(IOException::class)
+        fun getRotation(cr: ContentResolver) =
+            if (contractType == ContractType.IMAGE) when (getOrientation(cr)) {
+                ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+                ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+                ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+                else -> 0f
+            } else throw IllegalStateException("ContractType $contractType not allowed")
 
-        public InputStream openInputStream(Context context) throws FileNotFoundException {
-            return context.getContentResolver().openInputStream(uri);
-        }
-
-        public Bitmap getBitmap(Context context) throws IOException {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.getContentResolver(), uri));
+        @Suppress("DEPRECATION")
+        @Throws(IOException::class)
+        fun getBitmap(cr: ContentResolver): Bitmap =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) ImageDecoder.decodeBitmap(ImageDecoder.createSource(cr, uri))
             else {
-                Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                int rotation = getRotation(context);
-                if (rotation != 0) {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(rotation);
-                    bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                MediaStore.Images.Media.getBitmap(cr, uri).let { bmp ->
+                    getRotation(cr).let { r ->
+                        if (r != 0f) Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, Matrix().apply { postRotate(r) }, true) else bmp
+                    }
                 }
-                return bmp;
             }
-        }
 
-        public int getOrientation(Context context) throws IOException {
-            if (contractType == ContractType.IMAGE)
-                try (InputStream input = openInputStream(context)) {
-                    return new ExifInterface(input).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                }
-            else throw new IllegalStateException("ContractType: " + contractType);
-        }
-
-        public int getRotation(Context context) throws IOException {
-            if (contractType == ContractType.IMAGE)
-                switch (getOrientation(context)) {
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        return 270;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        return 180;
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        return 90;
-                    default:
-                        return 0;
-                }
-            else throw new IllegalStateException("ContractType: " + contractType);
-        }
-
-        public Uri getThumbnailUri(Context context) {
-            if (contractType == ContractType.IMAGE)
-                try (Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.Thumbnails.DATA}, "kind = " + MediaStore.Images.Thumbnails.MINI_KIND, null, MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER)) {
-                    return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
-                }
-            else if (contractType == ContractType.VIDEO)
-                try (Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Video.Thumbnails.DATA}, "kind = " + MediaStore.Video.Thumbnails.MINI_KIND, null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER)) {
-                    return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? Uri.parse(cursor.getString(0)) : null;
-                }
-            else throw new IllegalStateException("ContractType: " + contractType);
-        }
-
-        public String getDisplayName(Context context) {
-            try (Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
-                return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getString(0) : null;
+        fun getThumbnailUri(cr: ContentResolver) =
+            when (contractType) {
+                ContractType.IMAGE ->
+                    cr.query(uri, arrayOf(ImagesThumbsDATA), "kind = $ImagesThumbsMINI_KIND", null, ImagesThumbsDEFAULT_SORT_ORDER).use { c ->
+                        if (c != null && c.moveToFirst() && c.columnCount != 0) Uri.parse(c.getString(0)) else null
+                    }
+                ContractType.VIDEO ->
+                    cr.query(uri, arrayOf(VideoThumbsDATA), "kind = $VideoThumbsMINI_KIND", null, VideoThumbsDEFAULT_SORT_ORDER).use { c ->
+                        if (c != null && c.moveToFirst() && c.columnCount != 0) Uri.parse(c.getString(0)) else null
+                    }
+                else -> throw IllegalStateException("ContractType $contractType not allowed")
             }
-        }
 
-        public long getSize(Context context) {
-            try (Cursor cursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.SIZE}, null, null, null)) {
-                return cursor != null && cursor.moveToFirst() && cursor.getColumnCount() != 0 ? cursor.getLong(0) : -1;
+        @RequiresApi(Build.VERSION_CODES.Q)
+        fun loadThumbnail(cr: ContentResolver) =
+            cr.loadThumbnail(uri, Size(512, 384), null)
+
+        fun getDisplayName(cr: ContentResolver) =
+            cr.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null).use { c ->
+                if (c != null && c.moveToFirst() && c.columnCount != 0) c.getString(0) else null
             }
-        }
+
+        fun getSize(cr: ContentResolver) =
+            cr.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null).use { cursor ->
+                if (cursor != null && cursor.moveToFirst() && cursor.columnCount != 0) cursor.getLong(0) else -1
+            }
     }
 
-    public enum ContractType {IMAGE, VIDEO, CONTENT}
+    enum class ContractType {
+        IMAGE, VIDEO, CONTENT
+    }
 }
