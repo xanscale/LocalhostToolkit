@@ -17,19 +17,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.interfaces.Detector
 import java.util.concurrent.Executors
 
-/**
-To use BarcodeScanner
-implementation("com.google.mlkit:barcode-scanning:{latestVersion}")
-BarcodeScanning.getClient().bindToLifecycle(...)
-
-To use ImageLabeler
-implementation("com.google.mlkit:image-labeling-custom:{latestVersion}")
-ImageLabeling.getClient(...).bindToLifecycle(...)
-
-To use TextRecognizer
-implementation("com.google.mlkit:text-recognition:{latestVersion}")
-TextRecognition.getClient().bindToLifecycle(...)
- */
 @RequiresPermission(Manifest.permission.CAMERA)
 fun <DetectionResultT> Detector<DetectionResultT>.bindToLifecycle(
     context: Context,
@@ -46,20 +33,22 @@ fun <DetectionResultT> Detector<DetectionResultT>.bindToLifecycle(
         setImageAnalysisAnalyzer(Executors.newSingleThreadExecutor(), MlKitAnalyzer(listOf(this@bindToLifecycle), targetCoordinateSystem, ContextCompat.getMainExecutor(context)) {
             consumer.accept(Pair(it.getValue(this@bindToLifecycle), it.getThrowable(this@bindToLifecycle)))
         })
-        if (enableScaleGestureDetector) {
-            ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-                override fun onScale(detector: ScaleGestureDetector): Boolean {
-                    cameraControl?.setZoomRatio(detector.scaleFactor * (cameraInfo?.zoomState?.value?.zoomRatio ?: 1.0f))
-                    return true
-                }
-            }).let {
-                previewView.setOnTouchListener { v: View, event: MotionEvent ->
-                    it.onTouchEvent(event)
-                    if (event.action == MotionEvent.ACTION_UP) v.performClick()
-                    true
-                }
-            }
-        }
+        if (enableScaleGestureDetector) setScaleGestureDetector(context, previewView)
         bindToLifecycle(lifecycleOwner)
+    }
+}
+
+fun LifecycleCameraController.setScaleGestureDetector(context: Context, previewView: PreviewView) {
+    ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            cameraControl?.setZoomRatio(detector.scaleFactor * (cameraInfo?.zoomState?.value?.zoomRatio ?: 1.0f))
+            return true
+        }
+    }).let {
+        previewView.setOnTouchListener { v: View, event: MotionEvent ->
+            it.onTouchEvent(event)
+            if (event.action == MotionEvent.ACTION_UP) v.performClick()
+            true
+        }
     }
 }
