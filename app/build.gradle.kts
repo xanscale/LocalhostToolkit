@@ -25,7 +25,7 @@ dependencies {
 
     api("androidx.activity:activity-ktx:1.6.1")
     api("androidx.exifinterface:exifinterface:1.3.5")
-    api("androidx.fragment:fragment-ktx:1.5.4")
+    api("androidx.fragment:fragment-ktx:1.5.5")
     api("androidx.recyclerview:recyclerview:1.2.1")
 
     api("com.google.android.material:material:1.7.0")
