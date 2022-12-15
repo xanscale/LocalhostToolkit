@@ -20,15 +20,18 @@ dependencies {
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 ```
-
 To use BarcodeScanner
+```
 implementation("com.google.mlkit:barcode-scanning:{latestVersion}")
 BarcodeScanning.getClient().bindToLifecycle(...)
-
+```
 To use ImageLabeler
+```
 implementation("com.google.mlkit:image-labeling-custom:{latestVersion}")
 ImageLabeling.getClient(...).bindToLifecycle(...)
-
+```
 To use TextRecognizer
+```
 implementation("com.google.mlkit:text-recognition:{latestVersion}")
 TextRecognition.getClient().bindToLifecycle(...)
+```
