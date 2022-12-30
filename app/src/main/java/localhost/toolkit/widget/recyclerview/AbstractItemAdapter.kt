@@ -8,11 +8,11 @@ abstract class AbstractItemAdapter<E, B : ViewBinding>(var extra: E) {
     val spanSize: Int
         get() = 1
 
-    fun internalOnBindViewHolder(holder: ViewHolder<*>) =
+    internal fun internalOnBindViewHolder(holder: ViewHolder<*>) =
         @Suppress("UNCHECKED_CAST")
         onBinding((holder as ViewHolder<B>).binding)
 
-    fun internalOnViewRecycled(holder: ViewHolder<*>) =
+    internal fun internalOnViewRecycled(holder: ViewHolder<*>) =
         @Suppress("UNCHECKED_CAST")
         onViewRecycled((holder as ViewHolder<B>).binding)
 
