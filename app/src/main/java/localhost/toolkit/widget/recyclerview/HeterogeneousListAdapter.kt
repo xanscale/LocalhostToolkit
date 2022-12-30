@@ -8,10 +8,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import java.util.*
 import java.util.regex.Pattern
 
-class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, RecyclerView.ViewHolder>(DiffUtilItemCallback()), Filterable {
+class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, RecyclerView.ViewHolder>(DiffUtilItemCallback()), Filterable {
     private var filter: Filter? = null
     private val classToType: HashMap<Class<*>, Int> = HashMap()
     private val typeToPos: SparseIntArray = SparseIntArray()
@@ -21,7 +22,7 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, Re
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        getItem(typeToPos[viewType]).onCreateViewHolder(LayoutInflater.from(parent.context), parent)
+        ViewHolder(getItem(typeToPos[viewType]).onCreateViewBinding(LayoutInflater.from(parent.context), parent))
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) =
         getItem(position).internalOnBindViewHolder(viewHolder)
@@ -37,20 +38,20 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, Re
     override fun getItemId(position: Int) =
         getItem(position).hashCode().toLong()
 
-    override fun submitList(list: List<HeterogeneousRecyclerItem<*, *>>?) =
+    override fun submitList(list: List<AbstractItemAdapter<*, *>>?) =
         super.submitList(list) {
             filter = null
             updateTypes()
         }
 
-    override fun submitList(list: List<HeterogeneousRecyclerItem<*, *>>?, commitCallback: Runnable?) =
+    override fun submitList(list: List<AbstractItemAdapter<*, *>>?, commitCallback: Runnable?) =
         super.submitList(list) {
             filter = null
             updateTypes()
             commitCallback?.run()
         }
 
-    private fun applyFilter(list: List<HeterogeneousRecyclerItem<*, *>>?) =
+    private fun applyFilter(list: List<AbstractItemAdapter<*, *>>?) =
         super.submitList(list) { updateTypes() }
 
     private fun updateTypes() {
@@ -71,7 +72,7 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, Re
     }
 
     private inner class HeterogeneousFilter : Filter() {
-        private val originalItems: List<HeterogeneousRecyclerItem<*, *>> = ArrayList(currentList)
+        private val originalItems: List<AbstractItemAdapter<*, *>> = ArrayList(currentList)
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
             if (constraint == null || constraint.isEmpty()) {
@@ -84,7 +85,7 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, Re
                     }
                     append("\\X*$")
                 }.toString())
-                val newValues = ArrayList<HeterogeneousRecyclerItem<*, *>>()
+                val newValues = ArrayList<AbstractItemAdapter<*, *>>()
                 originalItems.forEach {
                     if (pattern.matcher(it.toString().lowercase(Locale.getDefault())).matches())
                         newValues.add(it)
@@ -97,17 +98,19 @@ class HeterogeneousListAdapter : ListAdapter<HeterogeneousRecyclerItem<*, *>, Re
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             @Suppress("UNCHECKED_CAST")
-            applyFilter(results.values as List<HeterogeneousRecyclerItem<*, *>>?)
+            applyFilter(results.values as List<AbstractItemAdapter<*, *>>?)
         }
     }
 
-    private class DiffUtilItemCallback : DiffUtil.ItemCallback<HeterogeneousRecyclerItem<*, *>>() {
-        override fun areItemsTheSame(oldItem: HeterogeneousRecyclerItem<*, *>, newItem: HeterogeneousRecyclerItem<*, *>): Boolean {
+    private class DiffUtilItemCallback : DiffUtil.ItemCallback<AbstractItemAdapter<*, *>>() {
+        override fun areItemsTheSame(oldItem: AbstractItemAdapter<*, *>, newItem: AbstractItemAdapter<*, *>): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: HeterogeneousRecyclerItem<*, *>, newItem: HeterogeneousRecyclerItem<*, *>): Boolean {
+        override fun areContentsTheSame(oldItem: AbstractItemAdapter<*, *>, newItem: AbstractItemAdapter<*, *>): Boolean {
             return oldItem == newItem
         }
     }
 }
+
+class ViewHolder<B : ViewBinding>(val binding: B) : RecyclerView.ViewHolder(binding.root)

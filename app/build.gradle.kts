@@ -8,6 +8,10 @@ android {
     namespace  = "localhost.toolkit"
     compileSdk = 33
 
+    buildFeatures {
+        viewBinding = true
+    }
+    
     defaultConfig {
         minSdk = 19
         targetSdk = 33
