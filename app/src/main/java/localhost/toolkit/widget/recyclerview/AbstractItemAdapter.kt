@@ -2,18 +2,17 @@ package localhost.toolkit.widget.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 abstract class AbstractItemAdapter<E, B : ViewBinding>(var extra: E) {
     val spanSize: Int
         get() = 1
 
-    fun internalOnBindViewHolder(holder: RecyclerView.ViewHolder) =
+    fun internalOnBindViewHolder(holder: ViewHolder<*>) =
         @Suppress("UNCHECKED_CAST")
         onBinding((holder as ViewHolder<B>).binding)
 
-    fun internalOnViewRecycled(holder: RecyclerView.ViewHolder) =
+    fun internalOnViewRecycled(holder: ViewHolder<*>) =
         @Suppress("UNCHECKED_CAST")
         onViewRecycled((holder as ViewHolder<B>).binding)
 

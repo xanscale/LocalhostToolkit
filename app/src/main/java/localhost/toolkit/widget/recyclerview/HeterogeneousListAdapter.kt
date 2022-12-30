@@ -12,7 +12,7 @@ import androidx.viewbinding.ViewBinding
 import java.util.*
 import java.util.regex.Pattern
 
-class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, RecyclerView.ViewHolder>(DiffUtilItemCallback()), Filterable {
+class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHolder<*>>(DiffUtilItemCallback()), Filterable {
     private var filter: Filter? = null
     private val classToType: HashMap<Class<*>, Int> = HashMap()
     private val typeToPos: SparseIntArray = SparseIntArray()
@@ -24,10 +24,10 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, Recycler
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(getItem(typeToPos[viewType]).onCreateViewBinding(LayoutInflater.from(parent.context), parent))
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) =
+    override fun onBindViewHolder(viewHolder: ViewHolder<*>, position: Int) =
         getItem(position).internalOnBindViewHolder(viewHolder)
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) =
+    override fun onViewRecycled(holder: ViewHolder<*>) =
         holder.bindingAdapterPosition.let {
             if (it != RecyclerView.NO_POSITION) getItem(it).internalOnViewRecycled(holder)
         }
