@@ -27,14 +27,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import java.io.File
 import java.io.IOException
-import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI as ImagesMediaEXTERNAL_CONTENT_URI
-import android.provider.MediaStore.Images.Thumbnails.DATA as ImagesThumbsDATA
-import android.provider.MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER as ImagesThumbsDEFAULT_SORT_ORDER
-import android.provider.MediaStore.Images.Thumbnails.MINI_KIND as ImagesThumbsMINI_KIND
-import android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI as VideoMediaEXTERNAL_CONTENT_URI
-import android.provider.MediaStore.Video.Thumbnails.DATA as VideoThumbsDATA
-import android.provider.MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER as VideoThumbsDEFAULT_SORT_ORDER
-import android.provider.MediaStore.Video.Thumbnails.MINI_KIND as VideoThumbsMINI_KIND
 
 class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCallback<MediaPickLauncher.Media?> {
     private val launcher: ActivityResultLauncher<ContractType>
@@ -61,7 +53,7 @@ class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCall
         @CallSuper
         override fun createIntent(context: Context, input: ContractType): Intent = when (input) {
             ContractType.IMAGE -> {
-                Intent.createChooser(Intent(Intent.ACTION_PICK, ImagesMediaEXTERNAL_CONTENT_URI), null).apply {
+                Intent.createChooser(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), null).apply {
                     try {
                         viewModel.uri = FileProvider.getUriForFile(context, context.packageName + ".localhost.provider", File.createTempFile("image", ".jpg"))
                         putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, viewModel.uri)))
@@ -70,7 +62,7 @@ class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCall
                     }
                 }
             }
-            ContractType.VIDEO -> Intent.createChooser(Intent(Intent.ACTION_PICK, VideoMediaEXTERNAL_CONTENT_URI), null)
+            ContractType.VIDEO -> Intent.createChooser(Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI), null)
                 .putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(Intent(MediaStore.ACTION_VIDEO_CAPTURE)))
             else -> Intent(Intent.ACTION_GET_CONTENT).setType("*/*").addCategory(Intent.CATEGORY_OPENABLE)
         }.also { viewModel.contractType = input }
@@ -120,19 +112,6 @@ class MediaPickLauncher : LiveData<MediaPickLauncher.Media?>, ActivityResultCall
                         if (r != 0f) Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height, Matrix().apply { postRotate(r) }, true) else bmp
                     }
                 }
-            }
-
-        fun getThumbnailUri(cr: ContentResolver) =
-            when (contractType) {
-                ContractType.IMAGE ->
-                    cr.query(uri, arrayOf(ImagesThumbsDATA), "kind = $ImagesThumbsMINI_KIND", null, ImagesThumbsDEFAULT_SORT_ORDER).use { c ->
-                        if (c != null && c.moveToFirst() && c.columnCount != 0) Uri.parse(c.getString(0)) else null
-                    }
-                ContractType.VIDEO ->
-                    cr.query(uri, arrayOf(VideoThumbsDATA), "kind = $VideoThumbsMINI_KIND", null, VideoThumbsDEFAULT_SORT_ORDER).use { c ->
-                        if (c != null && c.moveToFirst() && c.columnCount != 0) Uri.parse(c.getString(0)) else null
-                    }
-                else -> throw IllegalStateException("ContractType $contractType not allowed")
             }
 
         @RequiresApi(Build.VERSION_CODES.Q)
