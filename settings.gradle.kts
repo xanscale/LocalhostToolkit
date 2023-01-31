@@ -3,7 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://developer.huawei.com/repo/' }
+        maven { setUrl("https://developer.huawei.com/repo/") }
     }
 }
 
@@ -12,12 +12,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://developer.huawei.com/repo/' }
+        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://developer.huawei.com/repo/") }
     }
 }
 
-include ':maps'
-include ':app'
-include ':mlkit'
-include ':security'
+include(":maps")
+include(":app")
+include(":mlkit")
+include(":security")
