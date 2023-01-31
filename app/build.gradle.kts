@@ -1,7 +1,7 @@
 plugins {
-    `maven-publish`
     kotlin("android")
     id("com.android.library")
+    `maven-publish`
 }
 
 android {
@@ -14,7 +14,6 @@ android {
     
     defaultConfig {
         minSdk = 19
-        targetSdk = 33
     }
 
     publishing {
@@ -32,7 +31,7 @@ dependencies {
     api("androidx.fragment:fragment-ktx:1.5.5")
     api("androidx.recyclerview:recyclerview:1.2.1")
 
-    api("com.google.android.material:material:1.7.0")
+    api("com.google.android.material:material:1.8.0")
 }
 
 publishing {

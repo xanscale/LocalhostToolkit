@@ -1,7 +1,7 @@
 plugins {
-    `maven-publish`
     kotlin("android")
     id("com.android.library")
+    `maven-publish`
 }
 
 android {
@@ -10,7 +10,6 @@ android {
 
     defaultConfig {
         minSdk = 23
-        targetSdk = 33
     }
 
     publishing {
