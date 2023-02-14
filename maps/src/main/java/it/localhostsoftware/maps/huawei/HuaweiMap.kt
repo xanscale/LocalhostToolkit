@@ -6,12 +6,11 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.LocationSource
-import com.huawei.hms.maps.model.IndoorBuilding
 import com.huawei.hms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.huawei.model.*
 
-class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiIndoorBuilding, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest, HuaweiGroundOverlayOptions, HuaweiGroundOverlay, HuaweiTileOverlayOptions, HuaweiTileOverlay>(
+class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, HuaweiCameraPosition, HuaweiPolylineOptions, HuaweiPolyline, HuaweiPolygonOptions, HuaweiPolygon, HuaweiCircleOptions, HuaweiCircle, HuaweiMarkerOptions, HuaweiMarker, HuaweiUiSettings, HuaweiProjection, HuaweiMapStyleOptions, HuaweiLatLng, HuaweiLatLngBounds, HuaweiPointOfInterest, HuaweiGroundOverlayOptions, HuaweiGroundOverlay, HuaweiTileOverlayOptions, HuaweiTileOverlay>(
     huaweiMap
 ) {
     override val cameraPosition: HuaweiCameraPosition
@@ -62,15 +61,6 @@ class HuaweiMap(huaweiMap: HuaweiMap) : GeoMap<HuaweiMap, HuaweiCameraUpdate, Hu
 
     override fun clear() =
         map.clear()
-
-    override val focusedBuilding: HuaweiIndoorBuilding?
-        get() = map.focusedBuilding?.let { HuaweiIndoorBuilding(it) }
-
-    override fun setOnIndoorStateChangeListener(onIndoorBuildingFocused: (() -> Unit)?, onIndoorLevelActivated: ((HuaweiIndoorBuilding) -> Unit)?) =
-        map.setOnIndoorStateChangeListener(if (onIndoorBuildingFocused != null && onIndoorLevelActivated != null) object : HuaweiMap.OnIndoorStateChangeListener {
-            override fun onIndoorBuildingFocused() = onIndoorBuildingFocused()
-            override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = onIndoorLevelActivated(HuaweiIndoorBuilding(indoorBuilding))
-        } else null)
 
     override var mapType: Int
         get() = map.mapType

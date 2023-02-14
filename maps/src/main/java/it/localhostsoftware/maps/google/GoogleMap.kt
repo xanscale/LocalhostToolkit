@@ -6,12 +6,11 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
-import com.google.android.gms.maps.model.IndoorBuilding
 import com.google.android.gms.maps.model.Marker
 import it.localhostsoftware.maps.GeoMap
 import it.localhostsoftware.maps.google.model.*
 
-class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleIndoorBuilding, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest, GoogleGroundOverlayOptions, GoogleGroundOverlay, GoogleTileOverlayOptions, GoogleTileOverlay>(
+class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, GoogleCameraPosition, GooglePolylineOptions, GooglePolyline, GooglePolygonOptions, GooglePolygon, GoogleCircleOptions, GoogleCircle, GoogleMarkerOptions, GoogleMarker, GoogleUiSettings, GoogleProjection, GoogleMapStyleOptions, GoogleLatLng, GoogleLatLngBounds, GooglePointOfInterest, GoogleGroundOverlayOptions, GoogleGroundOverlay, GoogleTileOverlayOptions, GoogleTileOverlay>(
     googleMap
 ) {
     override val cameraPosition: GoogleCameraPosition
@@ -62,15 +61,6 @@ class GoogleMap(googleMap: GoogleMap) : GeoMap<GoogleMap, GoogleCameraUpdate, Go
 
     override fun clear() =
         map.clear()
-
-    override val focusedBuilding: GoogleIndoorBuilding?
-        get() = map.focusedBuilding?.let { GoogleIndoorBuilding(it) }
-
-    override fun setOnIndoorStateChangeListener(onIndoorBuildingFocused: (() -> Unit)?, onIndoorLevelActivated: ((GoogleIndoorBuilding) -> Unit)?) =
-        map.setOnIndoorStateChangeListener(if (onIndoorBuildingFocused != null && onIndoorLevelActivated != null) object : GoogleMap.OnIndoorStateChangeListener {
-            override fun onIndoorBuildingFocused() = onIndoorBuildingFocused()
-            override fun onIndoorLevelActivated(indoorBuilding: IndoorBuilding) = onIndoorLevelActivated(GoogleIndoorBuilding(indoorBuilding))
-        } else null)
 
     override var mapType: Int
         get() = map.mapType

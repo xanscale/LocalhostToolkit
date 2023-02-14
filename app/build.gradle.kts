@@ -27,7 +27,7 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     api("androidx.activity:activity-ktx:1.6.1")
-    api("androidx.exifinterface:exifinterface:1.3.5")
+    api("androidx.exifinterface:exifinterface:1.3.6")
     api("androidx.fragment:fragment-ktx:1.5.5")
     api("androidx.recyclerview:recyclerview:1.2.1")
 

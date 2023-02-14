@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresPermission
 import it.localhostsoftware.maps.model.*
 
-abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *, *, *>, PL : Polyline<*, *, *, *>, PGO : PolygonOptions<*, *, *>, PG : Polygon<*, *, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *, *>, MRO : MarkerOptions<*, *, *>, MR : Marker<*, *, *>, IB : IndoorBuilding<*, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LL : LatLng<*>, LLB : LatLngBounds<*, *>, POI : PointOfInterest<*, *>, GOO : GroundOverlayOptions<*, *, *, *>, GO : GroundOverlay<*, *, *, *>, TOO : TileOverlayOptions<*, *>, TO : TileOverlay<*>>(
+abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : PolylineOptions<*, *, *, *>, PL : Polyline<*, *, *, *>, PGO : PolygonOptions<*, *, *>, PG : Polygon<*, *, *>, CO : CircleOptions<*, *, *>, C : Circle<*, *, *>, MRO : MarkerOptions<*, *, *>, MR : Marker<*, *, *>, US : UiSettings<*>, PJ : Projection<*, *>, MSO : MapStyleOptions<*>, LL : LatLng<*>, LLB : LatLngBounds<*, *>, POI : PointOfInterest<*, *>, GOO : GroundOverlayOptions<*, *, *, *>, GO : GroundOverlay<*, *, *, *>, TOO : TileOverlayOptions<*, *>, TO : TileOverlay<*>>(
     val map: M
 ) {
     companion object {
@@ -35,8 +35,6 @@ abstract class GeoMap<M, CU : CameraUpdate<*>, CP : CameraPosition<*, *>, PLO : 
     abstract fun addGroundOverlay(var1: GOO): GO?
     abstract fun addTileOverlay(var1: TOO): TO?
     abstract fun clear()
-    abstract val focusedBuilding: IB?
-    abstract fun setOnIndoorStateChangeListener(onIndoorBuildingFocused: (() -> Unit)?, onIndoorLevelActivated: ((IB) -> Unit)?)
     abstract var mapType: Int
     abstract var isTrafficEnabled: Boolean
     abstract var isIndoorEnabled: Boolean
