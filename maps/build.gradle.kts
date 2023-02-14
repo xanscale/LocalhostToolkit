@@ -5,16 +5,11 @@ plugins {
 }
 
 android {
-    namespace  = "it.localhostsoftware.maps"
+    namespace = "it.localhostsoftware.maps"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     publishing {
