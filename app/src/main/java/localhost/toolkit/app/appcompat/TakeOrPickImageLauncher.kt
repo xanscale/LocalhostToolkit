@@ -47,7 +47,6 @@ class TakeOrPickImageLauncher : LiveData<Uri?>, ActivityResultCallback<Uri?> {
         launcher.launch(Unit)
     }
 
-
     class TakeOrPickImageContract(private val owner: ViewModelStoreOwner) : ActivityResultContract<Unit, Uri?>() {
         private val viewModel by lazy { ViewModelProvider(owner)[MediaViewModel::class.java] }
         private val pickVisualMedia = ActivityResultContracts.PickVisualMedia()
