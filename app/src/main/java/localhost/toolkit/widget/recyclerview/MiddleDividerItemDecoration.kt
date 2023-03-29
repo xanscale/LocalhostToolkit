@@ -52,12 +52,12 @@ class MiddleDividerItemDecoration(context: Context, private val orientation: Int
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         if (parent.layoutManager == null) return
         when (orientation) {
-            ALL -> {
+            HORIZONTAL -> drawHorizontal(c, parent)
+            VERTICAL -> drawVertical(c, parent)
+            else -> {
                 drawVertical(c, parent)
                 drawHorizontal(c, parent)
             }
-            VERTICAL -> drawVertical(c, parent)
-            else -> drawHorizontal(c, parent)
         }
     }
 
@@ -127,10 +127,10 @@ class MiddleDividerItemDecoration(context: Context, private val orientation: Int
         val position = parent.getChildAdapterPosition(view)
         if (position < offset || position >= (parent.adapter?.itemCount ?: 0) - 1 - offset)
             outRect.setEmpty()
-        else
-            outRect.set(0, 0,
-                    if (orientation == VERTICAL) 0 else drawable.intrinsicWidth,
-                    if (orientation == HORIZONTAL) 0 else drawable.intrinsicHeight
-            )
+        else outRect.set(
+            0, 0,
+            if (orientation == VERTICAL) 0 else drawable.intrinsicWidth,
+            if (orientation == HORIZONTAL) 0 else drawable.intrinsicHeight
+        )
     }
 }
