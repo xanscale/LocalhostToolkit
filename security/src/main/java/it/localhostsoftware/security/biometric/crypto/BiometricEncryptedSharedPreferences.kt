@@ -8,7 +8,6 @@ import android.security.keystore.KeyProperties
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -22,10 +21,10 @@ object BiometricEncryptedSharedPreferences {
     private const val KEY_SIZE = 256
     private const val MASTER_KEY_ALIAS = "_androidx_security_master_key_biometric"
     private val AUTHENTICATORS =
-            BiometricManager.Authenticators.DEVICE_CREDENTIAL or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) BiometricManager.Authenticators.BIOMETRIC_STRONG else BiometricManager.Authenticators.BIOMETRIC_WEAK
+        BiometricManager.Authenticators.DEVICE_CREDENTIAL or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) BiometricManager.Authenticators.BIOMETRIC_STRONG else BiometricManager.Authenticators.BIOMETRIC_WEAK
 
     fun canAuthenticate(c: Context) =
-            BiometricManager.from(c).canAuthenticate(AUTHENTICATORS) == BiometricManager.BIOMETRIC_SUCCESS
+        BiometricManager.from(c).canAuthenticate(AUTHENTICATORS) == BiometricManager.BIOMETRIC_SUCCESS
 
     /**
      * @param fragment          A reference to the client's fragment
@@ -35,10 +34,10 @@ object BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     fun create(fragment: Fragment, fileName: String, timeout: Int, promptInfoBuilder: PromptInfo.Builder): LiveData<SharedPreferences?> =
-            MutableLiveData<SharedPreferences?>().also {
-                BiometricPrompt(fragment, ContextCompat.getMainExecutor(fragment.requireContext()), AuthenticationCallback(fragment.requireContext(), fileName, timeout, it))
-                        .authenticate(promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS).build())
-            }
+        MutableLiveData<SharedPreferences?>().also {
+            BiometricPrompt(fragment, AuthenticationCallback(fragment.requireContext(), fileName, timeout, it))
+                .authenticate(promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS).build())
+        }
 
     /**
      * @param activity          A reference to the client's activity
@@ -48,10 +47,10 @@ object BiometricEncryptedSharedPreferences {
      * @return LiveData of EncryptedSharedPreferences that requires user biometric authentication
      */
     fun create(activity: FragmentActivity, fileName: String, timeout: Int, promptInfoBuilder: PromptInfo.Builder): LiveData<SharedPreferences?> =
-            MutableLiveData<SharedPreferences?>().also {
-                BiometricPrompt(activity, ContextCompat.getMainExecutor(activity), AuthenticationCallback(activity, fileName, timeout, it))
-                        .authenticate(promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS).build())
-            }
+        MutableLiveData<SharedPreferences?>().also {
+            BiometricPrompt(activity, AuthenticationCallback(activity, fileName, timeout, it))
+                .authenticate(promptInfoBuilder.setAllowedAuthenticators(AUTHENTICATORS).build())
+        }
 
     private fun create(c: Context, fileName: String, timeout: Int) = try {
         EncryptedSharedPreferences.create(fileName, MasterKeys.getOrCreate(KeyGenParameterSpec.Builder(MASTER_KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT).apply {
@@ -74,10 +73,10 @@ object BiometricEncryptedSharedPreferences {
     }
 
     private class AuthenticationCallback(
-            private val context: Context,
-            private val fileName: String,
-            private val timeout: Int,
-            private val out: MutableLiveData<SharedPreferences?>
+        private val context: Context,
+        private val fileName: String,
+        private val timeout: Int,
+        private val out: MutableLiveData<SharedPreferences?>
     ) : BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             super.onAuthenticationSucceeded(result)
