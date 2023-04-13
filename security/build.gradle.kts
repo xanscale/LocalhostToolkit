@@ -8,6 +8,15 @@ android {
     namespace  = "it.localhostsoftware.security"
     compileSdk = 33
 
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_11)
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
     defaultConfig {
         minSdk = 23
     }
