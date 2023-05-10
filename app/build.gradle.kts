@@ -37,7 +37,7 @@ dependencies {
     api("androidx.exifinterface:exifinterface:1.3.6")
     api("androidx.recyclerview:recyclerview:1.3.0")
 
-    api("com.google.android.material:material:1.8.0")
+    api("com.google.android.material:material:1.9.0")
 }
 
 publishing {
