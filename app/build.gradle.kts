@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("android")
     id("com.android.library")
@@ -5,22 +7,22 @@ plugins {
 }
 
 android {
-    namespace  = "localhost.toolkit"
+    namespace = "localhost.toolkit"
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_11)
-        targetCompatibility(JavaVersion.VERSION_11)
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JvmTarget.JVM_11.target
     }
 
     buildFeatures {
         viewBinding = true
     }
-    
+
     defaultConfig {
         minSdk = 19
     }
@@ -33,7 +35,7 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.7.1")
+    api("androidx.activity:activity:1.7.2")
     api("androidx.exifinterface:exifinterface:1.3.6")
     api("androidx.recyclerview:recyclerview:1.3.0")
 

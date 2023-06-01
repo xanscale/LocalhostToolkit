@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("android")
     id("com.android.library")
@@ -9,12 +11,12 @@ android {
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_11)
-        targetCompatibility(JavaVersion.VERSION_11)
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JvmTarget.JVM_11.target
     }
 
     defaultConfig {
@@ -30,9 +32,9 @@ android {
 
 dependencies {
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    api("androidx.camera:camera-camera2:1.2.2")
-    api("androidx.camera:camera-lifecycle:1.2.2")
-    api("androidx.camera:camera-view:1.2.2")
+    api("androidx.camera:camera-camera2:1.2.3")
+    api("androidx.camera:camera-lifecycle:1.2.3")
+    api("androidx.camera:camera-view:1.2.3")
     api("androidx.camera:camera-mlkit-vision:1.2.0-beta02")
 }
 
