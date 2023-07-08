@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "it.localhostsoftware.mlkit"
-    compileSdk = 33
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
