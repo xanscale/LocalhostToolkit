@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("android")
     id("com.android.library")
+    kotlin("android")
     `maven-publish`
 }
 
@@ -37,7 +37,7 @@ android {
 dependencies {
     api("androidx.activity:activity:1.7.2")
     api("androidx.exifinterface:exifinterface:1.3.6")
-    api("androidx.recyclerview:recyclerview:1.3.0")
+    api("androidx.recyclerview:recyclerview:1.3.1")
 
     api("com.google.android.material:material:1.9.0")
 }
