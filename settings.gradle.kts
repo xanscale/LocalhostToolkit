@@ -17,7 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
+include(":core")
 include(":maps")
-include(":app")
 include(":mlkit")
 include(":security")
