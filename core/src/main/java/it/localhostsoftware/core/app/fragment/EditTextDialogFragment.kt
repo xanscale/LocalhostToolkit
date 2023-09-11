@@ -14,12 +14,7 @@ import it.localhostsoftware.core.R
 import java.io.Serializable
 
 class EditTextDialogFragment(
-    serializable: Serializable? = null,
-    parcelable: Parcelable? = null,
-    title: String? = null,
-    text: String? = null,
-    hint: String? = null,
-    inputType: Int? = null
+    serializable: Serializable? = null, parcelable: Parcelable? = null, title: String? = null, text: String? = null, hint: String? = null, inputType: Int? = null
 ) : DialogFragment() {
     companion object {
         private const val TEXT = "TEXT"
@@ -58,9 +53,10 @@ class EditTextDialogFragment(
             setPositiveButton(android.R.string.ok) { _, _ -> listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.text.toString()) }
             setNegativeButton(android.R.string.cancel, null)
             setView(View.inflate(requireContext(), R.layout.dialog_edittext, null).apply {
-                editText = findViewById(R.id.textInputEditText)
-                editText.inputType = InputType.TYPE_CLASS_TEXT or requireArguments().getInt(INPUT_TYPE, 0)
-                editText.setText(requireArguments().getString(TEXT))
+                editText = findViewById<EditText?>(R.id.textInputEditText).apply {
+                    inputType = requireArguments().getInt(INPUT_TYPE, InputType.TYPE_CLASS_TEXT)
+                    setText(requireArguments().getString(TEXT))
+                }
                 findViewById<TextInputLayout>(R.id.textInputLayout).hint = requireArguments().getString(HINT)
             })
         }.create()

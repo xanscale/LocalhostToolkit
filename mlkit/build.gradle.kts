@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     api("androidx.camera:camera-camera2:1.2.3")
     api("androidx.camera:camera-lifecycle:1.2.3")
     api("androidx.camera:camera-view:1.2.3")
