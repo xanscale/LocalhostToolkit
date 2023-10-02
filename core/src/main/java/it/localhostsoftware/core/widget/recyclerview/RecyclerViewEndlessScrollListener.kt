@@ -38,8 +38,7 @@ class RecyclerViewEndlessScrollListener(private val threshold: Int = 5, private 
                 else -> 0
             }.let { lastVisibleItemPosition ->
                 if (!loading && lastVisibleItemPosition + getLeftItems(layoutManager) > layoutManager.itemCount) {
-                    currentPage++
-                    block(currentPage + 1, layoutManager.itemCount)
+                    block(++currentPage, layoutManager.itemCount)
                     loading = true
                 }
             }
