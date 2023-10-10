@@ -35,11 +35,11 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.7.2")
+    api("androidx.activity:activity:1.8.0")
     api("androidx.exifinterface:exifinterface:1.3.6")
     api("androidx.recyclerview:recyclerview:1.3.1")
 
-    api("com.google.android.material:material:1.9.0")
+    api("com.google.android.material:material:1.10.0")
 }
 
 publishing {
