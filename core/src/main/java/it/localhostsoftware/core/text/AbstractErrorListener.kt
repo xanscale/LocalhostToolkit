@@ -26,9 +26,13 @@ abstract class AbstractErrorListener(private val errorMsg: String, val editText:
         }
 
     private fun setError(error: String?) {
-        getTextInputLayout().let { layout ->
-            if (layout == null) editText.error = error
-            else layout.error = error
+        getTextInputLayout().let {
+            if (it == null)
+                editText.error = error
+            else {
+                it.isErrorEnabled = error != null
+                it.error = error
+            }
         }
     }
 
