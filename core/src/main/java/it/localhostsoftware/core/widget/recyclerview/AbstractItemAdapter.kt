@@ -4,27 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 
-abstract class AbstractItemAdapter<E, B : ViewBinding>(var extra: E) {
+@Suppress("UNCHECKED_CAST")
+abstract class AbstractItemAdapter<E, B : ViewBinding>(private val extra: E) {
     val spanSize: Int
         get() = 1
 
-    internal fun internalOnBindViewHolder(holder: ViewHolder<*>) =
-        @Suppress("UNCHECKED_CAST")
-        onBinding((holder as ViewHolder<B>).binding)
-
-    internal fun internalOnViewRecycled(holder: ViewHolder<*>) =
-        @Suppress("UNCHECKED_CAST")
-        onViewRecycled((holder as ViewHolder<B>).binding)
-
+    internal fun internalOnBindViewHolder(holder: ViewHolder<*>) = onBinding((holder as ViewHolder<B>).binding)
+    internal fun internalOnViewRecycled(holder: ViewHolder<*>) = onViewRecycled((holder as ViewHolder<B>).binding)
     abstract fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup): B
     abstract fun onBinding(binding: B)
     open fun onViewRecycled(binding: B) {}
-    override fun toString() =
-        extra.toString()
-
-    override fun equals(other: Any?) =
-        extra == (other as AbstractItemAdapter<*, *>).extra
-
-    override fun hashCode() =
-        extra.hashCode()
+    override fun toString() = extra.toString()
+    override fun equals(other: Any?) = extra == (other as AbstractItemAdapter<*, *>).extra
+    override fun hashCode() = extra.hashCode()
 }
