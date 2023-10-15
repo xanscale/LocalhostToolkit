@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 
 @Suppress("UNCHECKED_CAST")
-abstract class AbstractItemAdapter<E, B : ViewBinding>(private val extra: E) {
+abstract class AbstractItemAdapter<E, B : ViewBinding>(val extra: E) {
     val spanSize: Int
         get() = 1
 
