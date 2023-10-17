@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 /**
  * @param pattern Use embedded or android.util.Patterns
  */
-class ErrorRegexListener(errorMsg: String, editText: EditText, private val pattern: Pattern) : AbstractErrorListener(errorMsg, editText) {
+class ErrorRegexListener(errorMsg: String?, editText: EditText, private val pattern: Pattern) : AbstractErrorListener(errorMsg, editText) {
     companion object {
         val PATTERN_EMAIL: Pattern = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
         val PATTERN_EMPTY: Pattern = Pattern.compile("^\\s*$")

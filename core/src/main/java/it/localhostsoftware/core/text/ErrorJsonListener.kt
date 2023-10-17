@@ -5,7 +5,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class ErrorJsonListener(errorMsg: String, editText: EditText) : AbstractErrorListener(errorMsg, editText) {
+class ErrorJsonListener(errorMsg: String?, editText: EditText) : AbstractErrorListener(errorMsg, editText) {
     override fun matches(): Boolean {
         try {
             JSONObject(editText.text.toString())

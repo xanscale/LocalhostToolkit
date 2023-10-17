@@ -5,7 +5,7 @@ import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 
-abstract class AbstractErrorListener(private val errorMsg: String, val editText: EditText) : OnFocusChangeListener {
+abstract class AbstractErrorListener(private val errorMsg: String?, val editText: EditText) : OnFocusChangeListener {
     var onFocusChangeListener: OnFocusChangeListener? = null
 
     init {
