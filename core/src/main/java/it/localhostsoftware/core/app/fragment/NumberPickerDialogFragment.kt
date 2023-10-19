@@ -65,10 +65,10 @@ class NumberPickerDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
+        listener.onNumberPickerDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
     }
 
     interface OnClickListener {
-        fun onClick(serializable: Serializable?, parcelable: Parcelable?, value: Int)
+        fun onNumberPickerDialogClick(serializable: Serializable?, parcelable: Parcelable?, value: Int)
     }
 }

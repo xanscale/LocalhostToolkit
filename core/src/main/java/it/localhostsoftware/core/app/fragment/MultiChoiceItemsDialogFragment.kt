@@ -66,7 +66,7 @@ class MultiChoiceItemsDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), checkedItems)
+        listener.onMultiChoiceItemsDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), checkedItems)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int, isChecked: Boolean) {
@@ -90,6 +90,6 @@ class MultiChoiceItemsDialogFragment(
     }
 
     interface OnClickListener {
-        fun onClick(extra: Serializable?, parcelable: Parcelable?, checkedItems: BooleanArray?)
+        fun onMultiChoiceItemsDialogClick(extra: Serializable?, parcelable: Parcelable?, checkedItems: BooleanArray?)
     }
 }

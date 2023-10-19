@@ -50,7 +50,7 @@ class EditTextDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(requireArguments().getString(TITLE))
-            setPositiveButton(android.R.string.ok) { _, _ -> listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.text.toString()) }
+            setPositiveButton(android.R.string.ok) { _, _ -> listener.onEditTextDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.text.toString()) }
             setNegativeButton(android.R.string.cancel, null)
             setView(View.inflate(requireContext(), R.layout.dialog_edittext, null).apply {
                 editText = findViewById<EditText?>(R.id.textInputEditText).apply {
@@ -63,6 +63,6 @@ class EditTextDialogFragment(
     }
 
     interface OnClickListener {
-        fun onClick(serializable: Serializable?, parcelable: Parcelable?, value: String)
+        fun onEditTextDialogClick(serializable: Serializable?, parcelable: Parcelable?, value: String)
     }
 }

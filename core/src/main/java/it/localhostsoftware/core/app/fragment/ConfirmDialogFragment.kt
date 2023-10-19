@@ -61,11 +61,11 @@ class ConfirmDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
+        listener.onConfirmDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
     }
 
     interface OnClickListener {
-        fun onClick(serializable: Serializable?, parcelable: Parcelable?, @ConfirmDialogButton buttonClicked: Int)
+        fun onConfirmDialogClick(serializable: Serializable?, parcelable: Parcelable?, @ConfirmDialogButton buttonClicked: Int)
     }
 }
 

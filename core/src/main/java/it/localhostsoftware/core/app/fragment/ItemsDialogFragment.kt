@@ -45,10 +45,10 @@ class ItemsDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
+        listener.onItemsDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
     }
 
     interface OnClickListener {
-        fun onClick(serializable: Serializable?, parcelable: Parcelable?, which: Int)
+        fun onItemsDialogClick(serializable: Serializable?, parcelable: Parcelable?, which: Int)
     }
 }
