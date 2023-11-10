@@ -21,12 +21,16 @@ class Version(value: String) : Comparable<Version> {
 
     override fun compareTo(other: Version): Int {
         repeat(max(values.size, other.values.size)) {
-            val compare = getVal(it).compareTo(other.getVal(it))
-            if (compare != 0) return compare
+            getVal(it).compareTo(other.getVal(it)).let { compare ->
+                if (compare != 0) return compare
+            }
         }
         return 0
     }
 
-    override fun toString(): String =
-        TextUtils.join(".", values)
+    override fun toString(): String = TextUtils.join(".", values)
+
+    override fun equals(other: Any?) = if (other is Version) compareTo(other) == 0 else false
+
+    override fun hashCode() = values.hashCode()
 }
