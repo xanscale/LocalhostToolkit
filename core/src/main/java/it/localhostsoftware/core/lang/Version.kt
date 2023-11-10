@@ -3,25 +3,16 @@ package it.localhostsoftware.core.lang
 import android.text.TextUtils
 import kotlin.math.max
 
-class Version(value: String) : Comparable<Version> {
-    private val values = ArrayList<Int>()
+class Version(private val values: List<Int>) : Comparable<Version> {
+    constructor(value: String) : this(value.split("\\.").map { it.toIntOrNull() ?: 0 })
 
-    init {
-        value.split("\\.").forEach {
-            try {
-                values.add(it.toInt())
-            } catch (e: Exception) {
-                values.add(0)
-            }
-        }
-    }
+    fun get(pos: Int) = values.getOrElse(pos) { 0 }
 
-    fun getVal(pos: Int) =
-        if (pos < values.size) values[pos] else 0
+    fun take(segments: Int) = Version(values.take(segments))
 
     override fun compareTo(other: Version): Int {
         repeat(max(values.size, other.values.size)) {
-            getVal(it).compareTo(other.getVal(it)).let { compare ->
+            get(it).compareTo(other.get(it)).let { compare ->
                 if (compare != 0) return compare
             }
         }
