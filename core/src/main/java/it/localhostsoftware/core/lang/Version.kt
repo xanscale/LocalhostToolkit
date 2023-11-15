@@ -4,7 +4,7 @@ import android.text.TextUtils
 import kotlin.math.max
 
 class Version(private val values: List<Int>) : Comparable<Version> {
-    constructor(value: String) : this(value.split("\\.").map { it.toIntOrNull() ?: 0 })
+    constructor(value: String) : this(value.split("\\D".toRegex()).map { it.toIntOrNull() ?: 0 })
 
     fun get(pos: Int) = values.getOrElse(pos) { 0 }
 
