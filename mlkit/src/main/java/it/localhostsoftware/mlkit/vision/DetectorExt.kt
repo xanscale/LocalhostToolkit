@@ -12,10 +12,8 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.core.util.Consumer
 import androidx.lifecycle.LifecycleOwner
 import com.google.mlkit.vision.interfaces.Detector
-import java.util.concurrent.Executors
 
 @RequiresPermission(Manifest.permission.CAMERA)
 fun <DetectionResultT> Detector<DetectionResultT>.bindToLifecycle(
@@ -25,13 +23,13 @@ fun <DetectionResultT> Detector<DetectionResultT>.bindToLifecycle(
     selector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
     enableScaleGestureDetector: Boolean = true,
     targetCoordinateSystem: Int = CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED,
-    consumer: Consumer<Pair<DetectionResultT?, Throwable?>>
+    block: (Result<DetectionResultT?>) -> Unit
 ) {
     LifecycleCameraController(context).apply {
         previewView.controller = this
         cameraSelector = selector
-        setImageAnalysisAnalyzer(Executors.newSingleThreadExecutor(), MlKitAnalyzer(listOf(this@bindToLifecycle), targetCoordinateSystem, ContextCompat.getMainExecutor(context)) {
-            consumer.accept(Pair(it.getValue(this@bindToLifecycle), it.getThrowable(this@bindToLifecycle)))
+        setImageAnalysisAnalyzer(ContextCompat.getMainExecutor(context), MlKitAnalyzer(listOf(this@bindToLifecycle), targetCoordinateSystem, ContextCompat.getMainExecutor(context)) { res ->
+            block(res.getThrowable(this@bindToLifecycle).let { if (it != null) Result.failure(it) else Result.success(res.getValue(this@bindToLifecycle)) })
         })
         if (enableScaleGestureDetector) setScaleGestureDetector(context, previewView)
         bindToLifecycle(lifecycleOwner)

@@ -32,10 +32,10 @@ android {
 
 dependencies {
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    api("androidx.camera:camera-camera2:1.2.3")
-    api("androidx.camera:camera-lifecycle:1.2.3")
-    api("androidx.camera:camera-view:1.2.3")
-    api("androidx.camera:camera-mlkit-vision:1.2.0-beta02")
+    api("androidx.camera:camera-camera2:1.3.0-beta02")
+    api("androidx.camera:camera-lifecycle:1.3.0-beta02")
+    api("androidx.camera:camera-view:1.3.0-beta02")
+    api("androidx.camera:camera-mlkit-vision:1.3.0-beta02")
 }
 
 publishing {
