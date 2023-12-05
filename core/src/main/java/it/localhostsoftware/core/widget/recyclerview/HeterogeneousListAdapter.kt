@@ -25,12 +25,25 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
         ViewHolder(getItem(typeToPos[viewType]).onCreateViewBinding(LayoutInflater.from(parent.context), parent))
 
     override fun onBindViewHolder(viewHolder: ViewHolder<*>, position: Int) =
-        getItem(position).internalOnBindViewHolder(viewHolder)
+        getItem(position).onBindViewHolderInternal(viewHolder)
 
-    override fun onViewRecycled(holder: ViewHolder<*>) =
-        holder.bindingAdapterPosition.let {
-            if (it != RecyclerView.NO_POSITION) getItem(it).internalOnViewRecycled(holder)
+    override fun onViewRecycled(holder: ViewHolder<*>) {
+        holder.bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let {
+            getItem(it).onViewRecycledInternal(holder)
         }
+    }
+
+    override fun onViewAttachedToWindow(holder: ViewHolder<*>) {
+        holder.bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let {
+            getItem(it).onViewAttachedToWindowInternal(holder)
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder<*>) {
+        holder.bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let {
+            getItem(it).onViewDetachedFromWindowInternal(holder)
+        }
+    }
 
     override fun getItemViewType(position: Int) =
         classToType[getItem(position).javaClass] ?: super.getItemViewType(position)
