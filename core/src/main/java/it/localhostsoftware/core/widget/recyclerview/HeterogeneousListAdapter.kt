@@ -88,7 +88,7 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
         private val originalItems: List<AbstractItemAdapter<*, *>> = ArrayList(currentList)
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
-            if (constraint == null || constraint.isEmpty()) {
+            if (constraint.isNullOrEmpty()) {
                 results.values = ArrayList(originalItems)
                 results.count = originalItems.size
             } else {
