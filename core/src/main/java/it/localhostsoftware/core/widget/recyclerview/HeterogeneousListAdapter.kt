@@ -52,10 +52,7 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
         getItem(position).hashCode().toLong()
 
     override fun submitList(list: List<AbstractItemAdapter<*, *>>?) =
-        super.submitList(list) {
-            filter = null
-            updateTypes()
-        }
+        submitList(list, null)
 
     override fun submitList(list: List<AbstractItemAdapter<*, *>>?, commitCallback: Runnable?) =
         super.submitList(list) {
@@ -79,40 +76,30 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
         }
     }
 
-    override fun getFilter(): Filter {
-        if (filter == null) filter = HeterogeneousFilter()
-        return filter!!
-    }
+    override fun getFilter(): Filter = filter ?: HeterogeneousFilter().also { filter = it }
 
     private inner class HeterogeneousFilter : Filter() {
         private val originalItems: List<AbstractItemAdapter<*, *>> = ArrayList(currentList)
-        override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val results = FilterResults()
+        override fun performFiltering(constraint: CharSequence?) = FilterResults().apply {
             if (constraint.isNullOrEmpty()) {
-                results.values = ArrayList(originalItems)
-                results.count = originalItems.size
-            } else {
-                val pattern = Pattern.compile(StringBuilder("^\\X*").apply {
-                    constraint.toString().lowercase(Locale.getDefault()).split("\\W").forEach {
-                        append("(?=.*").append(it).append(")")
-                    }
-                    append("\\X*$")
-                }.toString())
-                val newValues = ArrayList<AbstractItemAdapter<*, *>>()
-                originalItems.forEach {
-                    if (pattern.matcher(it.toString().lowercase(Locale.getDefault())).matches())
-                        newValues.add(it)
-                }
-                results.values = newValues
-                results.count = newValues.size
+                values = originalItems.toList()
+                count = originalItems.size
+            } else Pattern.compile(constraint.toFilterRegex()).let { pattern ->
+                originalItems.filter { pattern.matcher(it.toString().lowercase(Locale.getDefault())).matches() }
+            }.let { newValues ->
+                values = newValues
+                count = newValues.size
             }
-            return results
+
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             @Suppress("UNCHECKED_CAST")
             applyFilter(results.values as List<AbstractItemAdapter<*, *>>?)
         }
+
+        private fun CharSequence.toFilterRegex() =
+            toString().lowercase(Locale.getDefault()).split("\\W".toRegex()).joinToString(separator = "", prefix = "^\\X*", postfix = "\\X*$") { "(?=.*$it)" }
     }
 
     private class DiffUtilItemCallback : DiffUtil.ItemCallback<AbstractItemAdapter<*, *>>() {
