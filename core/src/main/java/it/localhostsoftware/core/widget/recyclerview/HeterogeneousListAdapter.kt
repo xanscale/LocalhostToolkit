@@ -14,8 +14,8 @@ import java.util.regex.Pattern
 
 class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHolder<*>>(DiffUtilItemCallback()), Filterable {
     private var filter: Filter? = null
-    private val classToType: HashMap<Class<*>, Int> = HashMap()
-    private val typeToPos: SparseIntArray = SparseIntArray()
+    private val classToType = HashMap<Class<*>, Int>()
+    private val typeToPos = SparseIntArray()
 
     init {
         setHasStableIds(true)
@@ -61,24 +61,23 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
             commitCallback?.run()
         }
 
-    private fun applyFilter(list: List<AbstractItemAdapter<*, *>>?) =
-        super.submitList(list) { updateTypes() }
-
     private fun updateTypes() {
         typeToPos.clear()
         for (i in 0 until itemCount) {
             if (!classToType.containsKey(getItem(i).javaClass))
                 classToType[getItem(i).javaClass] = classToType.size
-            classToType[getItem(i).javaClass].let { type ->
-                if (type != null && typeToPos.indexOfKey(type) < 0)
-                    typeToPos.put(type, i)
+            classToType[getItem(i).javaClass]?.let { type ->
+                if (typeToPos.indexOfKey(type) < 0) typeToPos.put(type, i)
             }
         }
     }
 
-    override fun getFilter(): Filter = filter ?: HeterogeneousFilter().also { filter = it }
+    override fun getFilter(): Filter =
+        filter ?: HeterogeneousFilter(currentList) {
+            super.submitList(it)
+        }.also { filter = it }
 
-    private inner class HeterogeneousFilter : Filter() {
+    private class HeterogeneousFilter(currentList: List<AbstractItemAdapter<*, *>>, private val block: (List<AbstractItemAdapter<*, *>>) -> Unit) : Filter() {
         private val originalItems: List<AbstractItemAdapter<*, *>> = ArrayList(currentList)
         override fun performFiltering(constraint: CharSequence?) = FilterResults().apply {
             if (constraint.isNullOrEmpty()) {
@@ -95,7 +94,7 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             @Suppress("UNCHECKED_CAST")
-            applyFilter(results.values as List<AbstractItemAdapter<*, *>>?)
+            block(results.values as List<AbstractItemAdapter<*, *>>)
         }
 
         private fun CharSequence.toFilterRegex() =
