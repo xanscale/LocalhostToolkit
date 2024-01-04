@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -11,12 +9,8 @@ android {
     compileSdk = 34
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JvmTarget.JVM_11.target
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -35,11 +29,11 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.8.1")
-    api("androidx.exifinterface:exifinterface:1.3.6")
+    api("androidx.activity:activity:1.8.2")
+    api("androidx.exifinterface:exifinterface:1.3.7")
     api("androidx.recyclerview:recyclerview:1.3.2")
 
-    api("com.google.android.material:material:1.10.0")
+    api("com.google.android.material:material:1.11.0")
 }
 
 publishing {
