@@ -22,7 +22,7 @@ class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHold
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(getItem(typeToPos[viewType]).onCreateViewBinding(LayoutInflater.from(parent.context), parent))
+        ViewHolder(getItem(typeToPos[viewType]).onCreateViewBindingInternal(LayoutInflater.from(parent.context), parent))
 
     override fun onBindViewHolder(viewHolder: ViewHolder<*>, position: Int) =
         getItem(position).onBindViewHolderInternal(viewHolder)
