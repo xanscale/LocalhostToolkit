@@ -3,18 +3,26 @@ package it.localhostsoftware.core.widget.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.viewbinding.ViewBinding
 
 @Suppress("UNCHECKED_CAST")
-abstract class AbstractItemAdapter<E, B : ViewBinding>(val extra: E) : LifecycleOwner {
+abstract class AbstractItemAdapter<E, B : ViewBinding>(parentLifecycle: Lifecycle, val extra: E) : LifecycleOwner {
     private lateinit var lifecycleRegistry: LifecycleRegistry
     override val lifecycle: Lifecycle
         get() = lifecycleRegistry
 
     val spanSize: Int
         get() = 1
+
+    init {
+        parentLifecycle.addObserver(LifecycleEventObserver { source, _ ->
+            if (!source.lifecycle.currentState.isAtLeast(lifecycleRegistry.currentState))
+                lifecycleRegistry.currentState = source.lifecycle.currentState
+        })
+    }
 
     internal fun onCreateViewBindingInternal(inflater: LayoutInflater, parent: ViewGroup) = onCreateViewBinding(inflater, parent).also {
         lifecycleRegistry = LifecycleRegistry(this)
