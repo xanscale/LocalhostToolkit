@@ -5,20 +5,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import java.util.*
+import java.util.Locale
 import java.util.regex.Pattern
 
-class HeterogeneousListAdapter : ListAdapter<AbstractItemAdapter<*, *>, ViewHolder<*>>(DiffUtilItemCallback()), Filterable {
+class HeterogeneousListAdapter(parentLifecycle: Lifecycle) : ListAdapter<AbstractItemAdapter<*, *>, ViewHolder<*>>(DiffUtilItemCallback()), Filterable {
     private var filter: Filter? = null
     private val classToType = HashMap<Class<*>, Int>()
     private val typeToPos = SparseIntArray()
 
     init {
         setHasStableIds(true)
+        parentLifecycle.addObserver(LifecycleEventObserver { source, _ ->
+            for (i in 0 until itemCount) getItem(i).onParentLifecycleStateChanged(source.lifecycle.currentState)
+        })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
