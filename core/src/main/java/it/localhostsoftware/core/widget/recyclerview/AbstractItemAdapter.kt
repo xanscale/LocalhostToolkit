@@ -10,7 +10,7 @@ import androidx.viewbinding.ViewBinding
 
 @Suppress("UNCHECKED_CAST")
 abstract class AbstractItemAdapter<E, B : ViewBinding>(parentLifecycle: Lifecycle, val extra: E) : LifecycleOwner {
-    private lateinit var lifecycleRegistry: LifecycleRegistry
+    private val lifecycleRegistry = LifecycleRegistry(this)
     override val lifecycle: Lifecycle
         get() = lifecycleRegistry
 
@@ -25,7 +25,6 @@ abstract class AbstractItemAdapter<E, B : ViewBinding>(parentLifecycle: Lifecycl
     }
 
     internal fun onCreateViewBindingInternal(inflater: LayoutInflater, parent: ViewGroup) = onCreateViewBinding(inflater, parent).also {
-        lifecycleRegistry = LifecycleRegistry(this)
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
@@ -42,7 +41,7 @@ abstract class AbstractItemAdapter<E, B : ViewBinding>(parentLifecycle: Lifecycl
     }
 
     internal fun onViewRecycledInternal(holder: ViewHolder<*>) = onViewRecycled((holder as ViewHolder<B>).binding).also {
-        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
     abstract fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup): B
