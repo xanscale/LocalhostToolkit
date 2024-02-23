@@ -19,7 +19,7 @@ abstract class AbstractItemAdapter<E, B : ViewBinding>(parentLifecycle: Lifecycl
 
     init {
         parentLifecycle.addObserver(LifecycleEventObserver { source, _ ->
-            if (!source.lifecycle.currentState.isAtLeast(lifecycleRegistry.currentState))
+            if (source.lifecycle.currentState < lifecycleRegistry.currentState)
                 lifecycleRegistry.currentState = source.lifecycle.currentState
         })
     }
