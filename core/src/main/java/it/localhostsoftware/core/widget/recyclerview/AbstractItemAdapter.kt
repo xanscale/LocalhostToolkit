@@ -16,8 +16,8 @@ abstract class AbstractItemAdapter<E, B : ViewBinding>(val extra: E) : Lifecycle
     val spanSize: Int
         get() = 1
 
-    fun onParentLifecycleStateChanged(newParentLifecycleState: Lifecycle.State) {
-        if (newParentLifecycleState < lifecycleRegistry.currentState)
+    internal fun onParentLifecycleStateChanged(newParentLifecycleState: Lifecycle.State) {
+        if (newParentLifecycleState < lifecycleRegistry.currentState && lifecycleRegistry.currentState != Lifecycle.State.INITIALIZED)
             lifecycleRegistry.currentState = newParentLifecycleState
     }
 
