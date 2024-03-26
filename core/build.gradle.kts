@@ -4,14 +4,13 @@ plugins {
     `maven-publish`
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "it.localhostsoftware.core"
     compileSdk = 34
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     buildFeatures {
         viewBinding = true

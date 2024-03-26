@@ -4,14 +4,13 @@ plugins {
     `maven-publish`
 }
 
-android {
-    namespace  = "it.localhostsoftware.security"
-    compileSdk = 34
+kotlin {
+    jvmToolchain(17)
+}
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
+android {
+    namespace = "it.localhostsoftware.security"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
