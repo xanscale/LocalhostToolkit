@@ -1,6 +1,12 @@
 pluginManagement {
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
         maven { setUrl("https://developer.huawei.com/repo/") }
@@ -17,6 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
+rootProject.name = "Localhost Toolkit"
 include(":core")
 include(":maps")
 include(":mlkit")
