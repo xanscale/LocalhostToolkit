@@ -4,19 +4,14 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IntDef
+import androidx.core.os.BundleCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.Serializable
 
 class ConfirmDialogFragment(
-    serializable: Serializable? = null,
-    parcelable: Parcelable? = null,
-    title: String? = null,
-    message: String? = null,
-    positiveButton: String? = null,
-    negativeButton: String? = null,
-    neutralButton: String? = null
+    serializable: Serializable? = null, parcelable: Parcelable? = null, title: String? = null, message: String? = null, positiveButton: String? = null, negativeButton: String? = null, neutralButton: String? = null
 ) : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
         private const val MESSAGE = "MESSAGE"
@@ -50,18 +45,16 @@ class ConfirmDialogFragment(
         isCancelable = false
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(requireArguments().getString(TITLE))
-            if (requireArguments().containsKey(MESSAGE))
-                setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE)!!, HtmlCompat.FROM_HTML_MODE_COMPACT))
-            setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), this@ConfirmDialogFragment)
-            setNegativeButton(requireArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), this@ConfirmDialogFragment)
-            if (requireArguments().containsKey(NEUTRAL_BUTTON)) setNeutralButton(requireArguments().getString(NEUTRAL_BUTTON), this@ConfirmDialogFragment)
-        }.create()
+    override fun onCreateDialog(savedInstanceState: Bundle?) = MaterialAlertDialogBuilder(requireContext()).apply {
+        setTitle(requireArguments().getString(TITLE))
+        if (requireArguments().containsKey(MESSAGE)) setMessage(HtmlCompat.fromHtml(requireArguments().getString(MESSAGE)!!, HtmlCompat.FROM_HTML_MODE_COMPACT))
+        setPositiveButton(requireArguments().getString(POSITIVE_BUTTON, getString(android.R.string.ok)), this@ConfirmDialogFragment)
+        setNegativeButton(requireArguments().getString(NEGATIVE_BUTTON, getString(android.R.string.cancel)), this@ConfirmDialogFragment)
+        if (requireArguments().containsKey(NEUTRAL_BUTTON)) setNeutralButton(requireArguments().getString(NEUTRAL_BUTTON), this@ConfirmDialogFragment)
+    }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onConfirmDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
+        listener.onConfirmDialogClick(BundleCompat.getSerializable(requireArguments(), SERIALIZABLE, Serializable::class.java), BundleCompat.getParcelable(requireArguments(), PARCELABLE, Parcelable::class.java), which)
     }
 
     interface OnClickListener {

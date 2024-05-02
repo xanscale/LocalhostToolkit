@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.8.2")
+    api("androidx.activity:activity:1.9.0")
     api("androidx.exifinterface:exifinterface:1.3.7")
     api("androidx.recyclerview:recyclerview:1.3.2")
 

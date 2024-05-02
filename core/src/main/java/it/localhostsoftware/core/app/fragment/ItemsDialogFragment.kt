@@ -3,6 +3,7 @@ package it.localhostsoftware.core.app.fragment
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.Serializable
@@ -45,7 +46,7 @@ class ItemsDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onItemsDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), which)
+        listener.onItemsDialogClick(BundleCompat.getSerializable(requireArguments(), SERIALIZABLE, Serializable::class.java), BundleCompat.getParcelable(requireArguments(), PARCELABLE, Parcelable::class.java), which)
     }
 
     interface OnClickListener {

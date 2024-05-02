@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
@@ -50,7 +51,9 @@ class EditTextDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(requireArguments().getString(TITLE))
-            setPositiveButton(android.R.string.ok) { _, _ -> listener.onEditTextDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), editText.text.toString()) }
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                listener.onEditTextDialogClick(BundleCompat.getSerializable(requireArguments(), SERIALIZABLE, Serializable::class.java), BundleCompat.getParcelable(requireArguments(), PARCELABLE, Parcelable::class.java), editText.text.toString())
+            }
             setNegativeButton(android.R.string.cancel, null)
             setView(View.inflate(requireContext(), R.layout.dialog_edittext, null).apply {
                 editText = findViewById<EditText?>(R.id.textInputEditText).apply {

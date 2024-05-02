@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
 import android.widget.NumberPicker
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.Serializable
@@ -65,7 +66,7 @@ class NumberPickerDialogFragment(
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onNumberPickerDialogClick(requireArguments().getSerializable(SERIALIZABLE), requireArguments().getParcelable(PARCELABLE), numberPicker.value)
+        listener.onNumberPickerDialogClick(BundleCompat.getSerializable(requireArguments(), SERIALIZABLE, Serializable::class.java), BundleCompat.getParcelable(requireArguments(), PARCELABLE, Parcelable::class.java), numberPicker.value)
     }
 
     interface OnClickListener {
