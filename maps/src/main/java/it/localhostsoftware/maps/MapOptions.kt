@@ -1,19 +1,19 @@
 package it.localhostsoftware.maps
 
 import android.content.Context
+import android.os.Parcelable
 import it.localhostsoftware.maps.google.GoogleMapOptions
 import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 import it.localhostsoftware.maps.model.CameraPosition
 import it.localhostsoftware.maps.model.LatLngBounds
 
-abstract class MapOptions<MO, CP : CameraPosition<*, *>, LLB : LatLngBounds<*, *>>(val mo: MO) {
+abstract class MapOptions<MO : Parcelable, CP : CameraPosition<*, *>, LLB : LatLngBounds<*, *>>(val mo: MO) {
     companion object {
-        fun getInstance(c: Context) =
-            when (c.getMobileServices()) {
-                MobileServices.GOOGLE -> GoogleMapOptions(com.google.android.gms.maps.GoogleMapOptions())
-                MobileServices.HUAWEI -> HuaweiMapOptions(com.huawei.hms.maps.HuaweiMapOptions())
-                else -> throw IllegalStateException()
-            }
+        fun getInstance(c: Context) = when (c.getMobileServices()) {
+            MobileServices.GOOGLE -> GoogleMapOptions(com.google.android.gms.maps.GoogleMapOptions())
+            MobileServices.HUAWEI -> HuaweiMapOptions(com.huawei.hms.maps.HuaweiMapOptions())
+            else -> throw IllegalStateException()
+        }
     }
 
     abstract var zOrderOnTop: Boolean?

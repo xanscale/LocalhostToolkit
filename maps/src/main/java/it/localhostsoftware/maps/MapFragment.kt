@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.maps.GoogleMapOptions
+import com.huawei.hms.maps.HuaweiMapOptions
 import it.localhostsoftware.maps.google.GoogleMap
-import it.localhostsoftware.maps.google.GoogleMapOptions
 import it.localhostsoftware.maps.huawei.HuaweiMap
-import it.localhostsoftware.maps.huawei.HuaweiMapOptions
 
 class MapFragment : Fragment() {
     companion object {
         private const val MAP_OPTIONS = "mapOptions"
         fun newInstance(mapOptions: MapOptions<*, *, *>?) = MapFragment().apply {
             arguments = Bundle().apply {
-                if (mapOptions is GoogleMapOptions) putParcelable(MAP_OPTIONS, mapOptions.mo)
-                else if (mapOptions is HuaweiMapOptions) putParcelable(MAP_OPTIONS, mapOptions.mo)
+                mapOptions?.mo?.let { putParcelable(MAP_OPTIONS, it) }
             }
         }
     }
@@ -27,12 +26,12 @@ class MapFragment : Fragment() {
         childFragmentManager.beginTransaction().replace(
             R.id.fragmentContainerView, when (requireContext().getMobileServices()) {
                 MobileServices.GOOGLE -> {
-                    if (arguments?.containsKey(MAP_OPTIONS) == true) com.google.android.gms.maps.SupportMapFragment.newInstance(BundleCompat.getParcelable(requireArguments(), MAP_OPTIONS, com.google.android.gms.maps.GoogleMapOptions::class.java))
+                    if (arguments?.containsKey(MAP_OPTIONS) == true) com.google.android.gms.maps.SupportMapFragment.newInstance(BundleCompat.getParcelable(requireArguments(), MAP_OPTIONS, GoogleMapOptions::class.java))
                     else com.google.android.gms.maps.SupportMapFragment.newInstance()
                 }
 
                 MobileServices.HUAWEI -> {
-                    if (arguments?.containsKey(MAP_OPTIONS) == true) com.huawei.hms.maps.SupportMapFragment.newInstance(BundleCompat.getParcelable(requireArguments(), MAP_OPTIONS, com.huawei.hms.maps.HuaweiMapOptions::class.java))
+                    if (arguments?.containsKey(MAP_OPTIONS) == true) com.huawei.hms.maps.SupportMapFragment.newInstance(BundleCompat.getParcelable(requireArguments(), MAP_OPTIONS, HuaweiMapOptions::class.java))
                     else com.huawei.hms.maps.SupportMapFragment.newInstance()
                 }
 
