@@ -5,24 +5,20 @@ import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.navArgs
 import it.localhostsoftware.core.R
 
-class ProgressDialogFragment(cancelable: Boolean? = null) : DialogFragment() {
+class ProgressDialogFragment : DialogFragment() {
     companion object {
-        private const val CANCELABLE = "CANCELABLE"
-    }
-
-    init {
-        Bundle().apply {
-            cancelable?.let { putBoolean(CANCELABLE, it) }
-        }.let {
-            if (!it.isEmpty) arguments = it
+        fun newInstance(args: ProgressDialogFragmentArgs) = ProgressDialogFragment().apply {
+            arguments = args.toBundle()
         }
     }
 
+    private val args: ProgressDialogFragmentArgs by navArgs()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isCancelable = requireArguments().getBoolean(CANCELABLE, true)
+        isCancelable = args.cancelable
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 

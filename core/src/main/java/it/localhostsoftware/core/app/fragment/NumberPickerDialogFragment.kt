@@ -4,44 +4,19 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
 import android.widget.NumberPicker
-import androidx.core.os.BundleCompat
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.Serializable
 
-class NumberPickerDialogFragment(
-    serializable: Serializable? = null,
-    parcelable: Parcelable? = null,
-    title: String? = null,
-    min: Int? = null,
-    max: Int? = null,
-    value: Int? = null,
-    displayedValues: Array<String>? = null
-) : DialogFragment(), DialogInterface.OnClickListener {
+class NumberPickerDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
-        private const val TITLE = "TITLE"
-        private const val MIN = "MIN"
-        private const val MAX = "MAX"
-        private const val VALUE = "VALUE"
-        private const val SERIALIZABLE = "SERIALIZABLE"
-        private const val PARCELABLE = "PARCELABLE"
-        private const val DISPLAYED_VALUES = "DISPLAYED_VALUES"
-    }
-
-    init {
-        Bundle().apply {
-            title?.let { putString(TITLE, it) }
-            serializable?.let { putSerializable(SERIALIZABLE, it) }
-            parcelable?.let { putParcelable(PARCELABLE, it) }
-            min?.let { putInt(MIN, it) }
-            max?.let { putInt(MAX, it) }
-            value?.let { putInt(VALUE, it) }
-            displayedValues?.let { putStringArray(DISPLAYED_VALUES, it) }
-        }.let {
-            if (!it.isEmpty) arguments = it
+        fun newInstance(args: NumberPickerDialogFragmentArgs) = NumberPickerDialogFragment().apply {
+            arguments = args.toBundle()
         }
     }
 
+    private val args: NumberPickerDialogFragmentArgs by navArgs()
     private lateinit var numberPicker: NumberPicker
     private val listener: OnClickListener
         get() = parentFragment as? OnClickListener ?: requireActivity() as OnClickListener
@@ -53,20 +28,20 @@ class NumberPickerDialogFragment(
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
         MaterialAlertDialogBuilder(requireActivity()).apply {
-            setTitle(requireArguments().getString(TITLE))
+            setTitle(args.title)
             setView(NumberPicker(requireActivity()).apply {
-                if (requireArguments().containsKey(MIN)) minValue = requireArguments().getInt(MIN)
-                if (requireArguments().containsKey(MAX)) maxValue = requireArguments().getInt(MAX)
-                if (requireArguments().containsKey(VALUE)) value = requireArguments().getInt(VALUE)
-                if (requireArguments().containsKey(DISPLAYED_VALUES)) displayedValues = requireArguments().getStringArray(DISPLAYED_VALUES)
                 numberPicker = this
+                minValue = args.min
+                maxValue = args.max
+                value = args.value
+                args.displayedValues?.let { displayedValues = args.displayedValues }
             })
             setPositiveButton(android.R.string.ok, this@NumberPickerDialogFragment)
             setNegativeButton(android.R.string.cancel, null)
         }.create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        listener.onNumberPickerDialogClick(BundleCompat.getSerializable(requireArguments(), SERIALIZABLE, Serializable::class.java), BundleCompat.getParcelable(requireArguments(), PARCELABLE, Parcelable::class.java), numberPicker.value)
+        listener.onNumberPickerDialogClick(args.serializable, args.parcelable, numberPicker.value)
     }
 
     interface OnClickListener {

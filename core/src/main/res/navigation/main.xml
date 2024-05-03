@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/editTextDialogFragment">
+    <dialog
+        android:id="@+id/confirmDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.ConfirmDialogFragment">
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="positiveButton"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="negativeButton"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="neutralButton"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="serializable"
+            android:defaultValue="@null"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+        <argument
+            android:name="parcelable"
+            android:defaultValue="@null"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/editTextDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.EditTextDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="text"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="hint"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="inputType"
+            app:argType="integer" />
+        <argument
+            android:name="serializable"
+            android:defaultValue="@null"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+        <argument
+            android:name="parcelable"
+            android:defaultValue="@null"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/itemsDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.ItemsDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="itemsId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="items"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="serializable"
+            android:defaultValue="@null"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+        <argument
+            android:name="parcelable"
+            android:defaultValue="@null"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/messageDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.MessageDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="positiveButton"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="exit"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </dialog>
+    <dialog
+        android:id="@+id/multiChoiceItemsDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.MultiChoiceItemsDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="itemsId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="items"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="checkedItems"
+            android:defaultValue="@null"
+            app:argType="boolean[]"
+            app:nullable="true" />
+        <argument
+            android:name="serializable"
+            android:defaultValue="@null"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+        <argument
+            android:name="parcelable"
+            android:defaultValue="@null"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/numberPickerDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.NumberPickerDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="min"
+            app:argType="integer" />
+        <argument
+            android:name="max"
+            app:argType="integer" />
+        <argument
+            android:name="value"
+            app:argType="integer" />
+        <argument
+            android:name="displayedValues"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="serializable"
+            android:defaultValue="@null"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+        <argument
+            android:name="parcelable"
+            android:defaultValue="@null"
+            app:argType="android.os.Parcelable"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/progressDialogFragment"
+        android:name="it.localhostsoftware.core.app.fragment.ProgressDialogFragment">
+        <argument
+            android:name="cancelable"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </dialog>
+</navigation>
