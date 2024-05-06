@@ -34,7 +34,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     api("androidx.recyclerview:recyclerview:1.3.2")
 
-    api("com.google.android.material:material:1.11.0")
+    api("com.google.android.material:material:1.12.0")
 }
 
 publishing {
