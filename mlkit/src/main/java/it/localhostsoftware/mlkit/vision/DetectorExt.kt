@@ -6,9 +6,9 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.annotation.RequiresPermission
-import androidx.camera.core.*
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.mlkit.vision.MlKitAnalyzer
-import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -22,7 +22,7 @@ fun <DetectionResultT> Detector<DetectionResultT>.bindToLifecycle(
     previewView: PreviewView,
     selector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
     enableScaleGestureDetector: Boolean = true,
-    targetCoordinateSystem: Int = CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED,
+    targetCoordinateSystem: Int = ImageAnalysis.COORDINATE_SYSTEM_VIEW_REFERENCED,
     block: (Result<DetectionResultT?>) -> Unit
 ) {
     LifecycleCameraController(context).apply {
