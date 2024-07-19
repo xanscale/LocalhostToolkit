@@ -11,7 +11,7 @@ kotlin {
 
 android {
     namespace = "it.localhostsoftware.core"
-    compileSdk = 34
+    compileSdk = 35
 
     buildFeatures {
         viewBinding = true

@@ -10,7 +10,7 @@ kotlin {
 
 android {
     namespace = "it.localhostsoftware.maps"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21

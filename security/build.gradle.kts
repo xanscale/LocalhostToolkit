@@ -10,7 +10,7 @@ kotlin {
 
 android {
     namespace = "it.localhostsoftware.security"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 23
