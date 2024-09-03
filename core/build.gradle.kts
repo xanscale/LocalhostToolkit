@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.9.0")
+    api("androidx.activity:activity:1.9.1")
     api("androidx.exifinterface:exifinterface:1.3.7")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     api("androidx.recyclerview:recyclerview:1.3.2")
