@@ -5,7 +5,6 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import it.localhostsoftware.core.R
 
 class ProgressDialogFragment : DialogFragment() {
@@ -23,7 +22,7 @@ class ProgressDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
-        AlertDialog.Builder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog_Alert_App).setView(CircularProgressIndicator(requireContext()).apply { isIndeterminate = true }).create()
+        AlertDialog.Builder(requireContext(), R.style.ThemeOverlay_MaterialComponents_Dialog_Alert_App).setView(R.layout.fragment_progress).create()
 
     override fun onDestroy() {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
