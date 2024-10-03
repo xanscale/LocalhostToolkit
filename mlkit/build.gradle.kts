@@ -5,7 +5,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 android {
@@ -25,7 +25,7 @@ android {
 
 dependencies {
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
-    api("androidx.camera:camera-mlkit-vision:1.4.0-rc02")
+    api("androidx.camera:camera-mlkit-vision:1.4.0-rc03")
 }
 
 publishing {

@@ -5,7 +5,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 android {
@@ -25,7 +25,7 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.fragment:fragment:1.8.3")
+    implementation("androidx.fragment:fragment:1.8.4")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.huawei.hms:maps:6.11.2.301")
 }
