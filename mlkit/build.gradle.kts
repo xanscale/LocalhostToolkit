@@ -25,7 +25,7 @@ android {
 
 dependencies {
     api("androidx.lifecycle:lifecycle-runtime:2.8.7")
-    api("androidx.camera:camera-mlkit-vision:1.4.0")
+    api("androidx.camera:camera-mlkit-vision:1.4.1")
 }
 
 publishing {
