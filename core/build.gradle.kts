@@ -29,9 +29,9 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.10.0")
-    api("androidx.exifinterface:exifinterface:1.3.7")
-    implementation("androidx.navigation:navigation-fragment:2.8.6")
+    api("androidx.activity:activity:1.10.1")
+    api("androidx.exifinterface:exifinterface:1.4.0")
+    implementation("androidx.navigation:navigation-fragment:2.8.8")
     api("androidx.recyclerview:recyclerview:1.4.0")
 
     api("com.google.android.material:material:1.12.0")
