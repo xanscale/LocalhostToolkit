@@ -30,8 +30,8 @@ android {
 
 dependencies {
     api("androidx.activity:activity:1.10.1")
-    api("androidx.exifinterface:exifinterface:1.4.0")
-    implementation("androidx.navigation:navigation-fragment:2.8.9")
+    api("androidx.exifinterface:exifinterface:1.4.1")
+    implementation("androidx.navigation:navigation-fragment:2.9.0")
     api("androidx.recyclerview:recyclerview:1.4.0")
 
     api("com.google.android.material:material:1.12.0")

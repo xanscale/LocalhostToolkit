@@ -24,9 +24,9 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core:1.15.0")
-    implementation("androidx.fragment:fragment:1.8.6")
-    implementation("com.google.android.gms:play-services-maps:19.1.0")
+    implementation("androidx.core:core:1.16.0")
+    implementation("androidx.fragment:fragment:1.8.8")
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
     implementation("com.huawei.hms:maps:6.11.2.301")
 }
 
