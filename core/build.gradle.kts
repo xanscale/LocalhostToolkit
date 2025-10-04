@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     `maven-publish`
-    id("androidx.navigation.safeargs.kotlin")
+    alias(androidx.plugins.androidxNavigationSafeargsKotlinGradlePlugin)
 }
 
 kotlin {
@@ -29,12 +29,12 @@ android {
 }
 
 dependencies {
-    api("androidx.activity:activity:1.10.1")
-    api("androidx.exifinterface:exifinterface:1.4.1")
-    implementation("androidx.navigation:navigation-fragment:2.9.0")
-    api("androidx.recyclerview:recyclerview:1.4.0")
+    api(androidx.activity.activity)
+    api(androidx.exifinterface.exifinterface)
+    implementation(androidx.navigation.navigationFragment)
+    api(androidx.recyclerview.recyclerview)
 
-    api("com.google.android.material:material:1.12.0")
+    api("com.google.android.material:material:1.13.0")
 }
 
 publishing {

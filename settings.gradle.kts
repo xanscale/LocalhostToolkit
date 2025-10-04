@@ -1,12 +1,9 @@
+rootProject.name = "LocalhostToolkit"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
         maven { setUrl("https://developer.huawei.com/repo/") }
@@ -18,12 +15,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
         maven { setUrl("https://developer.huawei.com/repo/") }
+    }
+    versionCatalogs {
+        create("androidx") {
+            from("androidx.gradle:gradle-version-catalog:2025.09.02")
+        }
     }
 }
 
-rootProject.name = "Localhost Toolkit"
 include(":core")
 include(":maps")
 include(":mlkit")

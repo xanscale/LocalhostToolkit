@@ -24,9 +24,9 @@ android {
 }
 
 dependencies {
-    api("androidx.security:security-crypto:1.0.0")
-    api("androidx.biometric:biometric:1.1.0")
-    api("androidx.lifecycle:lifecycle-livedata-core:2.9.1")
+    api(androidx.security.securityCrypto)
+    api(androidx.biometric.biometric)
+    api(androidx.lifecycle.lifecycleLivedataCore)
 }
 
 publishing {

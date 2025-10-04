@@ -13,7 +13,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
     }
 
     publishing {
@@ -24,8 +24,8 @@ android {
 }
 
 dependencies {
-    api("androidx.lifecycle:lifecycle-runtime:2.9.1")
-    api("androidx.camera:camera-mlkit-vision:1.4.2")
+    api(androidx.lifecycle.lifecycleRuntime)
+    api(androidx.camera.cameraMlkitVision)
 }
 
 publishing {
