@@ -1,6 +1,5 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
     `maven-publish`
     alias(androidx.plugins.androidxNavigationSafeargsKotlinGradlePlugin)
 }
