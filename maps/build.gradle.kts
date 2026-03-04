@@ -13,7 +13,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
     }
 
     publishing {
@@ -26,8 +26,8 @@ android {
 dependencies {
     implementation(androidx.core.core)
     implementation(androidx.fragment.fragment)
-    implementation("com.google.android.gms:play-services-maps:19.2.0")
-    implementation("com.huawei.hms:maps:6.11.2.301")
+    implementation("com.google.android.gms:play-services-maps:20.0.0")
+    implementation("com.huawei.hms:maps:6.15.1.318")
 }
 
 publishing {
