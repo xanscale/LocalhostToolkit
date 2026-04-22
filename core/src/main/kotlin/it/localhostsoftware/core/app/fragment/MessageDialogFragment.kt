@@ -8,8 +8,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MessageDialogFragment : DialogFragment() {
     companion object {
-        fun newInstance(args: MessageDialogFragmentArgs) = MessageDialogFragment().apply {
-            arguments = args.toBundle()
+        fun MessageDialogFragmentArgs.toFragment() = MessageDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

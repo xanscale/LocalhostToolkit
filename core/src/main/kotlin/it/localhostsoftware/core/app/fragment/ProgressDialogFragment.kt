@@ -9,8 +9,8 @@ import it.localhostsoftware.core.R
 
 class ProgressDialogFragment : DialogFragment() {
     companion object {
-        fun newInstance(args: ProgressDialogFragmentArgs) = ProgressDialogFragment().apply {
-            arguments = args.toBundle()
+        fun ProgressDialogFragmentArgs.toFragment() = ProgressDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

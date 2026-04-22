@@ -11,8 +11,8 @@ import java.io.Serializable
 
 class MultiChoiceItemsDialogFragment : DialogFragment(), OnMultiChoiceClickListener, DialogInterface.OnClickListener {
     companion object {
-        fun newInstance(args: MultiChoiceItemsDialogFragmentArgs) = MultiChoiceItemsDialogFragment().apply {
-            arguments = args.toBundle()
+        fun MultiChoiceItemsDialogFragmentArgs.toFragment() = MultiChoiceItemsDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

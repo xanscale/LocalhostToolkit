@@ -12,8 +12,8 @@ import java.io.Serializable
 
 class EditTextDialogFragment : DialogFragment() {
     companion object {
-        fun newInstance(args: EditTextDialogFragmentArgs) = EditTextDialogFragment().apply {
-            arguments = args.toBundle()
+        fun EditTextDialogFragmentArgs.toFragment() = EditTextDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

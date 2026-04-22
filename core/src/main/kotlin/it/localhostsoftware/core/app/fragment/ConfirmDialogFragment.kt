@@ -12,8 +12,8 @@ import java.io.Serializable
 
 class ConfirmDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
-        fun newInstance(args: ConfirmDialogFragmentArgs) = ConfirmDialogFragment().apply {
-            arguments = args.toBundle()
+        fun ConfirmDialogFragmentArgs.toFragment() = ConfirmDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

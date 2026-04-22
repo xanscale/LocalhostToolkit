@@ -11,8 +11,8 @@ import java.io.Serializable
 
 class NumberPickerDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
-        fun newInstance(args: NumberPickerDialogFragmentArgs) = NumberPickerDialogFragment().apply {
-            arguments = args.toBundle()
+        fun NumberPickerDialogFragmentArgs.toFragment() = NumberPickerDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 

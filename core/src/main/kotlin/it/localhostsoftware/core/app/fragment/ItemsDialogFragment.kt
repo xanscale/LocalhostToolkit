@@ -10,8 +10,8 @@ import java.io.Serializable
 
 class ItemsDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
     companion object {
-        fun newInstance(args: ItemsDialogFragmentArgs) = ItemsDialogFragment().apply {
-            arguments = args.toBundle()
+        fun ItemsDialogFragmentArgs.toFragment() = ItemsDialogFragment().apply {
+            arguments = toBundle()
         }
     }
 
