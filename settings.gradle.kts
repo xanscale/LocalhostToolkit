@@ -1,6 +1,11 @@
 rootProject.name = "LocalhostToolkit"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include(":core")
+include(":maps")
+include(":mlkit")
+include(":security")
+
 pluginManagement {
     repositories {
         google()
@@ -23,8 +28,3 @@ dependencyResolutionManagement {
         }
     }
 }
-
-include(":core")
-include(":maps")
-include(":mlkit")
-include(":security")
