@@ -5,7 +5,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 android {
@@ -33,7 +33,7 @@ dependencies {
     implementation(androidx.navigation.navigationFragment)
     api(androidx.recyclerview.recyclerview)
 
-    api("com.google.android.material:material:1.13.0")
+    api("com.google.android.material:material:1.14.0")
 }
 
 publishing {
